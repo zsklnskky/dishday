@@ -1,0 +1,6510 @@
+{
+ "version": 2,
+ "updated": "2026-09-14",
+ "fallback": "BY",
+ "notes": {
+  "status": "live - страна в продукте; wave1 - цены собираются, интерфейс готовится; wave2 - только оценка цен",
+  "chains.price": "live - парсер scrapers/<parser>.py пишет цены в prices/<cc>.json; index - оценка по уровню цен страны",
+  "chains.ref": "1 - не входит в топ-5, живой ориентир цен страны",
+  "chains.share": "доля рынка или место в рейтинге с годом; shareSrc - источник. null - публичных данных не нашли",
+  "chains.color": "цвет в тёмном интерфейсе Dishday, красные бренды переведены в тёплый коралловый; brand - цвет бренда, приблизительно",
+  "chains.access": "как сайт отдаёт цены по результатам разведки: json_api, embedded_json, html, store_required, leaflet_only, closed, unknown",
+  "priceLevel": "pli - Eurostat, уровень цен на еду (EU27=100); gdpPlr - World Bank, грубо; vsBY - задан явно",
+  "budget": "для новых стран пересчитан из белорусского по курсу и уровню цен, округлён",
+  "usd": "rate - сколько местной валюты за 1 USD (ЕЦБ, НБРБ кросс, для GEL/RSD/MKD/ALL - exchangerate-api), date и src; обновляет prices/rates.json",
+  "pretty": "цена подписки = ceil((usd*rate + minus)/step)*step - minus: не дешевле перевода, красивое окончанию (.99, ...90, целые)"
+ },
+ "countries": [
+  {
+   "code": "DE",
+   "status": "wave1",
+   "name": {
+    "ru": "Германия",
+    "en": "Germany",
+    "local": "Deutschland"
+   },
+   "lang": "de",
+   "tz": [
+    "Europe/Berlin"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "de-DE",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 20,
+    "max": 300,
+    "step": 5,
+    "def": 40,
+    "cheap": 1.5,
+    "demo": 50
+   },
+   "cuisines": [
+    "de",
+    "it",
+    "tr",
+    "gr",
+    "cn",
+    "in",
+    "jp",
+    "vn",
+    "th"
+   ],
+   "priceLevel": {
+    "pli": 102.7,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "edeka",
+     "name": {
+      "ru": "Edeka",
+      "en": "Edeka"
+     },
+     "group": "Edeka Group (incl. Netto Marken-Discount)",
+     "share": "~29% (2024, group)",
+     "shareSrc": "https://www.zdfheute.de/wirtschaft/unternehmen/lidl-rewe-aldi-edeka-supermarkt-discounter-marktmacht-bundeskartellamt-100.html",
+     "brand": "#FFD400",
+     "color": "#F5D847",
+     "site": "https://www.edeka.de",
+     "access": "unknown",
+     "accessNote": "not checked; cooperative with regional markets, prices mostly via leaflets",
+     "price": "index",
+     "why": "сайт отвечает 403 Access Denied на запросы из Беларуси (антибот или гео, проверить с IP в ЕС); общего онлайн-каталога нет, акции по рынкам"
+    },
+    {
+     "id": "lidl_de",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "~26% (2024, Schwarz Group incl. Kaufland)",
+     "shareSrc": "https://www.zdfheute.de/wirtschaft/unternehmen/lidl-rewe-aldi-edeka-supermarkt-discounter-marktmacht-bundeskartellamt-100.html",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.de",
+     "catalog": "https://www.lidl.de/q/search?q=milch",
+     "access": "unknown",
+     "accessNote": "search page loads (94 hits for milch) but product prices not in fetched HTML, likely JS-rendered",
+     "price": "index",
+     "why": "цены на продукты только в проспекте (листовке), онлайн-магазин непродовольственный; robots.txt закрывает search?q="
+    },
+    {
+     "id": "rewe",
+     "name": {
+      "ru": "REWE",
+      "en": "REWE"
+     },
+     "group": "REWE Group (incl. Penny)",
+     "share": "~19% (2024, group)",
+     "shareSrc": "https://www.zdfheute.de/wirtschaft/unternehmen/lidl-rewe-aldi-edeka-supermarkt-discounter-marktmacht-bundeskartellamt-100.html",
+     "brand": "#CC071E",
+     "color": "#F56C47",
+     "site": "https://www.rewe.de",
+     "catalog": "https://shop.rewe.de",
+     "access": "unknown",
+     "accessNote": "shop.rewe.de returned 403 to fetcher",
+     "price": "index",
+     "why": "онлайн-магазин без выбора рынка отдаёт \"price\":\"unknown\", Cloudflare"
+    },
+    {
+     "id": "aldi_de",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Süd + Aldi Nord",
+     "share": "~17% (2024, Aldi Nord+Süd)",
+     "shareSrc": "https://www.zdfheute.de/wirtschaft/unternehmen/lidl-rewe-aldi-edeka-supermarkt-discounter-marktmacht-bundeskartellamt-100.html",
+     "brand": "#00549F",
+     "color": "#47A3F5",
+     "site": "https://www.aldi-sued.de",
+     "catalog": "https://www.aldi-sued.de/de/produkte.html",
+     "access": "html",
+     "accessNote": "Aldi Süd product pages show prices in HTML without store choice (verified)",
+     "price": "live",
+     "parser": "aldi",
+     "region": "Aldi Süd, цены в магазине",
+     "lang": "de"
+    },
+    {
+     "id": "kaufland_de",
+     "name": {
+      "ru": "Kaufland",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Group",
+     "share": "included in Schwarz Group ~26% (2024)",
+     "shareSrc": "https://www.zdfheute.de/wirtschaft/unternehmen/lidl-rewe-aldi-edeka-supermarkt-discounter-marktmacht-bundeskartellamt-100.html",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.de",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "live",
+     "idx": 1.0,
+     "parser": "kaufland",
+     "region": "акции недели, филиал по умолчанию",
+     "lang": "de"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F5D847"
+  },
+  {
+   "code": "FR",
+   "status": "wave1",
+   "name": {
+    "ru": "Франция",
+    "en": "France",
+    "local": "France"
+   },
+   "lang": "fr",
+   "tz": [
+    "Europe/Paris"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "fr-FR",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.43,
+    "demo": 50
+   },
+   "cuisines": [
+    "fr",
+    "it",
+    "ma",
+    "jp",
+    "cn",
+    "vn",
+    "lb",
+    "us",
+    "es"
+   ],
+   "priceLevel": {
+    "pli": 110.1,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "leclerc",
+     "name": {
+      "ru": "E.Leclerc",
+      "en": "E.Leclerc"
+     },
+     "group": "Mouvement E.Leclerc",
+     "share": "24.3% (2025, Kantar)",
+     "shareSrc": "https://fr.wikipedia.org/wiki/Grande_distribution_en_France",
+     "brand": "#0066B3",
+     "color": "#47AAF5",
+     "site": "https://www.e.leclerc",
+     "catalog": "https://www.leclercdrive.fr",
+     "access": "unknown",
+     "accessNote": "not checked; drive is per-store",
+     "price": "index"
+    },
+    {
+     "id": "carrefour_fr",
+     "name": {
+      "ru": "Carrefour",
+      "en": "Carrefour"
+     },
+     "group": "Carrefour Group",
+     "share": "21.6% (2025, Kantar)",
+     "shareSrc": "https://fr.wikipedia.org/wiki/Grande_distribution_en_France",
+     "brand": "#004E9E",
+     "color": "#479DF5",
+     "site": "https://www.carrefour.fr",
+     "catalog": "https://www.carrefour.fr/s?q=lait",
+     "access": "unknown",
+     "accessNote": "search returned 403 to fetcher",
+     "price": "index"
+    },
+    {
+     "id": "intermarche",
+     "name": {
+      "ru": "Intermarché",
+      "en": "Intermarché"
+     },
+     "group": "Les Mousquetaires",
+     "share": "17.5% (2025, Kantar, group)",
+     "shareSrc": "https://fr.wikipedia.org/wiki/Grande_distribution_en_France",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.intermarche.com",
+     "catalog": "https://www.intermarche.com",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "systeme_u",
+     "name": {
+      "ru": "Système U",
+      "en": "Système U"
+     },
+     "group": "Coopérative U",
+     "share": "12.7% (2025, Kantar)",
+     "shareSrc": "https://fr.wikipedia.org/wiki/Grande_distribution_en_France",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.magasins-u.com",
+     "catalog": "https://www.coursesu.com",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "auchan_fr",
+     "name": {
+      "ru": "Auchan",
+      "en": "Auchan"
+     },
+     "group": "Auchan Retail",
+     "share": "8.8% (2025, Kantar)",
+     "shareSrc": "https://fr.wikipedia.org/wiki/Grande_distribution_en_France",
+     "brand": "#E1001A",
+     "color": "#F56C47",
+     "site": "https://www.auchan.fr",
+     "catalog": "https://www.auchan.fr",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47AAF5"
+  },
+  {
+   "code": "IT",
+   "status": "wave1",
+   "name": {
+    "ru": "Италия",
+    "en": "Italy",
+    "local": "Italia"
+   },
+   "lang": "it",
+   "tz": [
+    "Europe/Rome"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "it-IT",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.32,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "jp",
+    "cn",
+    "fr",
+    "mx",
+    "in",
+    "us"
+   ],
+   "priceLevel": {
+    "pli": 101.7,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "conad",
+     "name": {
+      "ru": "Conad",
+      "en": "Conad"
+     },
+     "group": "Conad",
+     "share": "15.0% (H1 2023, GNLC)",
+     "shareSrc": "https://www.alimentando.info/catene-gd-do-le-quote-di-mercato-conad-al-primo-posto/",
+     "brand": "#EE1C25",
+     "color": "#F16E4B",
+     "site": "https://www.conad.it",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "selex",
+     "name": {
+      "ru": "Selex (Famila, A&O, Iperfamila)",
+      "en": "Selex (Famila, A&O, Iperfamila)"
+     },
+     "group": "Selex Gruppo Commerciale",
+     "share": "14.7% (H1 2023, GNLC)",
+     "shareSrc": "https://www.alimentando.info/catene-gd-do-le-quote-di-mercato-conad-al-primo-posto/",
+     "brand": "#00539F",
+     "color": "#47A2F5",
+     "site": "https://www.selexgc.it",
+     "access": "unknown",
+     "accessNote": "buying group of many regional banners; later reports say Selex overtook Conad in 2025 (~15.4-15.8%, NielsenIQ)",
+     "price": "index"
+    },
+    {
+     "id": "coop_it",
+     "name": {
+      "ru": "Coop",
+      "en": "Coop"
+     },
+     "group": "Coop Italia",
+     "share": "11.6% (H1 2023, GNLC)",
+     "shareSrc": "https://www.alimentando.info/catene-gd-do-le-quote-di-mercato-conad-al-primo-posto/",
+     "brand": "#E3000F",
+     "color": "#F56C47",
+     "site": "https://www.e-coop.it",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "esselunga",
+     "name": {
+      "ru": "Esselunga",
+      "en": "Esselunga"
+     },
+     "group": "Esselunga",
+     "share": "7.6% (H1 2023, GNLC)",
+     "shareSrc": "https://www.alimentando.info/catene-gd-do-le-quote-di-mercato-conad-al-primo-posto/",
+     "brand": "#0059A6",
+     "color": "#47A4F5",
+     "site": "https://www.esselunga.it",
+     "catalog": "https://spesaonline.esselunga.it",
+     "access": "unknown",
+     "accessNote": "not checked; VéGé group tied at 7.6%",
+     "price": "index"
+    },
+    {
+     "id": "eurospin",
+     "name": {
+      "ru": "Eurospin",
+      "en": "Eurospin"
+     },
+     "group": "Eurospin Italia",
+     "share": "7.2% (H1 2023, GNLC)",
+     "shareSrc": "https://www.alimentando.info/catene-gd-do-le-quote-di-mercato-conad-al-primo-posto/",
+     "brand": "#0056A4",
+     "color": "#47A2F5",
+     "site": "https://www.eurospin.it",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F16E4B"
+  },
+  {
+   "code": "ES",
+   "status": "wave1",
+   "name": {
+    "ru": "Испания",
+    "en": "Spain",
+    "local": "España"
+   },
+   "lang": "es",
+   "tz": [
+    "Europe/Madrid",
+    "Atlantic/Canary",
+    "Africa/Ceuta"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "es-ES",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.24,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "es",
+    "it",
+    "jp",
+    "cn",
+    "mx",
+    "us",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 95.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "mercadona",
+     "name": {
+      "ru": "Mercadona",
+      "en": "Mercadona"
+     },
+     "group": "Mercadona",
+     "share": "27.3% (2025 to Nov, Worldpanel)",
+     "shareSrc": "https://www.foodretail.es/retailers/balance-de-2025-mercadona-sigue-siendo-la-que-mas-crece-06-y-lidl-adelanta-a-carrefour-en-penetracion.html",
+     "brand": "#009234",
+     "color": "#47F585",
+     "site": "https://www.mercadona.es",
+     "catalog": "https://tienda.mercadona.es/api/categories/",
+     "access": "json_api",
+     "accessNote": "open JSON API tienda.mercadona.es/api/categories/ (verified); assortment may vary by warehouse/postcode",
+     "price": "index"
+    },
+    {
+     "id": "carrefour_es",
+     "name": {
+      "ru": "Carrefour",
+      "en": "Carrefour"
+     },
+     "group": "Carrefour Group",
+     "share": "9.0% (2025 to Nov, Worldpanel)",
+     "shareSrc": "https://www.foodretail.es/retailers/balance-de-2025-mercadona-sigue-siendo-la-que-mas-crece-06-y-lidl-adelanta-a-carrefour-en-penetracion.html",
+     "brand": "#004E9E",
+     "color": "#479DF5",
+     "site": "https://www.carrefour.es",
+     "catalog": "https://www.carrefour.es/supermercado",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_es",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "6.9% (2025 to Nov, Worldpanel)",
+     "shareSrc": "https://www.foodretail.es/retailers/balance-de-2025-mercadona-sigue-siendo-la-que-mas-crece-06-y-lidl-adelanta-a-carrefour-en-penetracion.html",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.es",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "eroski",
+     "name": {
+      "ru": "Eroski",
+      "en": "Eroski"
+     },
+     "group": "Grupo Eroski",
+     "share": "4.2% (2025 to Nov, Worldpanel)",
+     "shareSrc": "https://www.foodretail.es/retailers/balance-de-2025-mercadona-sigue-siendo-la-que-mas-crece-06-y-lidl-adelanta-a-carrefour-en-penetracion.html",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.eroski.es",
+     "catalog": "https://supermercado.eroski.es",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "dia_es",
+     "name": {
+      "ru": "Dia",
+      "en": "Dia"
+     },
+     "group": "Grupo Dia",
+     "share": "3.8% (2025 to Nov, Worldpanel)",
+     "shareSrc": "https://www.foodretail.es/retailers/balance-de-2025-mercadona-sigue-siendo-la-que-mas-crece-06-y-lidl-adelanta-a-carrefour-en-penetracion.html",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.dia.es",
+     "catalog": "https://www.dia.es",
+     "access": "unknown",
+     "accessNote": "not checked; Consum 3.6% is close behind",
+     "price": "live",
+     "parser": "dia",
+     "region": "Мадрид 28041",
+     "lang": "es"
+    },
+    {
+     "id": "consum",
+     "name": {
+      "ru": "Consum",
+      "en": "Consum"
+     },
+     "brand": "#F07C00",
+     "site": "https://tienda.consum.es",
+     "parser": "consum",
+     "region": "онлайн-цены",
+     "lang": "es",
+     "why": "кооператив, 7-я сеть Испании; открытый JSON каталога",
+     "color": "#F5A147",
+     "price": "live",
+     "ref": 1
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47F585"
+  },
+  {
+   "code": "PL",
+   "status": "wave1",
+   "name": {
+    "ru": "Польша",
+    "en": "Poland",
+    "local": "Polska"
+   },
+   "lang": "pl",
+   "tz": [
+    "Europe/Warsaw"
+   ],
+   "currency": {
+    "code": "PLN",
+    "symbol": {
+     "ru": "зл",
+     "en": "zł",
+     "local": "zł"
+    },
+    "locale": "pl-PL",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 25.0,
+    "max": 2500.0,
+    "step": 10,
+    "def": 100,
+    "cheap": 4.87,
+    "demo": 100
+   },
+   "cuisines": [
+    "pl",
+    "it",
+    "us",
+    "ua",
+    "jp",
+    "cn",
+    "tr",
+    "mx",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 86.8,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "biedronka",
+     "name": {
+      "ru": "Бедронка",
+      "en": "Biedronka"
+     },
+     "group": "Jerónimo Martins",
+     "share": "#1; sales PLN 108bn (2025); Biedronka+Lidl 44% of FMCG",
+     "shareSrc": "https://www.discountretailconsulting.com/post/research-poland-fmcg-market-what-the-numbers-actually-mean-for-suppliers",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.biedronka.pl",
+     "catalog": "https://zakupy.biedronka.pl",
+     "access": "html",
+     "accessNote": "zakupy.biedronka.pl category pages show prices in HTML; delivery zone limited",
+     "price": "index"
+    },
+    {
+     "id": "lidl_pl",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#2; Biedronka+Lidl 44% of FMCG (2025)",
+     "shareSrc": "https://www.discountretailconsulting.com/post/research-poland-fmcg-market-what-the-numbers-actually-mean-for-suppliers",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.pl",
+     "catalog": "https://www.lidl.pl/q/search",
+     "access": "html",
+     "accessNote": "weekly offers + search with prices, no store choice; food mostly promo only",
+     "price": "index"
+    },
+    {
+     "id": "dino",
+     "name": {
+      "ru": "Дино",
+      "en": "Dino"
+     },
+     "group": "Dino Polska",
+     "share": "~8% (2025); sales PLN 33.6bn (2025)",
+     "shareSrc": "https://www.discountretailconsulting.com/post/research-poland-fmcg-market-what-the-numbers-actually-mean-for-suppliers",
+     "brand": "#D7141A",
+     "color": "#EF6F4E",
+     "site": "https://dino.pl",
+     "access": "leaflet_only",
+     "accessNote": "no e-shop; dinopolska.pl did not resolve, dino.pl = corporate/leaflet",
+     "price": "index"
+    },
+    {
+     "id": "zabka",
+     "name": {
+      "ru": "Жабка",
+      "en": "Żabka"
+     },
+     "group": "Żabka Group",
+     "share": "sales PLN 31.1bn (2025), no % found",
+     "shareSrc": "https://www.esmmagazine.com/retail/top-5-supermarket-retail-chains-in-poland-237524",
+     "brand": "#1D8649",
+     "color": "#60DD94",
+     "site": "https://www.zabka.pl",
+     "access": "html",
+     "accessNote": "homepage shows promo prices only; full range via Żabka/Jush app",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_pl",
+     "name": {
+      "ru": "Кауфланд",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "shareSrc": "https://allfoods.market/en/blog/post/top-10-largest-grocery-retail-chains-in-poland",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.pl",
+     "access": "unknown",
+     "accessNote": "403 from BY; sibling kaufland.hr/.ro show offer prices in HTML + /api/autosuggest",
+     "price": "index"
+    },
+    {
+     "id": "frisco",
+     "name": {
+      "ru": "Frisco",
+      "en": "Frisco"
+     },
+     "brand": "#7AB929",
+     "site": "https://www.frisco.pl",
+     "parser": "frisco",
+     "region": "Варшава, онлайн",
+     "lang": "pl",
+     "why": "онлайн-супермаркет; открытый JSON; опорные живые цены Польши, пока топ-5 без каталога",
+     "color": "#A6DC60",
+     "price": "live",
+     "ref": 1
+    }
+   ],
+   "usd": {
+    "rate": 3.758809,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 26.99,
+     "15 USD": 56.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "GB",
+   "status": "wave1",
+   "name": {
+    "ru": "Великобритания",
+    "en": "United Kingdom",
+    "local": "United Kingdom"
+   },
+   "lang": "en",
+   "tz": [
+    "Europe/London"
+   ],
+   "currency": {
+    "code": "GBP",
+    "symbol": {
+     "ru": "£",
+     "en": "£",
+     "local": "£"
+    },
+    "locale": "en-GB",
+    "decimals": 2,
+    "decimal": ".",
+    "group": ",",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.06,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "in",
+    "cn",
+    "us",
+    "fr",
+    "th",
+    "mx",
+    "jp"
+   ],
+   "priceLevel": {
+    "pli": 95.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2019, пересчёт к DE"
+   },
+   "chains": [
+    {
+     "id": "tesco",
+     "name": {
+      "ru": "Tesco",
+      "en": "Tesco"
+     },
+     "group": "Tesco plc",
+     "share": "27.9% (Kantar, 12 wks to mid-Jul 2026)",
+     "shareSrc": "https://stirlingretail.com/2026/08/17/grocery-market-shares-in-great-britain-1997-to-2026/",
+     "brand": "#00539F",
+     "color": "#47A2F5",
+     "site": "https://www.tesco.com",
+     "catalog": "https://www.tesco.com/groceries/",
+     "access": "html",
+     "accessNote": "prices visible without postcode; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "sainsburys",
+     "name": {
+      "ru": "Sainsbury's",
+      "en": "Sainsbury's"
+     },
+     "group": "J Sainsbury plc",
+     "share": "15.2% (Kantar, 12 wks to mid-Jul 2026)",
+     "shareSrc": "https://stirlingretail.com/2026/08/17/grocery-market-shares-in-great-britain-1997-to-2026/",
+     "brand": "#F06C00",
+     "color": "#F59547",
+     "site": "https://www.sainsburys.co.uk",
+     "catalog": "https://www.sainsburys.co.uk/gol-ui/groceries",
+     "access": "json_api",
+     "accessNote": "groceries-api used by the SPA; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "asda",
+     "name": {
+      "ru": "Asda",
+      "en": "Asda"
+     },
+     "group": "Asda Stores Ltd (TDR Capital)",
+     "share": "11.5% (Kantar, 12 wks to mid-Jul 2026)",
+     "shareSrc": "https://stirlingretail.com/2026/08/17/grocery-market-shares-in-great-britain-1997-to-2026/",
+     "brand": "#78BE20",
+     "color": "#A6E359",
+     "site": "https://www.asda.com",
+     "catalog": "https://groceries.asda.com",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "aldi_gb",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Süd",
+     "share": "10.8% (Kantar, 12 wks to mid-Jul 2026)",
+     "shareSrc": "https://stirlingretail.com/2026/08/17/grocery-market-shares-in-great-britain-1997-to-2026/",
+     "brand": "#00005F",
+     "color": "#4747F5",
+     "site": "https://www.aldi.co.uk",
+     "catalog": "https://groceries.aldi.co.uk",
+     "access": "unknown",
+     "accessNote": "online groceries with prices; not checked",
+     "price": "live",
+     "parser": "aldi",
+     "region": "цены в магазине",
+     "lang": "en"
+    },
+    {
+     "id": "lidl_gb",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "8.8% (Kantar, 12 wks to mid-Jul 2026)",
+     "shareSrc": "https://stirlingretail.com/2026/08/17/grocery-market-shares-in-great-britain-1997-to-2026/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.co.uk",
+     "access": "leaflet_only",
+     "accessNote": "no grocery e-shop, weekly offers only",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.741044,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 5.99,
+     "15 USD": 11.99
+    }
+   },
+   "flag": "#47A2F5"
+  },
+  {
+   "code": "NL",
+   "status": "wave1",
+   "name": {
+    "ru": "Нидерланды",
+    "en": "Netherlands",
+    "local": "Nederland"
+   },
+   "lang": "nl",
+   "tz": [
+    "Europe/Amsterdam"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "nl-NL",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.28,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "cn",
+    "jp",
+    "th",
+    "tr",
+    "in",
+    "us",
+    "gr",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 98.9,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "albert_heijn",
+     "name": {
+      "ru": "Albert Heijn",
+      "en": "Albert Heijn"
+     },
+     "group": "Ahold Delhaize",
+     "share": "38.2% (2025, NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/wp-content/uploads/sites/4/2026/01/NielsenIQ-Vrijgave-Marktaandelen-2024-2025.pdf",
+     "brand": "#00ADE6",
+     "color": "#47CAF5",
+     "site": "https://www.ah.nl",
+     "catalog": "https://www.ah.nl/zoeken?query=melk",
+     "access": "unknown",
+     "accessNote": "403 to fetcher",
+     "price": "index"
+    },
+    {
+     "id": "jumbo",
+     "name": {
+      "ru": "Jumbo",
+      "en": "Jumbo"
+     },
+     "group": "Jumbo Groep",
+     "share": "19.9% (2025, NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/wp-content/uploads/sites/4/2026/01/NielsenIQ-Vrijgave-Marktaandelen-2024-2025.pdf",
+     "brand": "#FFD400",
+     "color": "#F5D847",
+     "site": "https://www.jumbo.com",
+     "catalog": "https://www.jumbo.com/producten/?searchTerms=melk",
+     "access": "html",
+     "accessNote": "search results with prices in HTML, no store choice needed (verified)",
+     "price": "index"
+    },
+    {
+     "id": "lidl_nl",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "10.7% (2021, Nielsen; not released since)",
+     "shareSrc": "https://www.distrifood.nl/marktaandelen",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.nl",
+     "access": "unknown",
+     "accessNote": "not checked; Lidl hidden in NIQ 'Overig' 22.4% (2025)",
+     "price": "index"
+    },
+    {
+     "id": "plus",
+     "name": {
+      "ru": "PLUS",
+      "en": "PLUS"
+     },
+     "group": "PLUS Retail",
+     "share": "8.1% (2025, NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/wp-content/uploads/sites/4/2026/01/NielsenIQ-Vrijgave-Marktaandelen-2024-2025.pdf",
+     "brand": "#00A049",
+     "color": "#47F596",
+     "site": "https://www.plus.nl",
+     "catalog": "https://www.plus.nl",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "aldi_nl",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Nord",
+     "share": "5.9% (2025, NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/wp-content/uploads/sites/4/2026/01/NielsenIQ-Vrijgave-Marktaandelen-2024-2025.pdf",
+     "brand": "#1E3D7B",
+     "color": "#638AD9",
+     "site": "https://www.aldi.nl",
+     "access": "unknown",
+     "accessNote": "not checked; Dirk share also undisclosed",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47CAF5"
+  },
+  {
+   "code": "RO",
+   "status": "wave1",
+   "name": {
+    "ru": "Румыния",
+    "en": "Romania",
+    "local": "România"
+   },
+   "lang": "ro",
+   "tz": [
+    "Europe/Bucharest"
+   ],
+   "currency": {
+    "code": "RON",
+    "symbol": {
+     "ru": "лей",
+     "en": "lei",
+     "local": "lei"
+    },
+    "locale": "ro-RO",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 50,
+    "max": 2500.0,
+    "step": 10,
+    "def": 100,
+    "cheap": 5.15,
+    "demo": 100
+   },
+   "cuisines": [
+    "it",
+    "tr",
+    "us",
+    "gr",
+    "fr",
+    "cn",
+    "jp",
+    "lb",
+    "mx"
+   ],
+   "priceLevel": {
+    "pli": 75.5,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_ro",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#1; sales RON 24.0bn (2024); Lidl+Kaufland >1/3 of food retail",
+     "shareSrc": "https://www.wall-street.ro/articol/fara-categorie/top-10-cei-mai-mari-retaileri-alimentari-din-tara-in-2024.html",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.ro",
+     "catalog": "https://www.lidl.ro",
+     "access": "html",
+     "accessNote": "offers + weekly flyer with prices; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_ro",
+     "name": {
+      "ru": "Кауфланд",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#2; sales RON 19.5bn (2024)",
+     "shareSrc": "https://www.wall-street.ro/articol/fara-categorie/top-10-cei-mai-mari-retaileri-alimentari-din-tara-in-2024.html",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.ro",
+     "catalog": "https://www.kaufland.ro",
+     "access": "html",
+     "accessNote": "offer pages in HTML; /api/autosuggest/assortment/1/ endpoint referenced",
+     "price": "live",
+     "parser": "kaufland",
+     "region": "акции недели, филиал по умолчанию",
+     "lang": "ro"
+    },
+    {
+     "id": "carrefour_ro",
+     "name": {
+      "ru": "Карфур",
+      "en": "Carrefour"
+     },
+     "group": "Carrefour",
+     "share": "#3; sales RON 14.6bn (2024)",
+     "shareSrc": "https://www.wall-street.ro/articol/fara-categorie/top-10-cei-mai-mari-retaileri-alimentari-din-tara-in-2024.html",
+     "brand": "#004E9F",
+     "color": "#479CF5",
+     "site": "https://carrefour.ro",
+     "catalog": "https://carrefour.ro",
+     "access": "embedded_json",
+     "accessNote": "Next.js e-shop, __NEXT_DATA__ present; full category tree",
+     "price": "index"
+    },
+    {
+     "id": "profi",
+     "name": {
+      "ru": "Профи",
+      "en": "Profi"
+     },
+     "group": "Ahold Delhaize (since 2025)",
+     "share": "#4; sales RON 14.1bn (2024)",
+     "shareSrc": "https://www.wall-street.ro/articol/fara-categorie/top-10-cei-mai-mari-retaileri-alimentari-din-tara-in-2024.html",
+     "brand": "#EE3124",
+     "color": "#F16E4B",
+     "site": "https://www.profi.ro",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "mega_image",
+     "name": {
+      "ru": "Мега Имидж",
+      "en": "Mega Image"
+     },
+     "group": "Ahold Delhaize",
+     "share": "sales RON 10.6bn (2024)",
+     "shareSrc": "https://www.romaniajournal.ro/business/lidl-and-kaufland-lead-romanias-supermarket-market/",
+     "brand": "#ED1C24",
+     "color": "#F16E4B",
+     "site": "https://www.mega-image.ro",
+     "catalog": "https://www.mega-image.ro/search",
+     "access": "json_api",
+     "accessNote": "Next.js + /api/v1/ GraphQL (Ahold platform); prices without store",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 4.550948,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 31.99,
+     "15 USD": 68.99
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "CZ",
+   "status": "wave1",
+   "name": {
+    "ru": "Чехия",
+    "en": "Czechia",
+    "local": "Česko"
+   },
+   "lang": "cs",
+   "tz": [
+    "Europe/Prague"
+   ],
+   "currency": {
+    "code": "CZK",
+    "symbol": {
+     "ru": "Кч",
+     "en": "CZK",
+     "local": "Kč"
+    },
+    "locale": "cs-CZ",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 250.0,
+    "max": 20000,
+    "step": 50,
+    "def": 500,
+    "cheap": 27.96,
+    "demo": 1000
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "vn",
+    "cn",
+    "jp",
+    "mx",
+    "in",
+    "tr",
+    "de"
+   ],
+   "priceLevel": {
+    "pli": 89.0,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_cz",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "~15.5% (2021); sales CZK 107.8bn (FY to 02/2025)",
+     "shareSrc": "https://www.zboziaprodej.cz/2024/01/17/rozsahla-studie-trhu-sest-nejvetsich-maloobchodniku-ma-podil-na-trhu-75-procent/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.cz",
+     "catalog": "https://www.lidl.cz/q/search",
+     "access": "html",
+     "accessNote": "search page returns prices in HTML without store choice",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_cz",
+     "name": {
+      "ru": "Кауфланд",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "sales CZK 79.3bn (2024), no % found",
+     "shareSrc": "https://www.kupi.cz/magazin/clanek/43665-zebricek-retezcu-podle-trzeb",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.cz",
+     "access": "unknown",
+     "accessNote": "403 from BY; same platform as kaufland.hr (offer prices in HTML)",
+     "price": "index"
+    },
+    {
+     "id": "albert",
+     "name": {
+      "ru": "Альберт",
+      "en": "Albert"
+     },
+     "group": "Ahold Delhaize",
+     "share": "sales CZK 74.4bn (2024), no % found",
+     "shareSrc": "https://www.kupi.cz/magazin/clanek/43665-zebricek-retezcu-podle-trzeb",
+     "brand": "#009FE3",
+     "color": "#47C1F5",
+     "site": "https://www.albert.cz",
+     "catalog": "https://www.albert.cz/online",
+     "access": "json_api",
+     "accessNote": "Next.js + /api/v1/ GraphQL (Ahold platform, same as maxi.rs/mega-image.ro)",
+     "price": "index"
+    },
+    {
+     "id": "penny_cz",
+     "name": {
+      "ru": "Пенни",
+      "en": "Penny"
+     },
+     "group": "REWE Group",
+     "share": "~8.5% (2021)",
+     "shareSrc": "https://www.zboziaprodej.cz/2024/01/17/rozsahla-studie-trhu-sest-nejvetsich-maloobchodniku-ma-podil-na-trhu-75-procent/",
+     "brand": "#CD1414",
+     "color": "#EE704E",
+     "site": "https://www.penny.cz",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "tesco_cz",
+     "name": {
+      "ru": "Теско",
+      "en": "Tesco"
+     },
+     "group": "Tesco (Kingfisher/Tesco CE)",
+     "share": "~11.5% (2022)",
+     "shareSrc": "https://www.zboziaprodej.cz/2024/01/17/rozsahla-studie-trhu-sest-nejvetsich-maloobchodniku-ma-podil-na-trhu-75-procent/",
+     "brand": "#00539F",
+     "color": "#47A2F5",
+     "site": "https://www.itesco.cz",
+     "catalog": "https://nakup.itesco.cz/groceries/cs-CZ",
+     "access": "unknown",
+     "accessNote": "e-shop exists; 403 from BY",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 21.031945,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 149,
+     "15 USD": 319
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "PT",
+   "status": "wave1",
+   "name": {
+    "ru": "Португалия",
+    "en": "Portugal",
+    "local": "Portugal"
+   },
+   "lang": "pt",
+   "tz": [
+    "Europe/Lisbon",
+    "Atlantic/Madeira",
+    "Atlantic/Azores"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "pt-PT",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.32,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "jp",
+    "cn",
+    "fr",
+    "es",
+    "in",
+    "us"
+   ],
+   "priceLevel": {
+    "pli": 101.5,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "continente",
+     "name": {
+      "ru": "Continente",
+      "en": "Continente"
+     },
+     "group": "Sonae MC",
+     "share": "27.5% (2025, Worldpanel)",
+     "shareSrc": "https://eco.sapo.pt/2026/03/26/no-duelo-de-titas-dos-supermercados-continente-da-mais-uma-dentada-na-quota-de-mercado-da-concorrencia/",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.continente.pt",
+     "catalog": "https://www.continente.pt/pesquisa/?q=leite",
+     "access": "unknown",
+     "accessNote": "search page loads but no prices in fetched HTML; likely JS-rendered",
+     "price": "index"
+    },
+    {
+     "id": "pingo_doce",
+     "name": {
+      "ru": "Pingo Doce",
+      "en": "Pingo Doce"
+     },
+     "group": "Jerónimo Martins",
+     "share": "21.7% (2025, Worldpanel)",
+     "shareSrc": "https://eco.sapo.pt/2026/03/26/no-duelo-de-titas-dos-supermercados-continente-da-mais-uma-dentada-na-quota-de-mercado-da-concorrencia/",
+     "brand": "#009B3A",
+     "color": "#47F588",
+     "site": "https://www.pingodoce.pt",
+     "catalog": "https://www.pingodoce.pt/produtos/",
+     "access": "unknown",
+     "accessNote": "product pages load but no prices in fetched HTML",
+     "price": "index"
+    },
+    {
+     "id": "lidl_pt",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "12.9% (2025, Worldpanel)",
+     "shareSrc": "https://eco.sapo.pt/2026/03/26/no-duelo-de-titas-dos-supermercados-continente-da-mais-uma-dentada-na-quota-de-mercado-da-concorrencia/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.pt",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "mercadona_pt",
+     "name": {
+      "ru": "Mercadona",
+      "en": "Mercadona"
+     },
+     "group": "Mercadona",
+     "share": "7.2% (2025, Worldpanel)",
+     "shareSrc": "https://eco.sapo.pt/2026/03/26/no-duelo-de-titas-dos-supermercados-continente-da-mais-uma-dentada-na-quota-de-mercado-da-concorrencia/",
+     "brand": "#009234",
+     "color": "#47F585",
+     "site": "https://info.mercadona.pt",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "auchan_pt",
+     "name": {
+      "ru": "Auchan",
+      "en": "Auchan"
+     },
+     "group": "Auchan Retail",
+     "share": "5.3% (2025, Worldpanel)",
+     "shareSrc": "https://eco.sapo.pt/2026/03/26/no-duelo-de-titas-dos-supermercados-continente-da-mais-uma-dentada-na-quota-de-mercado-da-concorrencia/",
+     "brand": "#E1001A",
+     "color": "#F56C47",
+     "site": "https://www.auchan.pt",
+     "catalog": "https://www.auchan.pt",
+     "access": "unknown",
+     "accessNote": "not checked; Intermarché share not published in source",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "SE",
+   "status": "wave1",
+   "name": {
+    "ru": "Швеция",
+    "en": "Sweden",
+    "local": "Sverige"
+   },
+   "lang": "sv",
+   "tz": [
+    "Europe/Stockholm"
+   ],
+   "currency": {
+    "code": "SEK",
+    "symbol": {
+     "ru": "kr",
+     "en": "kr",
+     "local": "kr"
+    },
+    "locale": "sv-SE",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 100,
+    "max": 10000,
+    "step": 25.0,
+    "def": 250.0,
+    "cheap": 15.54,
+    "demo": 500
+   },
+   "cuisines": [
+    "se",
+    "it",
+    "us",
+    "th",
+    "jp",
+    "mx",
+    "in",
+    "tr",
+    "cn"
+   ],
+   "priceLevel": {
+    "pli": 106.4,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "ica",
+     "name": {
+      "ru": "ICA",
+      "en": "ICA"
+     },
+     "group": "ICA Gruppen",
+     "share": "50.6% (Dagligvarukartan 2025, sales 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#E3000B",
+     "color": "#F56C47",
+     "site": "https://www.ica.se",
+     "catalog": "https://handlaprivatkund.ica.se",
+     "access": "store_required",
+     "accessNote": "e-shop per store; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "willys",
+     "name": {
+      "ru": "Willys",
+      "en": "Willys"
+     },
+     "group": "Axfood (Willys, Hemköp, City Gross)",
+     "share": "24.9% Axfood (Dagligvarukartan 2025, sales 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.willys.se",
+     "catalog": "https://www.willys.se/sortiment",
+     "access": "json_api",
+     "accessNote": "axfood REST endpoints behind site; best guess, not checked",
+     "price": "live",
+     "parser": "axfood",
+     "region": "онлайн-цены",
+     "lang": "sv"
+    },
+    {
+     "id": "coop_se",
+     "name": {
+      "ru": "Coop",
+      "en": "Coop"
+     },
+     "group": "Coop Sverige (KF)",
+     "share": "16.7% (Dagligvarukartan 2025, sales 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#00AA46",
+     "color": "#47F58F",
+     "site": "https://www.coop.se",
+     "catalog": "https://www.coop.se/handla/",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_se",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "6.3% (Dagligvarukartan 2025, FY Mar 2024-Feb 2025)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.se",
+     "access": "leaflet_only",
+     "accessNote": "no grocery e-shop",
+     "price": "index"
+    },
+    {
+     "id": "mathem",
+     "name": {
+      "ru": "Mathem",
+      "en": "Mathem"
+     },
+     "group": "Mathem i Sverige AB",
+     "share": "0.6% (Dagligvarukartan 2025, sales 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#1E8C45",
+     "color": "#5FDD8C",
+     "site": "https://www.mathem.se",
+     "catalog": "https://www.mathem.se/se/categories/",
+     "access": "unknown",
+     "accessNote": "online-only grocer; not checked",
+     "price": "index"
+    },
+    {
+     "id": "hemkop",
+     "name": {
+      "ru": "Hemköp",
+      "en": "Hemköp"
+     },
+     "brand": "#E2001A",
+     "site": "https://www.hemkop.se",
+     "parser": "axfood",
+     "region": "онлайн-цены",
+     "lang": "sv",
+     "why": "сеть Axfood (как Willys), тот же открытый JSON",
+     "color": "#F56C47",
+     "price": "live",
+     "ref": 1
+    }
+   ],
+   "usd": {
+    "rate": 9.766254,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 69,
+     "15 USD": 149
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "BE",
+   "status": "wave1",
+   "name": {
+    "ru": "Бельгия",
+    "en": "Belgium",
+    "local": "België / Belgique"
+   },
+   "lang": "nl",
+   "tz": [
+    "Europe/Brussels"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "nl-BE",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.37,
+    "demo": 50
+   },
+   "cuisines": [
+    "fr",
+    "it",
+    "jp",
+    "cn",
+    "ma",
+    "tr",
+    "gr",
+    "vn"
+   ],
+   "priceLevel": {
+    "pli": 105.3,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "colruyt",
+     "name": {
+      "ru": "Colruyt",
+      "en": "Colruyt"
+     },
+     "group": "Colruyt Group",
+     "share": "28.9% (late 2025)",
+     "shareSrc": "https://en.wikipedia.org/wiki/Colruyt_(supermarket)",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.colruyt.be",
+     "catalog": "https://www.collectandgo.be",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "delhaize_be",
+     "name": {
+      "ru": "Delhaize",
+      "en": "Delhaize"
+     },
+     "group": "Ahold Delhaize",
+     "shareSrc": "https://www.gondola.be/nl/news/wie-wint-de-strijd-om-het-winkelwagentje",
+     "brand": "#D6001C",
+     "color": "#F56C47",
+     "site": "https://www.delhaize.be",
+     "catalog": "https://www.delhaize.be",
+     "access": "unknown",
+     "accessNote": "search URL returned 404; no. 2 per sources; Colruyt+Delhaize+Carrefour = 64.2% (2024, Gondola)",
+     "price": "index"
+    },
+    {
+     "id": "carrefour_be",
+     "name": {
+      "ru": "Carrefour",
+      "en": "Carrefour"
+     },
+     "group": "Carrefour Group",
+     "shareSrc": "https://www.gondola.be/nl/news/wie-wint-de-strijd-om-het-winkelwagentje",
+     "brand": "#004E9E",
+     "color": "#479DF5",
+     "site": "https://www.carrefour.be",
+     "catalog": "https://www.carrefour.be",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "aldi_be",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Nord",
+     "share": "Aldi+Lidl 19.3% combined (2024)",
+     "shareSrc": "https://www.gondola.be/nl/news/wie-wint-de-strijd-om-het-winkelwagentje",
+     "brand": "#1E3D7B",
+     "color": "#638AD9",
+     "site": "https://www.aldi.be",
+     "access": "unknown",
+     "accessNote": "not checked; discounters do not release shares to NielsenIQ",
+     "price": "index"
+    },
+    {
+     "id": "lidl_be",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "Aldi+Lidl 19.3% combined (2024)",
+     "shareSrc": "https://www.gondola.be/nl/news/wie-wint-de-strijd-om-het-winkelwagentje",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.be",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "AT",
+   "status": "wave1",
+   "name": {
+    "ru": "Австрия",
+    "en": "Austria",
+    "local": "Österreich"
+   },
+   "lang": "de",
+   "tz": [
+    "Europe/Vienna"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "de-AT",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.43,
+    "demo": 50
+   },
+   "cuisines": [
+    "it",
+    "de",
+    "tr",
+    "cn",
+    "jp",
+    "gr",
+    "in",
+    "vn"
+   ],
+   "priceLevel": {
+    "pli": 110.5,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "spar_at",
+     "name": {
+      "ru": "Spar",
+      "en": "Spar"
+     },
+     "group": "SPAR Österreich",
+     "share": "36.2% (2025 prelim., NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/global/de/news-center/2026/nielseniq-umsatzbarometer-vorlaufige-marktanteile-2025/",
+     "brand": "#00843D",
+     "color": "#47F597",
+     "site": "https://www.spar.at",
+     "catalog": "https://www.spar.at/produktwelt",
+     "access": "unknown",
+     "accessNote": "403 to fetcher",
+     "price": "live",
+     "parser": "spar_at",
+     "region": "онлайн-цены spar.at",
+     "lang": "de"
+    },
+    {
+     "id": "billa",
+     "name": {
+      "ru": "Billa",
+      "en": "Billa"
+     },
+     "group": "REWE International (Billa, Penny, Adeg)",
+     "share": "32.4% (2025 prelim., NielsenIQ, REWE group excl. BIPA)",
+     "shareSrc": "https://nielseniq.com/global/de/news-center/2026/nielseniq-umsatzbarometer-vorlaufige-marktanteile-2025/",
+     "brand": "#FFE600",
+     "color": "#F5E447",
+     "site": "https://www.billa.at",
+     "catalog": "https://shop.billa.at",
+     "access": "unknown",
+     "accessNote": "403 to fetcher",
+     "price": "index"
+    },
+    {
+     "id": "hofer",
+     "name": {
+      "ru": "Hofer",
+      "en": "Hofer"
+     },
+     "group": "Aldi Süd",
+     "share": "Hofer+Lidl 25.7% combined (2025 prelim., NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/global/de/news-center/2026/nielseniq-umsatzbarometer-vorlaufige-marktanteile-2025/",
+     "brand": "#00549F",
+     "color": "#47A3F5",
+     "site": "https://www.hofer.at",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_at",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "Hofer+Lidl 25.7% combined (2025 prelim., NielsenIQ)",
+     "shareSrc": "https://nielseniq.com/global/de/news-center/2026/nielseniq-umsatzbarometer-vorlaufige-marktanteile-2025/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.at",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "mpreis",
+     "name": {
+      "ru": "MPreis",
+      "en": "MPreis"
+     },
+     "group": "MPreis",
+     "share": "3.4% (Jan-Oct 2025, NielsenIQ)",
+     "shareSrc": "https://www.leadersnet.at/news/95623,spar-zieht-rewe-hofer-und-lidl-bei-den-marktanteilen-davon.html",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.mpreis.at",
+     "access": "unknown",
+     "accessNote": "not checked; regional (Tyrol)",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47F597"
+  },
+  {
+   "code": "HU",
+   "status": "wave1",
+   "name": {
+    "ru": "Венгрия",
+    "en": "Hungary",
+    "local": "Magyarország"
+   },
+   "lang": "hu",
+   "tz": [
+    "Europe/Budapest"
+   ],
+   "currency": {
+    "code": "HUF",
+    "symbol": {
+     "ru": "фор.",
+     "en": "Ft",
+     "local": "Ft"
+    },
+    "locale": "hu-HU",
+    "decimals": 0,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 2500.0,
+    "max": 250000.0,
+    "step": 1000,
+    "def": 10000,
+    "cheap": 447.0,
+    "demo": 10000
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "cn",
+    "jp",
+    "tr",
+    "gr",
+    "mx",
+    "in",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 94.8,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_hu",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "20.8% (GfK, Sep 2024)",
+     "shareSrc": "https://hungarytoday.hu/lidl-dominates-hungary-spar-and-tesco-do-not-stand-a-chance/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.hu",
+     "catalog": "https://www.lidl.hu",
+     "access": "html",
+     "accessNote": "offers with prices in HTML; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "spar_hu",
+     "name": {
+      "ru": "Спар",
+      "en": "Spar"
+     },
+     "group": "SPAR Österreich",
+     "share": "14.2% (GfK, Sep 2024)",
+     "shareSrc": "https://hungarytoday.hu/lidl-dominates-hungary-spar-and-tesco-do-not-stand-a-chance/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.spar.hu",
+     "access": "unknown",
+     "accessNote": "onlineshop redirects to /wolt (delivery via Wolt); 403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "penny_hu",
+     "name": {
+      "ru": "Пенни",
+      "en": "Penny"
+     },
+     "group": "REWE Group",
+     "share": "9.9% (GfK, Sep 2024)",
+     "shareSrc": "https://hungarytoday.hu/lidl-dominates-hungary-spar-and-tesco-do-not-stand-a-chance/",
+     "brand": "#CD1414",
+     "color": "#EE704E",
+     "site": "https://www.penny.hu",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "tesco_hu",
+     "name": {
+      "ru": "Теско",
+      "en": "Tesco"
+     },
+     "group": "Tesco",
+     "share": "9.4% (GfK, Sep 2024)",
+     "shareSrc": "https://hungarytoday.hu/lidl-dominates-hungary-spar-and-tesco-do-not-stand-a-chance/",
+     "brand": "#00539F",
+     "color": "#47A2F5",
+     "site": "https://www.tesco.hu",
+     "catalog": "https://bevasarlas.tesco.hu/groceries/hu-HU",
+     "access": "unknown",
+     "accessNote": "e-shop exists; 403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "aldi_hu",
+     "name": {
+      "ru": "Альди",
+      "en": "Aldi"
+     },
+     "group": "ALDI Süd",
+     "share": "7.9% (GfK, Sep 2024)",
+     "shareSrc": "https://hungarytoday.hu/lidl-dominates-hungary-spar-and-tesco-do-not-stand-a-chance/",
+     "brand": "#00005F",
+     "color": "#4747F5",
+     "site": "https://www.aldi.hu",
+     "access": "unknown",
+     "accessNote": "not checked. By 2025 turnover CBA and Coop rank above Penny/Aldi: https://bbj.hu/business/industry/retail/lidl-remains-hungarys-biggest-fmcg-retailer-in-2025",
+     "price": "live",
+     "parser": "aldi",
+     "region": "цены в магазине",
+     "lang": "hu"
+    }
+   ],
+   "usd": {
+    "rate": 316.275647,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 100,
+    "minus": 10,
+    "example": {
+     "7 USD": 2290,
+     "15 USD": 4790
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "GR",
+   "status": "wave1",
+   "name": {
+    "ru": "Греция",
+    "en": "Greece",
+    "local": "Ελλάδα"
+   },
+   "lang": "el",
+   "tz": [
+    "Europe/Athens"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "el-GR",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.37,
+    "demo": 50
+   },
+   "cuisines": [
+    "gr",
+    "it",
+    "us",
+    "cn",
+    "jp",
+    "tr",
+    "mx",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 105.8,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "sklavenitis",
+     "name": {
+      "ru": "Склавенитис",
+      "en": "Sklavenitis"
+     },
+     "group": "Sklavenitis Group",
+     "shareSrc": "https://www.thetotalbusiness.com/2025/10/08/souper-market-i-kyriarchia-tou-sklaveniti-kai-i-skliri-machi-ton-ypoloipon/",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.sklavenitis.gr",
+     "catalog": "https://www.sklavenitis.gr/eidi-pantopoleioy/",
+     "access": "html",
+     "accessNote": "2024 revenue €5.56bn; e-shop prices public; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_gr",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "shareSrc": "https://www.grocerytradenews.com/5-supermarket-chains-in-greece/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl-hellas.gr",
+     "access": "leaflet_only",
+     "accessNote": "est. revenue €2.1bn+; no e-shop",
+     "price": "index"
+    },
+    {
+     "id": "ab_vassilopoulos",
+     "name": {
+      "ru": "AB Василопулос",
+      "en": "AB Vassilopoulos"
+     },
+     "group": "Ahold Delhaize",
+     "shareSrc": "https://www.thetotalbusiness.com/2025/10/08/souper-market-i-kyriarchia-tou-sklaveniti-kai-i-skliri-machi-ton-ypoloipon/",
+     "brand": "#E3000F",
+     "color": "#F56C47",
+     "site": "https://www.ab.gr",
+     "catalog": "https://www.ab.gr/eshop",
+     "access": "unknown",
+     "accessNote": "2024 revenue €1.94bn; not checked",
+     "price": "index"
+    },
+    {
+     "id": "mymarket",
+     "name": {
+      "ru": "My Market",
+      "en": "My Market"
+     },
+     "group": "Metro AEBE",
+     "shareSrc": "https://www.thetotalbusiness.com/2025/10/08/souper-market-i-kyriarchia-tou-sklaveniti-kai-i-skliri-machi-ton-ypoloipon/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.mymarket.gr",
+     "catalog": "https://www.mymarket.gr",
+     "access": "unknown",
+     "accessNote": "Metro AEBE 2024 revenue €1.62bn incl. cash&carry; not checked",
+     "price": "index"
+    },
+    {
+     "id": "masoutis",
+     "name": {
+      "ru": "Масутис",
+      "en": "Masoutis"
+     },
+     "group": "Masoutis (incl. Kritikos, approved 2026)",
+     "shareSrc": "https://www.grocerytradenews.com/5-supermarket-chains-in-greece/",
+     "brand": "#E4032E",
+     "color": "#F56C47",
+     "site": "https://www.masoutis.gr",
+     "catalog": "https://www.masoutis.gr/categories",
+     "access": "unknown",
+     "accessNote": "2024 revenue €1.14bn, ~€2.2bn with Kritikos; not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "LT",
+   "status": "wave1",
+   "name": {
+    "ru": "Литва",
+    "en": "Lithuania",
+    "local": "Lietuva"
+   },
+   "lang": "lt",
+   "tz": [
+    "Europe/Vilnius"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "lt-LT",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.31,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "lt",
+    "it",
+    "ru",
+    "pl",
+    "ge",
+    "jp",
+    "ua",
+    "cn",
+    "us"
+   ],
+   "priceLevel": {
+    "pli": 101.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "maxima_lt",
+     "name": {
+      "ru": "Maxima",
+      "en": "Maxima"
+     },
+     "group": "Maxima Grupė (Vilniaus prekyba)",
+     "share": "32.2% (State Data Agency via Verslo žinios, 2023)",
+     "shareSrc": "https://www.lrt.lt/naujienos/verslas/4/2335354/80-proc-prekybos-maistu-rinkos-penki-didieji-prekybos-tinklai",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.maxima.lt",
+     "catalog": "https://www.barbora.lt",
+     "access": "html",
+     "accessNote": "Barbora e-shop shows prices; best guess, not checked",
+     "price": "live",
+     "parser": "barbora",
+     "region": "Barbora (интернет-магазин Maxima)",
+     "lang": "lt"
+    },
+    {
+     "id": "iki_lt",
+     "name": {
+      "ru": "Iki",
+      "en": "Iki"
+     },
+     "group": "IKI Lietuva (Rewe)",
+     "share": "13.33% (State Data Agency via Verslo žinios, 2023)",
+     "shareSrc": "https://www.lrt.lt/naujienos/verslas/4/2335354/80-proc-prekybos-maistu-rinkos-penki-didieji-prekybos-tinklai",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://iki.lt",
+     "catalog": "https://lastmile.lt/chain/IKI",
+     "access": "unknown",
+     "accessNote": "online via LastMile partner; not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_lt",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "13.08% (State Data Agency via Verslo žinios, 2023)",
+     "shareSrc": "https://www.lrt.lt/naujienos/verslas/4/2335354/80-proc-prekybos-maistu-rinkos-penki-didieji-prekybos-tinklai",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.lt",
+     "access": "leaflet_only",
+     "accessNote": "no grocery e-shop",
+     "price": "index"
+    },
+    {
+     "id": "norfa",
+     "name": {
+      "ru": "Norfa",
+      "en": "Norfa"
+     },
+     "group": "Norfos mažmena",
+     "share": "11.78% (State Data Agency via Verslo žinios, 2023)",
+     "shareSrc": "https://www.lrt.lt/naujienos/verslas/4/2335354/80-proc-prekybos-maistu-rinkos-penki-didieji-prekybos-tinklai",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.norfa.lt",
+     "access": "leaflet_only",
+     "accessNote": "best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "rimi_lt",
+     "name": {
+      "ru": "Rimi",
+      "en": "Rimi"
+     },
+     "group": "Rimi Baltic",
+     "share": "6.82% (State Data Agency via Verslo žinios, 2023)",
+     "shareSrc": "https://www.lrt.lt/naujienos/verslas/4/2335354/80-proc-prekybos-maistu-rinkos-penki-didieji-prekybos-tinklai",
+     "brand": "#D6001C",
+     "color": "#F56C47",
+     "site": "https://www.rimi.lt",
+     "catalog": "https://www.rimi.lt/e-parduotuve",
+     "access": "html",
+     "accessNote": "e-shop prices without store; best guess, not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "LV",
+   "status": "wave1",
+   "name": {
+    "ru": "Латвия",
+    "en": "Latvia",
+    "local": "Latvija"
+   },
+   "lang": "lv",
+   "tz": [
+    "Europe/Riga"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "lv-LV",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.37,
+    "demo": 50
+   },
+   "cuisines": [
+    "ru",
+    "it",
+    "ge",
+    "lt",
+    "ua",
+    "jp",
+    "us",
+    "cn"
+   ],
+   "priceLevel": {
+    "pli": 105.4,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "rimi_lv",
+     "name": {
+      "ru": "Rimi",
+      "en": "Rimi"
+     },
+     "group": "Rimi Baltic",
+     "share": "Rimi+Maxima ~50% combined (Konkurences padome, 2022)",
+     "shareSrc": "https://www.kp.gov.lv/en/article/cc-assessing-market-structure-and-developments-retail-market-convenience-consumer-goods",
+     "brand": "#D6001C",
+     "color": "#F56C47",
+     "site": "https://www.rimi.lv",
+     "catalog": "https://www.rimi.lv/e-veikals",
+     "access": "html",
+     "accessNote": "2024 turnover €1.08bn (Coface Baltic Top 50); best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "maxima_lv",
+     "name": {
+      "ru": "Maxima",
+      "en": "Maxima"
+     },
+     "group": "Maxima Grupė",
+     "share": "Rimi+Maxima ~50% combined (Konkurences padome, 2022)",
+     "shareSrc": "https://www.kp.gov.lv/en/article/cc-assessing-market-structure-and-developments-retail-market-convenience-consumer-goods",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.maxima.lv",
+     "catalog": "https://www.barbora.lv",
+     "access": "html",
+     "accessNote": "2024 turnover €1.07bn (Coface); Barbora e-shop; not checked",
+     "price": "live",
+     "parser": "barbora",
+     "region": "Barbora (интернет-магазин Maxima)",
+     "lang": "lv"
+    },
+    {
+     "id": "lidl_lv",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "10-15% (Konkurences padome, 2022)",
+     "shareSrc": "https://www.kp.gov.lv/en/article/cc-assessing-market-structure-and-developments-retail-market-convenience-consumer-goods",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.lv",
+     "access": "leaflet_only",
+     "accessNote": "no grocery e-shop",
+     "price": "index"
+    },
+    {
+     "id": "top_lv",
+     "name": {
+      "ru": "TOP!",
+      "en": "TOP!"
+     },
+     "group": "Latvijas Tirgotāju savienība",
+     "shareSrc": "https://www.kp.gov.lv/en/article/cc-assessing-market-structure-and-developments-retail-market-convenience-consumer-goods",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.toppartika.lv",
+     "access": "unknown",
+     "accessNote": "buying group <10%; ranking approximate; not checked",
+     "price": "index"
+    },
+    {
+     "id": "elvi",
+     "name": {
+      "ru": "Elvi",
+      "en": "Elvi"
+     },
+     "group": "Elvi Latvija",
+     "shareSrc": "https://www.kp.gov.lv/en/article/cc-assessing-market-structure-and-developments-retail-market-convenience-consumer-goods",
+     "brand": "#00843D",
+     "color": "#47F597",
+     "site": "https://www.elvi.lv",
+     "access": "unknown",
+     "accessNote": "regional chain <10%; ranking approximate; not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "EE",
+   "status": "wave1",
+   "name": {
+    "ru": "Эстония",
+    "en": "Estonia",
+    "local": "Eesti"
+   },
+   "lang": "et",
+   "tz": [
+    "Europe/Tallinn"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "et-EE",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.38,
+    "demo": 50
+   },
+   "cuisines": [
+    "ru",
+    "it",
+    "ge",
+    "jp",
+    "us",
+    "cn",
+    "in",
+    "ua"
+   ],
+   "priceLevel": {
+    "pli": 106.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "coop_ee",
+     "name": {
+      "ru": "Coop",
+      "en": "Coop"
+     },
+     "group": "Coop Eesti",
+     "share": "~23% (ERR, 2025; revenue €855.3m)",
+     "shareSrc": "https://news.err.ee/1610066629/estonian-retail-chain-turnovers-only-see-negligible-growth-in-2025",
+     "brand": "#0072BC",
+     "color": "#47B1F5",
+     "site": "https://www.coop.ee",
+     "catalog": "https://ecoop.ee",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "selver",
+     "name": {
+      "ru": "Selver",
+      "en": "Selver"
+     },
+     "group": "Tallinna Kaubamaja Grupp",
+     "shareSrc": "https://news.err.ee/1610066629/estonian-retail-chain-turnovers-only-see-negligible-growth-in-2025",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.selver.ee",
+     "catalog": "https://www.selver.ee",
+     "access": "html",
+     "accessNote": "2025 revenue €622m; e-Selver prices public; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "maxima_ee",
+     "name": {
+      "ru": "Maxima",
+      "en": "Maxima"
+     },
+     "group": "Maxima Grupė",
+     "shareSrc": "https://news.err.ee/1610066629/estonian-retail-chain-turnovers-only-see-negligible-growth-in-2025",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.maxima.ee",
+     "catalog": "https://www.barbora.ee",
+     "access": "html",
+     "accessNote": "2025 revenue €601m; Barbora e-shop; not checked",
+     "price": "live",
+     "parser": "barbora",
+     "region": "Barbora (интернет-магазин Maxima)",
+     "lang": "et"
+    },
+    {
+     "id": "rimi_ee",
+     "name": {
+      "ru": "Rimi",
+      "en": "Rimi"
+     },
+     "group": "Rimi Baltic",
+     "share": "13.2% (ERR, 2025)",
+     "shareSrc": "https://news.err.ee/1610066629/estonian-retail-chain-turnovers-only-see-negligible-growth-in-2025",
+     "brand": "#D6001C",
+     "color": "#F56C47",
+     "site": "https://www.rimi.ee",
+     "catalog": "https://www.rimi.ee/epood",
+     "access": "html",
+     "accessNote": "2025 revenue €485m; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "grossi",
+     "name": {
+      "ru": "Grossi",
+      "en": "Grossi"
+     },
+     "group": "OG Elektra",
+     "shareSrc": "https://news.err.ee/1610066629/estonian-retail-chain-turnovers-only-see-negligible-growth-in-2025",
+     "brand": "#E4002B",
+     "color": "#F56C47",
+     "site": "https://www.grossi.ee",
+     "access": "unknown",
+     "accessNote": "2025 revenue €288m; not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47B1F5"
+  },
+  {
+   "code": "BY",
+   "status": "live",
+   "name": {
+    "ru": "Беларусь",
+    "en": "Belarus",
+    "local": "Беларусь"
+   },
+   "lang": "ru",
+   "tz": [
+    "Europe/Minsk"
+   ],
+   "currency": {
+    "code": "BYN",
+    "symbol": {
+     "ru": "р.",
+     "en": "Br",
+     "local": "р."
+    },
+    "locale": "ru-BY",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 40,
+    "max": 3000,
+    "step": 10,
+    "def": 120,
+    "cheap": 4,
+    "demo": 150
+   },
+   "cuisines": [
+    "by",
+    "ru",
+    "ua",
+    "ge",
+    "it",
+    "pl",
+    "jp",
+    "us"
+   ],
+   "priceLevel": {
+    "vsBY": 1.0,
+    "src": "база: цены Евроопта в data.js"
+   },
+   "chains": [
+    {
+     "id": "euroopt",
+     "name": {
+      "ru": "Евроопт",
+      "en": "Euroopt",
+      "gen": "Евроопта",
+      "loc": "Евроопте"
+     },
+     "group": "Евроторг (Евроопт, Хит!, Грошык)",
+     "share": "20% продовольственной розницы, 32% современных форматов (2024); №1 по доле потребрынка у МАРТ (2025)",
+     "shareSrc": "https://ir.eurotorg.by/ru/about-company/grocery-business/",
+     "brand": "#e2231a",
+     "color": "#FFC857",
+     "site": "https://evroopt.by",
+     "catalog": "https://edostavka.by",
+     "access": "html",
+     "accessNote": "edostavka.by (Евроопт) отдаёт цены в HTML без логина и капчи, просит адрес доставки",
+     "price": "live",
+     "idx": 1.0,
+     "cat": {
+      "Мясо и рыба": 1.0,
+      "Молочное": 1.0,
+      "Овощи и зелень": 1.0,
+      "Крупы и макароны": 1.0,
+      "Бакалея": 1.0,
+      "Консервы": 1.0,
+      "Хлеб": 1.0,
+      "Специи": 1.0
+     },
+     "parser": "euroopt",
+     "region": "Минск (edostavka.by)",
+     "lang": "ru"
+    },
+    {
+     "id": "santa",
+     "name": {
+      "ru": "Санта",
+      "en": "Santa",
+      "gen": "Санты",
+      "loc": "Санте"
+     },
+     "group": "Санта Ритейл",
+     "share": "№3 по доле потребрынка (МАРТ, 2025); 276 магазинов на 01.01.2026",
+     "shareSrc": "https://reform.news/mart-nazval-krupnejshie-torgovye-seti-belarusi",
+     "brand": "#e30613",
+     "color": "#6EE7F9",
+     "site": "https://www.santa.by",
+     "access": "unknown",
+     "accessNote": "santa.by - корпоративный сайт, онлайн-магазина с ценами не нашёл",
+     "price": "index",
+     "idx": 1.05,
+     "cat": {
+      "Мясо и рыба": 1.02,
+      "Молочное": 1.06,
+      "Овощи и зелень": 1.03,
+      "Крупы и макароны": 1.07,
+      "Бакалея": 1.05,
+      "Консервы": 1.06,
+      "Хлеб": 1.04,
+      "Специи": 1.08
+     }
+    },
+    {
+     "id": "sosedi",
+     "name": {
+      "ru": "Соседи",
+      "en": "Sosedi",
+      "gen": "Соседей",
+      "loc": "Соседях"
+     },
+     "group": "Табак-инвест",
+     "share": "№4 по доле потребрынка (МАРТ, 2025); 289 магазинов на 01.01.2026",
+     "shareSrc": "https://www.gs.by/2026/08/18/mart-nazval-krupneyshuyu-torgovuyu-set-belarusi-kto-okazalsya-na-pervom-meste/",
+     "brand": "#f39200",
+     "color": "#FF8A6B",
+     "site": "https://sosedi.by",
+     "access": "unknown",
+     "accessNote": "на главной только слоган, каталога с ценами не видно",
+     "price": "index",
+     "idx": 1.03,
+     "cat": {
+      "Мясо и рыба": 1.05,
+      "Молочное": 0.99,
+      "Овощи и зелень": 1.06,
+      "Крупы и макароны": 1.02,
+      "Бакалея": 1.01,
+      "Консервы": 1.03,
+      "Хлеб": 0.98,
+      "Специи": 1.04
+     }
+    },
+    {
+     "id": "hippo",
+     "name": {
+      "ru": "Гиппо",
+      "en": "Hippo",
+      "gen": "Гиппо",
+      "loc": "Гиппо"
+     },
+     "group": "Белмаркет",
+     "share": "№6 (Гиппо/Белмаркет) по доле потребрынка (МАРТ, 2025); Белмаркет 89 магазинов",
+     "shareSrc": "https://reform.news/mart-nazval-krupnejshie-torgovye-seti-belarusi",
+     "brand": "#d71920",
+     "color": "#A99BFF",
+     "site": "https://gippo-market.by",
+     "catalog": "https://gippo-market.by",
+     "access": "html",
+     "accessNote": "интернет-магазин с каталогом по категориям; цены в HTML не подтверждены",
+     "price": "index",
+     "idx": 1.06,
+     "cat": {
+      "Мясо и рыба": 1.08,
+      "Молочное": 1.04,
+      "Овощи и зелень": 1.01,
+      "Крупы и макароны": 1.09,
+      "Бакалея": 1.07,
+      "Консервы": 1.05,
+      "Хлеб": 1.06,
+      "Специи": 1.05
+     }
+    },
+    {
+     "id": "green",
+     "name": {
+      "ru": "Green",
+      "en": "Green"
+     },
+     "group": "Грин Дистрибьюшн",
+     "share": "№8 по доле потребрынка (МАРТ, 2025); 39 магазинов на 01.01.2026",
+     "shareSrc": "https://www.gs.by/2026/08/18/mart-nazval-krupneyshuyu-torgovuyu-set-belarusi-kto-okazalsya-na-pervom-meste/",
+     "brand": "#6cb33f",
+     "color": "#5EE3A1",
+     "site": "https://green-market.by",
+     "catalog": "https://green-dostavka.by",
+     "access": "unknown",
+     "accessNote": "доставка на green-dostavka.by, не проверял",
+     "price": "index",
+     "idx": 1.09,
+     "cat": {
+      "Мясо и рыба": 1.12,
+      "Молочное": 1.08,
+      "Овощи и зелень": 1.05,
+      "Крупы и макароны": 1.1,
+      "Бакалея": 1.09,
+      "Консервы": 1.11,
+      "Хлеб": 1.07,
+      "Специи": 1.06
+     }
+    }
+   ],
+   "usd": {
+    "rate": 3.028,
+    "date": "2026-09-14",
+    "src": "НБРБ api.nbrb.by"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0,
+    "example": {
+     "7 USD": 22,
+     "15 USD": 46
+    }
+   },
+   "flag": "#FFC857"
+  },
+  {
+   "code": "RU",
+   "status": "wave1",
+   "name": {
+    "ru": "Россия",
+    "en": "Russia",
+    "local": "Россия"
+   },
+   "lang": "ru",
+   "tz": [
+    "Europe/Moscow",
+    "Europe/Samara",
+    "Asia/Yekaterinburg",
+    "Asia/Novosibirsk",
+    "Asia/Krasnoyarsk",
+    "Asia/Irkutsk",
+    "Asia/Vladivostok"
+   ],
+   "currency": {
+    "code": "RUB",
+    "symbol": {
+     "ru": "₽",
+     "en": "₽",
+     "local": "₽"
+    },
+    "locale": "ru-RU",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 1000,
+    "max": 30000,
+    "step": 500,
+    "def": 4000,
+    "cheap": 150,
+    "demo": 5000
+   },
+   "cuisines": [
+    "ru",
+    "ua",
+    "ge",
+    "it",
+    "jp",
+    "uz",
+    "us",
+    "cn",
+    "fr"
+   ],
+   "priceLevel": {
+    "gdpPlr": 0.314,
+    "src": "World Bank 2024, PA.NUS.PPP / PA.NUS.FCRF (уровень цен ВВП, грубо; уточняется живыми ценами)"
+   },
+   "chains": [
+    {
+     "id": "pyaterochka",
+     "name": {
+      "ru": "Пятёрочка",
+      "en": "Pyaterochka",
+      "gen": "Пятёрочки",
+      "loc": "Пятёрочке"
+     },
+     "group": "X5 Group",
+     "share": "X5 Group 11.5% по выручке (2019); 25 533 магазина Пятёрочки (конец 2025)",
+     "shareSrc": "https://en.wikipedia.org/wiki/X5_Group",
+     "brand": "#e31e24",
+     "color": "#EA7253",
+     "site": "https://5ka.ru",
+     "catalog": "https://5ka.ru/catalog/",
+     "access": "closed",
+     "accessNote": "403 на бот-запрос, не обходил",
+     "price": "index",
+     "why": "каталог за защитой servicepipe (капча), robots.txt закрывает /api/ и /search/"
+    },
+    {
+     "id": "magnit",
+     "name": {
+      "ru": "Магнит",
+      "en": "Magnit",
+      "gen": "Магнита",
+      "loc": "Магните"
+     },
+     "group": "Магнит",
+     "share": "7.6% (2019); 33 000+ магазинов (конец 2025)",
+     "shareSrc": "https://en.wikipedia.org/wiki/X5_Group",
+     "brand": "#d9261c",
+     "color": "#E97353",
+     "site": "https://magnit.ru",
+     "catalog": "https://magnit.ru/catalog/",
+     "access": "html",
+     "accessNote": "цены и скидки в HTML, капчи нет",
+     "price": "live",
+     "idx": 1.0,
+     "parser": "magnit",
+     "region": "Краснодар, магазин по умолчанию",
+     "lang": "ru"
+    },
+    {
+     "id": "perekrestok",
+     "name": {
+      "ru": "Перекрёсток",
+      "en": "Perekrestok",
+      "gen": "Перекрёстка",
+      "loc": "Перекрёстке"
+     },
+     "group": "X5 Group",
+     "share": "1 004 магазина (конец 2025); доля X5 см. Пятёрочку",
+     "shareSrc": "https://www.retail.ru/articles/kak-rosli-riteylery-v-2025-godu-ekspansiya-optimizatsiya-i-znachimye-resheniya-vedushchikh-setey/",
+     "brand": "#00843d",
+     "color": "#47F597",
+     "site": "https://www.perekrestok.ru",
+     "catalog": "https://www.perekrestok.ru/cat",
+     "access": "unknown",
+     "accessNote": "пустой ответ (JS-оболочка или защита), капчу не видел",
+     "price": "index",
+     "why": "servicepipe (капча) на каталоге и robots.txt"
+    },
+    {
+     "id": "lenta",
+     "name": {
+      "ru": "Лента",
+      "en": "Lenta",
+      "gen": "Ленты",
+      "loc": "Ленте"
+     },
+     "group": "Лента",
+     "shareSrc": "https://www.retail.ru/articles/kak-rosli-riteylery-v-2025-godu-ekspansiya-optimizatsiya-i-znachimye-resheniya-vedushchikh-setey/",
+     "brand": "#1b3c8f",
+     "color": "#5C82E0",
+     "site": "https://lenta.com",
+     "catalog": "https://lenta.com/catalog/",
+     "access": "store_required",
+     "accessNote": "JS-оболочка, каталог после выбора адреса; капчи не видел",
+     "price": "index",
+     "why": "каталог отвечает 401 без браузерной проверки (антибот)"
+    },
+    {
+     "id": "vkusvill",
+     "name": {
+      "ru": "ВкусВилл",
+      "en": "VkusVill",
+      "gen": "ВкусВилла",
+      "loc": "ВкусВилле"
+     },
+     "group": "ВкусВилл",
+     "shareSrc": "https://www.retail.ru/articles/kak-rosli-riteylery-v-2025-godu-ekspansiya-optimizatsiya-i-znachimye-resheniya-vedushchikh-setey/",
+     "brand": "#00a651",
+     "color": "#47F59C",
+     "site": "https://vkusvill.ru",
+     "catalog": "https://vkusvill.ru/goods/",
+     "access": "closed",
+     "accessNote": "403 на бот-запрос, не обходил",
+     "price": "live",
+     "parser": "vkusvill",
+     "region": "регион сайта по умолчанию",
+     "lang": "ru"
+    },
+    {
+     "id": "auchan",
+     "name": {
+      "ru": "Ашан",
+      "en": "Auchan",
+      "gen": "Ашана",
+      "loc": "Ашане"
+     },
+     "group": "Auchan Retail",
+     "shareSrc": "https://www.retail.ru/articles/kak-rosli-riteylery-v-2025-godu-ekspansiya-optimizatsiya-i-znachimye-resheniya-vedushchikh-setey/",
+     "brand": "#e2001a",
+     "color": "#F56C47",
+     "site": "https://www.auchan.ru",
+     "catalog": "https://www.auchan.ru/catalog/",
+     "access": "unknown",
+     "accessNote": "не проверял; 231 магазин (конец 2025)",
+     "price": "index",
+     "why": "каталог отвечает 401 (антибот)"
+    }
+   ],
+   "regions": [
+    "Москва",
+    "Санкт-Петербург",
+    "другой город"
+   ],
+   "usd": {
+    "rate": 83.9246,
+    "date": "2026-09-14",
+    "src": "НБРБ api.nbrb.by, кросс-курс"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 589,
+     "15 USD": 1259
+    }
+   },
+   "flag": "#EA7253"
+  },
+  {
+   "code": "KZ",
+   "status": "wave1",
+   "name": {
+    "ru": "Казахстан",
+    "en": "Kazakhstan",
+    "local": "Қазақстан"
+   },
+   "lang": "ru",
+   "tz": [
+    "Asia/Almaty",
+    "Asia/Aqtobe"
+   ],
+   "currency": {
+    "code": "KZT",
+    "symbol": {
+     "ru": "₸",
+     "en": "₸",
+     "local": "₸"
+    },
+    "locale": "ru-KZ",
+    "decimals": 0,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 5000,
+    "max": 250000.0,
+    "step": 1000,
+    "def": 10000,
+    "cheap": 620.0,
+    "demo": 20000
+   },
+   "cuisines": [
+    "kz",
+    "ru",
+    "uz",
+    "tr",
+    "kr",
+    "cn",
+    "it",
+    "ge",
+    "us"
+   ],
+   "priceLevel": {
+    "gdpPlr": 0.346,
+    "src": "World Bank 2024, PA.NUS.PPP / PA.NUS.FCRF (уровень цен ВВП, грубо; уточняется живыми ценами)"
+   },
+   "chains": [
+    {
+     "id": "magnum",
+     "name": {
+      "ru": "Magnum",
+      "en": "Magnum"
+     },
+     "group": "Magnum Cash & Carry (аффилирован с Kaspi)",
+     "share": "№1 FMCG-ритейлер, >200 магазинов (INFOLine, 2024)",
+     "shareSrc": "https://logistan.info/7401-eksperty-nazvali-top-5-torgovyh-setej-kazahstana-po-chislu-magazinov/",
+     "brand": "#e4002b",
+     "color": "#F56C47",
+     "site": "https://magnum.kz",
+     "catalog": "https://magnum.kz/catalog",
+     "access": "unknown",
+     "accessNote": "JS-оболочка, в HTML цен нет; онлайн через Kaspi/E-Magnum",
+     "price": "index"
+    },
+    {
+     "id": "small",
+     "name": {
+      "ru": "Small",
+      "en": "Small"
+     },
+     "group": "Скиф Трейд (Small, SPAR, Скиф)",
+     "share": ">150 магазинов, №3 по числу (INFOLine, 2024)",
+     "shareSrc": "https://logistan.info/7401-eksperty-nazvali-top-5-torgovyh-setej-kazahstana-po-chislu-magazinov/",
+     "brand": "#e30613",
+     "color": "#F56C47",
+     "site": "https://www.small.kz",
+     "access": "unknown",
+     "accessNote": "403 на бот-запрос",
+     "price": "index"
+    },
+    {
+     "id": "svetofor_kz",
+     "name": {
+      "ru": "Светофор",
+      "en": "Svetofor"
+     },
+     "group": "Торгсервис",
+     "share": "почти 100 магазинов, №5 по числу, +51 за год (INFOLine, 2024)",
+     "shareSrc": "https://logistan.info/7401-eksperty-nazvali-top-5-torgovyh-setej-kazahstana-po-chislu-magazinov/",
+     "brand": "#d52b1e",
+     "color": "#E77455",
+     "access": "closed",
+     "accessNote": "жёсткий дискаунтер, онлайн-каталога с ценами обычно нет; не проверял",
+     "price": "index"
+    },
+    {
+     "id": "galmart",
+     "name": {
+      "ru": "Galmart",
+      "en": "Galmart"
+     },
+     "group": "Jeti Aspan",
+     "shareSrc": "https://digitalbusiness.kz/2026-09-10/komu-prinadlezhat-krupneyshie-supermarketi-kazahstana-magnum-spar-galmart-i-drugie-polniy-razbor/",
+     "brand": "#0a7d3b",
+     "color": "#4CF192",
+     "site": "https://galmart.kz",
+     "catalog": "https://galmart.kz",
+     "access": "store_required",
+     "accessNote": "интернет-магазин с выбором локации, цены не проверены",
+     "price": "index"
+    },
+    {
+     "id": "anvar",
+     "name": {
+      "ru": "Анвар",
+      "en": "Anvar"
+     },
+     "group": "Анвар",
+     "shareSrc": "https://economykz.org/?p=22140",
+     "brand": "#e30613",
+     "color": "#F56C47",
+     "access": "unknown",
+     "accessNote": "сеть юга КЗ; в топ по источникам не подтверждена, место под вопросом (альтернатива - Вкусмарт/Astykzhan)",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 450.8233,
+    "date": "2026-09-14",
+    "src": "НБРБ api.nbrb.by, кросс-курс"
+   },
+   "pretty": {
+    "step": 100,
+    "minus": 10,
+    "example": {
+     "7 USD": 3190,
+     "15 USD": 6790
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "UA",
+   "status": "wave1",
+   "name": {
+    "ru": "Украина",
+    "en": "Ukraine",
+    "local": "Україна"
+   },
+   "lang": "uk",
+   "tz": [
+    "Europe/Kyiv"
+   ],
+   "currency": {
+    "code": "UAH",
+    "symbol": {
+     "ru": "₴",
+     "en": "₴",
+     "local": "₴"
+    },
+    "locale": "uk-UA",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 500,
+    "max": 25000.0,
+    "step": 100,
+    "def": 1000,
+    "cheap": 60.0,
+    "demo": 2000
+   },
+   "cuisines": [
+    "ua",
+    "ge",
+    "it",
+    "jp",
+    "pl",
+    "us",
+    "tr",
+    "fr",
+    "cn"
+   ],
+   "priceLevel": {
+    "gdpPlr": 0.289,
+    "src": "World Bank 2024, PA.NUS.PPP / PA.NUS.FCRF (уровень цен ВВП, грубо; уточняется живыми ценами)"
+   },
+   "chains": [
+    {
+     "id": "atb",
+     "name": {
+      "ru": "АТБ",
+      "en": "ATB"
+     },
+     "group": "АТБ-Маркет (Корпорація АТБ)",
+     "share": "виторг 247,3 млрд грн, №1 (2025)",
+     "shareSrc": "https://rau.ua/news/rau-analytics-kliuchovi-markery-rozvytku-rynku-ryteyilu-v-2025-rotci/",
+     "brand": "#e21e26",
+     "color": "#E97353",
+     "site": "https://www.atbmarket.com",
+     "catalog": "https://www.atbmarket.com/catalog/287-ovochi-ta-frukti",
+     "access": "unknown",
+     "accessNote": "403 на бот-запрос, не обходил",
+     "price": "index"
+    },
+    {
+     "id": "silpo",
+     "name": {
+      "ru": "Сильпо",
+      "en": "Silpo"
+     },
+     "group": "Fozzy Group",
+     "share": "виторг 106,1 млрд грн, №2 (2025)",
+     "shareSrc": "https://rau.ua/news/rau-analytics-kliuchovi-markery-rozvytku-rynku-ryteyilu-v-2025-rotci/",
+     "brand": "#f58220",
+     "color": "#F59747",
+     "site": "https://silpo.ua",
+     "catalog": "https://silpo.ua",
+     "access": "unknown",
+     "accessNote": "403 на бот-запрос, не обходил",
+     "price": "index"
+    },
+    {
+     "id": "fora",
+     "name": {
+      "ru": "Фора",
+      "en": "Fora"
+     },
+     "group": "Fozzy Group",
+     "share": "виторг 44,3 млрд грн, №3 (2025)",
+     "shareSrc": "https://rau.ua/news/rau-analytics-kliuchovi-markery-rozvytku-rynku-ryteyilu-v-2025-rotci/",
+     "brand": "#e4032e",
+     "color": "#F56C47",
+     "site": "https://fora.ua",
+     "catalog": "https://fora.ua",
+     "access": "unknown",
+     "accessNote": "не проверял",
+     "price": "index"
+    },
+    {
+     "id": "novus",
+     "name": {
+      "ru": "Novus",
+      "en": "Novus"
+     },
+     "group": "Novus Ukraine",
+     "share": "виторг 34,7 млрд грн (2025, Forbes Україна)",
+     "shareSrc": "https://novyny.live/wealth/produktovi-merezhi-v-ukrayini-khto-volodiie-ta-de-naibilshii-vitorg-316566.html",
+     "brand": "#6ab023",
+     "color": "#9FDF5D",
+     "site": "https://novus.ua",
+     "catalog": "https://novus.zakaz.ua/uk/",
+     "access": "html",
+     "accessNote": "zakaz.ua отдаёт цены в HTML, капчи нет",
+     "price": "index"
+    },
+    {
+     "id": "varus",
+     "name": {
+      "ru": "Varus",
+      "en": "Varus"
+     },
+     "group": "Омега",
+     "share": "виторг 24,1 млрд грн (2025, Forbes Україна)",
+     "shareSrc": "https://novyny.live/wealth/produktovi-merezhi-v-ukrayini-khto-volodiie-ta-de-naibilshii-vitorg-316566.html",
+     "brand": "#e31e24",
+     "color": "#EA7253",
+     "site": "https://varus.ua",
+     "catalog": "https://varus.ua",
+     "access": "unknown",
+     "accessNote": "403 на бот-запрос",
+     "price": "index"
+    },
+    {
+     "id": "auchan_ua",
+     "name": {
+      "ru": "Ашан",
+      "en": "Auchan"
+     },
+     "group": "Auchan Retail (Elo)",
+     "share": "виторг ~10 млрд грн (2025)",
+     "shareSrc": "https://rau.ua/news/rau-analytics-kliuchovi-markery-rozvytku-rynku-ryteyilu-v-2025-rotci/",
+     "brand": "#e2001a",
+     "color": "#F56C47",
+     "site": "https://auchan.ua",
+     "catalog": "https://auchan.zakaz.ua/uk/",
+     "access": "html",
+     "accessNote": "та же платформа zakaz.ua, что Novus; отдельно не проверял",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 44.5943,
+    "date": "2026-09-14",
+    "src": "НБРБ api.nbrb.by, кросс-курс"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 319,
+     "15 USD": 669
+    }
+   },
+   "flag": "#E97353"
+  },
+  {
+   "code": "RS",
+   "status": "wave1",
+   "name": {
+    "ru": "Сербия",
+    "en": "Serbia",
+    "local": "Србија"
+   },
+   "lang": "sr",
+   "tz": [
+    "Europe/Belgrade"
+   ],
+   "currency": {
+    "code": "RSD",
+    "symbol": {
+     "ru": "дин.",
+     "en": "RSD",
+     "local": "дин."
+    },
+    "locale": "sr-RS",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 1000,
+    "max": 100000,
+    "step": 250.0,
+    "def": 2500.0,
+    "cheap": 147.0,
+    "demo": 5000
+   },
+   "cuisines": [
+    "it",
+    "gr",
+    "tr",
+    "us",
+    "cn",
+    "jp",
+    "mx",
+    "ru"
+   ],
+   "priceLevel": {
+    "pli": 96.4,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "maxi",
+     "name": {
+      "ru": "Макси",
+      "en": "Maxi"
+     },
+     "group": "Ahold Delhaize (Delhaize Serbia)",
+     "share": "#1; sales RSD 167.4bn (2024)",
+     "shareSrc": "https://rs.bloombergadria.com/biznis/kompanije/89491/maloprodaja-2024-rekordni-prihodi-od-770-milijardi-dinara/news",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.maxi.rs",
+     "catalog": "https://www.maxi.rs",
+     "access": "json_api",
+     "accessNote": "Next.js + /api/v1/ GraphQL (Ahold platform)",
+     "price": "index"
+    },
+    {
+     "id": "lidl_rs",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#2 by revenue (2024), figure not found",
+     "shareSrc": "https://rs.bloombergadria.com/biznis/kompanije/89491/maloprodaja-2024-rekordni-prihodi-od-770-milijardi-dinara/news",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.rs",
+     "catalog": "https://www.lidl.rs",
+     "access": "html",
+     "accessNote": "offers + online leaflet; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "idea_rs",
+     "name": {
+      "ru": "Идея (Меркатор-С)",
+      "en": "Idea (Mercator-S)"
+     },
+     "group": "Fortenova Group",
+     "share": "sales RSD 106.6bn (2024)",
+     "shareSrc": "https://rs.bloombergadria.com/biznis/kompanije/89491/maloprodaja-2024-rekordni-prihodi-od-770-milijardi-dinara/news",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.idea.rs",
+     "catalog": "https://online.idea.rs",
+     "access": "unknown",
+     "accessNote": "online.idea.rs is SPA shell (5 KB), API not inspected",
+     "price": "index"
+    },
+    {
+     "id": "univerexport",
+     "name": {
+      "ru": "Универэкспорт",
+      "en": "Univerexport"
+     },
+     "group": "Univerexport",
+     "share": "sales RSD 41.9bn (2024)",
+     "shareSrc": "https://en.wikipedia.org/wiki/Univerexport",
+     "brand": "#E4002B",
+     "color": "#F56C47",
+     "site": "https://www.univerexport.rs",
+     "access": "unknown",
+     "accessNote": "Next.js site, no prices on homepage",
+     "price": "index"
+    },
+    {
+     "id": "dis",
+     "name": {
+      "ru": "ДИС",
+      "en": "DIS"
+     },
+     "group": "DIS d.o.o.",
+     "shareSrc": "https://biznis.rs/vesti/srbija/pokrenut-postupak-protiv-delhaize-serbia-mercator-s-univerexport-i-dis-zbog-sumnje-na-povredu-konkurencije/",
+     "brand": "#0066B3",
+     "color": "#47AAF5",
+     "site": "https://www.dis.rs",
+     "catalog": "https://www.dis.rs",
+     "access": "html",
+     "accessNote": "promo prices on homepage; Delhaize+Mercator-S+Univerexport+DIS >50% of market",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 101.170308,
+    "date": "14 Sep 2026",
+    "src": "exchangerate-api.com"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 709,
+     "15 USD": 1519
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "GE",
+   "status": "wave1",
+   "name": {
+    "ru": "Грузия",
+    "en": "Georgia",
+    "local": "საქართველო"
+   },
+   "lang": "ka",
+   "tz": [
+    "Asia/Tbilisi"
+   ],
+   "currency": {
+    "code": "GEL",
+    "symbol": {
+     "ru": "₾",
+     "en": "₾",
+     "local": "₾"
+    },
+    "locale": "ka-GE",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 25.0,
+    "max": 2500.0,
+    "step": 5,
+    "def": 100,
+    "cheap": 3.55,
+    "demo": 100
+   },
+   "cuisines": [
+    "ge",
+    "tr",
+    "ru",
+    "it",
+    "am",
+    "ua",
+    "jp",
+    "us"
+   ],
+   "priceLevel": {
+    "gdpPlr": 0.326,
+    "src": "World Bank 2024, PA.NUS.PPP / PA.NUS.FCRF (уровень цен ВВП, грубо; уточняется живыми ценами)"
+   },
+   "chains": [
+    {
+     "id": "nikora",
+     "name": {
+      "ru": "Никора",
+      "en": "Nikora"
+     },
+     "group": "Nikora Trade (Daily Group)",
+     "share": "18.9% (май 2024)",
+     "shareSrc": "https://btuai.ge/en/the-supermarket-boom-in-georgia/",
+     "brand": "#d71920",
+     "color": "#EB7251",
+     "access": "unknown",
+     "accessNote": "nikora.ge ведёт на мясокомбинат Nikora Ltd, сайт сети не нашёл",
+     "price": "index"
+    },
+    {
+     "id": "ori_nabiji",
+     "name": {
+      "ru": "Ори Набиджи",
+      "en": "Ori Nabiji"
+     },
+     "group": "Ori Nabiji",
+     "share": "18.8% (май 2024)",
+     "shareSrc": "https://btuai.ge/en/the-supermarket-boom-in-georgia/",
+     "brand": "#e4032e",
+     "color": "#F56C47",
+     "site": "https://2nabiji.ge",
+     "catalog": "https://2nabiji.ge",
+     "access": "unknown",
+     "accessNote": "онлайн-магазин с корзиной в ₾, цены в HTML не подтверждены",
+     "price": "index"
+    },
+    {
+     "id": "carrefour_ge",
+     "name": {
+      "ru": "Carrefour",
+      "en": "Carrefour"
+     },
+     "group": "Majid Al Futtaim",
+     "share": "13.6% (май 2024)",
+     "shareSrc": "https://btuai.ge/en/the-supermarket-boom-in-georgia/",
+     "brand": "#004e9f",
+     "color": "#479CF5",
+     "site": "https://carrefour.ge",
+     "access": "unknown",
+     "accessNote": "сайт не ответил",
+     "price": "index"
+    },
+    {
+     "id": "spar_ge",
+     "name": {
+      "ru": "SPAR",
+      "en": "SPAR"
+     },
+     "group": "Daily Group",
+     "share": "12% (май 2024)",
+     "shareSrc": "https://btuai.ge/en/the-supermarket-boom-in-georgia/",
+     "brand": "#00843d",
+     "color": "#47F597",
+     "access": "unknown",
+     "accessNote": "spar.ge - посторонний сайт (курсы), сайт сети не нашёл",
+     "price": "index"
+    },
+    {
+     "id": "magniti_ge",
+     "name": {
+      "ru": "Магнити",
+      "en": "Magniti"
+     },
+     "group": "Magniti",
+     "share": "9.2% (май 2024)",
+     "shareSrc": "https://btuai.ge/en/the-supermarket-boom-in-georgia/",
+     "brand": "#d71920",
+     "color": "#EB7251",
+     "access": "unknown",
+     "accessNote": "не проверял",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 2.603066,
+    "date": "14 Sep 2026",
+    "src": "exchangerate-api.com"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 18.99,
+     "15 USD": 39.99
+    }
+   },
+   "flag": "#EB7251"
+  },
+  {
+   "code": "AM",
+   "status": "wave1",
+   "name": {
+    "ru": "Армения",
+    "en": "Armenia",
+    "local": "Հայաստան"
+   },
+   "lang": "hy",
+   "tz": [
+    "Asia/Yerevan"
+   ],
+   "currency": {
+    "code": "AMD",
+    "symbol": {
+     "ru": "֏",
+     "en": "֏",
+     "local": "֏"
+    },
+    "locale": "hy-AM",
+    "decimals": 0,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 5000,
+    "max": 250000.0,
+    "step": 1000,
+    "def": 10000,
+    "cheap": 505.0,
+    "demo": 10000
+   },
+   "cuisines": [
+    "am",
+    "ru",
+    "ge",
+    "lb",
+    "tr",
+    "it",
+    "us",
+    "jp"
+   ],
+   "priceLevel": {
+    "gdpPlr": 0.374,
+    "src": "World Bank 2024, PA.NUS.PPP / PA.NUS.FCRF (уровень цен ВВП, грубо; уточняется живыми ценами)"
+   },
+   "chains": [
+    {
+     "id": "yerevan_city",
+     "name": {
+      "ru": "Ереван Сити",
+      "en": "Yerevan City"
+     },
+     "group": "Alex Holding",
+     "shareSrc": "https://am.sputniknews.ru/20251121/krupnye-torgovye-seti-dushat-konkurentsiyu-v-armenii---issledovanie-vsemirnogo-banka-96107678.html",
+     "brand": "#d71920",
+     "color": "#EB7251",
+     "site": "https://www.yerevan-city.am",
+     "catalog": "https://www.yerevan-city.am/shop/products/22",
+     "access": "html",
+     "accessNote": "цены в HTML; топ-4 сети = ~33% продовольственной торговли (ВБ, 2025), по сетям долей нет",
+     "price": "index"
+    },
+    {
+     "id": "sas",
+     "name": {
+      "ru": "SAS",
+      "en": "SAS"
+     },
+     "group": "SAS Group",
+     "shareSrc": "https://www.grocerytradenews.com/7-supermarket-chains-in-armenia/",
+     "brand": "#e30613",
+     "color": "#F56C47",
+     "site": "https://www.sas.am",
+     "catalog": "https://www.sas.am",
+     "access": "html",
+     "accessNote": "интернет-магазин 30 000+ товаров, цены в AMD",
+     "price": "index"
+    },
+    {
+     "id": "nor_zovq",
+     "name": {
+      "ru": "Нор Зовк",
+      "en": "Nor Zovq"
+     },
+     "group": "Nor Zovq",
+     "shareSrc": "https://www.grocerytradenews.com/7-supermarket-chains-in-armenia/",
+     "brand": "#2e7d32",
+     "color": "#69D36E",
+     "access": "unknown",
+     "accessNote": "не проверял",
+     "price": "index"
+    },
+    {
+     "id": "tsiran",
+     "name": {
+      "ru": "Циран",
+      "en": "Tsiran"
+     },
+     "group": "Tsiran",
+     "shareSrc": "https://www.grocerytradenews.com/7-supermarket-chains-in-armenia/",
+     "brand": "#f28c00",
+     "color": "#F5AC47",
+     "access": "unknown",
+     "accessNote": "не проверял",
+     "price": "index"
+    },
+    {
+     "id": "carrefour_am",
+     "name": {
+      "ru": "Carrefour",
+      "en": "Carrefour"
+     },
+     "group": "Majid Al Futtaim",
+     "shareSrc": "https://www.grocerytradenews.com/7-supermarket-chains-in-armenia/",
+     "brand": "#004e9f",
+     "color": "#479CF5",
+     "site": "https://www.carrefour.am",
+     "access": "unknown",
+     "accessNote": "403 на бот-запрос",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 364.4417,
+    "date": "2026-09-14",
+    "src": "НБРБ api.nbrb.by, кросс-курс"
+   },
+   "pretty": {
+    "step": 100,
+    "minus": 10,
+    "example": {
+     "7 USD": 2590,
+     "15 USD": 5490
+    }
+   },
+   "flag": "#EB7251"
+  },
+  {
+   "code": "MD",
+   "status": "wave1",
+   "name": {
+    "ru": "Молдова",
+    "en": "Moldova",
+    "local": "Moldova"
+   },
+   "lang": "ro",
+   "tz": [
+    "Europe/Chisinau"
+   ],
+   "currency": {
+    "code": "MDL",
+    "symbol": {
+     "ru": "лей",
+     "en": "MDL",
+     "local": "lei"
+    },
+    "locale": "ro-MD",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 200,
+    "max": 10000,
+    "step": 50,
+    "def": 500,
+    "cheap": 24.27,
+    "demo": 500
+   },
+   "cuisines": [
+    "ua",
+    "ru",
+    "tr",
+    "it",
+    "gr",
+    "fr",
+    "de",
+    "jp"
+   ],
+   "priceLevel": {
+    "gdpPlr": 0.406,
+    "src": "World Bank 2024, PA.NUS.PPP / PA.NUS.FCRF (уровень цен ВВП, грубо; уточняется живыми ценами)"
+   },
+   "chains": [
+    {
+     "id": "linella",
+     "name": {
+      "ru": "Linella",
+      "en": "Linella"
+     },
+     "group": "Moldretail Group (Linella, Fidesco, Fourchette)",
+     "share": "группа 14,5 млрд лей выручки, №1 (2025)",
+     "shareSrc": "https://logos-pres.md/en/news/major-supermarket-chains-generated-over-30-billion-lei-in-revenue/",
+     "brand": "#e2001a",
+     "color": "#F56C47",
+     "site": "https://linella.md",
+     "catalog": "https://linella.md/ro/catalog",
+     "access": "html",
+     "accessNote": "каталог 14 500+ товаров с ценами в MDL",
+     "price": "index"
+    },
+    {
+     "id": "local_md",
+     "name": {
+      "ru": "Local",
+      "en": "Local"
+     },
+     "group": "Imensitate (Local, Bonus, Foxy, Primul)",
+     "share": "группа 7,2 млрд лей, №2 (2025)",
+     "shareSrc": "https://logos-pres.md/en/news/major-supermarket-chains-generated-over-30-billion-lei-in-revenue/",
+     "brand": "#ffc20e",
+     "color": "#F5C947",
+     "site": "https://www.mylocal.md",
+     "access": "leaflet_only",
+     "accessNote": "только акции в приложении/журнале",
+     "price": "index"
+    },
+    {
+     "id": "nr1",
+     "name": {
+      "ru": "Nr.1",
+      "en": "Nr.1"
+     },
+     "group": "Supermarket Nr.1",
+     "share": "3,5 млрд лей, №3 (2025)",
+     "shareSrc": "https://logos-pres.md/en/news/major-supermarket-chains-generated-over-30-billion-lei-in-revenue/",
+     "brand": "#e30613",
+     "color": "#F56C47",
+     "site": "https://nr1.md",
+     "access": "leaflet_only",
+     "accessNote": "промо-каталоги, цен по ассортименту нет",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_md",
+     "name": {
+      "ru": "Kaufland",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "3,4 млрд лей, №4 (2025)",
+     "shareSrc": "https://logos-pres.md/en/news/major-supermarket-chains-generated-over-30-billion-lei-in-revenue/",
+     "brand": "#e10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.md",
+     "catalog": "https://www.kaufland.md/ro/oferte.html",
+     "access": "leaflet_only",
+     "accessNote": "недельные акции и каталог, онлайн-магазина нет",
+     "price": "live",
+     "parser": "kaufland",
+     "region": "акции недели, филиал по умолчанию",
+     "lang": "ro"
+    },
+    {
+     "id": "green_hills",
+     "name": {
+      "ru": "Green Hills",
+      "en": "Green Hills"
+     },
+     "group": "47th Parallel",
+     "share": "группа 3,9 млрд лей (2024)",
+     "shareSrc": "https://infomarket.md/en/commerce/368172",
+     "brand": "#5aa832",
+     "color": "#8DD369",
+     "site": "https://greenhills.md",
+     "access": "unknown",
+     "accessNote": "сайт не ответил; цифра взята из выдачи поиска, страницу InfoMarket не открывал",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 17.3296,
+    "date": "2026-09-14",
+    "src": "НБРБ api.nbrb.by, кросс-курс"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 129,
+     "15 USD": 269
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "IE",
+   "status": "wave2",
+   "name": {
+    "ru": "Ирландия",
+    "en": "Ireland",
+    "local": "Éire / Ireland"
+   },
+   "lang": "en",
+   "tz": [
+    "Europe/Dublin"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "en-IE",
+    "decimals": 2,
+    "decimal": ".",
+    "group": ",",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.49,
+    "demo": 50
+   },
+   "cuisines": [
+    "it",
+    "cn",
+    "in",
+    "us",
+    "jp",
+    "th",
+    "mx",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 114.5,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "dunnes",
+     "name": {
+      "ru": "Dunnes Stores",
+      "en": "Dunnes Stores"
+     },
+     "group": "Dunnes Stores",
+     "share": "23.8% (period to 14 Jun 2026, Worldpanel)",
+     "shareSrc": "https://worldpanelbynumerator.com/insights/irish-grocery-sales-summer-spending",
+     "brand": "#1A1A1A",
+     "color": "#9E9E9E",
+     "site": "https://www.dunnesstores.com",
+     "catalog": "https://www.dunnesstoresgrocery.com",
+     "access": "unknown",
+     "accessNote": "403 to fetcher",
+     "price": "index"
+    },
+    {
+     "id": "tesco_ie",
+     "name": {
+      "ru": "Tesco",
+      "en": "Tesco"
+     },
+     "group": "Tesco plc",
+     "share": "23.6% (period to 14 Jun 2026, Worldpanel)",
+     "shareSrc": "https://worldpanelbynumerator.com/insights/irish-grocery-sales-summer-spending",
+     "brand": "#00539F",
+     "color": "#47A2F5",
+     "site": "https://www.tesco.ie",
+     "catalog": "https://www.tesco.ie/groceries/en-IE/",
+     "access": "unknown",
+     "accessNote": "403 to fetcher",
+     "price": "index"
+    },
+    {
+     "id": "supervalu",
+     "name": {
+      "ru": "SuperValu",
+      "en": "SuperValu"
+     },
+     "group": "Musgrave Group",
+     "share": "19.5% (period to 14 Jun 2026, Worldpanel)",
+     "shareSrc": "https://worldpanelbynumerator.com/insights/irish-grocery-sales-summer-spending",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://supervalu.ie",
+     "catalog": "https://shop.supervalu.ie",
+     "access": "unknown",
+     "accessNote": "403 to fetcher",
+     "price": "index"
+    },
+    {
+     "id": "lidl_ie",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "share": "15.0% (period to 14 Jun 2026, Worldpanel)",
+     "shareSrc": "https://worldpanelbynumerator.com/insights/irish-grocery-sales-summer-spending",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.ie",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "aldi_ie",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Süd",
+     "share": "11.0% (period to 14 Jun 2026, Worldpanel)",
+     "shareSrc": "https://worldpanelbynumerator.com/insights/irish-grocery-sales-summer-spending",
+     "brand": "#00549F",
+     "color": "#47A3F5",
+     "site": "https://www.aldi.ie",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#9E9E9E"
+  },
+  {
+   "code": "DK",
+   "status": "wave2",
+   "name": {
+    "ru": "Дания",
+    "en": "Denmark",
+    "local": "Danmark"
+   },
+   "lang": "da",
+   "tz": [
+    "Europe/Copenhagen"
+   ],
+   "currency": {
+    "code": "DKK",
+    "symbol": {
+     "ru": "kr.",
+     "en": "kr.",
+     "local": "kr."
+    },
+    "locale": "da-DK",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 100,
+    "max": 5000,
+    "step": 25.0,
+    "def": 250.0,
+    "cheap": 11.67,
+    "demo": 250.0
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "jp",
+    "th",
+    "cn",
+    "in",
+    "mx",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 120.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "netto_dk",
+     "name": {
+      "ru": "Netto / føtex / Bilka",
+      "en": "Netto / føtex / Bilka"
+     },
+     "group": "Salling Group",
+     "share": "36.8% Salling Group (Retail Institute Scandinavia via Dagligvarukartan 2025, 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#FFD800",
+     "color": "#F5DB47",
+     "site": "https://sallinggroup.com",
+     "catalog": "https://www.bilkatogo.dk",
+     "access": "json_api",
+     "accessNote": "Salling Group has public developer API; product prices not checked",
+     "price": "index"
+    },
+    {
+     "id": "coop_dk",
+     "name": {
+      "ru": "Coop (365discount, SuperBrugsen, Kvickly)",
+      "en": "Coop (365discount, SuperBrugsen, Kvickly)"
+     },
+     "group": "Coop Danmark",
+     "share": "27.0% (Retail Institute Scandinavia via Dagligvarukartan 2025, 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://coop.dk",
+     "catalog": "https://coop.dk/kampagner/",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "rema1000_dk",
+     "name": {
+      "ru": "REMA 1000",
+      "en": "REMA 1000"
+     },
+     "group": "Reitan Group",
+     "share": "18.2% (Retail Institute Scandinavia via Dagligvarukartan 2025, 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#003C8F",
+     "color": "#4790F5",
+     "site": "https://rema1000.dk",
+     "catalog": "https://shop.rema1000.dk",
+     "access": "json_api",
+     "accessNote": "web shop backed by JSON API; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "dagrofa",
+     "name": {
+      "ru": "Meny / SPAR / Min Købmand",
+      "en": "Meny / SPAR / Min Købmand"
+     },
+     "group": "Dagrofa",
+     "share": "12.2% (Retail Institute Scandinavia via Dagligvarukartan 2025, 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#C8102E",
+     "color": "#F16E4C",
+     "site": "https://dagrofa.dk",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_dk",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "4.7% (Retail Institute Scandinavia via Dagligvarukartan 2025, 2024)",
+     "shareSrc": "https://dlf.se/download/2005-9990243335840C8BDB0717389A62A10F/Dagligvarukartan-2025.pdf",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.dk",
+     "access": "leaflet_only",
+     "accessNote": "no grocery e-shop",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 6.471561,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 49,
+     "15 USD": 99
+    }
+   },
+   "flag": "#F5DB47"
+  },
+  {
+   "code": "FI",
+   "status": "wave2",
+   "name": {
+    "ru": "Финляндия",
+    "en": "Finland",
+    "local": "Suomi"
+   },
+   "lang": "fi",
+   "tz": [
+    "Europe/Helsinki"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "fi-FI",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.43,
+    "demo": 50
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "jp",
+    "th",
+    "cn",
+    "in",
+    "mx",
+    "se",
+    "tr"
+   ],
+   "priceLevel": {
+    "pli": 109.8,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "s_group",
+     "name": {
+      "ru": "S-ryhmä (Prisma, S-market, Sale, Alepa)",
+      "en": "S Group (Prisma, S-market, Sale, Alepa)"
+     },
+     "group": "SOK / S-ryhmä",
+     "share": "49.0% (PTY / NielsenIQ, 2025)",
+     "shareSrc": "https://www.pty.fi/2026/03/25/paivittaistavarakaupan-myynti-ja-markkinaosuudet-2025/",
+     "brand": "#00843D",
+     "color": "#47F597",
+     "site": "https://www.s-kaupat.fi",
+     "catalog": "https://www.s-kaupat.fi",
+     "access": "store_required",
+     "accessNote": "prices per selected store; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "k_group",
+     "name": {
+      "ru": "K-ryhmä (K-Citymarket, K-Supermarket, K-Market)",
+      "en": "K Group (K-Citymarket, K-Supermarket, K-Market)"
+     },
+     "group": "Kesko",
+     "share": "33.5% (PTY / NielsenIQ, 2025)",
+     "shareSrc": "https://www.pty.fi/2026/03/25/paivittaistavarakaupan-myynti-ja-markkinaosuudet-2025/",
+     "brand": "#FF6A10",
+     "color": "#F58947",
+     "site": "https://www.k-ruoka.fi",
+     "catalog": "https://www.k-ruoka.fi/kauppa",
+     "access": "store_required",
+     "accessNote": "prices per selected store; best guess, not checked",
+     "price": "index"
+    },
+    {
+     "id": "lidl_fi",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "9.5% (PTY / NielsenIQ, 2025)",
+     "shareSrc": "https://www.pty.fi/2026/03/25/paivittaistavarakaupan-myynti-ja-markkinaosuudet-2025/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.fi",
+     "access": "leaflet_only",
+     "accessNote": "no grocery e-shop",
+     "price": "index"
+    },
+    {
+     "id": "tokmanni",
+     "name": {
+      "ru": "Tokmanni",
+      "en": "Tokmanni"
+     },
+     "group": "Tokmanni Group",
+     "share": "3.2% (PTY / NielsenIQ, 2025)",
+     "shareSrc": "https://www.pty.fi/2026/03/25/paivittaistavarakaupan-myynti-ja-markkinaosuudet-2025/",
+     "brand": "#E4002B",
+     "color": "#F56C47",
+     "site": "https://www.tokmanni.fi",
+     "catalog": "https://www.tokmanni.fi/elintarvikkeet",
+     "access": "unknown",
+     "accessNote": "variety discounter with web shop; not checked",
+     "price": "index"
+    },
+    {
+     "id": "minimani",
+     "name": {
+      "ru": "Minimani",
+      "en": "Minimani"
+     },
+     "group": "Minimani Oy",
+     "share": "0.6% (PTY / NielsenIQ, 2025)",
+     "shareSrc": "https://www.pty.fi/2026/03/25/paivittaistavarakaupan-myynti-ja-markkinaosuudet-2025/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.minimani.fi",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47F597"
+  },
+  {
+   "code": "NO",
+   "status": "wave2",
+   "name": {
+    "ru": "Норвегия",
+    "en": "Norway",
+    "local": "Norge"
+   },
+   "lang": "nb",
+   "tz": [
+    "Europe/Oslo"
+   ],
+   "currency": {
+    "code": "NOK",
+    "symbol": {
+     "ru": "kr",
+     "en": "kr",
+     "local": "kr"
+    },
+    "locale": "nb-NO",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 100,
+    "max": 10000,
+    "step": 25.0,
+    "def": 500,
+    "cheap": 18.36,
+    "demo": 500
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "mx",
+    "th",
+    "jp",
+    "cn",
+    "in",
+    "se"
+   ],
+   "priceLevel": {
+    "pli": 131.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "kiwi",
+     "name": {
+      "ru": "Kiwi",
+      "en": "Kiwi"
+     },
+     "group": "NorgesGruppen (also Meny, Spar, Joker)",
+     "share": "43.5% NorgesGruppen (Konkurransetilsynet, 2024)",
+     "shareSrc": "https://konkurransetilsynet.no/wp-content/uploads/2025/04/Konkurransetilsynets-Dagligvarerapport-2024-25.pdf",
+     "brand": "#009A44",
+     "color": "#47F594",
+     "site": "https://kiwi.no",
+     "access": "leaflet_only",
+     "accessNote": "no e-shop, offers only; 2025 shares exist only as chart in Dagligvarerapport 2025",
+     "price": "index"
+    },
+    {
+     "id": "rema1000_no",
+     "name": {
+      "ru": "REMA 1000",
+      "en": "REMA 1000"
+     },
+     "group": "Reitan Group",
+     "share": "23.9% (Konkurransetilsynet, 2024)",
+     "shareSrc": "https://konkurransetilsynet.no/wp-content/uploads/2025/04/Konkurransetilsynets-Dagligvarerapport-2024-25.pdf",
+     "brand": "#003C8F",
+     "color": "#4790F5",
+     "site": "https://www.rema.no",
+     "access": "leaflet_only",
+     "accessNote": "no e-shop; best guess",
+     "price": "index"
+    },
+    {
+     "id": "coop_no",
+     "name": {
+      "ru": "Coop (Extra, Prix, Obs, Mega)",
+      "en": "Coop (Extra, Prix, Obs, Mega)"
+     },
+     "group": "Coop Norge",
+     "share": "29.2% (Konkurransetilsynet, 2024)",
+     "shareSrc": "https://konkurransetilsynet.no/wp-content/uploads/2025/04/Konkurransetilsynets-Dagligvarerapport-2024-25.pdf",
+     "brand": "#00AA46",
+     "color": "#47F58F",
+     "site": "https://coop.no",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "meny_no",
+     "name": {
+      "ru": "Meny",
+      "en": "Meny"
+     },
+     "group": "NorgesGruppen",
+     "shareSrc": "https://konkurransetilsynet.no/wp-content/uploads/2025/04/Konkurransetilsynets-Dagligvarerapport-2024-25.pdf",
+     "brand": "#C8102E",
+     "color": "#F16E4C",
+     "site": "https://meny.no",
+     "catalog": "https://meny.no/varer/",
+     "access": "unknown",
+     "accessNote": "chain-level share not public; not checked",
+     "price": "index"
+    },
+    {
+     "id": "bunnpris",
+     "name": {
+      "ru": "Bunnpris",
+      "en": "Bunnpris"
+     },
+     "group": "IK Lykke",
+     "share": "3.3% (Konkurransetilsynet, 2024)",
+     "shareSrc": "https://konkurransetilsynet.no/wp-content/uploads/2025/04/Konkurransetilsynets-Dagligvarerapport-2024-25.pdf",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://bunnpris.no",
+     "access": "leaflet_only",
+     "accessNote": "best guess, not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 9.321271,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 69,
+     "15 USD": 149
+    }
+   },
+   "flag": "#47F594"
+  },
+  {
+   "code": "CH",
+   "status": "wave2",
+   "name": {
+    "ru": "Швейцария",
+    "en": "Switzerland",
+    "local": "Schweiz"
+   },
+   "lang": "de",
+   "tz": [
+    "Europe/Zurich"
+   ],
+   "currency": {
+    "code": "CHF",
+    "symbol": {
+     "ru": "CHF",
+     "en": "CHF",
+     "local": "CHF"
+    },
+    "locale": "de-CH",
+    "decimals": 2,
+    "decimal": ".",
+    "group": "'",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 50,
+    "cheap": 1.95,
+    "demo": 50
+   },
+   "cuisines": [
+    "it",
+    "fr",
+    "de",
+    "cn",
+    "jp",
+    "th",
+    "in",
+    "tr"
+   ],
+   "priceLevel": {
+    "pli": 158.5,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "migros",
+     "name": {
+      "ru": "Migros",
+      "en": "Migros"
+     },
+     "group": "Migros-Genossenschafts-Bund",
+     "shareSrc": "https://www.blick.ch/wirtschaft/die-groessten-schweizer-detailhaendler-wer-spitze-ist-und-warum-aldi-und-lidl-fehlen-id19858195.html",
+     "brand": "#FF6600",
+     "color": "#F58D47",
+     "site": "https://www.migros.ch",
+     "catalog": "https://www.migros.ch/de/search?query=milch",
+     "access": "unknown",
+     "accessNote": "403 to fetcher; supermarkets CHF 13.2bn sales 2023 (GfK)",
+     "price": "index"
+    },
+    {
+     "id": "coop_ch",
+     "name": {
+      "ru": "Coop",
+      "en": "Coop"
+     },
+     "group": "Coop Gruppe",
+     "shareSrc": "https://www.blick.ch/wirtschaft/die-groessten-schweizer-detailhaendler-wer-spitze-ist-und-warum-aldi-und-lidl-fehlen-id19858195.html",
+     "brand": "#E3000F",
+     "color": "#F56C47",
+     "site": "https://www.coop.ch",
+     "catalog": "https://www.coop.ch/de/search/?text=milch",
+     "access": "unknown",
+     "accessNote": "403 to fetcher; supermarkets CHF 11.8bn sales 2023 (GfK)",
+     "price": "index"
+    },
+    {
+     "id": "denner",
+     "name": {
+      "ru": "Denner",
+      "en": "Denner"
+     },
+     "group": "Migros",
+     "shareSrc": "https://www.blick.ch/wirtschaft/die-groessten-schweizer-detailhaendler-wer-spitze-ist-und-warum-aldi-und-lidl-fehlen-id19858195.html",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.denner.ch",
+     "access": "unknown",
+     "accessNote": "not checked; CHF 4.0bn sales 2023 (GfK)",
+     "price": "index"
+    },
+    {
+     "id": "aldi_ch",
+     "name": {
+      "ru": "Aldi Suisse",
+      "en": "Aldi Suisse"
+     },
+     "group": "Aldi Süd",
+     "shareSrc": "https://www.blick.ch/wirtschaft/die-groessten-schweizer-detailhaendler-wer-spitze-ist-und-warum-aldi-und-lidl-fehlen-id19858195.html",
+     "brand": "#00549F",
+     "color": "#47A3F5",
+     "site": "https://www.aldi-suisse.ch",
+     "access": "unknown",
+     "accessNote": "not checked; sales not reported, est. CHF 2.5-3bn",
+     "price": "live",
+     "parser": "aldi",
+     "region": "цены в магазине",
+     "lang": "de"
+    },
+    {
+     "id": "lidl_ch",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "shareSrc": "https://www.blick.ch/wirtschaft/die-groessten-schweizer-detailhaendler-wer-spitze-ist-und-warum-aldi-und-lidl-fehlen-id19858195.html",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.ch",
+     "access": "unknown",
+     "accessNote": "not checked; sales not reported, est. CHF 2-2.5bn",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.816466,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.1,
+    "example": {
+     "7 USD": 5.9,
+     "15 USD": 12.9
+    }
+   },
+   "flag": "#F58D47"
+  },
+  {
+   "code": "SK",
+   "status": "wave2",
+   "name": {
+    "ru": "Словакия",
+    "en": "Slovakia",
+    "local": "Slovensko"
+   },
+   "lang": "sk",
+   "tz": [
+    "Europe/Bratislava"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "sk-SK",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.08,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "cn",
+    "jp",
+    "tr",
+    "mx",
+    "in",
+    "ua"
+   ],
+   "priceLevel": {
+    "pli": 83.4,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_sk",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#1; sales €2.09bn (2024); top-5 chains >90% of grocery",
+     "shareSrc": "https://www.forbes.sk/historicka-vymena-kaufland-predbehol-tesco-a-je-novou-dvojkou-v-predaji-potravin-na-slovensku/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.sk",
+     "catalog": "https://www.lidl.sk",
+     "access": "html",
+     "accessNote": "offers with prices in HTML; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_sk",
+     "name": {
+      "ru": "Кауфланд",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#2; sales €1.75bn (2024)",
+     "shareSrc": "https://www.forbes.sk/historicka-vymena-kaufland-predbehol-tesco-a-je-novou-dvojkou-v-predaji-potravin-na-slovensku/",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.sk",
+     "access": "unknown",
+     "accessNote": "403 from BY; same platform as kaufland.hr",
+     "price": "index"
+    },
+    {
+     "id": "tesco_sk",
+     "name": {
+      "ru": "Теско",
+      "en": "Tesco"
+     },
+     "group": "Tesco",
+     "share": "#3; sales €1.71bn (2024)",
+     "shareSrc": "https://www.forbes.sk/historicka-vymena-kaufland-predbehol-tesco-a-je-novou-dvojkou-v-predaji-potravin-na-slovensku/",
+     "brand": "#00539F",
+     "color": "#47A2F5",
+     "site": "https://www.tesco.sk",
+     "catalog": "https://potravinydomov.itesco.sk/groceries/sk-SK",
+     "access": "unknown",
+     "accessNote": "e-shop exists; 403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "coop_jednota",
+     "name": {
+      "ru": "COOP Еднота",
+      "en": "COOP Jednota"
+     },
+     "group": "COOP Jednota Slovensko (cooperatives)",
+     "shareSrc": "https://isa.gov.sk/2024/08/01/vdaka-vydavkovym-limitom-by-mal-deficit-od-buduceho-roka-klesat-2-2-2-2-2/",
+     "brand": "#D6001C",
+     "color": "#F56C47",
+     "site": "https://www.coop.sk",
+     "catalog": "https://www.coop.sk",
+     "access": "html",
+     "accessNote": "homepage lists promo products with € prices; no full shop",
+     "price": "index"
+    },
+    {
+     "id": "billa_sk",
+     "name": {
+      "ru": "Билла",
+      "en": "Billa"
+     },
+     "group": "REWE Group",
+     "shareSrc": "https://isa.gov.sk/2024/08/01/vdaka-vydavkovym-limitom-by-mal-deficit-od-buduceho-roka-klesat-2-2-2-2-2/",
+     "brand": "#FFE500",
+     "color": "#F5E447",
+     "site": "https://www.billa.sk",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "SI",
+   "status": "wave2",
+   "name": {
+    "ru": "Словения",
+    "en": "Slovenia",
+    "local": "Slovenija"
+   },
+   "lang": "sl",
+   "tz": [
+    "Europe/Ljubljana"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "sl-SI",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.3,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "jp",
+    "cn",
+    "mx",
+    "tr",
+    "fr",
+    "in",
+    "gr"
+   ],
+   "priceLevel": {
+    "pli": 100.0,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "mercator",
+     "name": {
+      "ru": "Меркатор",
+      "en": "Mercator"
+     },
+     "group": "Fortenova Group",
+     "share": "28.8% (2022)",
+     "shareSrc": "https://forbes.n1info.si/posel/bitka-za-slovenskega-kupca-kateri-trgovec-zmaguje/",
+     "brand": "#D52B1E",
+     "color": "#E77455",
+     "site": "https://www.mercator.si",
+     "catalog": "https://mercatoronline.si/brskaj",
+     "access": "html",
+     "accessNote": "mercatoronline.si browse page shows € prices without store",
+     "price": "index"
+    },
+    {
+     "id": "spar_si",
+     "name": {
+      "ru": "Спар",
+      "en": "Spar"
+     },
+     "group": "SPAR Österreich",
+     "share": "22.2% (2022)",
+     "shareSrc": "https://forbes.n1info.si/posel/bitka-za-slovenskega-kupca-kateri-trgovec-zmaguje/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.spar.si",
+     "catalog": "https://online.spar.si",
+     "access": "unknown",
+     "accessNote": "SPA e-shop (few prices in raw HTML), API not inspected",
+     "price": "index"
+    },
+    {
+     "id": "hofer_si",
+     "name": {
+      "ru": "Хофер",
+      "en": "Hofer"
+     },
+     "group": "ALDI Süd",
+     "share": "14.6% (2022)",
+     "shareSrc": "https://forbes.n1info.si/posel/bitka-za-slovenskega-kupca-kateri-trgovec-zmaguje/",
+     "brand": "#00005F",
+     "color": "#4747F5",
+     "site": "https://www.hofer.si",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "live",
+     "parser": "aldi",
+     "region": "цены в магазине",
+     "lang": "sl"
+    },
+    {
+     "id": "lidl_si",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "12.8% (2022)",
+     "shareSrc": "https://forbes.n1info.si/posel/bitka-za-slovenskega-kupca-kateri-trgovec-zmaguje/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.si",
+     "catalog": "https://www.lidl.si",
+     "access": "html",
+     "accessNote": "offers + flyer with prices; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "tus",
+     "name": {
+      "ru": "Туш",
+      "en": "Tuš"
+     },
+     "group": "Engrotuš",
+     "share": "10.7% (2022)",
+     "shareSrc": "https://forbes.n1info.si/posel/bitka-za-slovenskega-kupca-kateri-trgovec-zmaguje/",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.tus.si",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#E77455"
+  },
+  {
+   "code": "HR",
+   "status": "wave2",
+   "name": {
+    "ru": "Хорватия",
+    "en": "Croatia",
+    "local": "Hrvatska"
+   },
+   "lang": "hr",
+   "tz": [
+    "Europe/Zagreb"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "hr-HR",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.35,
+    "demo": 50
+   },
+   "cuisines": [
+    "it",
+    "us",
+    "jp",
+    "cn",
+    "mx",
+    "tr",
+    "gr",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 103.7,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "konzum",
+     "name": {
+      "ru": "Конзум",
+      "en": "Konzum"
+     },
+     "group": "Fortenova Group",
+     "share": "20-30% (AZTN, 2024)",
+     "shareSrc": "https://raditi.eu/en/vijesti/retailers-revenues-in-croatia-rise-konzum-still-leads-where-shoppers-spend-the-most",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.konzum.hr",
+     "catalog": "https://www.konzum.hr/web",
+     "access": "html",
+     "accessNote": "online shop pages show € prices in HTML without store choice",
+     "price": "index"
+    },
+    {
+     "id": "lidl_hr",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#2; Lidl+Kaufland 20-30% (AZTN, 2024)",
+     "shareSrc": "https://raditi.eu/en/vijesti/retailers-revenues-in-croatia-rise-konzum-still-leads-where-shoppers-spend-the-most",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.hr",
+     "catalog": "https://www.lidl.hr",
+     "access": "html",
+     "accessNote": "offers + online catalog; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "plodine",
+     "name": {
+      "ru": "Плодине",
+      "en": "Plodine"
+     },
+     "group": "Plodine d.d.",
+     "share": "#3 by revenue (AZTN, 2024), no %",
+     "shareSrc": "https://www.thedubrovniktimes.com/news/croatia/item/18779-retail-revenues-in-croatia-rise-to-8-41-billion-in-2024-highest-margins-on-bakery-products",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.plodine.hr",
+     "catalog": "https://www.plodine.hr/pregled-kataloga",
+     "access": "html",
+     "accessNote": "promo products with prices on site + catalog; no shop",
+     "price": "index"
+    },
+    {
+     "id": "spar_hr",
+     "name": {
+      "ru": "Спар",
+      "en": "Spar"
+     },
+     "group": "SPAR Österreich",
+     "share": "#4 by revenue (AZTN, 2024), no %",
+     "shareSrc": "https://www.thedubrovniktimes.com/news/croatia/item/18779-retail-revenues-in-croatia-rise-to-8-41-billion-in-2024-highest-margins-on-bakery-products",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.spar.hr",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_hr",
+     "name": {
+      "ru": "Кауфланд",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "5-10% (CCA, 2024)",
+     "shareSrc": "https://www.esmmagazine.com/retail/konzum-and-studenac-lead-nominal-revenue-growth-in-croatia-297048",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.hr",
+     "catalog": "https://www.kaufland.hr",
+     "access": "html",
+     "accessNote": "offer pages list many prices in HTML; /api/autosuggest/assortment/1/ referenced. Studenac (#6) has most stores",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "BG",
+   "status": "wave2",
+   "name": {
+    "ru": "Болгария",
+    "en": "Bulgaria",
+    "local": "България"
+   },
+   "lang": "bg",
+   "tz": [
+    "Europe/Sofia"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "bg-BG",
+    "decimals": 2,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.15,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "gr",
+    "tr",
+    "it",
+    "us",
+    "jp",
+    "cn",
+    "mx",
+    "fr"
+   ],
+   "priceLevel": {
+    "pli": 88.8,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_bg",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#1; sales >BGN 2.6bn (2024)",
+     "shareSrc": "https://trademagazin.hu/en/tiz-uj-uzletet-nyit-a-lidl-bulgaria-amely-mar-az-orszag-legnagyobb-kereskedoje/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.bg",
+     "catalog": "https://www.lidl.bg",
+     "access": "html",
+     "accessNote": "offers with prices in HTML; food promo only",
+     "price": "index"
+    },
+    {
+     "id": "kaufland_bg",
+     "name": {
+      "ru": "Кауфланд",
+      "en": "Kaufland"
+     },
+     "group": "Schwarz Gruppe",
+     "share": "#2; sales BGN 2.4bn (2023)",
+     "shareSrc": "https://trademagazin.hu/en/tiz-uj-uzletet-nyit-a-lidl-bulgaria-amely-mar-az-orszag-legnagyobb-kereskedoje/",
+     "brand": "#E10915",
+     "color": "#F56C47",
+     "site": "https://www.kaufland.bg",
+     "catalog": "https://www.kaufland.bg",
+     "access": "html",
+     "accessNote": "offer pages in HTML; /api/autosuggest/assortment/1/ referenced",
+     "price": "index"
+    },
+    {
+     "id": "billa_bg",
+     "name": {
+      "ru": "Билла",
+      "en": "Billa"
+     },
+     "group": "REWE Group",
+     "share": "#3; sales ~BGN 1.2bn",
+     "shareSrc": "https://www.esmmagazine.com/retail/lidl-bulgaria-plans-10-store-openings-takes-top-spot-from-kaufland-282235",
+     "brand": "#FFE500",
+     "color": "#F5E447",
+     "site": "https://www.billa.bg",
+     "access": "unknown",
+     "accessNote": "403 from BY",
+     "price": "index"
+    },
+    {
+     "id": "t_market",
+     "name": {
+      "ru": "T Маркет",
+      "en": "T Market"
+     },
+     "group": "T Market (Bulgarian)",
+     "share": "sales €202m (2022)",
+     "shareSrc": "https://kinsights.capital.bg/economy/2023/11/29/4559390_bulgarias_top_50_retailers_in_2022_inflation_spurs/",
+     "brand": "#E4032E",
+     "color": "#F56C47",
+     "site": "https://tmarket.bg",
+     "access": "unknown",
+     "accessNote": "homepage has no prices; no shop found",
+     "price": "index"
+    },
+    {
+     "id": "fantastico",
+     "name": {
+      "ru": "Фантастико",
+      "en": "Fantastico"
+     },
+     "group": "Van Holding",
+     "share": "sales €135m (2022)",
+     "shareSrc": "https://kinsights.capital.bg/economy/2023/11/29/4559390_bulgarias_top_50_retailers_in_2022_inflation_spurs/",
+     "brand": "#D2232A",
+     "color": "#E37659",
+     "site": "https://www.fantastico.bg",
+     "catalog": "https://www.fantastico.bg/special-offers",
+     "access": "leaflet_only",
+     "accessNote": "offers as flippingbook brochure",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "CY",
+   "status": "wave2",
+   "name": {
+    "ru": "Кипр",
+    "en": "Cyprus",
+    "local": "Κύπρος"
+   },
+   "lang": "el",
+   "tz": [
+    "Asia/Nicosia",
+    "Asia/Famagusta"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "el-CY",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.36,
+    "demo": 50
+   },
+   "cuisines": [
+    "gr",
+    "tr",
+    "lb",
+    "it",
+    "cn",
+    "jp",
+    "in",
+    "us"
+   ],
+   "priceLevel": {
+    "pli": 104.7,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_cy",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "shareSrc": "https://cyprus-mail.com/2025/02/24/sklavenitis-eyes-market-share-growth-in-cyprus",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.com.cy",
+     "access": "leaflet_only",
+     "accessNote": "#1 per Cyprus Mail 2025; no e-shop",
+     "price": "index"
+    },
+    {
+     "id": "alphamega",
+     "name": {
+      "ru": "AlphaMega",
+      "en": "AlphaMega"
+     },
+     "group": "Lanitis / Alphamega Hypermarkets",
+     "shareSrc": "https://cyprus-mail.com/2025/02/24/sklavenitis-eyes-market-share-growth-in-cyprus",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.alphamega.com.cy",
+     "catalog": "https://www.alphamega.com.cy/en/eshop",
+     "access": "unknown",
+     "accessNote": "#2 per Cyprus Mail 2025; not checked",
+     "price": "index"
+    },
+    {
+     "id": "sklavenitis_cy",
+     "name": {
+      "ru": "Склавенитис",
+      "en": "Sklavenitis"
+     },
+     "group": "Sklavenitis Group (incl. Papantoniou)",
+     "shareSrc": "https://cyprus-mail.com/2025/02/24/sklavenitis-eyes-market-share-growth-in-cyprus",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.sklavenitis.com.cy",
+     "access": "unknown",
+     "accessNote": "2024 turnover target €230-250m, aims for #2; not checked",
+     "price": "index"
+    },
+    {
+     "id": "metro_cy",
+     "name": {
+      "ru": "Metro",
+      "en": "Metro"
+     },
+     "group": "Metro Cyprus",
+     "shareSrc": "https://www.esmmagazine.com/retail/top-5-supermarket-retail-chains-in-cyprus-239231",
+     "brand": "#003D7D",
+     "color": "#479CF5",
+     "site": "https://www.metro.com.cy",
+     "access": "unknown",
+     "accessNote": "ranking approximate; not checked",
+     "price": "index"
+    },
+    {
+     "id": "athienitis",
+     "name": {
+      "ru": "Athienitis",
+      "en": "Athienitis"
+     },
+     "group": "Athienitis Supermarkets",
+     "shareSrc": "https://www.esmmagazine.com/retail/top-5-supermarket-retail-chains-in-cyprus-239231",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.athienitis.com",
+     "access": "unknown",
+     "accessNote": "ranking approximate (ESM page 403 from Belarus); not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "LU",
+   "status": "wave2",
+   "name": {
+    "ru": "Люксембург",
+    "en": "Luxembourg",
+    "local": "Lëtzebuerg"
+   },
+   "lang": "fr",
+   "tz": [
+    "Europe/Luxembourg"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "fr-LU",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.62,
+    "demo": 50
+   },
+   "cuisines": [
+    "fr",
+    "it",
+    "de",
+    "jp",
+    "cn",
+    "lb",
+    "in"
+   ],
+   "priceLevel": {
+    "pli": 124.8,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "cactus",
+     "name": {
+      "ru": "Cactus",
+      "en": "Cactus"
+     },
+     "group": "Cactus S.A.",
+     "shareSrc": "https://luxtoday.lu/en/knowledge/supermarkets-in-luxembourg",
+     "brand": "#008C45",
+     "color": "#47F59D",
+     "site": "https://www.cactus.lu",
+     "access": "unknown",
+     "accessNote": "site rejected fetcher; ranked #1 by store count (62)",
+     "price": "index"
+    },
+    {
+     "id": "delhaize_lu",
+     "name": {
+      "ru": "Delhaize",
+      "en": "Delhaize"
+     },
+     "group": "Louis Delhaize Group",
+     "shareSrc": "https://luxtoday.lu/en/knowledge/supermarkets-in-luxembourg",
+     "brand": "#D6001C",
+     "color": "#F56C47",
+     "site": "https://www.delhaize.lu",
+     "access": "unknown",
+     "accessNote": "not checked; 57 stores",
+     "price": "index"
+    },
+    {
+     "id": "match_lu",
+     "name": {
+      "ru": "Match / Smatch",
+      "en": "Match / Smatch"
+     },
+     "group": "Louis Delhaize Group",
+     "shareSrc": "https://luxtoday.lu/en/knowledge/supermarkets-in-luxembourg",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.smatch.lu",
+     "access": "unknown",
+     "accessNote": "not checked; 24 stores",
+     "price": "index"
+    },
+    {
+     "id": "auchan_lu",
+     "name": {
+      "ru": "Auchan",
+      "en": "Auchan"
+     },
+     "group": "Auchan Retail",
+     "shareSrc": "https://luxtoday.lu/en/knowledge/supermarkets-in-luxembourg",
+     "brand": "#E1001A",
+     "color": "#F56C47",
+     "site": "https://www.auchan.lu",
+     "access": "unknown",
+     "accessNote": "not checked; 22 stores",
+     "price": "index"
+    },
+    {
+     "id": "aldi_lu",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Süd",
+     "shareSrc": "https://luxtoday.lu/en/knowledge/supermarkets-in-luxembourg",
+     "brand": "#00549F",
+     "color": "#47A3F5",
+     "site": "https://www.aldi.lu",
+     "access": "unknown",
+     "accessNote": "not checked; 18 stores, Lidl 14",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#47F59D"
+  },
+  {
+   "code": "MT",
+   "status": "wave2",
+   "name": {
+    "ru": "Мальта",
+    "en": "Malta",
+    "local": "Malta"
+   },
+   "lang": "en",
+   "tz": [
+    "Europe/Malta"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "en-MT",
+    "decimals": 2,
+    "decimal": ".",
+    "group": ",",
+    "pattern": "{s}{n}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 1000,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.46,
+    "demo": 50
+   },
+   "cuisines": [
+    "it",
+    "cn",
+    "in",
+    "jp",
+    "us",
+    "tr",
+    "th",
+    "gr"
+   ],
+   "priceLevel": {
+    "pli": 112.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "lidl_mt",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Group",
+     "shareSrc": "https://www.grocerytradenews.com/10-supermarket-operators-in-malta/",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.com.mt",
+     "access": "unknown",
+     "accessNote": "not checked; #1 by est. revenue (EUR 260M+)",
+     "price": "index"
+    },
+    {
+     "id": "welbees",
+     "name": {
+      "ru": "Welbee's",
+      "en": "Welbee's"
+     },
+     "group": "Welbee's",
+     "shareSrc": "https://www.grocerytradenews.com/10-supermarket-operators-in-malta/",
+     "brand": "#004B87",
+     "color": "#47A8F5",
+     "site": "https://www.welbees.com.mt",
+     "access": "unknown",
+     "accessNote": "fetch failed (socket closed)",
+     "price": "index"
+    },
+    {
+     "id": "pama",
+     "name": {
+      "ru": "PAMA / PAVI",
+      "en": "PAMA / PAVI"
+     },
+     "group": "PG plc",
+     "shareSrc": "https://www.grocerytradenews.com/10-supermarket-operators-in-malta/",
+     "brand": "#D7141A",
+     "color": "#EF6F4E",
+     "site": "https://www.pama.com.mt",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "greens",
+     "name": {
+      "ru": "Greens",
+      "en": "Greens"
+     },
+     "group": "Greens Supermarket",
+     "shareSrc": "https://www.grocerytradenews.com/10-supermarket-operators-in-malta/",
+     "brand": "#3AAA35",
+     "color": "#6DD369",
+     "site": "https://www.greens.com.mt",
+     "access": "unknown",
+     "accessNote": "not checked; has online shop per source",
+     "price": "index"
+    },
+    {
+     "id": "convenience_shop_mt",
+     "name": {
+      "ru": "The Convenience Shop",
+      "en": "The Convenience Shop"
+     },
+     "group": "The Convenience Shop",
+     "shareSrc": "https://www.grocerytradenews.com/10-supermarket-operators-in-malta/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.theconvenienceshop.com.mt",
+     "access": "unknown",
+     "accessNote": "not checked; 90+ small stores",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#4799F5"
+  },
+  {
+   "code": "IS",
+   "status": "wave2",
+   "name": {
+    "ru": "Исландия",
+    "en": "Iceland",
+    "local": "Ísland"
+   },
+   "lang": "is",
+   "tz": [
+    "Atlantic/Reykjavik"
+   ],
+   "currency": {
+    "code": "ISK",
+    "symbol": {
+     "ru": "kr.",
+     "en": "kr.",
+     "local": "kr."
+    },
+    "locale": "is-IS",
+    "decimals": 0,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 2500.0,
+    "max": 100000,
+    "step": 500,
+    "def": 5000,
+    "cheap": 261.0,
+    "demo": 5000
+   },
+   "cuisines": [
+    "us",
+    "it",
+    "th",
+    "in",
+    "jp",
+    "mx",
+    "cn"
+   ],
+   "priceLevel": {
+    "pli": 143.9,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "bonus",
+     "name": {
+      "ru": "Bónus",
+      "en": "Bónus"
+     },
+     "group": "Hagar hf.",
+     "share": "30.9% (USDA FAS Exporter Guide, 2021 data)",
+     "shareSrc": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Iceland+Exporter+Guide_The+Hague_Iceland_IC2023-0001",
+     "brand": "#FFD100",
+     "color": "#F5D647",
+     "site": "https://bonus.is",
+     "access": "closed",
+     "accessNote": "no public e-shop; best guess",
+     "price": "index"
+    },
+    {
+     "id": "kronan",
+     "name": {
+      "ru": "Krónan",
+      "en": "Krónan"
+     },
+     "group": "Festi hf.",
+     "share": "28.3% (USDA FAS Exporter Guide, 2021 data)",
+     "shareSrc": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Iceland+Exporter+Guide_The+Hague_Iceland_IC2023-0001",
+     "brand": "#E4032E",
+     "color": "#F56C47",
+     "site": "https://kronan.is",
+     "catalog": "https://kronan.is",
+     "access": "unknown",
+     "accessNote": "largest online grocery share (Samkeppniseftirlitið filing 2025); not checked",
+     "price": "index"
+    },
+    {
+     "id": "hagkaup",
+     "name": {
+      "ru": "Hagkaup",
+      "en": "Hagkaup"
+     },
+     "group": "Hagar hf.",
+     "share": "13.0% (USDA FAS Exporter Guide, 2021 data)",
+     "shareSrc": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Iceland+Exporter+Guide_The+Hague_Iceland_IC2023-0001",
+     "brand": "#EC008C",
+     "color": "#F547AE",
+     "site": "https://www.hagkaup.is",
+     "access": "unknown",
+     "accessNote": "web shop mainly cosmetics; not checked",
+     "price": "index"
+    },
+    {
+     "id": "netto_is",
+     "name": {
+      "ru": "Nettó",
+      "en": "Nettó"
+     },
+     "group": "Samkaup hf.",
+     "share": "10.6% (USDA FAS Exporter Guide, 2021 data)",
+     "shareSrc": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Iceland+Exporter+Guide_The+Hague_Iceland_IC2023-0001",
+     "brand": "#FFD500",
+     "color": "#F5D947",
+     "site": "https://netto.is",
+     "catalog": "https://netto.is",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    },
+    {
+     "id": "costco_is",
+     "name": {
+      "ru": "Costco",
+      "en": "Costco"
+     },
+     "group": "Costco Wholesale",
+     "shareSrc": "https://www.samkeppni.is/media/uncategorized/7.-Samrunatilkynning-Orkan-og-Samkaup-10.06.2025-an-trunadarupplysinga.pdf",
+     "brand": "#005DAA",
+     "color": "#47A6F5",
+     "site": "https://www.costco.is",
+     "access": "unknown",
+     "accessNote": "1 warehouse; named as grocery competitor in 2025 merger filing; not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 121.028482,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 100,
+    "minus": 10,
+    "example": {
+     "7 USD": 890,
+     "15 USD": 1890
+    }
+   },
+   "flag": "#F5D647"
+  },
+  {
+   "code": "ME",
+   "status": "wave2",
+   "name": {
+    "ru": "Черногория",
+    "en": "Montenegro",
+    "local": "Crna Gora"
+   },
+   "lang": "sr",
+   "tz": [
+    "Europe/Podgorica"
+   ],
+   "currency": {
+    "code": "EUR",
+    "symbol": {
+     "ru": "€",
+     "en": "€",
+     "local": "€"
+    },
+    "locale": "sr-Latn-ME",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 10,
+    "max": 500,
+    "step": 2.5,
+    "def": 25.0,
+    "cheap": 1.1,
+    "demo": 25.0
+   },
+   "cuisines": [
+    "it",
+    "tr",
+    "gr",
+    "us",
+    "cn",
+    "jp",
+    "ru"
+   ],
+   "priceLevel": {
+    "pli": 84.4,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "voli",
+     "name": {
+      "ru": "Воли",
+      "en": "Voli"
+     },
+     "group": "Voli Trade",
+     "share": "#1; sales €368.9m (2024)",
+     "shareSrc": "https://www.portalanalitika.me/clanak/kako-su-poslovali-nasi-najveci-trgovacki-lanci-u-2024-ukupni-prihodi-11-milijardu-dobit-365-miliona-zaposlili-576-radnika",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://voli.me",
+     "catalog": "https://voli.me",
+     "access": "html",
+     "accessNote": "product listing with € prices in HTML",
+     "price": "index"
+    },
+    {
+     "id": "idea_me",
+     "name": {
+      "ru": "Идея",
+      "en": "Idea"
+     },
+     "group": "Fortenova Group",
+     "share": "#2; sales €286.9m (2024)",
+     "shareSrc": "https://www.portalanalitika.me/clanak/kako-su-poslovali-nasi-najveci-trgovacki-lanci-u-2024-ukupni-prihodi-11-milijardu-dobit-365-miliona-zaposlili-576-radnika",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.idea.co.me",
+     "catalog": "https://catalog.idea.co.me",
+     "access": "leaflet_only",
+     "accessNote": "promo catalogs only; online link points to Serbian online.idea.rs",
+     "price": "index"
+    },
+    {
+     "id": "hdl",
+     "name": {
+      "ru": "HDL (Лакович)",
+      "en": "HDL Laković"
+     },
+     "group": "Hard Discount Laković",
+     "share": "#3; sales €260m (2024)",
+     "shareSrc": "https://www.portalanalitika.me/clanak/kako-su-poslovali-nasi-najveci-trgovacki-lanci-u-2024-ukupni-prihodi-11-milijardu-dobit-365-miliona-zaposlili-576-radnika",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "access": "unknown",
+     "accessNote": "hdl.co.me did not resolve",
+     "price": "index"
+    },
+    {
+     "id": "aroma",
+     "name": {
+      "ru": "Арома",
+      "en": "Aroma"
+     },
+     "group": "Domaća trgovina",
+     "share": "#4; sales €138.9m (2024)",
+     "shareSrc": "https://www.portalanalitika.me/clanak/kako-su-poslovali-nasi-najveci-trgovacki-lanci-u-2024-ukupni-prihodi-11-milijardu-dobit-365-miliona-zaposlili-576-radnika",
+     "brand": "#6CB33F",
+     "color": "#92D369",
+     "site": "https://aromamarketi.me",
+     "access": "unknown",
+     "accessNote": "site responds, no prices seen",
+     "price": "index"
+    },
+    {
+     "id": "megapromet",
+     "name": {
+      "ru": "Мегапромет",
+      "en": "Megapromet"
+     },
+     "group": "Megapromet",
+     "share": "#5; sales €53.6m (2024)",
+     "shareSrc": "https://www.portalanalitika.me/clanak/kako-su-poslovali-nasi-najveci-trgovacki-lanci-u-2024-ukupni-prihodi-11-milijardu-dobit-365-miliona-zaposlili-576-radnika",
+     "brand": "#ED1C24",
+     "color": "#F16E4B",
+     "site": "https://www.megapromet.me",
+     "access": "unknown",
+     "accessNote": "no prices on homepage",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 0.865726,
+    "date": "2026-09-14",
+    "src": "ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.01,
+    "example": {
+     "7 USD": 6.99,
+     "15 USD": 12.99
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "MK",
+   "status": "wave2",
+   "name": {
+    "ru": "Северная Македония",
+    "en": "North Macedonia",
+    "local": "Северна Македонија"
+   },
+   "lang": "mk",
+   "tz": [
+    "Europe/Skopje"
+   ],
+   "currency": {
+    "code": "MKD",
+    "symbol": {
+     "ru": "ден",
+     "en": "MKD",
+     "local": "ден."
+    },
+    "locale": "mk-MK",
+    "decimals": 0,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 500,
+    "max": 25000.0,
+    "step": 100,
+    "def": 1000,
+    "cheap": 59.0,
+    "demo": 2000
+   },
+   "cuisines": [
+    "tr",
+    "gr",
+    "it",
+    "us",
+    "cn",
+    "jp",
+    "mx"
+   ],
+   "priceLevel": {
+    "pli": 73.4,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "kam",
+     "name": {
+      "ru": "КАМ",
+      "en": "KAM"
+     },
+     "group": "KAM DOOEL",
+     "share": "#1; sales €301.7m (2024)",
+     "shareSrc": "https://pari.com.mk/profitot-na-golemo-profitot-od-308-milioni/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.kam.com.mk",
+     "access": "unknown",
+     "accessNote": "homepage 850 KB, few prices; /shop empty",
+     "price": "index"
+    },
+    {
+     "id": "kipper",
+     "name": {
+      "ru": "Киппер",
+      "en": "Kipper"
+     },
+     "group": "Kipper Market",
+     "share": "#2; sales €221.2m (2024)",
+     "shareSrc": "https://pari.com.mk/profitot-na-golemo-profitot-od-308-milioni/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://kipper.mk",
+     "catalog": "https://kipper.mk/mk/",
+     "access": "html",
+     "accessNote": "WooCommerce, some product prices in HTML",
+     "price": "index"
+    },
+    {
+     "id": "stokomak",
+     "name": {
+      "ru": "Стокомак",
+      "en": "Stokomak"
+     },
+     "group": "Stokomak",
+     "share": "#3; sales €138.5m (2024)",
+     "shareSrc": "https://pari.com.mk/profitot-na-golemo-profitot-od-308-milioni/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://stokomak.com.mk",
+     "catalog": "https://stokomak.com.mk/webshop/",
+     "access": "html",
+     "accessNote": "WooCommerce webshop (Store API likely at /wp-json/wc/store)",
+     "price": "index"
+    },
+    {
+     "id": "vero",
+     "name": {
+      "ru": "Веро",
+      "en": "Vero"
+     },
+     "group": "Veropoulos",
+     "share": "#4; sales €114.7m (2024)",
+     "shareSrc": "https://pari.com.mk/profitot-na-golemo-profitot-od-308-milioni/",
+     "brand": "#0060A9",
+     "color": "#47AAF5",
+     "site": "https://vero.com.mk",
+     "access": "leaflet_only",
+     "accessNote": "product categories without prices + fliphtml5 leaflets",
+     "price": "index"
+    },
+    {
+     "id": "tinex",
+     "name": {
+      "ru": "Тинекс",
+      "en": "Tinex"
+     },
+     "group": "Tinex",
+     "share": "#5; sales €103.4m (2024)",
+     "shareSrc": "https://pari.com.mk/profitot-na-golemo-profitot-od-308-milioni/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.tinex.com.mk",
+     "access": "unknown",
+     "accessNote": "Wix site, few prices",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 52.984806,
+    "date": "14 Sep 2026",
+    "src": "exchangerate-api.com"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 379,
+     "15 USD": 799
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "AL",
+   "status": "wave2",
+   "name": {
+    "ru": "Албания",
+    "en": "Albania",
+    "local": "Shqipëria"
+   },
+   "lang": "sq",
+   "tz": [
+    "Europe/Tirane"
+   ],
+   "currency": {
+    "code": "ALL",
+    "symbol": {
+     "ru": "лек",
+     "en": "L",
+     "local": "L"
+    },
+    "locale": "sq-AL",
+    "decimals": 0,
+    "decimal": ",",
+    "group": " ",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 1000,
+    "max": 50000,
+    "step": 250.0,
+    "def": 2500.0,
+    "cheap": 119.0,
+    "demo": 2500.0
+   },
+   "cuisines": [
+    "it",
+    "gr",
+    "tr",
+    "us",
+    "fr",
+    "jp",
+    "cn"
+   ],
+   "priceLevel": {
+    "pli": 100.1,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "big_market",
+     "name": {
+      "ru": "Биг Маркет",
+      "en": "Big Market"
+     },
+     "group": "Big Market sh.a.",
+     "share": "#1; sales ALL 27.7bn (2024)",
+     "shareSrc": "https://monitor.al/tregtia-me-pakice-rriten-supermarketet-turizmi-nxit-veshjet/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://bigmarket.al",
+     "access": "unknown",
+     "accessNote": "site responds, no prices checked",
+     "price": "index"
+    },
+    {
+     "id": "spar_al",
+     "name": {
+      "ru": "Спар",
+      "en": "Spar"
+     },
+     "group": "Viva Fresh (SPAR licence)",
+     "share": "#2; sales ALL 12.4bn (2024)",
+     "shareSrc": "https://monitor.al/tregtia-me-pakice-rriten-supermarketet-turizmi-nxit-veshjet/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.spar.al",
+     "catalog": "https://shop.spar.al",
+     "access": "html",
+     "accessNote": "shop.spar.al lists many prices in HTML",
+     "price": "index"
+    },
+    {
+     "id": "diambe",
+     "name": {
+      "ru": "Диамбе",
+      "en": "Diambe"
+     },
+     "group": "Diambe",
+     "share": "sales ALL 4.9bn (2024)",
+     "shareSrc": "https://monitor.al/tregtia-me-pakice-rriten-supermarketet-turizmi-nxit-veshjet/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "access": "unknown",
+     "accessNote": "site not found",
+     "price": "index"
+    },
+    {
+     "id": "conad_al",
+     "name": {
+      "ru": "Конад",
+      "en": "Conad"
+     },
+     "group": "Conad (franchise)",
+     "share": "sales ALL 4.4bn (2024)",
+     "shareSrc": "https://monitor.al/tregtia-me-pakice-rriten-supermarketet-turizmi-nxit-veshjet/",
+     "brand": "#E2001A",
+     "color": "#F56C47",
+     "site": "https://www.conadalbania.al",
+     "catalog": "https://www.conadalbania.al/kategori-produkti/te-kripura/",
+     "access": "unknown",
+     "accessNote": "WooCommerce categories, prices mostly absent",
+     "price": "index"
+    },
+    {
+     "id": "xhangolli",
+     "name": {
+      "ru": "Маркет Джанголли",
+      "en": "Market Xhangolli"
+     },
+     "group": "Xhangolli Group",
+     "share": "sales ALL 3.4bn (2024)",
+     "shareSrc": "https://monitor.al/tregtia-me-pakice-rriten-supermarketet-turizmi-nxit-veshjet/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "access": "unknown",
+     "accessNote": "not checked",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 79.283532,
+    "date": "14 Sep 2026",
+    "src": "exchangerate-api.com"
+   },
+   "pretty": {
+    "step": 10,
+    "minus": 1,
+    "example": {
+     "7 USD": 559,
+     "15 USD": 1199
+    }
+   },
+   "flag": "#F56C47"
+  },
+  {
+   "code": "BA",
+   "status": "wave2",
+   "name": {
+    "ru": "Босния и Герцеговина",
+    "en": "Bosnia and Herzegovina",
+    "local": "Bosna i Hercegovina"
+   },
+   "lang": "bs",
+   "tz": [
+    "Europe/Sarajevo"
+   ],
+   "currency": {
+    "code": "BAM",
+    "symbol": {
+     "ru": "КМ",
+     "en": "KM",
+     "local": "KM"
+    },
+    "locale": "bs-BA",
+    "decimals": 2,
+    "decimal": ",",
+    "group": ".",
+    "pattern": "{n} {s}"
+   },
+   "budget": {
+    "min": 20,
+    "max": 1000,
+    "step": 5,
+    "def": 50,
+    "cheap": 2.11,
+    "demo": 50
+   },
+   "cuisines": [
+    "tr",
+    "it",
+    "us",
+    "cn",
+    "jp",
+    "gr",
+    "mx"
+   ],
+   "priceLevel": {
+    "pli": 83.2,
+    "src": "Eurostat prc_ppp_ind, еда A0101, EU27=100, 2024"
+   },
+   "chains": [
+    {
+     "id": "bingo",
+     "name": {
+      "ru": "Бинго",
+      "en": "Bingo"
+     },
+     "group": "Bingo d.o.o. Tuzla",
+     "share": "#1; sales €1.11bn (2024)",
+     "shareSrc": "https://www.biznisinfo.ba/top-10-trgovaca-u-regionu-bingo-ispred-spara-lidla-srbija-i-kauflanda/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.bingotuzla.ba",
+     "catalog": "https://onlineshop.ba",
+     "access": "html",
+     "accessNote": "onlineshop.ba lists many KM prices in HTML",
+     "price": "index"
+    },
+    {
+     "id": "tropic",
+     "name": {
+      "ru": "Тропик",
+      "en": "Tropic"
+     },
+     "group": "Tropic Group (Banja Luka)",
+     "share": "sales ~699m (2024, registry)",
+     "shareSrc": "https://business-rs.ba/Company/details?jib=4402700780002",
+     "brand": "#009640",
+     "color": "#47F591",
+     "site": "https://tropic.ba",
+     "catalog": "https://eshop.tropic.ba",
+     "access": "unknown",
+     "accessNote": "eshop returned 500",
+     "price": "index"
+    },
+    {
+     "id": "konzum_ba",
+     "name": {
+      "ru": "Конзум (Меркатор)",
+      "en": "Konzum (Mercator)"
+     },
+     "group": "Fortenova Group",
+     "share": "sales BAM 493m (2023)",
+     "shareSrc": "https://tip.ba/2024/04/12/ovo-su-najveci-trgovacki-lanci-u-fbih-bingo-je-najveci-ali-jos-jedna-firma-ekspresno-raste/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://www.konzum.ba",
+     "access": "unknown",
+     "accessNote": "konzum.ba did not resolve from BY",
+     "price": "index"
+    },
+    {
+     "id": "fis",
+     "name": {
+      "ru": "ФИС",
+      "en": "FIS"
+     },
+     "group": "FIS d.o.o. Vitez",
+     "share": "sales BAM 357m (2023)",
+     "shareSrc": "https://tip.ba/2024/04/12/ovo-su-najveci-trgovacki-lanci-u-fbih-bingo-je-najveci-ali-jos-jedna-firma-ekspresno-raste/",
+     "brand": "#004B93",
+     "color": "#47A0F5",
+     "site": "https://fis.ba",
+     "catalog": "https://fis.ba/shop/",
+     "access": "html",
+     "accessNote": "WooCommerce shop with prices, mostly non-food",
+     "price": "index"
+    },
+    {
+     "id": "robot",
+     "name": {
+      "ru": "Робот",
+      "en": "Robot"
+     },
+     "group": "Robot General Trading",
+     "share": "sales BAM 241m (2023)",
+     "shareSrc": "https://tip.ba/2024/04/12/ovo-su-najveci-trgovacki-lanci-u-fbih-bingo-je-najveci-ali-jos-jedna-firma-ekspresno-raste/",
+     "brand": "#E30613",
+     "color": "#F56C47",
+     "site": "https://robot.ba",
+     "catalog": "https://robot.ba/katalog/",
+     "access": "leaflet_only",
+     "accessNote": "city leaflets only",
+     "price": "index"
+    }
+   ],
+   "usd": {
+    "rate": 1.693213,
+    "date": "2026-09-14",
+    "src": "фиксированный 1.95583 BAM/EUR + ECB data-api.ecb.europa.eu EXR"
+   },
+   "pretty": {
+    "step": 1,
+    "minus": 0.1,
+    "example": {
+     "7 USD": 11.9,
+     "15 USD": 25.9
+    }
+   },
+   "flag": "#F56C47"
+  }
+ ]
+}

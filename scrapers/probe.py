@@ -1,7 +1,8 @@
 # Разведка: какие каталоги сетей отвечают с серверов GitHub и что разрешает robots.txt.
 # Ничего не обходит: один GET на адрес, честный User-Agent, пауза. Итог - таблица в лог.
 # Запуск: python scrapers/probe.py
-import re, sys, time
+import re, sys, time, urllib.parse
+import common
 from common import allowed, fetch
 
 C = [  # (страна, сеть, адрес)
@@ -109,7 +110,23 @@ C = [  # (страна, сеть, адрес)
     ("AM", "sas", "https://www.sas.am/"),
     ("MD", "linella", "https://linella.md/"),
     ("MD", "kaufland_md", "https://www.kaufland.md/"),
-    ("XX", "openprices", "https://prices.openfoodfacts.org/api/v1/prices?size=3&location__osm_address_country_code=FR"),
+    ("PL", "kaufland_pl2", "https://www.kaufland.pl/oferta/przeglad.html"),
+    ("CZ", "kaufland_cz2", "https://prodejny.kaufland.cz/aktualni-nabidka/prehled.html"),
+    ("SK", "kaufland_sk", "https://predajne.kaufland.sk/aktualna-ponuka/prehlad.html"),
+    ("HR", "kaufland_hr", "https://www.kaufland.hr/"),
+    ("BG", "kaufland_bg", "https://www.kaufland.bg/"),
+    ("SI", "mercator", "https://trgovina.mercator.si/market/iskanje?q=mleko"),
+    ("HR", "konzum", "https://www.konzum.hr/web/search?q=mlijeko"),
+    ("RS", "maxi_api", "https://www.maxi.rs/search?q=mleko"),
+    ("ME", "voli", "https://voli.me/pretraga?q=mlijeko"),
+    ("BA", "bingo", "https://www.bingotuzla.ba/"),
+    ("MD", "linella_s", "https://linella.md/ro/search?q=lapte"),
+    ("AM", "sas_s", "https://www.sas.am/search/?q=milk"),
+    ("RO", "mega_image2", "https://www.mega-image.ro/search?q=lapte"),
+    ("RO", "carrefour_ro2", "https://carrefour.ro/catalogsearch/result/?q=lapte"),
+    ("SE", "ica2", "https://handlaprivatkund.ica.se/"),
+    ("FR", "lidl_fr_off", "https://www.lidl.fr/"),
+    ("XX", "openprices","https://prices.openfoodfacts.org/api/v1/prices?size=3&location__osm_address_country_code=FR"),
 ]
 
 
@@ -127,7 +144,8 @@ def main():
         prices = len(re.findall(r"\d+[.,]\d{2}\s*(?:€|zł|lei|Kč|kr|£|₽|₴|₸|Ft|\"|,)", body))
         hints = [h for h in ("__NEXT_DATA__", "application/ld+json", "__NUXT__", "window.__INITIAL_STATE__", "captcha", "cf-chl", "datadome", "Access Denied") if h in body]
         links = sorted(set(re.findall(r'href="([^"]*(?:angebote|oferta|oferte|nabidka|akcie|ponude)[^"]*)"', body)))[:4]
-        print(f"{cc} | {chain} | robots={'ok' if rob else 'NO'} | {status} | {len(body)}b | {ctype[:30]} | prices~{prices} | {','.join(hints)} | {' '.join(links)} | {url[:90]}", flush=True)
+        rs = common.ROBOTS_STATUS.get(urllib.parse.urlsplit(common.iri(url)).netloc)
+        print(f"{cc} | {chain} | robots={'ok' if rob else 'NO'}({rs}) | {status} | {len(body)}b | {ctype[:30]} | prices~{prices} | {','.join(hints)} | {' '.join(links)} | {url[:90]}", flush=True)
         time.sleep(1)
 
 

@@ -1,0 +1,137 @@
+{
+ "countries": {
+  "DE": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "aldi_de",
+    "kaufland_de"
+   ],
+   "coverage": 0.257
+  },
+  "ES": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "dia_es",
+    "consum"
+   ],
+   "coverage": 0.416
+  },
+  "PL": {
+   "updated": "2026-09-14",
+   "currency": "PLN",
+   "live": [
+    "frisco"
+   ],
+   "coverage": 0.487
+  },
+  "GB": {
+   "updated": "2026-09-14",
+   "currency": "GBP",
+   "live": [
+    "aldi_gb"
+   ],
+   "coverage": 0.398
+  },
+  "RO": {
+   "updated": "2026-09-14",
+   "currency": "RON",
+   "live": [
+    "kaufland_ro"
+   ],
+   "coverage": 0.133
+  },
+  "SE": {
+   "updated": "2026-09-14",
+   "currency": "SEK",
+   "live": [
+    "willys",
+    "hemkop"
+   ],
+   "coverage": 0.513
+  },
+  "AT": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "spar_at"
+   ],
+   "coverage": 0.381
+  },
+  "HU": {
+   "updated": "2026-09-14",
+   "currency": "HUF",
+   "live": [
+    "aldi_hu"
+   ],
+   "coverage": 0.08
+  },
+  "LT": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "maxima_lt"
+   ],
+   "coverage": 0.434
+  },
+  "LV": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "maxima_lv"
+   ],
+   "coverage": 0.407
+  },
+  "EE": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "maxima_ee"
+   ],
+   "coverage": 0.425
+  },
+  "BY": {
+   "updated": "2026-09-14",
+   "currency": "BYN",
+   "live": [
+    "euroopt"
+   ],
+   "coverage": 0.425
+  },
+  "RU": {
+   "updated": "2026-09-14",
+   "currency": "RUB",
+   "live": [
+    "magnit",
+    "vkusvill"
+   ],
+   "coverage": 0.469
+  },
+  "MD": {
+   "updated": "2026-09-14",
+   "currency": "MDL",
+   "live": [
+    "kaufland_md"
+   ],
+   "coverage": 0.035
+  },
+  "CH": {
+   "updated": "2026-09-14",
+   "currency": "CHF",
+   "live": [
+    "aldi_ch"
+   ],
+   "coverage": 0.159
+  },
+  "SI": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "hofer_si"
+   ],
+   "coverage": 0.115
+  }
+ },
+ "updated": "2026-09-14"
+}
