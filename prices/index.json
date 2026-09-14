@@ -131,6 +131,22 @@
     "hofer_si"
    ],
    "coverage": 0.115
+  },
+  "IT": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "conad"
+   ],
+   "coverage": 0.115
+  },
+  "PT": {
+   "updated": "2026-09-14",
+   "currency": "EUR",
+   "live": [
+    "auchan_pt"
+   ],
+   "coverage": 0.327
   }
  },
  "updated": "2026-09-14"

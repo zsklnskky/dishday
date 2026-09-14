@@ -384,7 +384,10 @@
      "site": "https://www.conad.it",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "live",
+     "parser": "conad",
+     "region": "магазин по умолчанию spesaonline.conad.it",
+     "lang": "it"
     },
     {
      "id": "selex",
@@ -1526,7 +1529,10 @@
      "catalog": "https://www.auchan.pt",
      "access": "unknown",
      "accessNote": "not checked; Intermarché share not published in source",
-     "price": "index"
+     "price": "live",
+     "parser": "auchan_pt",
+     "region": "онлайн-магазин auchan.pt",
+     "lang": "pt"
     }
    ],
    "usd": {

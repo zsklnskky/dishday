@@ -168,5 +168,122 @@
   "ZWG": 30.9482,
   "ZWL": 30.9482
  },
- "src": "https://www.exchangerate-api.com"
+ "src": "https://www.exchangerate-api.com",
+ "usd": {
+  "EUR": {
+   "rate": 0.865726,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "BAM": {
+   "rate": 1.693213,
+   "date": "2026-09-14",
+   "src": "фиксированный 1.95583 BAM/EUR + ECB data-api.ecb.europa.eu EXR"
+  },
+  "CHF": {
+   "rate": 0.816466,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "CZK": {
+   "rate": 21.031945,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "DKK": {
+   "rate": 6.471561,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "GBP": {
+   "rate": 0.741044,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "HUF": {
+   "rate": 316.275647,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "ISK": {
+   "rate": 121.028482,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "NOK": {
+   "rate": 9.321271,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "PLN": {
+   "rate": 3.758809,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "RON": {
+   "rate": 4.550948,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "SEK": {
+   "rate": 9.766254,
+   "date": "2026-09-14",
+   "src": "ECB data-api.ecb.europa.eu EXR"
+  },
+  "BYN": {
+   "rate": 3.028,
+   "date": "2026-09-14",
+   "src": "НБРБ api.nbrb.by"
+  },
+  "RUB": {
+   "rate": 83.9246,
+   "date": "2026-09-14",
+   "src": "НБРБ api.nbrb.by, кросс-курс"
+  },
+  "KZT": {
+   "rate": 450.8233,
+   "date": "2026-09-14",
+   "src": "НБРБ api.nbrb.by, кросс-курс"
+  },
+  "UAH": {
+   "rate": 44.5943,
+   "date": "2026-09-14",
+   "src": "НБРБ api.nbrb.by, кросс-курс"
+  },
+  "AMD": {
+   "rate": 364.4417,
+   "date": "2026-09-14",
+   "src": "НБРБ api.nbrb.by, кросс-курс"
+  },
+  "MDL": {
+   "rate": 17.3296,
+   "date": "2026-09-14",
+   "src": "НБРБ api.nbrb.by, кросс-курс"
+  },
+  "GEL": {
+   "rate": 2.603066,
+   "date": "14 Sep 2026",
+   "src": "exchangerate-api.com"
+  },
+  "RSD": {
+   "rate": 101.170308,
+   "date": "14 Sep 2026",
+   "src": "exchangerate-api.com"
+  },
+  "MKD": {
+   "rate": 52.984806,
+   "date": "14 Sep 2026",
+   "src": "exchangerate-api.com"
+  },
+  "ALL": {
+   "rate": 79.283532,
+   "date": "14 Sep 2026",
+   "src": "exchangerate-api.com"
+  },
+  "USD": {
+   "rate": 1,
+   "date": "2026-09-14",
+   "src": "-"
+  }
+ }
 }
