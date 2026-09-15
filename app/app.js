@@ -11442,20 +11442,14 @@ function renderPlans(){
       <div class="pl-top"><h3>${planName(plan)}</h3>${pro?`<span class="pl-badge">${t("allIn")}</span>`:""}</div>
       <p class="ds">${t(pro?"proD":"plusD")}</p>
       <div class="s-price num">${priceTxt(p.perMonth, p)}<small>${t("perMonth")}</small></div>
-      <p class="pl-sum num">${priceTerm===1 ? t("planSum1") : t("planSum",{x:`<b>${priceTxt(p.total,p)}</b>`, n:p.months, m:priceTxt(p.perMonth,p), s:p.save ? priceTxt(p.save,p) : "", p:p.savePct})}</p>
       ${pay ? `<button class="btn ${pro?"btn-main":"btn-ghost"}" type="button" data-subscribe="${plan}"${pro?" data-magnet":""}>${t("subscribeX",{x:planName(plan)})}</button>`
             : `<a class="btn btn-ghost" href="#join">${t("soonPay")}</a>`}
     </article>`;
   };
-  const Y = `<span class="cm-y">${CHECK}${SR(t("yes"))}</span>`, N = `<span class="cm-n"><span aria-hidden="true">-</span>${SR(t("no"))}</span>`;
-  const rows = [["cmp1", t("cmp1f"), t("cmp1p",{n:RECIPES.length}), t("cmp1p",{n:RECIPES.length})], ["cmp2",Y,Y,Y], ["cmp3",Y,Y,Y], ["cmp4",Y,Y,Y], ["cmp5",N,Y,Y], ["cmp6",N,N,Y], ["cmp7",N,N,Y], ["cmp8",t("cmp8f"),t("cmp8p"),t("cmp8p")]];
   $("#plans").innerHTML = `${freeOver() ? `<p class="glass note-bar pl-over" role="status">${t("freeOverNote")}</p>` : ""}
     <div class="pl-terms-wrap"><div class="pl-terms" role="radiogroup" aria-label="${t("termAria")}">${terms}</div></div>
     ${pay ? "" : `<p class="src pl-soon">${t("soonNote",{c:DD_PAY.priceFor("plus",1,cc).currency})}</p>`}
-    <div class="pl-cards">${card("plus")}${card("pro")}</div>
-    <div class="pl-cmp glass"><table><caption>${t("cmpH")}</caption>
-      <thead><tr><th scope="col">${t("cmpWhat")}</th><th scope="col">${t("cmpFree")}</th><th scope="col">Plus</th><th scope="col">Pro Plus</th></tr></thead>
-      <tbody>${rows.map(([k,...c])=>`<tr><th scope="row">${t(k)}</th>${c.map(x=>`<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    <div class="pl-cards">${card("plus")}${card("pro")}</div>`;
 }
 function renderFaq(){ $("#faqList").innerHTML = [8,1,2,3,4,5,6,7].map(i=>`<details><summary>${t("faq"+i+"q")}${PLUS}</summary><p>${t("faq"+i+"a")}</p></details>`).join(""); }
 $("#site").addEventListener("click", e=>{
@@ -12774,7 +12768,7 @@ function renderLegal(){
         <section class="lg-other"><h2>${t("lgOther")}</h2><div class="lg-other-g">${L.order.filter(id=>id!==legalDoc).map(id=>`<a class="glass" href="#${id}"><b>${escH(pick(id).t)}</b><span>${t("docOpen")}</span></a>`).join("")}</div></section>
       </article>
     </div>`;
-  const back = $("#lgBack"); back.textContent = t(legalReturn==="pay" ? "lgToPay" : "lgToSite"); back.setAttribute("href", legalReturn==="pay" ? "#pay" : "#docs");
+  const back = $("#lgBack"); back.textContent = t(legalReturn==="pay" ? "lgToPay" : "lgToSite"); back.setAttribute("href", legalReturn==="pay" ? "#pay" : "#top");
 }
 function openLegal(doc, sec, write){
   const was = $("#legal").classList.contains("on");
