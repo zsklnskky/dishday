@@ -1,0 +1,63 @@
+# Сбор цен сетей Европы -> prices/<cc>.json в этом же репозитории (GitHub Pages отдаёт их приложению).
+# Синтаксис: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions
+# schedule идёт по UTC, только с ветки по умолчанию, может задерживаться, в публичном репо отключается после 60 дней без активности:
+# https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
+name: prices
+
+on:
+  schedule:
+    - cron: "23 3,15 * * *"   # 03:23 и 15:23 UTC
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: "Только разведка доступности сайтов, без записи"
+        type: boolean
+        default: false
+      only:
+        description: "Коды стран через пробел (пусто - все)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write   # коммит prices/
+  pages: write      # запросить пересборку Pages: пуш через GITHUB_TOKEN не создаёт новых запусков workflow
+
+concurrency:
+  group: prices
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Self-check
+        run: python3 scrapers/common.py && python3 scrapers/update_all.py --check
+
+      - name: Probe
+        if: ${{ inputs.probe }}
+        env:
+          ONLY: ${{ inputs.only }}
+        run: python3 scrapers/probe.py $ONLY
+
+      - name: Collect prices
+        if: ${{ !inputs.probe }}
+        env:
+          ONLY: ${{ inputs.only }}
+        run: python3 scrapers/update_all.py $ONLY
+
+      - name: Commit if changed
+        if: ${{ !inputs.probe }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "dishday-prices-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prices
+          if git diff --cached --quiet; then echo "без изменений"; exit 0; fi
+          git commit -m "prices: $(date -u +%F) $(python3 scrapers/update_all.py --summary)"
+          git pull --rebase
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "пересборку Pages запросить не удалось"
