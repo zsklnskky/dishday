@@ -7,7 +7,7 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
-<script>if(!location.hash)history.replaceState(null,"",location.pathname+location.search+"#app")</script>
+<script>window.DD_ENTRY="app"</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#05070F">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -276,6 +276,15 @@ html.motion [data-rv]:not(.in){opacity:0; transform:translateY(1.375rem); filter
 .s-wd b{font-weight:500; font-size:0.9062rem; line-height:1.3; display:block}
 .s-wd small{display:inline-block; margin-top:0.25rem; padding:0.125rem 0.5625rem; border-radius:62.4375rem; font-size:0.75rem; font-weight:600; color:var(--good); background:rgba(94,227,161,.12)}
 .s-wd.left{border-color:rgba(94,227,161,.3)}
+button.s-wd{width:100%; text-align:left; font:inherit; color:inherit; cursor:pointer; transition:border-color .2s, background-color .2s}
+button.s-wd:hover{background:rgba(255,255,255,.06)}
+.s-wd[aria-pressed="true"]{background:rgba(110,231,249,.09); border-color:rgba(110,231,249,.5)}
+.s-wd[aria-pressed="true"] em{color:var(--ink)}
+.s-wd .wd-t{min-width:0}
+.dt-meta{font-size:0.8125rem; color:var(--ink3)}
+.dt-steps{margin:0.625rem 0 0; padding-left:1.125rem; display:grid; gap:0.375rem; font-size:0.8125rem; line-height:1.35; color:var(--ink3)}
+.dt-steps span{overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}
+.dt-steps li.cur{color:var(--ink)} .dt-steps li.cur span{-webkit-line-clamp:3}
 .s-timer{display:grid; grid-template-columns:auto minmax(0,1fr); gap:1.25rem; align-items:center; margin-top:1.375rem}
 .ring-t{width:7rem; height:7rem; position:relative}
 .ring-t svg{width:100%; height:100%; transform:rotate(-90deg)}
@@ -1336,7 +1345,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gradRing" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#6EE7F9"/><stop offset=".55" stop-color="#8B7CF6"/><stop offset="1" stop-color="#F0A8D0"/></linearGradient></defs></svg>
-<script>try{var r=JSON.parse(localStorage.getItem("raskladka5")||"null"),h=location.hash.slice(1),q=new URLSearchParams(location.search).get("lang"),L=/^(ru|en)$/,l=L.test(q)?q:L.test(h)?h:r&&L.test(r.lang)?r.lang:/^(ru|be)/i.test(navigator.language||"")?"ru":"en";if(l==="ru"&&!(r&&(r.access||r.done||r.pendingOrder))&&/^(top|how|features|story|pricing|faq|docs|ru)?$/.test(h))document.documentElement.classList.add("pre-site")}catch(e){}</script><style>html.pre-site #site{display:block}</style>
+<script>try{var r=JSON.parse(localStorage.getItem("raskladka5")||"null"),h=location.hash.slice(1),q=new URLSearchParams(location.search).get("lang"),L=/^(ru|en)$/,l=L.test(q)?q:L.test(h)?h:r&&L.test(r.lang)?r.lang:/^(ru|be)/i.test(navigator.language||"")?"ru":"en";var D=window.DD_ENTRY;if(l==="ru"&&D!=="app"&&(D==="site"||!(r&&(r.access||r.done||r.pendingOrder)))&&/^(top|join|how|features|story|pricing|faq|docs|ru)?$/.test(h))document.documentElement.classList.add("pre-site")}catch(e){}</script><style>html.pre-site #site{display:block}</style>
 <canvas id="aurora" aria-hidden="true"></canvas>
 <div class="bg-grid" aria-hidden="true"></div>
 
@@ -1839,5 +1848,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script src="app.js?v=323657ae"></script>
+<script src="app.js?v=346f9824"></script>
 

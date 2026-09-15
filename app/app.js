@@ -10309,7 +10309,7 @@ window.EN_CUISINES = {
 };
 
 
-addEventListener("load", ()=>["ru-how.js?v=137deea5", "i18n-en.js?v=c8b66d5b"].forEach(u=>{ const s = document.createElement("script"); s.src = DD_BASE + u; s.async = false; document.head.appendChild(s); }));
+addEventListener("load", ()=>["ru-how.js?v=77d2d9c2", "i18n-en.js?v=c8b66d5b"].forEach(u=>{ const s = document.createElement("script"); s.src = DD_BASE + u; s.async = false; document.head.appendChild(s); }));
 
 const DD_BASE = document.currentScript && document.currentScript.src ? new URL(".", document.currentScript.src).href : "";
 const PHOTOS = Object.fromEntries(Object.entries({"afelia": "photos/afelia.webp?v=57f222dd", "aji_de_gallina": "photos/aji_de_gallina.webp?v=60700b0a", "aloo_bhorta": "photos/aloo_bhorta.webp?v=5ffddbff", "aloo_gobi": "photos/aloo_gobi.webp?v=a47f4733", "aloo_keema": "photos/aloo_keema.webp?v=c02e2498", "aloo_tarkari": "photos/aloo_tarkari.webp?v=ea14e17e", "alplermagronen": "photos/alplermagronen.webp?v=4c0af079", "ambul_thiyal": "photos/ambul_thiyal.webp?v=e58d3e7b", "asado": "photos/asado.webp?v=cba389d8", "ashlyamfu": "photos/ashlyamfu.webp?v=cd49b565", "aukstazupa": "photos/aukstazupa.webp?v=9d6e4c0a", "babka": "photos/babka.webp?v=d2139551", "bacalhau_bras": "photos/bacalhau_bras.webp?v=c7f9146f", "badrijani": "photos/badrijani.webp?v=606adc6b", "bak_kut_teh": "photos/bak_kut_teh.webp?v=f53b7b90", "bangers_mash": "photos/bangers_mash.webp?v=a36a81b1", "banh_mi": "photos/banh_mi.webp?v=9a600e77", "banitsa": "photos/banitsa.webp?v=14bb9785", "beshbarmak": "photos/beshbarmak.webp?v=eda82b78", "bibimbap": "photos/bibimbap.webp?v=b8381fd7", "bifana": "photos/bifana.webp?v=36b638e7", "bigos": "photos/bigos.webp?v=4b0e64e3", "bitterballen": "photos/bitterballen.webp?v=f4827969", "blini": "photos/blini.webp?v=beeda856", "bobotie": "photos/bobotie.webp?v=7283e116", "borani_banjan": "photos/borani_banjan.webp?v=a6748843", "borsch": "photos/borsch.webp?v=2c1f25ee", "boxty": "photos/boxty.webp?v=78ede6f4", "brik": "photos/brik.webp?v=10979a46", "brudet": "photos/brudet.webp?v=e9ef06ed", "buldak": "photos/buldak.webp?v=2416c23a", "bunny_chow": "photos/bunny_chow.webp?v=c9f4e08a", "burger": "photos/burger.webp?v=e6f70bcc", "butter_chicken": "photos/butter_chicken.webp?v=5ea30b0b", "buuz": "photos/buuz.webp?v=5662ec62", "caesar": "photos/caesar.webp?v=c9b4aeff", "caldo_verde": "photos/caldo_verde.webp?v=b15fdaaa", "caprese_pasta": "photos/caprese_pasta.webp?v=1428908d", "carbonara": "photos/carbonara.webp?v=48ef7b44", "causa": "photos/causa.webp?v=0c4d7b9e", "cepelinai": "photos/cepelinai.webp?v=f533bbc5", "cevapi": "photos/cevapi.webp?v=54f59c0b", "ceviche": "photos/ceviche.webp?v=92ee74ab", "chakalaka": "photos/chakalaka.webp?v=791748a7", "chakhokhbili": "photos/chakhokhbili.webp?v=182aaf35", "char_kway_teow": "photos/char_kway_teow.webp?v=1e8989b1", "chekdirme": "photos/chekdirme.webp?v=19a45396", "chicken_adobo": "photos/chicken_adobo.webp?v=9ad394c7", "chicken_biryani": "photos/chicken_biryani.webp?v=0d4f8da0", "chili": "photos/chili.webp?v=87ad5383", "chili_shrimp_sg": "photos/chili_shrimp_sg.webp?v=68a31438", "ciorba_perisoare": "photos/ciorba_perisoare.webp?v=9f84e1ef", "cobanac": "photos/cobanac.webp?v=f02d165b", "coddle": "photos/coddle.webp?v=9835cabd", "colcannon": "photos/colcannon.webp?v=2a7891ff", "couscous_bel_hout": "photos/couscous_bel_hout.webp?v=5dbdc0b4", "couscous_veg": "photos/couscous_veg.webp?v=0aaeebd4", "crni_rizot": "photos/crni_rizot.webp?v=903639b0", "daal_chawal": "photos/daal_chawal.webp?v=52e57530", "dal": "photos/dal.webp?v=0616653a", "dal_bhat": "photos/dal_bhat.webp?v=8134e639", "deruny": "photos/deruny.webp?v=d6bde571", "djuvec": "photos/djuvec.webp?v=7cc7e3d8", "dograma": "photos/dograma.webp?v=1248faa4", "dolma": "photos/dolma.webp?v=a102e930", "doro_wot": "photos/doro_wot.webp?v=28203a83", "dovga": "photos/dovga.webp?v=084650f9", "draniki": "photos/draniki.webp?v=e26e7fb2", "egusi_soup": "photos/egusi_soup.webp?v=a97cc2fc", "empanadas": "photos/empanadas.webp?v=2b893bd4", "erwtensoep": "photos/erwtensoep.webp?v=444a885f", "escondidinho": "photos/escondidinho.webp?v=44e7baba", "falafel": "photos/falafel.webp?v=1498abb1", "feijoada": "photos/feijoada.webp?v=db299cd8", "fesenjan": "photos/fesenjan.webp?v=b9747043", "fish_and_chips": "photos/fish_and_chips.webp?v=7e5642c8", "fiskesuppe": "photos/fiskesuppe.webp?v=9bb97c52", "fondue": "photos/fondue.webp?v=075d6cc1", "fried_rice": "photos/fried_rice.webp?v=29465b61", "ful_medames": "photos/ful_medames.webp?v=f905e444", "full_english": "photos/full_english.webp?v=4f1a616b", "gado_gado": "photos/gado_gado.webp?v=b80ba9b0", "gazpacho": "photos/gazpacho.webp?v=581c8752", "geschnetzeltes": "photos/geschnetzeltes.webp?v=8959f12c", "ghapama": "photos/ghapama.webp?v=002ca5b5", "ghormeh_sabzi": "photos/ghormeh_sabzi.webp?v=36c63cd5", "githeri": "photos/githeri.webp?v=14162965", "gomen": "photos/gomen.webp?v=2e968139", "gongbao": "photos/gongbao.webp?v=bfd18fe1", "gorur_bhuna": "photos/gorur_bhuna.webp?v=cddacdff", "gratin": "photos/gratin.webp?v=0101bca4", "greek_salad": "photos/greek_salad.webp?v=b979768f", "green_curry": "photos/green_curry.webp?v=d3308aa2", "guacamole_bowl": "photos/guacamole_bowl.webp?v=87d9475f", "gulaorou": "photos/gulaorou.webp?v=15874761", "guriltai_shul": "photos/guriltai_shul.webp?v=97fff133", "gutap": "photos/gutap.webp?v=d4786f2c", "hainanese_chicken_rice": "photos/hainanese_chicken_rice.webp?v=772efee4", "hakklihakaste": "photos/hakklihakaste.webp?v=92acf37f", "halaszle": "photos/halaszle.webp?v=8d65e40a", "harissa_am": "photos/harissa_am.webp?v=2c4a92c4", "hawawshi": "photos/hawawshi.webp?v=f85d9709", "hernekeitto": "photos/hernekeitto.webp?v=f0290ea5", "hummus": "photos/hummus.webp?v=9883a871", "ichlekli": "photos/ichlekli.webp?v=fe7a83d1", "irish_stew": "photos/irish_stew.webp?v=c348e685", "iskender": "photos/iskender.webp?v=2d9419b6", "jollof_rice": "photos/jollof_rice.webp?v=58593e71", "kabob_tojiki": "photos/kabob_tojiki.webp?v=3af586b0", "kabuli_pulao": "photos/kabuli_pulao.webp?v=aca35a65", "kaiserschmarrn": "photos/kaiserschmarrn.webp?v=4ef3263f", "karadjordjeva": "photos/karadjordjeva.webp?v=7e6e3cd0", "kari_ayam": "photos/kari_ayam.webp?v=b0868d63", "karjalanpiirakka": "photos/karjalanpiirakka.webp?v=b72b20e2", "kartoffelsuppe": "photos/kartoffelsuppe.webp?v=f4a9ecb8", "kasespatzle": "photos/kasespatzle.webp?v=bb533d26", "kavarma": "photos/kavarma.webp?v=e610266c", "khachapuri": "photos/khachapuri.webp?v=51df80e5", "khichuri": "photos/khichuri.webp?v=c4c31ae3", "khorovats": "photos/khorovats.webp?v=8715bdd6", "khuushuur": "photos/khuushuur.webp?v=379d9450", "kibbeling": "photos/kibbeling.webp?v=5bed1446", "kiluvoileib": "photos/kiluvoileib.webp?v=1ac27a9c", "kleftiko": "photos/kleftiko.webp?v=db5322ce", "kofta_chalow": "photos/kofta_chalow.webp?v=ac17a5a0", "kolduny": "photos/kolduny.webp?v=24414d66", "koshari": "photos/koshari.webp?v=4f24cde7", "kotleta_kiev": "photos/kotleta_kiev.webp?v=84ac38cf", "kottu_roti": "photos/kottu_roti.webp?v=d5d5a272", "krupnik": "photos/krupnik.webp?v=22b78787", "kubideh": "photos/kubideh.webp?v=2d010f3c", "kukhura_masu": "photos/kukhura_masu.webp?v=2fd9c5cd", "kukul_mas_curry": "photos/kukul_mas_curry.webp?v=561dba53", "kulajda": "photos/kulajda.webp?v=197f6d7c", "kuurdak": "photos/kuurdak.webp?v=35de47d5", "kyufteta_bg": "photos/kyufteta_bg.webp?v=63a89cce", "lablabi": "photos/lablabi.webp?v=88b74c70", "lagman": "photos/lagman.webp?v=5ffa4cef", "laksa_lemak": "photos/laksa_lemak.webp?v=fec37f47", "lasagna": "photos/lasagna.webp?v=8f2e9543", "laxpudding": "photos/laxpudding.webp?v=85a594bf", "lecso": "photos/lecso.webp?v=d998ccd8", "lihapullat": "photos/lihapullat.webp?v=3ead6de4", "lobio": "photos/lobio.webp?v=2a03c636", "locro": "photos/locro.webp?v=a6b57981", "lohikeitto": "photos/lohikeitto.webp?v=bbdb59a7", "lomo_saltado": "photos/lomo_saltado.webp?v=2efa7874", "louvi": "photos/louvi.webp?v=62b2eea0", "lu_rou_fan": "photos/lu_rou_fan.webp?v=870fe84a", "lyulya": "photos/lyulya.webp?v=a3edd0da", "mac_cheese": "photos/mac_cheese.webp?v=23c43248", "machanka": "photos/machanka.webp?v=ae33711c", "macher_jhol": "photos/macher_jhol.webp?v=7778f80a", "mamaliga": "photos/mamaliga.webp?v=9689f6e4", "mantu_af": "photos/mantu_af.webp?v=9007e368", "manty": "photos/manty.webp?v=20ac45b2", "mapo_tofu": "photos/mapo_tofu.webp?v=08039669", "mastoba": "photos/mastoba.webp?v=504447d3", "mee_goreng": "photos/mee_goreng.webp?v=15e081ba", "menemen": "photos/menemen.webp?v=ea06c44d", "mercimek": "photos/mercimek.webp?v=0ad91a54", "milanesa": "photos/milanesa.webp?v=ef0ba2f6", "mirza_ghasemi": "photos/mirza_ghasemi.webp?v=dc8db6c6", "misir_wot": "photos/misir_wot.webp?v=1e6d502d", "miso_udon": "photos/miso_udon.webp?v=de31d504", "mititei": "photos/mititei.webp?v=77fab6a3", "moin_moin": "photos/moin_moin.webp?v=4abc797d", "molokhia": "photos/molokhia.webp?v=52453539", "momo_meat": "photos/momo_meat.webp?v=9b82a313", "moqueca": "photos/moqueca.webp?v=73e9f83c", "moussaka": "photos/moussaka.webp?v=be9b8034", "mulgipuder": "photos/mulgipuder.webp?v=a7db8186", "nasi_goreng": "photos/nasi_goreng.webp?v=47cf548a", "nasi_lemak": "photos/nasi_lemak.webp?v=29399431", "nihari_beef": "photos/nihari_beef.webp?v=743fe9c6", "niu_rou_mian": "photos/niu_rou_mian.webp?v=96190cd4", "nyama_choma": "photos/nyama_choma.webp?v=6c253950", "o_a_tsian": "photos/o_a_tsian.webp?v=1c9360e8", "ojja_merguez": "photos/ojja_merguez.webp?v=3371bd87", "olivier": "photos/olivier.webp?v=725fea3a", "oromo": "photos/oromo.webp?v=6de8e2e8", "oyakodon": "photos/oyakodon.webp?v=9d2e2406", "pad_thai": "photos/pad_thai.webp?v=b2607999", "paella": "photos/paella.webp?v=a8a88573", "pancit_bihon": "photos/pancit_bihon.webp?v=38153fb1", "pao_de_queijo": "photos/pao_de_queijo.webp?v=161d664d", "paprikash": "photos/paprikash.webp?v=f1764fb9", "parippu_dal": "photos/parippu_dal.webp?v=9017609c", "pelekie_zirni": "photos/pelekie_zirni.webp?v=658ca63d", "pelmeni": "photos/pelmeni.webp?v=a5a68aea", "pho": "photos/pho.webp?v=d5b51d06", "pilau_ke": "photos/pilau_ke.webp?v=97ffdbfc", "piri_piri_chicken": "photos/piri_piri_chicken.webp?v=6ce1c3b9", "placinta_branza": "photos/placinta_branza.webp?v=a5069557", "placki": "photos/placki.webp?v=c3cfdb68", "pljeskavica": "photos/pljeskavica.webp?v=bef93f76", "plov_az": "photos/plov_az.webp?v=6f802f1d", "plov_uz": "photos/plov_uz.webp?v=65b9a7bc", "quiche": "photos/quiche.webp?v=a3dfc684", "qurutob": "photos/qurutob.webp?v=c7e2744f", "ratatouille": "photos/ratatouille.webp?v=2e04499e", "rendang_beef": "photos/rendang_beef.webp?v=5e8f32a9", "risotto": "photos/risotto.webp?v=c7956e88", "rosolje": "photos/rosolje.webp?v=6e8da226", "rosti": "photos/rosti.webp?v=7aa7f7d2", "saltibarsciai": "photos/saltibarsciai.webp?v=f9ec98dc", "samsa": "photos/samsa.webp?v=196dc9eb", "san_bei_ji": "photos/san_bei_ji.webp?v=55221a88", "sarmale": "photos/sarmale.webp?v=2818c078", "sarmale_md": "photos/sarmale_md.webp?v=a6b1aa8c", "sate_ayam": "photos/sate_ayam.webp?v=4b2ded45", "schnitzel": "photos/schnitzel.webp?v=fc4a2a4a", "shakshuka": "photos/shakshuka.webp?v=5981b0da", "shawarma": "photos/shawarma.webp?v=b8a19d1f", "sheftalia": "photos/sheftalia.webp?v=c1366ee2", "shepherds_pie": "photos/shepherds_pie.webp?v=abdfbb91", "shorpo": "photos/shorpo.webp?v=052e85d4", "silke_biezpiens": "photos/silke_biezpiens.webp?v=b9bb51f6", "sinigang_shrimp": "photos/sinigang_shrimp.webp?v=b23c8f88", "sklandrausis": "photos/sklandrausis.webp?v=b8d9262e", "smazeny_syr": "photos/smazeny_syr.webp?v=bc316ea7", "sosaties": "photos/sosaties.webp?v=6e3996b2", "souvlaki": "photos/souvlaki.webp?v=969b2c93", "stamppot": "photos/stamppot.webp?v=a98d9b05", "steamed_cod_canton": "photos/steamed_cod_canton.webp?v=7970fc5c", "strukli": "photos/strukli.webp?v=1299ec63", "suya": "photos/suya.webp?v=9ffff2dc", "svickova": "photos/svickova.webp?v=bb546ab9", "tabbouleh": "photos/tabbouleh.webp?v=aab4ca26", "tacos": "photos/tacos.webp?v=0e8ffc22", "tafelspitz": "photos/tafelspitz.webp?v=a2c1b925", "tagine": "photos/tagine.webp?v=66da230b", "tarator": "photos/tarator.webp?v=556d890e", "teriyaki_salmon": "photos/teriyaki_salmon.webp?v=5c006a06", "tibs": "photos/tibs.webp?v=6f9897b8", "tochitura": "photos/tochitura.webp?v=b5db57fe", "toltott_kaposzta": "photos/toltott_kaposzta.webp?v=2bcc4800", "tom_kha": "photos/tom_kha.webp?v=3aacfb8e", "tortang_talong": "photos/tortang_talong.webp?v=1879a3e2", "tortilla_es": "photos/tortilla_es.webp?v=0ac7e655", "tsuivan": "photos/tsuivan.webp?v=883efb67", "tushbera": "photos/tushbera.webp?v=0565f3cc", "ugali_sukuma": "photos/ugali_sukuma.webp?v=fa98382b", "vareniki": "photos/vareniki.webp?v=421e81ff", "vepro_knedlo": "photos/vepro_knedlo.webp?v=491df020", "wiener_schnitzel": "photos/wiener_schnitzel.webp?v=2487a4e0", "x_af_bolani": "photos/x_af_bolani.webp?v=d9f28a3b", "x_af_mahi": "photos/x_af_mahi.webp?v=e5f1d7cd", "x_af_qorma_murgh": "photos/x_af_qorma_murgh.webp?v=1618c923", "x_af_shor_nakhod": "photos/x_af_shor_nakhod.webp?v=6ef0f566", "x_am_eetch": "photos/x_am_eetch.webp?v=53fe292f", "x_am_khashlama": "photos/x_am_khashlama.webp?v=0c469c8e", "x_am_matsnabrdosh": "photos/x_am_matsnabrdosh.webp?v=463f38cb", "x_am_spas": "photos/x_am_spas.webp?v=8e20e3e1", "x_ar_carbonada": "photos/x_ar_carbonada.webp?v=799b9744", "x_ar_guiso_lentejas": "photos/x_ar_guiso_lentejas.webp?v=e68ad1a3", "x_ar_humita_olla": "photos/x_ar_humita_olla.webp?v=71cb0887", "x_ar_tarta_espinaca": "photos/x_ar_tarta_espinaca.webp?v=4d81a343", "x_at_erdaepfelsalat": "photos/x_at_erdaepfelsalat.webp?v=8151cc2d", "x_at_griessnockerlsuppe": "photos/x_at_griessnockerlsuppe.webp?v=d3205c4a", "x_at_krautfleckerl": "photos/x_at_krautfleckerl.webp?v=20facb12", "x_at_zwiebelrostbraten": "photos/x_at_zwiebelrostbraten.webp?v=bf5e5a90", "x_az_ajapsandal": "photos/x_az_ajapsandal.webp?v=fc25612c", "x_az_guymag": "photos/x_az_guymag.webp?v=b5e5e1af", "x_az_kuku": "photos/x_az_kuku.webp?v=d1970bac", "x_az_piti": "photos/x_az_piti.webp?v=9e263129", "x_bd_begun_bhaja": "photos/x_bd_begun_bhaja.webp?v=d779a537", "x_bd_chingri_malaikari": "photos/x_bd_chingri_malaikari.webp?v=7e9c8f47", "x_bd_dim_bhuna": "photos/x_bd_dim_bhuna.webp?v=d3880fbf", "x_bd_labra": "photos/x_bd_labra.webp?v=563258b9", "x_bg_chushki_byurek": "photos/x_bg_chushki_byurek.webp?v=a36d8146", "x_bg_kyopoolu": "photos/x_bg_kyopoolu.webp?v=85cd7fe5", "x_bg_pile_s_oriz": "photos/x_bg_pile_s_oriz.webp?v=887c6a3d", "x_br_baiao_de_dois": "photos/x_br_baiao_de_dois.webp?v=684088f0", "x_br_brigadeiro": "photos/x_br_brigadeiro.webp?v=48179a10", "x_br_galinhada": "photos/x_br_galinhada.webp?v=732af472", "x_br_quibebe": "photos/x_br_quibebe.webp?v=32b560c3", "x_by_kapusta_grib": "photos/x_by_kapusta_grib.webp?v=79eef184", "x_by_zatsirka": "photos/x_by_zatsirka.webp?v=284f211d", "x_by_zharkoe_gorshok": "photos/x_by_zharkoe_gorshok.webp?v=6dc76996", "x_by_zrazy_grib": "photos/x_by_zrazy_grib.webp?v=20e41456", "x_ch_birchermuesli": "photos/x_ch_birchermuesli.webp?v=7e8bd77f", "x_ch_capuns": "photos/x_ch_capuns.webp?v=ba0dd42a", "x_ch_cholera": "photos/x_ch_cholera.webp?v=50e67203", "x_ch_mehlsuppe": "photos/x_ch_mehlsuppe.webp?v=308454a9", "x_cn_hongshao_rou": "photos/x_cn_hongshao_rou.webp?v=56b49fea", "x_cn_jiaozi": "photos/x_cn_jiaozi.webp?v=df7b30e4", "x_cn_suanla_tudousi": "photos/x_cn_suanla_tudousi.webp?v=0ec02a2d", "x_cn_xihongshi_jidan": "photos/x_cn_xihongshi_jidan.webp?v=5e19da2f", "x_cz_bramboracka": "photos/x_cz_bramboracka.webp?v=8f641924", "x_cz_bramboraky": "photos/x_cz_bramboraky.webp?v=68b04f6f", "x_cz_cocka_na_kyselo": "photos/x_cz_cocka_na_kyselo.webp?v=5613cddb", "x_cz_segedinsky_gulas": "photos/x_cz_segedinsky_gulas.webp?v=f1e753a2", "x_de_gruene_sosse": "photos/x_de_gruene_sosse.webp?v=86f4366c", "x_de_matjes_hausfrauenart": "photos/x_de_matjes_hausfrauenart.webp?v=8ea120b3", "x_de_rinderrouladen": "photos/x_de_rinderrouladen.webp?v=b58e5f69", "x_de_semmelknoedel_pilze": "photos/x_de_semmelknoedel_pilze.webp?v=63617acb", "x_ee_kohupiimavormiroog": "photos/x_ee_kohupiimavormiroog.webp?v=5d315f90", "x_ee_leivasupp": "photos/x_ee_leivasupp.webp?v=fdf024c8", "x_ee_mulgikapsad": "photos/x_ee_mulgikapsad.webp?v=098b1b3c", "x_ee_seenekaste": "photos/x_ee_seenekaste.webp?v=c68197e4", "x_eg_fatta": "photos/x_eg_fatta.webp?v=dcf1610e", "x_eg_mahshi_kousa": "photos/x_eg_mahshi_kousa.webp?v=61bb3ab9", "x_eg_messaa": "photos/x_eg_messaa.webp?v=33b1aff4", "x_eg_sayadeya": "photos/x_eg_sayadeya.webp?v=3b5155bc", "x_es_albondigas": "photos/x_es_albondigas.webp?v=0f365204", "x_es_espinacas_garbanzos": "photos/x_es_espinacas_garbanzos.webp?v=2d325289", "x_es_gambas_ajillo": "photos/x_es_gambas_ajillo.webp?v=6b72599e", "x_es_patatas_bravas": "photos/x_es_patatas_bravas.webp?v=99beafea", "x_et_atakilt_wat": "photos/x_et_atakilt_wat.webp?v=8d1c34de", "x_et_fosolia": "photos/x_et_fosolia.webp?v=bba85895", "x_et_kitfo_leb_leb": "photos/x_et_kitfo_leb_leb.webp?v=b6278c11", "x_et_shiro": "photos/x_et_shiro.webp?v=e718f48b", "x_fi_kaalilaatikko": "photos/x_fi_kaalilaatikko.webp?v=089683ff", "x_fi_kesakeitto": "photos/x_fi_kesakeitto.webp?v=087a5f57", "x_fi_pinaattiletut": "photos/x_fi_pinaattiletut.webp?v=6a72bf9f", "x_fi_porkkanalaatikko": "photos/x_fi_porkkanalaatikko.webp?v=5fdfeebf", "x_fr_brandade": "photos/x_fr_brandade.webp?v=8bb355b8", "x_fr_hachis_parmentier": "photos/x_fr_hachis_parmentier.webp?v=f98f6580", "x_fr_piperade": "photos/x_fr_piperade.webp?v=ddc0cec6", "x_fr_soupe_pistou": "photos/x_fr_soupe_pistou.webp?v=eb0bfdc8", "x_gb_beans_on_toast": "photos/x_gb_beans_on_toast.webp?v=1ad1b53e", "x_gb_cauliflower_cheese": "photos/x_gb_cauliflower_cheese.webp?v=45dfa633", "x_gb_kedgeree": "photos/x_gb_kedgeree.webp?v=94f672ca", "x_gb_toad_in_the_hole": "photos/x_gb_toad_in_the_hole.webp?v=f1312dcd", "x_ge_ajapsandali": "photos/x_ge_ajapsandali.webp?v=bd027315", "x_ge_kharcho": "photos/x_ge_kharcho.webp?v=d4fbe85b", "x_ge_pkhali": "photos/x_ge_pkhali.webp?v=2979de61", "x_ge_soko_ketsze": "photos/x_ge_soko_ketsze.webp?v=4a922b3d", "x_gr2_fasolakia_yahni": "photos/x_gr2_fasolakia_yahni.webp?v=fb0a57e2", "x_gr2_kolokithia_avga": "photos/x_gr2_kolokithia_avga.webp?v=9fc94114", "x_gr2_makaronia_fournou": "photos/x_gr2_makaronia_fournou.webp?v=95037a5c", "x_gr2_pourgouri": "photos/x_gr2_pourgouri.webp?v=f7246b9f", "x_gr_fasolada": "photos/x_gr_fasolada.webp?v=1d9148de", "x_gr_gemista": "photos/x_gr_gemista.webp?v=60edeaf5", "x_gr_kotopoulo_lemonato": "photos/x_gr_kotopoulo_lemonato.webp?v=449caa0d", "x_gr_spanakopita": "photos/x_gr_spanakopita.webp?v=02ad7090", "x_hr_blitva": "photos/x_hr_blitva.webp?v=f8beb632", "x_hr_gregada": "photos/x_hr_gregada.webp?v=7a886f45", "x_hr_pasticada": "photos/x_hr_pasticada.webp?v=0b9c5879", "x_hr_sataras": "photos/x_hr_sataras.webp?v=1fe8d67f", "x_hu_gulyasleves": "photos/x_hu_gulyasleves.webp?v=469a565f", "x_hu_paprikas_krumpli": "photos/x_hu_paprikas_krumpli.webp?v=2aeecb06", "x_hu_rakott_krumpli": "photos/x_hu_rakott_krumpli.webp?v=bee5b212", "x_hu_tokfozelek": "photos/x_hu_tokfozelek.webp?v=519fad09", "x_id_bakwan_sayur": "photos/x_id_bakwan_sayur.webp?v=dfe3c464", "x_id_sayur_lodeh": "photos/x_id_sayur_lodeh.webp?v=cad543b7", "x_id_soto_ayam": "photos/x_id_soto_ayam.webp?v=f2b75540", "x_id_tahu_telur": "photos/x_id_tahu_telur.webp?v=5d4c6aee", "x_ie_bacon_cabbage": "photos/x_ie_bacon_cabbage.webp?v=71a9d9e3", "x_ie_porridge": "photos/x_ie_porridge.webp?v=c42387e3", "x_ie_potato_soup": "photos/x_ie_potato_soup.webp?v=baf00b08", "x_ie_seafood_chowder": "photos/x_ie_seafood_chowder.webp?v=55aabe25", "x_il_chraime": "photos/x_il_chraime.webp?v=5eadeca0", "x_il_hamin": "photos/x_il_hamin.webp?v=8e3aae57", "x_il_sabich": "photos/x_il_sabich.webp?v=5269e780", "x_il_whole_cauliflower": "photos/x_il_whole_cauliflower.webp?v=11b63402", "x_in_anda_curry": "photos/x_in_anda_curry.webp?v=acb80248", "x_in_baingan_bharta": "photos/x_in_baingan_bharta.webp?v=c5c40368", "x_in_chana_masala": "photos/x_in_chana_masala.webp?v=ede7f7e3", "x_in_rogan_josh": "photos/x_in_rogan_josh.webp?v=44ca8d50", "x_ir_adas_polo": "photos/x_ir_adas_polo.webp?v=f48cb7c4", "x_ir_ash_reshteh": "photos/x_ir_ash_reshteh.webp?v=868b1b5d", "x_ir_joojeh_kabab": "photos/x_ir_joojeh_kabab.webp?v=d55b9fe9", "x_ir_kuku_sabzi": "photos/x_ir_kuku_sabzi.webp?v=2f2f6fbe", "x_it_minestrone": "photos/x_it_minestrone.webp?v=82257874", "x_it_parmigiana": "photos/x_it_parmigiana.webp?v=70063473", "x_it_pesto_genovese": "photos/x_it_pesto_genovese.webp?v=e475344e", "x_it_pollo_cacciatora": "photos/x_it_pollo_cacciatora.webp?v=42738265", "x_jp_agedashi_tofu": "photos/x_jp_agedashi_tofu.webp?v=1acc7493", "x_jp_kabocha_nimono": "photos/x_jp_kabocha_nimono.webp?v=a3b64fd6", "x_jp_nikujaga": "photos/x_jp_nikujaga.webp?v=3f6d4f07", "x_jp_okonomiyaki": "photos/x_jp_okonomiyaki.webp?v=7c96c7f6", "x_ke_kuku_kupaka": "photos/x_ke_kuku_kupaka.webp?v=9e477a55", "x_ke_maharagwe": "photos/x_ke_maharagwe.webp?v=229927cf", "x_ke_mchuzi_samaki": "photos/x_ke_mchuzi_samaki.webp?v=13fd57b7", "x_ke_mukimo": "photos/x_ke_mukimo.webp?v=9875bf41", "x_kg_ganfan": "photos/x_kg_ganfan.webp?v=91f5be30", "x_kg_khoshan": "photos/x_kg_khoshan.webp?v=96818198", "x_kg_mampar_veg": "photos/x_kg_mampar_veg.webp?v=ec23cd51", "x_kg_tokoch": "photos/x_kg_tokoch.webp?v=a1597a30", "x_kr_bulgogi": "photos/x_kr_bulgogi.webp?v=e2b638b6", "x_kr_dubu_jorim": "photos/x_kr_dubu_jorim.webp?v=883788b5", "x_kr_gimbap": "photos/x_kr_gimbap.webp?v=e2af8547", "x_kr_japchae": "photos/x_kr_japchae.webp?v=5f757c37", "x_kz_baursak": "photos/x_kz_baursak.webp?v=7133f0fe", "x_kz_kattama": "photos/x_kz_kattama.webp?v=0523d2d8", "x_kz_kespe": "photos/x_kz_kespe.webp?v=04c9c7c2", "x_kz_sirne": "photos/x_kz_sirne.webp?v=bf202b04", "x_lb_kafta_sayniyeh": "photos/x_lb_kafta_sayniyeh.webp?v=8669bc4d", "x_lb_maghmour": "photos/x_lb_maghmour.webp?v=32ca09cc", "x_lb_mujaddara": "photos/x_lb_mujaddara.webp?v=0f503408", "x_lb_sayadieh": "photos/x_lb_sayadieh.webp?v=6c3e3f2c", "x_lk_ala_thel_dala": "photos/x_lk_ala_thel_dala.webp?v=966f1ee8", "x_lk_isso_curry": "photos/x_lk_isso_curry.webp?v=4308beab", "x_lk_wambatu_moju": "photos/x_lk_wambatu_moju.webp?v=192de720", "x_lk_wattakka_curry": "photos/x_lk_wattakka_curry.webp?v=f56d9dde", "x_lt_kepta_duona": "photos/x_lt_kepta_duona.webp?v=b6839624", "x_lt_kibinai": "photos/x_lt_kibinai.webp?v=cb1c514e", "x_lt_kugelis": "photos/x_lt_kugelis.webp?v=979b7831", "x_lt_varskeciai": "photos/x_lt_varskeciai.webp?v=d04542d7", "x_lv_cepta_menca": "photos/x_lv_cepta_menca.webp?v=b5231bce", "x_lv_miezu_putra": "photos/x_lv_miezu_putra.webp?v=eeab7ee0", "x_lv_rupjmaizes_kartojums": "photos/x_lv_rupjmaizes_kartojums.webp?v=babe0cb6", "x_lv_sautets_kapostis": "photos/x_lv_sautets_kapostis.webp?v=0b94e0c3", "x_ma_harira": "photos/x_ma_harira.webp?v=f4bc2dba", "x_ma_hout_chermoula": "photos/x_ma_hout_chermoula.webp?v=bdfbf6ce", "x_ma_kefta_mkaouara": "photos/x_ma_kefta_mkaouara.webp?v=20c65957", "x_ma_zaalouk": "photos/x_ma_zaalouk.webp?v=cd7bac65", "x_md_fasole_batuta": "photos/x_md_fasole_batuta.webp?v=4f910fae", "x_md_ghiveci": "photos/x_md_ghiveci.webp?v=9c9a95e8", "x_md_parjoale": "photos/x_md_parjoale.webp?v=83996b38", "x_md_salata_vinete": "photos/x_md_salata_vinete.webp?v=813a766b", "x_mn_banshtai_tsai": "photos/x_mn_banshtai_tsai.webp?v=4853ba40", "x_mn_boortsog": "photos/x_mn_boortsog.webp?v=b1ef31bd", "x_mn_nogootoi_huurga": "photos/x_mn_nogootoi_huurga.webp?v=420b60a4", "x_mn_suutei_budaa": "photos/x_mn_suutei_budaa.webp?v=16c3cd8c", "x_mx_albondigas": "photos/x_mx_albondigas.webp?v=94fe521c", "x_mx_calabacitas": "photos/x_mx_calabacitas.webp?v=20dbfdc5", "x_mx_chilaquiles": "photos/x_mx_chilaquiles.webp?v=5e70a38d", "x_mx_pozole_rojo": "photos/x_mx_pozole_rojo.webp?v=66f2c7e0", "x_my_ayam_masak_merah": "photos/x_my_ayam_masak_merah.webp?v=5b94ee27", "x_my_roti_canai_dhal": "photos/x_my_roti_canai_dhal.webp?v=da265c62", "x_my_sambal_udang": "photos/x_my_sambal_udang.webp?v=896f1ac4", "x_my_sayur_lodeh": "photos/x_my_sayur_lodeh.webp?v=496cf807", "x_ng_asaro": "photos/x_ng_asaro.webp?v=e2922ad6", "x_ng_efo_riro": "photos/x_ng_efo_riro.webp?v=f3316127", "x_ng_ewa_agoyin": "photos/x_ng_ewa_agoyin.webp?v=0e03f04b", "x_ng_pepper_soup": "photos/x_ng_pepper_soup.webp?v=2b68bf87", "x_nl_hachee": "photos/x_nl_hachee.webp?v=6d812f92", "x_nl_mosterdsoep": "photos/x_nl_mosterdsoep.webp?v=df99aad8", "x_nl_pannenkoeken": "photos/x_nl_pannenkoeken.webp?v=e2afa2ef", "x_nl_uitsmijter": "photos/x_nl_uitsmijter.webp?v=2cd09faa", "x_np_bara": "photos/x_np_bara.webp?v=f6d727b0", "x_np_kwati": "photos/x_np_kwati.webp?v=84ccaa7e", "x_np_sekuwa": "photos/x_np_sekuwa.webp?v=8f9f35e8", "x_np_thukpa": "photos/x_np_thukpa.webp?v=4c4038b6", "x_pe_arroz_con_pollo": "photos/x_pe_arroz_con_pollo.webp?v=ab82dfba", "x_pe_papa_huancaina": "photos/x_pe_papa_huancaina.webp?v=96505760", "x_pe_papa_rellena": "photos/x_pe_papa_rellena.webp?v=d0f0887a", "x_pe_tallarines_verdes": "photos/x_pe_tallarines_verdes.webp?v=85fee488", "x_ph_bistek_tagalog": "photos/x_ph_bistek_tagalog.webp?v=9dc43faf", "x_ph_ginataang_kalabasa": "photos/x_ph_ginataang_kalabasa.webp?v=c4ec5053", "x_ph_lumpiang_sariwa": "photos/x_ph_lumpiang_sariwa.webp?v=7ea68238", "x_ph_tinola": "photos/x_ph_tinola.webp?v=224d9ca9", "x_pk_aloo_paratha": "photos/x_pk_aloo_paratha.webp?v=ce704d0e", "x_pk_chicken_karahi": "photos/x_pk_chicken_karahi.webp?v=06ec5fc1", "x_pk_pindi_chole": "photos/x_pk_pindi_chole.webp?v=9421e729", "x_pk_shami_kabab": "photos/x_pk_shami_kabab.webp?v=5240c37f", "x_pl_fasolka_po_bretonsku": "photos/x_pl_fasolka_po_bretonsku.webp?v=e680e0b9", "x_pl_kopytka": "photos/x_pl_kopytka.webp?v=9ff737e2", "x_pl_racuchy": "photos/x_pl_racuchy.webp?v=a5c17d8d", "x_pl_zupa_ogorkowa": "photos/x_pl_zupa_ogorkowa.webp?v=c3d136bb", "x_pt_arroz_de_tomate": "photos/x_pt_arroz_de_tomate.webp?v=46e9352a", "x_pt_caldeirada": "photos/x_pt_caldeirada.webp?v=20f66b28", "x_pt_ervilhas_com_ovos": "photos/x_pt_ervilhas_com_ovos.webp?v=2eca8d83", "x_pt_sopa_grao_espinafres": "photos/x_pt_sopa_grao_espinafres.webp?v=a505b07a", "x_ro_ciulama_de_pui": "photos/x_ro_ciulama_de_pui.webp?v=328f298a", "x_ro_papanasi": "photos/x_ro_papanasi.webp?v=24952de0", "x_ro_varza_calita": "photos/x_ro_varza_calita.webp?v=9658c636", "x_ro_zacusca": "photos/x_ro_zacusca.webp?v=a9e759ef", "x_rs_podvarak": "photos/x_rs_podvarak.webp?v=ae78abac", "x_rs_prebranac": "photos/x_rs_prebranac.webp?v=cff45fed", "x_rs_proja": "photos/x_rs_proja.webp?v=853ae607", "x_rs_punjene_paprike": "photos/x_rs_punjene_paprike.webp?v=7e044d41", "x_ru_shchi_postnye": "photos/x_ru_shchi_postnye.webp?v=a46db022", "x_ru_syrniki": "photos/x_ru_syrniki.webp?v=be77cfd8", "x_ru_tefteli": "photos/x_ru_tefteli.webp?v=b467fb13", "x_ru_ukha": "photos/x_ru_ukha.webp?v=bbde2480", "x_se_nasselsoppa": "photos/x_se_nasselsoppa.webp?v=e1e255ab", "x_se_pytt_i_panna": "photos/x_se_pytt_i_panna.webp?v=600ab492", "x_se_toast_skagen": "photos/x_se_toast_skagen.webp?v=3fc7490b", "x_se_vasterbottenpaj": "photos/x_se_vasterbottenpaj.webp?v=0a3496f2", "x_sg_curry_puff": "photos/x_sg_curry_puff.webp?v=71194893", "x_sg_fish_bee_hoon": "photos/x_sg_fish_bee_hoon.webp?v=8a2e43e8", "x_sg_hotplate_tofu": "photos/x_sg_hotplate_tofu.webp?v=234a866d", "x_sg_roti_john": "photos/x_sg_roti_john.webp?v=41b2819e", "x_th_khai_jiao": "photos/x_th_khai_jiao.webp?v=58bc68e1", "x_th_pad_krapao": "photos/x_th_pad_krapao.webp?v=1c87bc2b", "x_th_pad_pak_ruam": "photos/x_th_pad_pak_ruam.webp?v=32a7faee", "x_th_tom_yum_kung": "photos/x_th_tom_yum_kung.webp?v=9fa6f3d7", "x_tj_nahud_shurak": "photos/x_tj_nahud_shurak.webp?v=26542be7", "x_tj_shirbirinj": "photos/x_tj_shirbirinj.webp?v=bcc1fc22", "x_tj_ugro": "photos/x_tj_ugro.webp?v=e6e9e595", "x_tj_umoch": "photos/x_tj_umoch.webp?v=2f42e469", "x_tm_gowurdak": "photos/x_tm_gowurdak.webp?v=28b3a182", "x_tm_pishme": "photos/x_tm_pishme.webp?v=bdf8569f", "x_tm_shule": "photos/x_tm_shule.webp?v=be5d6708", "x_tm_unash": "photos/x_tm_unash.webp?v=68075881", "x_tn_jelbana": "photos/x_tn_jelbana.webp?v=b56d031e", "x_tn_kafteji": "photos/x_tn_kafteji.webp?v=bf571a1a", "x_tn_mechouia": "photos/x_tn_mechouia.webp?v=1c6029eb", "x_tn_tajine_djej": "photos/x_tn_tajine_djej.webp?v=c82ad392", "x_tr_cilbir": "photos/x_tr_cilbir.webp?v=3eaca58f", "x_tr_imam_bayildi": "photos/x_tr_imam_bayildi.webp?v=4f44ec76", "x_tr_kisir": "photos/x_tr_kisir.webp?v=85cac720", "x_tr_kuru_fasulye": "photos/x_tr_kuru_fasulye.webp?v=292ea4ea", "x_tw_eggplant_basil": "photos/x_tw_eggplant_basil.webp?v=449cd72e", "x_tw_ma_you_ji": "photos/x_tw_ma_you_ji.webp?v=9fb907e9", "x_tw_majiang_mian": "photos/x_tw_majiang_mian.webp?v=7266b9d8", "x_tw_paigu_fan": "photos/x_tw_paigu_fan.webp?v=1908acd6", "x_ua_banosh": "photos/x_ua_banosh.webp?v=a7e83508", "x_ua_hrybna_yushka": "photos/x_ua_hrybna_yushka.webp?v=501dc25a", "x_ua_kruchenyky": "photos/x_ua_kruchenyky.webp?v=1f51a06e", "x_ua_nalysnyky": "photos/x_ua_nalysnyky.webp?v=f4092f1e", "x_us_corn_chowder": "photos/x_us_corn_chowder.webp?v=fdc3aa56", "x_us_jambalaya": "photos/x_us_jambalaya.webp?v=7862ab63", "x_us_meatloaf": "photos/x_us_meatloaf.webp?v=8ed7dade", "x_us_succotash": "photos/x_us_succotash.webp?v=a9bd4412", "x_uz_dimlama": "photos/x_uz_dimlama.webp?v=d550d2c9", "x_uz_khanum": "photos/x_uz_khanum.webp?v=0094d04e", "x_uz_shurpa": "photos/x_uz_shurpa.webp?v=63fc9400", "x_uz_tukhum_barak": "photos/x_uz_tukhum_barak.webp?v=1b6e4e85", "x_vn_ca_kho_to": "photos/x_vn_ca_kho_to.webp?v=0a732df5", "x_vn_dau_sot_ca_chua": "photos/x_vn_dau_sot_ca_chua.webp?v=3e1d78a6", "x_vn_nam_kho_tieu": "photos/x_vn_nam_kho_tieu.webp?v=399f413e", "x_vn_thit_kho_trung": "photos/x_vn_thit_kho_trung.webp?v=52b9ba87", "x_za_melktert": "photos/x_za_melktert.webp?v=a6814e29", "x_za_pampoenkoekies": "photos/x_za_pampoenkoekies.webp?v=81a23f74", "x_za_tamatiebredie": "photos/x_za_tamatiebredie.webp?v=ad183b76", "x_za_umngqusho": "photos/x_za_umngqusho.webp?v=8afd3e39", "zeama": "photos/zeama.webp?v=601671fc", "zurek": "photos/zurek.webp?v=3a4a6ce4"}).map(([k, v]) => [k, DD_BASE + v]));
@@ -11126,6 +11126,15 @@ const at = e => e && e.clientX ? {x:e.clientX, y:e.clientY} : {};
 
 /* ================= САЙТ ================= */
 const SITE_ANCHORS = ["top","join","how","features","story","pricing","faq","docs"];
+/* две копии одного файла (сборка.py): DD_ENTRY="site" - сайт в корне, "app" - приложение в /app/. Без флага - всё в одном файле.
+   Переходы между копиями только по http(s): у локального файла соседней копии нет, там экраны переключаются на месте */
+const ENTRY = window.DD_ENTRY || "", SPLIT = !!ENTRY && location.protocol !== "file:";
+const toApp = h => location.assign("app/" + (h ? "#" + h : ""));
+function goSite(id){
+  if(SPLIT && ENTRY==="app") return location.assign("../" + (id && id!=="top" ? "#" + id : ""));
+  return go("site", ()=>setTimeout(()=>scrollToId(id || "top"), 40));
+}
+const legalOut = h => SPLIT && ENTRY==="app" ? (location.assign("../#" + h), true) : false;
 const CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const PLUS = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 const amt = v => Math.abs(v - Math.round(v)) < .005 ? String(Math.round(v)) : money(v);
@@ -11226,7 +11235,7 @@ function refreshCountry(){
   if($("#onb").classList.contains("on")) $("#onbBody").innerHTML = stepsDef[step].r();
   if(siteReady) renderSite();
   if($("#legal").classList.contains("on") && legalDoc) renderLegal();
-  if($("#pay").classList.contains("on") && !REGION.pay) go("site", ()=>setTimeout(()=>scrollToId("pricing"), 40));
+  if($("#pay").classList.contains("on") && !REGION.pay) goSite("pricing");
 }
 const GEO_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>';
 const storeInfo = () => [`${t("storesLbl",{x:ccName()})} · ${REGION.currency}`, REGION.soon ? t("geoSoon") : "", CHAINS.some(c=>c.city) ? t("cnRegional",{x:t("regionIn")}) : ""].filter(Boolean).join(". ") + ".";
@@ -11259,7 +11268,7 @@ document.addEventListener("click", e=>{
   if(a.matches("#navCta,#heroCta") && canEnter()){ F.shutter(openAppFlow); return; }
   if(a.hasAttribute("data-home")) return goHome();
   if($("#site").classList.contains("on")){ scrollToId(id); history.replaceState(null, "", "#"+id); }
-  else go("site", ()=>setTimeout(()=>scrollToId(id), 40));
+  else goSite(id);
 });
 /* «ещё разделы» / бургер в шапке сайта: одна и та же выпадашка, набор ссылок решает CSS по ширине бара */
 function closeNavDrop(){
@@ -11299,12 +11308,13 @@ function siteEnter(){
 }
 function renderSite(){
   const cta = t(canEnter() ? "openApp" : "getAccess"); $("#navCta").textContent = cta; $("#heroCta").textContent = cta;
+  /* на сайте «Открыть приложение» - обычная ссылка на /app/, «Получить доступ» - к блоку записи */
+  if(SPLIT && ENTRY==="site") ["#navCta","#heroCta"].forEach(s=>$(s).setAttribute("href", canEnter() ? "app/" : "#join"));
   renderJoinDone(); paintTracker(); paintCountdown(); paintMarq();
   $("#priceIntro").textContent = t("priceIntro",{n:RECIPES.length, c:CUISINES.length});
-  renderPlans(); renderFaq(); renderWeekDemo(); renderTimerDemo();
-  $("#demoBars").innerHTML = demoBarsHTML(); $("#demoKbju").innerHTML = kbjuDemoHTML();
+  renderPlans(); renderFaq(); renderWeekDemo();
+  $("#demoBars").innerHTML = demoBarsHTML();
   if($(".c-price").classList.contains("in")) paintBars();
-  if($(".c-kbju").classList.contains("in")) paintKbju();
   if(demoDone) runDemo(true);
 }
 
@@ -11332,32 +11342,63 @@ async function runDemo(instant){
   demoDone = true;
 }
 function demoBarsHTML(){
-  const ids = RECIPES.filter(r=>photoOf(r) && localCu().includes(r.cu)).slice(0,5).map(r=>r.id);
+  /* корзина тех же дней, что в демо-неделе: блюдо из остатков докупать не нужно, поэтому id без повторов */
+  const ids = [...new Set(demoRows.map(x=>x.r.id))];
   const sums = CHAINS.map(c=>({c, v:basketSum(basket(ids,c))})).sort((a,b)=>a.v-b.v), max = sums.length ? sums[sums.length-1].v || 1 : 1;
   if(!ids.length) return "";
   /* у каждой сети свой цвет (CHAINS.color) и подпись, у самой дешёвой бейдж, у остальных разница в валюте страны; одна сеть - без бейджа */
   const one = sums.length < 2;
   return sums.map((s,i)=>`<div class="s-bar${i===0&&!one?" best":""}" style="--c:${s.c.color}"><div class="s-bar-top"><span class="s-bar-n"><span class="dot" aria-hidden="true"></span>${tr(s.c)}</span><span class="s-bar-v">${one?"":i===0?`<em class="s-badge">${t("cheapestAll")}</em>`:`<em class="s-diff num">+${rub(s.v-sums[0].v)}</em>`}<b class="num">${rub(s.v)}</b></span></div><span class="s-bar-tr" aria-hidden="true"><i style="width:${(s.v/max*100).toFixed(1)}%"></i></span></div>`).join("")
-    + `<p class="src">${t("fBasket",{n:ids.length, p:S.people, c:tr(sums[0].c), one})}</p>`;
+    + `<p class="src">${t("fBasket",{n:demoRows.length, p:S.people, c:tr(sums[0].c), one})}</p>`;
 }
 function paintBars(){ requestAnimationFrame(()=>requestAnimationFrame(()=>$$("#demoBars i").forEach((i,k)=>{ i.style.transitionDelay = (k*90)+"ms"; i.style.transform = "none"; }))); }
-function renderWeekDemo(){
-  /* второе блюдо должно быть из кухни страны: сперва фото+ремейк из остатков, если нет фото - берём без фото (иконка блюда), лишь бы кухня совпадала */
+/* ДЕМО-НЕДЕЛЯ: один источник для «Недели», «Шагов с таймером», «КБЖУ» и корзины. День выбирают кнопки в списке недели,
+   без выбора дни листаются сами раз в 6 с (пауза при наведении/фокусе, стоп после клика, при reduced-motion не листаются) */
+let demoRows = [], demoDay = 0, demoAuto = null, demoHover = false, demoPicked = false, demoTimer = null;
+const MIN_RE = /(\d+)\s*(?:минут|min)/i;
+function demoWeekRows(){
+  /* блюда из кухонь страны: сперва блюдо с ремейком из остатков (Вт), если нет фото - без фото (иконка), лишь бы кухня совпадала */
   const cu = localCu();
   const lead = RECIPES.find(r=>rnext(r) && cu.includes(r.cu) && photoOf(r)) || RECIPES.find(r=>rnext(r) && cu.includes(r.cu));
-  if(!lead){ $("#demoWeek").innerHTML = ""; return; }
-  const rest = RECIPES.filter(r=>photoOf(r) && r!==lead && cu.includes(r.cu)).slice(3,6);
-  const rows = [[0, lead, rn(lead), false], [1, lead, rnext(lead).n, true], ...rest.map((r,i)=>[i+2, r, rn(r), false])];
-  $("#demoWeek").innerHTML = rows.map(([d, r, name, left])=>`<div class="s-wd${left?" left":""}"><em>${dshort(d)}</em><span class="th">${dishArt(r)}</span><div><b>${escH(name)}</b>${left?`<small>${t("fromLeftTag")}</small>`:""}</div></div>`).join("");
+  const rest = RECIPES.filter(r=>photoOf(r) && r!==lead && cu.includes(r.cu)).slice(3, 7).map(r=>({r, name:rn(r), how:rhow(r)}));
+  const nx = lead && rnext(lead);
+  return (lead ? [{r:lead, name:rn(lead), how:rhow(lead)}, {r:lead, name:nx.n, how:nx.how && nx.how.length ? nx.how : rhow(lead), left:true}] : []).concat(rest).slice(0, 4);
 }
-let demoTimer = null;
-const MIN_RE = /(\d+)\s*(?:минут|min)/i;
+function renderWeekDemo(){
+  demoRows = demoWeekRows(); if(demoDay >= demoRows.length) demoDay = 0;
+  $("#demoWeek").innerHTML = demoRows.map((x,d)=>`<button type="button" class="s-wd${x.left?" left":""}" data-demoday="${d}" aria-pressed="${d===demoDay}"><em>${dshort(d)}</em><span class="th">${dishArt(x.r)}</span><span class="wd-t"><b>${escH(x.name)}</b>${x.left?`<small>${t("fromLeftTag")}</small>`:""}</span></button>`).join("");
+  renderDayDemo();
+  if(!demoAuto && !RM() && demoRows.length > 1) demoAuto = setInterval(()=>{
+    if(demoPicked || demoHover || demoTimer || document.hidden || !$("#site").classList.contains("on")) return;
+    setDemoDay((demoDay + 1) % demoRows.length);
+  }, 6000);
+}
+function setDemoDay(d){
+  demoDay = d;
+  $$("#demoWeek [data-demoday]").forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.demoday===d)));
+  renderDayDemo();
+}
+function renderDayDemo(){
+  renderTimerDemo();
+  $("#demoKbju").innerHTML = kbjuDemoHTML();
+  if($(".c-kbju").classList.contains("in")) paintKbju();
+}
+document.addEventListener("click", e=>{ const b = e.target.closest("[data-demoday]"); if(!b) return; demoPicked = true; setDemoDay(+b.dataset.demoday); });
+{ const bento = $("#features .s-bento");
+  bento.addEventListener("pointerenter", ()=>{ demoHover = true; }); bento.addEventListener("pointerleave", ()=>{ demoHover = false; });
+  bento.addEventListener("focusin", ()=>{ demoHover = true; }); bento.addEventListener("focusout", ()=>{ demoHover = false; }); }
+/* шаги и время - из рецепта выбранного дня: текущий шаг - первый с минутами (его таймер), вокруг него 3 шага */
 function renderTimerDemo(){
-  const r = RECIPES.filter(photoOf).find(r=>rhow(r).some(s=>MIN_RE.test(s))); if(!r) return;
-  const s = rhow(r).find(x=>MIN_RE.test(x)), mins = +s.match(MIN_RE)[1], box = $("#demoTimer");
-  clearInterval(demoTimer); demoTimer = null; box.dataset.total = box.dataset.left = mins*60;
+  const x = demoRows[demoDay], box = $("#demoTimer");
+  clearInterval(demoTimer); demoTimer = null;
+  if(!x){ box.innerHTML = ""; return; }
+  const how = x.how || [], ti = Math.max(0, how.findIndex(s=>MIN_RE.test(s))), s0 = Math.max(0, Math.min(ti - 1, how.length - 3));
+  const m = (how[ti] || "").match(MIN_RE), mins = m ? +m[1] : x.r.t;
+  box.dataset.total = box.dataset.left = mins*60;
   box.innerHTML = `<div class="ring-t"><svg viewBox="0 0 112 112" aria-hidden="true"><circle class="bgc" cx="56" cy="56" r="48"/><circle class="fg" id="dtFg" cx="56" cy="56" r="48" stroke-dasharray="301.6" stroke-dashoffset="0"/></svg><b class="num" id="dtTxt">${String(mins).padStart(2,"0")}:00</b></div>
-    <div><p><b style="color:var(--ink);font-weight:600">${escH(rn(r))}</b><br>${escH(s)}</p><button class="btn btn-ghost btn-sm" type="button" id="dtBtn">${t("timerStart")}</button></div>`;
+    <div><p><b style="color:var(--ink);font-weight:600">${escH(x.name)}</b><br><span class="dt-meta">${dshort(demoDay)} · ${x.r.t} ${t("min")}</span></p>
+    <ol class="dt-steps" start="${s0+1}">${how.slice(s0, s0+3).map((s,i)=>`<li${s0+i===ti?' class="cur" aria-current="step"':""}><span>${escH(s)}</span></li>`).join("")}</ol>
+    <button class="btn btn-ghost btn-sm" type="button" id="dtBtn">${t("timerStart")}</button></div>`;
 }
 document.addEventListener("click", e=>{
   if(!e.target.closest("#dtBtn")) return;
@@ -11371,9 +11412,10 @@ document.addEventListener("click", e=>{
   }, 1000);
 });
 function kbjuDemoHTML(){
-  const r = byId("chakhokhbili") || RECIPES.find(photoOf); if(!r || !r.nu) return "";
+  /* блюдо из остатков готовится из того же набора продуктов, поэтому КБЖУ на порцию - исходного блюда */
+  const x = demoRows[demoDay], r = x && x.r; if(!r || !r.nu) return "";
   const mx = Math.max(r.nu.p, r.nu.f, r.nu.c) || 1;
-  return `<div class="big num"><span id="kbK" data-v="${r.nu.k}">${RM() ? r.nu.k : 0}</span><small>${t("kbjuPer")}</small></div><div class="dish">${escH(rn(r))}</div>
+  return `<div class="big num"><span id="kbK" data-v="${r.nu.k}">${RM() ? r.nu.k : 0}</span><small>${t("kbjuPer")}</small></div><div class="dish">${dshort(demoDay)} · ${escH(x.name)}</div>
     <div class="s-mac">${[["protein","p","var(--mp)"],["fat","f","var(--mf)"],["carbs","c","var(--mc)"]].map(([k,f,c])=>`<div><span>${t(k)}</span><i style="background:${c};width:${Math.round(r.nu[f]/mx*100)}%" aria-hidden="true"></i><b class="num">${r.nu[f]} ${t("u_g")}</b></div>`).join("")}</div>`;
 }
 function paintKbju(){ const k = $("#kbK"); if(k) countUp(k, +k.dataset.v); requestAnimationFrame(()=>requestAnimationFrame(()=>$$("#demoKbju i").forEach(i=>i.style.transform = "none"))); }
@@ -11515,7 +11557,8 @@ const payPrice = () => DD_PAY.priceFor(payPlan, payTerm, "BY");
 const payAmount = () => DD_PAY.withPromo(payPrice(), payPromo ? payPromo.percent : 0);
 const setPayState = id => ["payForm","payWait","payOk","payFail"].forEach(x=>{ $("#"+x).hidden = x!==id; });
 function openPay(plan, months){
-  if(!REGION.pay) return go("site", ()=>setTimeout(()=>scrollToId("pricing"), 40));   // оплата только в Беларуси
+  if(!REGION.pay) return goSite("pricing");   // оплата только в Беларуси
+  if(SPLIT && ENTRY==="site") return toApp("pay=" + (DD_PAY.USD[plan] ? plan : payPlan) + "-" + (DD_PAY.DISC[months] !== undefined ? +months : payTerm));
   if(DD_PAY.USD[plan]) payPlan = plan;
   if(DD_PAY.DISC[months] !== undefined) payTerm = +months;
   if(!payWaiter){ setPayState("payForm"); renderPay(); }
@@ -11671,7 +11714,7 @@ const canNutriNow = () => DD_PAY.canNutri(tier());
 const LOCAL_CU = ["by","ru","ua","pl","lt","it","ge"];
 const localCu = () => REGION.cc==="BY" ? LOCAL_CU : REGION.cuisines;
 const isOpen = r => isPlus() || FREE_SET.has(r.id);
-function openPaywall(){ go("site", ()=>setTimeout(()=>scrollToId("pricing"), 40)); }
+function openPaywall(){ goSite("pricing"); }
 document.addEventListener("click", e=>{ if(e.target.closest("[data-paywall]")) openPaywall(); });
 const dishCount = () => { const n = S.days.length; return S.cookMode==="twice" ? Math.ceil(n/2) : S.cookMode==="three" ? Math.min(3,n) : n; };
 /* k блюд растягиваются на все дни: [A,B,C] на 5 дней = A,A,B,B,C. Корзина считает повтор как двойную порцию */
@@ -11813,6 +11856,9 @@ const canEnter = () => hasAccess() || freeOn();
 const GATED = ["onb","build","app"], SCREEN_TONE = {site:0, pay:0, legal:1, onb:1, build:2, app:3};
 function show(id){
   if(GATED.includes(id) && !canEnter()) id = "site";
+  /* сайт и приложение - разные адреса: чужой экран открываем в соседней копии */
+  if(SPLIT && ENTRY==="app" && id==="site"){ location.assign("../"); return id; }
+  if(SPLIT && ENTRY==="site" && (GATED.includes(id) || id==="pay")){ toApp(id==="pay" ? "pay" : ""); return id; }
   $$(".screen").forEach(s=>s.classList.toggle("on", s.id===id));
   const h = location.hash.slice(1);
   if((GATED.includes(h) && h!==id) || (h==="pay" && id!=="pay") || (legalParse(h) && id!=="legal")) history.replaceState(null, "", location.pathname + location.search);
@@ -12686,6 +12732,7 @@ function goHome(){
     return;
   }
   if($("#site").classList.contains("on")){ scrollToId("top"); history.replaceState(null, "", location.pathname + location.search); return; }
+  if(SPLIT && ENTRY==="app") return goSite("top");
   go("site", ()=>{ scrollTo(0,0); $("#heroH").setAttribute("tabindex","-1"); $("#heroH").focus({preventScroll:true}); });
 }
 
@@ -12735,6 +12782,8 @@ document.addEventListener("click", e=>{
   const a = e.target.closest("a[href^='#']"); if(!a) return;
   const p = legalParse(a.getAttribute("href").slice(1)); if(!p) return;
   e.preventDefault();
+  /* из приложения документы открываются на сайте; со страницы оплаты - в новой вкладке, чтобы не потерять форму */
+  if(SPLIT && ENTRY==="app"){ const u = "../#" + a.getAttribute("href").slice(1); return a.closest("#pay") ? void window.open(u, "_blank", "noopener") : location.assign(u); }
   if(!a.closest("#legal")){ const cur = $(".screen.on"); legalReturn = a.closest("#payAgreeTxt") ? "pay" : cur ? cur.id : null; }
   openLegal(p.doc, p.sec);
 });
@@ -12812,7 +12861,8 @@ applyTheme(); applyStatic(); paintStores(); if(window.AURORA) AURORA.init($("#au
 if(window.DD_REVIEWS) DD_REVIEWS.plusUntil().then(ms=>{ ms = +ms||0; if(ms!==(S.bonusUntil||0)){ S.bonusUntil = ms; save(); if(siteReady) renderSite(); } }).catch(()=>{});
 if(FXM.liquidDock) dockCtl = FXM.liquidDock($("#dock"), $("#dockInd"));
 function openAppFlow(){
-  if(!canEnter()) return freeOver() ? openPaywall() : go("site", ()=>setTimeout(()=>scrollToId("join"), 40));
+  if(SPLIT && ENTRY==="site") return toApp();
+  if(!canEnter()) return freeOver() ? openPaywall() : goSite("join");
   if(askGeo(openAppFlow)) return;
   if(S.done && S.plan.some(id=>{ const r = byId(id); return !r || !dietOk(r) || (S.cuisines.length && !S.cuisines.includes(r.cu)); })){ S.plan = pickPlan(); save(); }
   if(S.done && S.plan.length){ show("app"); renderApp(); setTab("plan"); F.kinetic($("#appTitle"), TITLES.plan); F.reveal([$("#heroSlot"), ...$$("#days .day"), ...$$("#pane-plan .side .panel")], {step:70}); F.observe($("#pane-plan"), ".glass"); requestAnimationFrame(moveInd); }
@@ -12832,8 +12882,8 @@ function openRecipeHash(){
   if(byId(m[1])) openRecipe(m[1]);
   return true;
 }
-addEventListener("hashchange", ()=>{ if(openRecipeHash()) return; const h = location.hash.slice(1), lp = legalParse(h); if(lp) return openLegal(lp.doc, lp.sec, false); if(h==="pay" || GATED.includes(h)) return route(h);
-  if(SITE_ANCHORS.includes(h) && !$("#site").classList.contains("on")) go("site", ()=>setTimeout(()=>scrollToId(h), 40)); });
+addEventListener("hashchange", ()=>{ if(openRecipeHash()) return; const h = location.hash.slice(1), lp = legalParse(h); if(lp) return legalOut(h) || openLegal(lp.doc, lp.sec, false); if(h==="pay" || GATED.includes(h)) return route(h);
+  if(SITE_ANCHORS.includes(h) && !$("#site").classList.contains("on")) goSite(h); });
 /* восстановление доступа на другом устройстве: ссылка из письма restore, #restore=<token>.
    Email ссылка не несёт (в письме - только token), поэтому спрашиваем его на месте. */
 function tryRestoreHash(){
@@ -12854,7 +12904,7 @@ function tryRestoreHash(){
    сетевая ошибка (access() отдаёт active:true) доступ не трогает */
 /* план и сроки берём у сервера: оплата - Pay.gs, пробный и бесплатный - Code.gs. Локальный флаг только рисует */
 function recheckAccessOnBoot(){
-  const after = () => { save(); if(!canEnter() && GATED.includes(location.hash.slice(1))) show("site"); if($("#app").classList.contains("on")) renderApp(); };
+  const after = () => { save(); if(!canEnter() && GATED.some(id=>$("#"+id).classList.contains("on"))) show("site"); if($("#app").classList.contains("on")) renderApp(); };
   const a = S.access;
   if(a && a.token && a.src==="wl") DD_PAY.wl.access(a.email, a.token).then(r=>{
     if(r.active === false){ S.access = null; return after(); }
@@ -12879,8 +12929,26 @@ function tryTrialHash(){
 }
 (function boot(){
   if(tryRestoreHash() || tryTrialHash()) return;
-  const h = location.hash.slice(1), lp = legalParse(h);
-  if(lp) openLegal(lp.doc, lp.sec, false);
+  const h = location.hash.slice(1), lp = legalParse(h), pm = /^pay=(plus|pro)-(\d+)$/.exec(h);
+  if(ENTRY==="app"){
+    /* /app/: только приложение. Без доступа - оплата (Беларусь) или запись на сайте; основной экран без хэша в адресе */
+    if(lp && legalOut(h)) return;
+    if(lp) openLegal(lp.doc, lp.sec, false);
+    else if(pm) openPay(pm[1], pm[2]);
+    else if(S.pendingOrder && !hasAccess()) resumePay();
+    else if(h==="pay") openPay(payPlan);
+    else if(canEnter()) openAppFlow();
+    else if(REGION.pay) openPay(payPlan);
+    else goSite("join");
+    if(GATED.includes(h) || SITE_ANCHORS.includes(h)) history.replaceState(null, "", location.pathname + location.search);
+  }
+  else if(ENTRY==="site"){
+    /* сайт: приложение сам не открывает, даже если анкета пройдена - только кнопка «Открыть приложение» */
+    if(lp) openLegal(lp.doc, lp.sec, false);
+    else if(SPLIT && (pm || h==="pay" || GATED.includes(h))) return toApp(h);
+    else { show("site"); if(SITE_ANCHORS.includes(h)) setTimeout(()=>scrollToId(h), 60); }
+  }
+  else if(lp) openLegal(lp.doc, lp.sec, false);
   else if(S.pendingOrder && !hasAccess()) resumePay();
   else if(h==="pay" || GATED.includes(h)) route(h);
   else if(canEnter() && !SITE_ANCHORS.includes(h)) openAppFlow();
