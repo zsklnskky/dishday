@@ -2,7 +2,7 @@
 // network-first для HTML (чтобы люди сразу видели обновления онлайн),
 // cache-first для статики (фото с ?v=хэш), stale-while-revalidate для prices/*.json (обновляет GitHub Actions),
 // Apps Script (оплата, лист ожидания) не трогаем никогда.
-const CACHE = "dishday-v2";
+const CACHE = "dishday-v3";
 const PRECACHE_URLS = [
   "./",
   "./app/",
@@ -45,13 +45,14 @@ self.addEventListener("fetch", (event) => {
 
   if (isHTML) {
     event.respondWith(
-      fetch(req)
+      // no-store: мимо HTTP-кэша браузера, иначе после смены страницы люди видят старую (например старый редирект)
+      fetch(req.url, { cache: "no-store", credentials: "same-origin" })
         .then((res) => {
           const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
+          caches.open(CACHE).then((c) => c.put(req.url, copy));
           return res;
         })
-        .catch(() => caches.match(req).then((r) => r || caches.match("./")))
+        .catch(() => caches.match(req.url))
     );
     return;
   }
