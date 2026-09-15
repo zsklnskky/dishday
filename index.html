@@ -1193,8 +1193,9 @@ span.cc-pill:active{transform:none}
 .jn-cd{display:flex; gap:0.5rem 1.25rem; align-items:baseline; flex-wrap:wrap; margin-top:1.25rem}
 .jn-cd-l{color:var(--ink2); font-size:0.875rem; width:100%}
 .jn-cd-u b{font:700 1.75rem/1 var(--fd); margin-right:0.25rem} .jn-cd-u small{color:var(--ink2)}
-.jn-marq{width:100vw; margin-inline:calc(50% - 50vw); margin-block:1.5rem 0; overflow:hidden; border-block:1px solid var(--stroke); padding-block:1.125rem}
-.jn-marq-t{display:flex; width:max-content; animation:jnmarq 46s linear infinite}
+/* на всю ширину окна при любом масштабе: не зависит от ширины контейнера .wrap */
+.jn-marq{position:relative; left:50%; width:100vw!important; max-width:none!important; transform:translateX(-50%); margin:2rem 0 0!important; overflow:hidden; border-block:1px solid var(--stroke); padding-block:1.125rem}
+.jn-marq-t{display:flex; width:max-content; animation:jnmarq 120s linear infinite}
 .jn-marq-t span{font:900 clamp(3rem,7vw,6.5rem)/1 var(--fd); letter-spacing:-.04em; padding-right:3rem; white-space:nowrap; color:var(--ink3)}
 .jn-marq-t span:nth-child(odd){background:linear-gradient(100deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent}
 @keyframes jnmarq{to{transform:translateX(-50%)}}
@@ -1394,6 +1395,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
         <div id="demoSum"></div>
       </div>
     </section>
+    <div class="jn-marq" aria-hidden="true"><div class="jn-marq-t" id="jnMarq"></div></div>
 
     <section class="s-sec" id="join" data-tone="2" aria-labelledby="joinH">
       <div class="jn glass-panel">
@@ -1424,7 +1426,6 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
           <div class="jn-done" id="jnDone" role="status" hidden></div>
         </div>
       </div>
-      <div class="jn-marq" aria-hidden="true"><div class="jn-marq-t" id="jnMarq"></div></div>
     </section>
 
     <section class="s-sec" id="how" data-tone="1">
