@@ -73,7 +73,7 @@
    "live": [
     "maxima_lt"
    ],
-   "coverage": 0.434
+   "coverage": 0.425
   },
   "LV": {
    "updated": "2026-09-15",
@@ -81,7 +81,7 @@
    "live": [
     "maxima_lv"
    ],
-   "coverage": 0.398
+   "coverage": 0.407
   },
   "EE": {
    "updated": "2026-09-15",
@@ -89,7 +89,7 @@
    "live": [
     "maxima_ee"
    ],
-   "coverage": 0.425
+   "coverage": 0.434
   },
   "BY": {
    "updated": "2026-09-15",
