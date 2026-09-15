@@ -1193,10 +1193,10 @@ span.cc-pill:active{transform:none}
 .jn-cd{display:flex; gap:0.5rem 1.25rem; align-items:baseline; flex-wrap:wrap; margin-top:1.25rem}
 .jn-cd-l{color:var(--ink2); font-size:0.875rem; width:100%}
 .jn-cd-u b{font:700 1.75rem/1 var(--fd); margin-right:0.25rem} .jn-cd-u small{color:var(--ink2)}
-.jn-marq{margin:1.5rem auto 0; max-width:65rem; overflow:hidden; border-block:1px solid var(--stroke); padding:0.875rem 0}
+.jn-marq{width:100vw; margin-inline:calc(50% - 50vw); margin-block:1.5rem 0; overflow:hidden; border-block:1px solid var(--stroke); padding-block:1.125rem}
 .jn-marq-t{display:flex; width:max-content; animation:jnmarq 46s linear infinite}
-.jn-marq-t span{font:700 clamp(1.5rem,3.2vw,2.5rem)/1 var(--fd); letter-spacing:-.03em; padding-right:2.5rem; white-space:nowrap; color:var(--ink3)}
-.jn-marq-t span:nth-child(3n+1){color:var(--a1)}
+.jn-marq-t span{font:900 clamp(3rem,7vw,6.5rem)/1 var(--fd); letter-spacing:-.04em; padding-right:3rem; white-space:nowrap; color:var(--ink3)}
+.jn-marq-t span:nth-child(odd){background:linear-gradient(100deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent}
 @keyframes jnmarq{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){ .jn-marq-t{animation:none} }
 
@@ -1400,7 +1400,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
         <div class="jn-l">
           <p class="jn-kick" id="jnKick" data-i18n="jnKick">Закрытый запуск · 1 октября</p>
           <h2 class="s-h2" id="joinH" data-i18n="joinH">Попробуйте бесплатно</h2>
-          <p class="s-intro" data-i18n="joinP">Введите почту, и откроется бесплатный режим на 2 месяца. Первым 150 месяц Pro Plus в подарок.</p>
+          <p class="s-intro" id="joinP" data-i18n="joinP">Введите почту, и откроется бесплатный режим на 1 месяц. Первым 150 месяц Pro Plus в подарок.</p>
           <div class="jn-track">
             <div class="jn-nums">
               <div><b class="num" id="jnTotal">0</b><span data-i18n="jnTotalL">Записались</span></div>
@@ -1848,5 +1848,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script src="app/app.js?v=346f9824"></script>
+<script src="app/app.js?v=66cce2a2"></script>
 

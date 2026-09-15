@@ -1510,7 +1510,8 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
     demoSet(orderId, status){ if(orderId in demo) demo[orderId] = status; },
 
     /* ===== ЗАПИСЬ: трекер 150 мест, бесплатный режим, пробный месяц (waitlist/Code.gs) =====
-       endpoint пустой -> demo: записи в localStorage (dd_wl_demo), трекер помечен «демо».
+       endpoint пустой -> demo: запись остаётся в localStorage (dd_wl_demo), но stats() отдаёт 0/150 -
+       реального подсчёта без бэкенда нет, локальные записи в счётчик не идут.
        stats()                -> {total, left, limit, demo}
        signup({email, consent, lang, country, credential?, website}) -> {ok, status:"new"|"exists", position, trial, left, total, free_end, trial_token?, access_token?, error?}
        activate(token)        -> {ok, plan:"trial", until, email, access_token} | {ok:false, error}
@@ -1521,7 +1522,8 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
       _db(){ try{ return JSON.parse(localStorage.getItem("dd_wl_demo") || "null") || {base:this.DEMO_BASE, list:[]}; }catch(e){ return {base:this.DEMO_BASE, list:[]}; } },
       _save(db){ try{ localStorage.setItem("dd_wl_demo", JSON.stringify(db)); }catch(e){} },
       stats(){
-        if(this.isDemo()){ const db = this._db(), total = db.base + db.list.length; return Promise.resolve({total, left:Math.max(0, this.LIMIT - total), limit:this.LIMIT, demo:true}); }
+        /* пока нет URL бэкенда - настоящего подсчёта нет: 0 записались, счётчик демо-браузера не показываем */
+        if(this.isDemo()){ return Promise.resolve({total:0, left:this.LIMIT, limit:this.LIMIT, demo:false}); }
         const u = this.endpoint + (this.endpoint.includes("?") ? "&" : "?") + "action=stats";
         return fetch(u, {cache:"no-store", signal:timeout()}).then(r=>r.json()).then(d=>{
           if(typeof d.total !== "number") throw new Error("bad stats");
@@ -1536,7 +1538,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
           const db = this._db(), was = db.list.find(x => x.email === email), now = Date.now(), total = db.base + db.list.length;
           if(was) return Promise.resolve({ok:true, status:"exists", position:was.position, trial:was.position <= this.LIMIT, free_end:was.free_end, left:Math.max(0, this.LIMIT - total), total});
           const position = total + 1, trial = position <= this.LIMIT;
-          const row = {email, position, country:d.country||"", lang:d.lang||"ru", at:now, free_end:now + 61 * 864e5, trial_status:trial ? "reserved" : "", trial_token:trial ? hex(24) : "", access_token:hex(24), trial_end:0};
+          const row = {email, position, country:d.country||"", lang:d.lang||"ru", at:now, free_end:now + 30 * 864e5, trial_status:trial ? "reserved" : "", trial_token:trial ? hex(24) : "", access_token:hex(24), trial_end:0};
           db.list.push(row); this._save(db);
           return Promise.resolve({ok:true, status:"new", position, trial, free_end:row.free_end, trial_token:row.trial_token, access_token:row.access_token, left:Math.max(0, this.LIMIT - position), total:position});
         }
@@ -10413,7 +10415,7 @@ const STR = {
   typeBody:["Чахохбили на четверых, 55 минут. Курица, томаты, кинза.","Chakhokhbili for four, 55 minutes. Chicken, tomatoes, cilantro."],
   bb1:["Брендбук, обложка","Brand book, cover"], bbType:["Аа Бб","Aa Bb"], bb2:["Цвет","Color"], bb3:["Типографика","Typography"],
   priceH:["Тарифы","Pricing"],
-  priceIntro:[v=>`Бесплатно: 50 блюд из 10 кухонь на 2 месяца. Plus открывает все ${pn(v.n,"dish")} из ${pn(v.c,"cuisineGen")}, Pro Plus добавляет «Питание». Чем длиннее срок, тем дешевле месяц.`, v=>`Free: 50 dishes from 10 cuisines for 2 months. Plus unlocks all ${v.n} dishes from ${v.c} cuisines, Pro Plus adds Nutrition. The longer the term, the cheaper each month.`],
+  priceIntro:[v=>`Бесплатно: 50 блюд из 10 кухонь на 1 месяц. Plus открывает все ${pn(v.n,"dish")} из ${pn(v.c,"cuisineGen")}, Pro Plus добавляет «Питание». Чем длиннее срок, тем дешевле месяц.`, v=>`Free: 50 dishes from 10 cuisines for 1 month. Plus unlocks all ${v.n} dishes from ${v.c} cuisines, Pro Plus adds Nutrition. The longer the term, the cheaper each month.`],
   freeOverNote:["Бесплатный период закончился. Заполните параметры и выберите тариф: меню и настройки сохранятся.","Your free period has ended. Fill in your preferences and pick a plan: your menu and settings stay."],
   planPlus:["Dishday Plus","Dishday Plus"], planPro:["Dishday Pro Plus","Dishday Pro Plus"], planTrial:["Пробный месяц Pro Plus","Pro Plus free month"], planFree:["Бесплатный режим","Free mode"],
   plusD:["Все кухни и блюда, всё кроме «Питания»","All cuisines and dishes, everything except Nutrition"],
@@ -10432,7 +10434,7 @@ const STR = {
   cmp5:["Разбивка закупки по магазинам","Shopping split across stores"],
   cmp6:["«Питание»: дневник КБЖУ, вода, вес","Nutrition: macro diary, water, weight"],
   cmp7:["Цели и напоминания","Goals and reminders"],
-  cmp8:["Срок","Duration"], cmp8f:["2 месяца","2 months"], cmp8p:["1-12 месяцев","1-12 months"],
+  cmp8:["Срок","Duration"], cmp8f:["1 месяц","1 month"], cmp8p:["1-12 месяцев","1-12 months"],
   yes:["Да","Yes"], no:["Нет","No"],
   faqH:["Вопросы и ответы","Questions and answers"],
   faq1q:["Откуда берутся цены?","Where do the prices come from?"],
@@ -10451,7 +10453,7 @@ const STR = {
   faq7q:["Что входит во вкладку «Питание»?","What's in the Nutrition tab?"],
   faq7a:["Входит в Pro Plus и пробный месяц. Дневник калорий и КБЖУ, вода и вес. Цель калорий, норма воды, интервал и часы напоминаний, тихие часы настраиваются. Пока Dishday открыт в браузере, напоминание приходит на экран, а с вашего разрешения и системным уведомлением. Когда вкладка закрыта, напоминания заработают после установки приложения на телефон (PWA).","It comes with Pro Plus and the free month. A calorie and macro diary, water and weight. Calorie goal, water target, reminder interval, hours and quiet hours are all adjustable. While Dishday is open in your browser, reminders show on screen, and as system notifications if you allow them. With the tab closed, reminders will work once you install the app on your phone (PWA)."],
   faq8q:["Что даёт запись и кому месяц бесплатно?","What do I get by signing up, and who gets a free month?"],
-  faq8a:["После ввода почты открывается бесплатный режим на 2 месяца: 50 блюд из 10 кухонь с шагами и списком покупок. Первые 150 записавшихся получают ещё и месяц Pro Plus: начать можно сразу или в течение 30 дней.","Enter your email and free mode opens for 2 months: 50 dishes from 10 cuisines with steps and a shopping list. The first 150 people also get a month of Pro Plus: start it right away or within 30 days."],
+  faq8a:["После ввода почты открывается бесплатный режим на 1 месяц: 50 блюд из 10 кухонь с шагами и списком покупок. Первые 150 записавшихся получают ещё и месяц Pro Plus: начать можно сразу или в течение 30 дней.","Enter your email and free mode opens for 1 month: 50 dishes from 10 cuisines with steps and a shopping list. The first 150 people also get a month of Pro Plus: start it right away or within 30 days."],
   docsAria:["Документы","Legal documents"], docsH:["Документы","Legal"],
   docsP:["Как мы обращаемся с данными, условия сервиса и подписки. Каждый документ открывается отдельной страницей с оглавлением.","How we handle data, plus the service and subscription terms. Each document opens as its own page with a table of contents."],
   docOpen:["Открыть","Open"],
@@ -10548,7 +10550,11 @@ const STR = {
   cuLocal:["Популярное в вашей стране","Popular in your country"],
   /* запись, пробный месяц, бесплатный режим */
   joinH:["Попробуйте бесплатно","Try it free"],
-  joinP:["Введите почту, и откроется бесплатный режим на 2 месяца. Первым 150 месяц Pro Plus в подарок.","Enter your email to open 2 months of free mode. The first 150 people get a month of Pro Plus."],
+  joinP:["Введите почту, и откроется бесплатный режим на 1 месяц. Первым 150 месяц Pro Plus в подарок.","Enter your email to open 1 month of free mode. The first 150 people get a month of Pro Plus."],
+  jnPreH:["Оставьте почту","Leave your email"],
+  jnPreP:["1 октября в 9:00 пришлём на почту ссылку на готовое приложение","On October 1 at 9:00 we will email you a link to the finished app"],
+  jnPreDoneP:["Готово. 1 октября в 9:00 ссылка придёт на {email}","Done. On October 1 at 9:00 the link will arrive at {email}"],
+  marqChains:["5 сетей","5 chains"], marqAppl:["16 видов техники","16 kitchen appliance types"],
   jnTotalL:["Записались","Signed up"], jnLeftL:["Осталось бесплатных мест","Free spots left"],
   jnDemo:["демо: счётчик считает записи в этом браузере","demo: the counter only counts sign-ups in this browser"],
   jnSoldOut:["Места с месяцем Pro Plus закончились, бесплатный режим открыт для всех","The Pro Plus month spots are gone, free mode is open to everyone"],
@@ -10562,7 +10568,7 @@ const STR = {
   trNow:["Начать сейчас","Start now"], trLater:["Начну позже","Start later"],
   trHint:["Месяц пойдёт с момента нажатия. Позже его можно активировать в течение 30 дней: по ссылке из письма или кнопкой в приложении.","The month starts when you tap. You can also activate it within 30 days from the email link or a button in the app."],
   trLaterH:["Место закреплено","Your spot is saved"], trLaterP:["Ссылка активации ушла на почту. Пока открыт бесплатный режим: 50 блюд из 10 кухонь.","The activation link is in your inbox. Meanwhile free mode is open: 50 dishes from 10 cuisines."],
-  jnOkH:["Вы записаны","You're in"], jnOkP:["Места с месяцем Pro Plus закончились, но бесплатный режим ваш: 50 блюд из 10 кухонь на 2 месяца.","The Pro Plus month spots are gone, but free mode is yours: 50 dishes from 10 cuisines for 2 months."],
+  jnOkH:["Вы записаны","You're in"], jnOkP:["Места с месяцем Pro Plus закончились, но бесплатный режим ваш: 50 блюд из 10 кухонь на 1 месяц.","The Pro Plus month spots are gone, but free mode is yours: 50 dishes from 10 cuisines for 1 month."],
   jnExistsH:["Эта почта уже записана","This email is already signed up"], jnExistsP:["Бесплатный режим открыт. Если вы в числе первых 150, ссылка активации месяца Pro Plus в письме.","Free mode is open. If you're among the first 150, the Pro Plus activation link is in your email."],
   openFreeMode:["Открыть бесплатный режим","Open free mode"], openApp2:["Открыть приложение","Open the app"],
   trialFail:["Не получилось активировать месяц. Попробуйте ссылку из письма","Couldn't activate the month. Try the link in your email"],
@@ -11265,7 +11271,7 @@ document.addEventListener("click", e=>{
   if(a.closest("#siteNavDrop")) closeNavDrop();
   const id = a.getAttribute("href").slice(1); if(!SITE_ANCHORS.includes(id)) return;
   e.preventDefault();
-  if(a.matches("#navCta,#heroCta") && canEnter()){ F.shutter(openAppFlow); return; }
+  if(a.matches("#navCta,#heroCta") && canEnter() && launched()){ F.shutter(openAppFlow); return; }
   if(a.hasAttribute("data-home")) return goHome();
   if($("#site").classList.contains("on")){ scrollToId(id); history.replaceState(null, "", "#"+id); }
   else goSite(id);
@@ -11307,9 +11313,9 @@ function siteEnter(){
   dio.observe($("#demo"));
 }
 function renderSite(){
-  const cta = t(canEnter() ? "openApp" : "getAccess"); $("#navCta").textContent = cta; $("#heroCta").textContent = cta;
-  /* на сайте «Открыть приложение» - обычная ссылка на /app/, «Получить доступ» - к блоку записи */
-  if(SPLIT && ENTRY==="site") ["#navCta","#heroCta"].forEach(s=>$(s).setAttribute("href", canEnter() ? "app/" : "#join"));
+  const canOpen = canEnter() && launched(), cta = t(canOpen ? "openApp" : "getAccess"); $("#navCta").textContent = cta; $("#heroCta").textContent = cta;
+  /* на сайте «Открыть приложение» - обычная ссылка на /app/, «Получить доступ» - к блоку записи; до запуска (LAUNCH_AT) - всегда «Получить доступ» */
+  if(SPLIT && ENTRY==="site") ["#navCta","#heroCta"].forEach(s=>$(s).setAttribute("href", canOpen ? "app/" : "#join"));
   renderJoinDone(); paintTracker(); paintCountdown(); paintMarq();
   $("#priceIntro").textContent = t("priceIntro",{n:RECIPES.length, c:CUISINES.length});
   renderPlans(); renderFaq(); renderWeekDemo();
@@ -11479,23 +11485,27 @@ function paintTracker(){
 function loadJoinStats(){ DD_API.stats().then(s=>{ jnStats = s; paintTracker(); }).catch(()=>{ $("#jnNote").textContent = t("jnStatsFail"); }); }
 /* из прежней страницы листа ожидания: отсчёт до запуска и бегущая строка фактов */
 const LAUNCH_AT = Date.parse("2026-10-01T09:00:00+03:00");
+const launched = () => Date.now() >= LAUNCH_AT;
 function paintCountdown(){
   const ms = LAUNCH_AT - Date.now(), el = $("#jnCd"), on = ms > 0;
   el.hidden = !on; $("#jnKick").hidden = !on;
+  $("#joinH").textContent = t(on ? "jnPreH" : "joinH");
+  $("#joinP").textContent = t(on ? "jnPreP" : "joinP");
   if(!on) return;
   const m = Math.floor(ms / 60000), parts = [[Math.floor(m / 1440), "day"], [Math.floor(m / 60) % 24, "hour"], [m % 60, "minute"]];
   el.innerHTML = `<span class="jn-cd-l">${t("toLaunch")}</span>` + parts.map(([n,k])=>`<span class="jn-cd-u"><b class="num">${String(n).padStart(2,"0")}</b><small>${pl(n,k)}</small></span>`).join("");
 }
 function paintMarq(){
-  const items = [pn(RECIPES.length,"dish"), pn(CUISINES.length,"cuisine"), t("marqSeats",{n:DD_PAY.TRIAL_SEATS}), t("marqDays"), t("marqList"), "RU / EN"];
+  const items = [t("marqSeats",{n:DD_PAY.TRIAL_SEATS}), t("marqDays"), t("marqList"), pn(RECIPES.length,"dish"), pn(CUISINES.length,"cuisine"), t("marqChains"), t("marqAppl"), "RU / EN"];
   const box = $("#jnMarq"); box.textContent = "";
   for(let k=0; k<2; k++) items.forEach(s=>{ const sp = document.createElement("span"); sp.textContent = s; box.append(sp); });
 }
 setInterval(()=>{ if($("#site").classList.contains("on")) paintCountdown(); }, 30000);
 function renderJoinDone(){
-  const d = jnDone || (S.trial && !hasAccess() ? {kind:"trial", n:S.trial.position} : hasAccess() || freeOn() ? {kind:"app"} : null);
+  const d = jnDone || (!launched() ? null : S.trial && !hasAccess() ? {kind:"trial", n:S.trial.position} : hasAccess() || freeOn() ? {kind:"app"} : null);
   $("#jnForm").hidden = !!d; $("#jnDone").hidden = !d;
   if(!d) return;
+  if(!launched()){ $("#jnDone").innerHTML = `<h3 class="jn-h" tabindex="-1">${t("jnPreDoneP",{email:d.email||""})}</h3>`; return; }
   const btn = (attr, k, main) => `<button type="button" class="btn ${main ? "btn-main" : "btn-ghost"}" ${attr}>${t(k)}</button>`;
   const V = {trial:["tr150H", t("tr150P",{n:+d.n|0})], later:["trLaterH", t("trLaterP")], ok:["jnOkH", t("jnOkP")], exists:["jnExistsH", t("jnExistsP")],
     app:[hasAccess() ? "trialOn" : "freeTill", ""]}[d.kind];
@@ -11526,8 +11536,8 @@ $("#site").addEventListener("submit", e=>{
   DD_PAY.wl.signup({email, consent:true, lang:S.lang, country:REGION.cc, website:$("#jnWebsite").value}).then(r=>{
     if(!r || !r.ok) return bad(r && r.error==="bad_email" ? "errEmail" : r && r.error==="consent_required" ? "jnNeedAgree" : "jnFail");
     applySignup(email, r);
-    if(typeof r.total==="number"){ jnStats = {limit:DD_PAY.wl.LIMIT, demo:DD_PAY.wl.isDemo(), ...(jnStats||{}), total:r.total, left:r.left}; paintTracker(); }
-    jnDone = r.status==="exists" ? {kind:"exists"} : r.trial ? {kind:"trial", n:r.position} : {kind:"ok"};
+    if(typeof r.total==="number" && !DD_PAY.wl.isDemo()){ jnStats = {limit:DD_PAY.wl.LIMIT, demo:false, ...(jnStats||{}), total:r.total, left:r.left}; paintTracker(); }
+    jnDone = r.status==="exists" ? {kind:"exists", email} : r.trial ? {kind:"trial", n:r.position, email} : {kind:"ok", email};
     renderSite(); $("#jnDone .jn-h").focus({preventScroll:true});
   }).catch(()=>bad("jnFail")).finally(()=>{ go.removeAttribute("aria-busy"); go.textContent = t("jnGo"); });
 });
