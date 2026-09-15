@@ -1069,7 +1069,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
     name:"",      // ФИО индивидуального предпринимателя
     unp:"",       // УНП
     address:"",   // адрес
-    email:"marketingdishday@gmail.com",     // email для обращений: данные, поддержка, оплата (Instagram: @the.dishday)
+    email:"marketingdishday@gmail.com",     // email для обращений: данные, поддержка, оплата (Instagram: @dishday_)
     phone:"",     // телефон
     bank:"",      // банк и БИК
     account:""    // расчётный счёт (IBAN)
@@ -1599,6 +1599,47 @@ html.perf-lite *,html.perf-lite *::before{-webkit-backdrop-filter:none!important
 html.perf-lite{--panel:rgba(14,19,37,.94)}
 html.perf-lite [data-rv]{filter:none!important}`;
   document.head.appendChild(st);
+})();
+
+
+/* ===== mod_prices_live.js ===== */
+/* Dishday: живые цены сетей поверх вшитых при сборке.
+   GitHub Actions дважды в день обновляет prices/<cc>.json (сборка сайта, intl/scrapers).
+   Модуль вшивается до объявления REGION/COUNTRIES/applyRegion, поэтому они читаются только внутри функции,
+   не на верхнем уровне (тот же приём, что в mod_legal.js/mod_reviews.js).
+   Вызов - из applyCountry() в app.html (один raf на смену страны и на старт). */
+(function(){
+  "use strict";
+  async function loadLivePrices(cc){
+    if(location.protocol === "file:") return;  // нет сервера - вшитые цены остаются как есть
+    const C = countryOf(cc);
+    if(!C || !Array.isArray(C.chains)) return;
+    let data;
+    try{
+      const ctrl = new AbortController(), tm = setTimeout(() => ctrl.abort(), 5000);
+      const res = await fetch("../prices/" + cc.toLowerCase() + ".json", {cache: "no-cache", signal: ctrl.signal});
+      clearTimeout(tm);
+      if(!res.ok) return;
+      data = await res.json();
+    }catch(e){ return; }  // офлайн/таймаут/битый ответ - молча остаёмся на вшитых ценах
+    if(!data || !Array.isArray(data.stores)) return;
+
+    const byId = {};
+    data.stores.forEach(s => { byId[s.id] = s; });
+    let changed = false;
+    C.chains.forEach(ch => {
+      const s = byId[ch.id];
+      if(!s || s.source !== "live" || !s.items || !Object.keys(s.items).length) return;
+      const p = {};
+      for(const k in s.items) p[k] = s.items[k].price_per_unit;
+      ch.p = p; ch.a = ch.a || []; ch.price = "live"; ch.date = s.updated || data.updated;
+      changed = true;
+    });
+    if(!changed || REGION.cc !== cc) return;  // страну сменили, пока грузилось - устаревший ответ не применяем
+    applyRegion(REGION.cc, REGION.how, REGION.soon);
+    refreshCountry();
+  }
+  window.loadLivePrices = loadLivePrices;
 })();
 
 
@@ -11167,6 +11208,7 @@ function applyCountry(cc, how, soon){
   const C = REGION.C;
   if(was!==C.code){ S.budgets = {...(S.budgets||{}), [was]:S.budget}; S.budget = S.budgets[C.code] || convertBudget(S.budget, was, C.code, before && basketSum(basket(S.plan))/before); }
   S.budgetCc = C.code;
+  if(window.loadLivePrices) loadLivePrices(C.code);
 }
 function applyRegion(cc, how, soon){
   const C = countryOf(cc) || COUNTRIES[0];
