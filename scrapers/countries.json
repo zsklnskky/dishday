@@ -12,7 +12,8 @@
   "priceLevel": "pli - Eurostat, уровень цен на еду (EU27=100); gdpPlr - World Bank, грубо; vsBY - задан явно",
   "budget": "для новых стран пересчитан из белорусского по курсу и уровню цен, округлён",
   "usd": "rate - сколько местной валюты за 1 USD (ЕЦБ, НБРБ кросс, для GEL/RSD/MKD/ALL - exchangerate-api), date и src; обновляет prices/rates.json",
-  "pretty": "цена подписки = ceil((usd*rate + minus)/step)*step - minus: не дешевле перевода, красивое окончанию (.99, ...90, целые)"
+  "pretty": "цена подписки = ceil((usd*rate + minus)/step)*step - minus: не дешевле перевода, красивое окончанию (.99, ...90, целые)",
+  "chains.proxy": "цена-ориентир для страны без живых цен: chain - сеть-донор в prices/<from>.json, цена x уровень цен страны / уровень донора x курс; basis - та же сеть или сеть того же ценового сегмента; skip - позиции донора, где парсер взял не тот товар (нарезка 100-150 г вместо филе, безлактозное молоко)"
  },
  "countries": [
   {
@@ -237,7 +238,12 @@
      "catalog": "https://www.leclercdrive.fr",
      "access": "unknown",
      "accessNote": "not checked; drive is per-store",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "auchan_pt",
+      "from": "PT",
+      "basis": "segment: hypermarket"
+     }
     },
     {
      "id": "carrefour_fr",
@@ -254,7 +260,12 @@
      "catalog": "https://www.carrefour.fr/s?q=lait",
      "access": "unknown",
      "accessNote": "search returned 403 to fetcher",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "consum",
+      "from": "ES",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "intermarche",
@@ -271,7 +282,12 @@
      "catalog": "https://www.intermarche.com",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "consum",
+      "from": "ES",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "systeme_u",
@@ -319,6 +335,46 @@
      "why": "поиск picard.fr закрыт robots.txt (Disallow: */recherche)",
      "ref": 1,
      "access": "blocked"
+    },
+    {
+     "id": "lidl_fr",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "shareSrc": "https://en.wikipedia.org/wiki/Lidl",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.fr",
+     "access": "unknown",
+     "accessNote": "in France since 1989 (Wikipedia); prices not checked",
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "segment: discounter (Lidl donors have 5-12 items, too few for a store index)"
+     }
+    },
+    {
+     "id": "aldi_fr",
+     "name": {
+      "ru": "Aldi",
+      "en": "Aldi"
+     },
+     "group": "Aldi Nord",
+     "shareSrc": "https://en.wikipedia.org/wiki/Aldi",
+     "brand": "#1E3D7B",
+     "color": "#638AD9",
+     "site": "https://www.aldi.fr",
+     "access": "unknown",
+     "accessNote": "Aldi Nord, 1369 stores (Wikipedia, 09.2026); prices not checked",
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "same chain (Aldi Süd DE for Aldi Nord FR)"
+     }
     }
    ],
    "usd": {
@@ -1384,7 +1440,12 @@
      "access": "blocked",
      "accessNote": "search page returns prices in HTML without store choice",
      "price": "index",
-     "why": "поиск lidl.cz закрыт robots.txt (Disallow: *search?q=*)"
+     "why": "поиск lidl.cz закрыт robots.txt (Disallow: *search?q=*)",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "segment: discounter (Lidl donors have 5-12 items, too few for a store index)"
+     }
     },
     {
      "id": "kaufland_cz",
@@ -1400,7 +1461,12 @@
      "site": "https://www.kaufland.cz",
      "access": "unknown",
      "accessNote": "403 from BY; same platform as kaufland.hr (offer prices in HTML)",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "kaufland_sk",
+      "from": "SK",
+      "basis": "same chain"
+     }
     },
     {
      "id": "albert",
@@ -1417,7 +1483,12 @@
      "catalog": "https://www.albert.cz/online",
      "access": "json_api",
      "accessNote": "Next.js + /api/v1/ GraphQL (Ahold platform, same as maxi.rs/mega-image.ro)",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "spar_at",
+      "from": "AT",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "penny_cz",
@@ -1433,7 +1504,12 @@
      "site": "https://www.penny.cz",
      "access": "unknown",
      "accessNote": "403 from BY",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "segment: discounter"
+     }
     },
     {
      "id": "tesco_cz",
@@ -1853,7 +1929,15 @@
      "catalog": "https://www.collectandgo.be",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "dirk",
+      "from": "NL",
+      "basis": "segment: hypermarket / price leader",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "delhaize_be",
@@ -1869,7 +1953,15 @@
      "catalog": "https://www.delhaize.be",
      "access": "unknown",
      "accessNote": "search URL returned 404; no. 2 per sources; Colruyt+Delhaize+Carrefour = 64.2% (2024, Gondola)",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "spar_nl",
+      "from": "NL",
+      "basis": "segment: supermarket",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "carrefour_be",
@@ -1885,7 +1977,15 @@
      "catalog": "https://www.carrefour.be",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "spar_nl",
+      "from": "NL",
+      "basis": "segment: supermarket",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "aldi_be",
@@ -1901,7 +2001,12 @@
      "site": "https://www.aldi.be",
      "access": "unknown",
      "accessNote": "not checked; discounters do not release shares to NielsenIQ",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "same chain (Aldi Süd DE for Aldi Nord BE)"
+     }
     },
     {
      "id": "lidl_be",
@@ -1917,7 +2022,12 @@
      "site": "https://www.lidl.be",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "segment: discounter (Lidl donors have 5-12 items, too few for a store index)"
+     }
     }
    ],
    "usd": {
@@ -3774,7 +3884,12 @@
      "color": "#EB7251",
      "access": "unknown",
      "accessNote": "nikora.ge ведёт на мясокомбинат Nikora Ltd, сайт сети не нашёл",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "sas",
+      "from": "AM",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "ori_nabiji",
@@ -3807,7 +3922,12 @@
      "site": "https://carrefour.ge",
      "access": "unknown",
      "accessNote": "сайт не ответил",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "sas",
+      "from": "AM",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "spar_ge",
@@ -3822,7 +3942,12 @@
      "color": "#47F597",
      "access": "unknown",
      "accessNote": "spar.ge - посторонний сайт (курсы), сайт сети не нашёл",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "spar_at",
+      "from": "AT",
+      "basis": "same chain"
+     }
     },
     {
      "id": "magniti_ge",
@@ -4513,7 +4638,12 @@
      "catalog": "https://www.s-kaupat.fi",
      "access": "store_required",
      "accessNote": "prices per selected store; best guess, not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "willys",
+      "from": "SE",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "k_group",
@@ -4530,7 +4660,12 @@
      "catalog": "https://www.k-ruoka.fi/kauppa",
      "access": "store_required",
      "accessNote": "prices per selected store; best guess, not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "hemkop",
+      "from": "SE",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "lidl_fi",
@@ -4546,7 +4681,15 @@
      "site": "https://www.lidl.fi",
      "access": "leaflet_only",
      "accessNote": "no grocery e-shop",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "rema1000_dk",
+      "from": "DK",
+      "basis": "segment: discounter (Lidl donors have 5-12 items, too few for a store index)",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "tokmanni",
@@ -5717,7 +5860,15 @@
      "site": "https://www.cactus.lu",
      "access": "unknown",
      "accessNote": "site rejected fetcher; ranked #1 by store count (62)",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "dirk",
+      "from": "NL",
+      "basis": "segment: supermarket",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "delhaize_lu",
@@ -5732,7 +5883,15 @@
      "site": "https://www.delhaize.lu",
      "access": "unknown",
      "accessNote": "not checked; 57 stores",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "dirk",
+      "from": "NL",
+      "basis": "segment: supermarket",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "match_lu",
@@ -5770,14 +5929,39 @@
       "ru": "Aldi",
       "en": "Aldi"
      },
-     "group": "Aldi Süd",
+     "group": "Aldi Nord",
      "shareSrc": "https://luxtoday.lu/en/knowledge/supermarkets-in-luxembourg",
      "brand": "#00549F",
      "color": "#47A3F5",
      "site": "https://www.aldi.lu",
      "access": "unknown",
      "accessNote": "not checked; 18 stores, Lidl 14",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "same chain (Aldi Süd DE for Aldi Nord LU)"
+     }
+    },
+    {
+     "id": "lidl_lu",
+     "name": {
+      "ru": "Lidl",
+      "en": "Lidl"
+     },
+     "group": "Schwarz Gruppe",
+     "shareSrc": "https://en.wikipedia.org/wiki/Lidl",
+     "brand": "#0050AA",
+     "color": "#4799F5",
+     "site": "https://www.lidl.lu",
+     "access": "unknown",
+     "accessNote": "in Luxembourg since 2001 (Wikipedia); 14 stores; prices not checked",
+     "price": "index",
+     "proxy": {
+      "chain": "aldi_de",
+      "from": "DE",
+      "basis": "segment: discounter (Lidl donors have 5-12 items, too few for a store index)"
+     }
     }
    ],
    "usd": {
@@ -5998,7 +6182,15 @@
      "site": "https://bonus.is",
      "access": "closed",
      "accessNote": "no public e-shop; best guess",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "rema1000_dk",
+      "from": "DK",
+      "basis": "segment: discounter",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "kronan",
@@ -6015,7 +6207,15 @@
      "catalog": "https://kronan.is",
      "access": "unknown",
      "accessNote": "largest online grocery share (Samkeppniseftirlitið filing 2025); not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "rema1000_dk",
+      "from": "DK",
+      "basis": "segment: discounter",
+      "skip": [
+       "chicken_fillet"
+      ]
+     }
     },
     {
      "id": "hagkaup",
@@ -6031,7 +6231,12 @@
      "site": "https://www.hagkaup.is",
      "access": "unknown",
      "accessNote": "web shop mainly cosmetics; not checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "oda",
+      "from": "NO",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "netto_is",
@@ -6289,7 +6494,12 @@
      "site": "https://www.kam.com.mk",
      "access": "unknown",
      "accessNote": "homepage 850 KB, few prices; /shop empty",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "fantastico",
+      "from": "BG",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "kipper",
@@ -6306,7 +6516,12 @@
      "catalog": "https://kipper.mk/mk/",
      "access": "html",
      "accessNote": "WooCommerce, some product prices in HTML",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "kaufland_bg",
+      "from": "BG",
+      "basis": "segment: hypermarket / price leader"
+     }
     },
     {
      "id": "stokomak",
@@ -6323,7 +6538,12 @@
      "catalog": "https://stokomak.com.mk/webshop/",
      "access": "html",
      "accessNote": "WooCommerce webshop (Store API likely at /wp-json/wc/store)",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "fantastico",
+      "from": "BG",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "vero",
@@ -6434,7 +6654,12 @@
      "site": "https://bigmarket.al",
      "access": "unknown",
      "accessNote": "site responds, no prices checked",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "voli",
+      "from": "ME",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "spar_al",
@@ -6451,7 +6676,12 @@
      "catalog": "https://shop.spar.al",
      "access": "html",
      "accessNote": "shop.spar.al lists many prices in HTML",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "spar_at",
+      "from": "AT",
+      "basis": "same chain"
+     }
     },
     {
      "id": "diambe",
@@ -6578,7 +6808,12 @@
      "catalog": "https://onlineshop.ba",
      "access": "html",
      "accessNote": "onlineshop.ba lists many KM prices in HTML",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "voli",
+      "from": "ME",
+      "basis": "segment: supermarket"
+     }
     },
     {
      "id": "tropic",
@@ -6611,7 +6846,15 @@
      "site": "https://www.konzum.ba",
      "access": "unknown",
      "accessNote": "konzum.ba did not resolve from BY",
-     "price": "index"
+     "price": "index",
+     "proxy": {
+      "chain": "konzum",
+      "from": "HR",
+      "basis": "same chain",
+      "skip": [
+       "milk"
+      ]
+     }
     },
     {
      "id": "fis",

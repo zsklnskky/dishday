@@ -104,7 +104,34 @@ def sane(items, base):
     return good
 
 
-def build(c, ing, words, fx, live, old):
+def proxy_items(c, donor, dstore, dcur, fx, skip=()):
+    """Цена-ориентир: живые позиции сети-донора x (уровень цен страны / уровень донора) x курс. -> (items, коэффициент).
+    skip - позиции, где парсер донора взял не тот товар."""
+    k = level_vs_by(c) / level_vs_by(donor) * fx["eur"][c["currency"]["code"]] / fx["eur"][dcur]
+    src = f"{dstore['id']}@{donor['code']}"
+    items = {key: {**v, "price_per_unit": round(v["price_per_unit"] * k, 3), "est": "proxy", "src": src,
+                   **({"pack_price": round(v["pack_price"] * k, 2)} if v.get("pack_price") else {})}
+             for key, v in dstore["items"].items() if key not in skip}
+    return items, k
+
+
+def apply_proxy(s, c, ch, fx, allc, n_ing):
+    """Сеть без живых цен с полем proxy получает цены донора из prices/<from>.json (дата - донора). Донор пуст - остаётся оценка."""
+    pr = ch["proxy"]
+    d = read(os.path.join(OUT, pr["from"].lower() + ".json")) or {}
+    ds = next((x for x in d.get("stores", []) if x["id"] == pr["chain"] and x.get("source") == "live" and x.get("items")), None)
+    donor = next((x for x in allc if x["code"] == pr["from"]), None)
+    if not ds or not donor:
+        s["error"] = f"донор {pr['chain']}@{pr['from']} без живых цен"
+        return
+    items, k = proxy_items(c, donor, ds, d["currency"], fx, pr.get("skip", ()))
+    dname = next((x["name"]["en"] for x in donor["chains"] if x["id"] == ds["id"]), ds["id"])
+    s.update(source="proxy", items=items, coverage=round(len(items) / n_ing, 3), updated=ds["updated"],
+             proxy={**pr, "k": round(k, 4)}, note={"ru": f"ориентир по {dname} {pr['from']}", "en": f"estimate from {dname} {pr['from']}"})
+    s.pop("error", None)
+
+
+def build(c, ing, words, fx, live, old, allc=()):
     today = datetime.date.today().isoformat()
     level = level_vs_by(c)
     base = estimate(ing, c, fx, level)
@@ -125,6 +152,8 @@ def build(c, ing, words, fx, live, old):
                 s.update(source="live", items=items, coverage=round(len(items) / len(ing), 3), updated=today)
             else:
                 s["error"] = err or "ничего не найдено"
+        if s["source"] == "index" and ch.get("proxy"):  # ориентир не входит в уровень страны и в base: это не её цены
+            apply_proxy(s, c, ch, fx, allc, len(ing))
         if s["source"] == "live":
             r = [v["price_per_unit"] / base[k]["price_per_unit"] for k, v in s["items"].items() if k in base]
             ratios += r
@@ -173,16 +202,18 @@ def main(only):
             live[futs[f]] = f.result()
             print(f"{futs[f]}: {len(live[futs[f]][0])} цен {live[futs[f]][1] or ''}", flush=True)
     index = read(os.path.join(OUT, "index.json")) or {"countries": {}}
-    for c in countries:
+    allc = load("countries.json")["countries"]
+    for c in sorted(countries, key=lambda c: any(ch.get("proxy") for ch in c["chains"])):  # ориентиры - после свежих цен доноров
         path = os.path.join(OUT, c["code"].lower() + ".json")
         old = read(path)
-        new = build(c, ing, words, fx, live, old)
+        new = build(c, ing, words, fx, live, old, allc)
         if not same(new, old):
             json.dump(new, open(path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
         cur = new if not same(new, old) else old
         index["countries"][c["code"]] = {"updated": cur["updated"], "currency": cur["currency"],
                                          "live": [s["id"] for s in cur["stores"] if s["source"] == "live"],
-                                         "coverage": max([s["coverage"] for s in cur["stores"]] or [0])}
+                                         "proxy": [s["id"] for s in cur["stores"] if s["source"] == "proxy"],
+                                         "coverage": max([s["coverage"] for s in cur["stores"] if s["source"] == "live"] or [0])}
     index["updated"] = datetime.date.today().isoformat()
     json.dump(index, open(os.path.join(OUT, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
@@ -199,7 +230,8 @@ def coverage():
             live = s.get("source") == "live"
             n = len(s.get("items", {}))
             src = ("live" + (" (ориентир)" if ch.get("ref") else "") + (", устарели" if s.get("stale") else "")) if live else (
-                "index" + (f": {s['error']}" if s.get("error") else ""))
+                f"proxy: {s['note']['ru']}" if s.get("source") == "proxy" else "index" + (f": {s['error']}" if s.get("error") else ""))
+            n = n if live else 0
             lines.append(f"| {c['code']} | {c['currency']['code']} | {ch['name'].get('ru') or ch['name']['en']} | {src} | "
                          f"{n} из {len(ing)} | {round(100 * n / len(ing))}% | {s.get('updated', '-') if live else '-'} |")
     return "\n".join(lines)
@@ -225,6 +257,13 @@ def self_check():
     got = build(c, ing, {}, fx, {"a": ({"milk": {"price_per_unit": 0.6, "unit": "l"}}, None)}, None)
     assert got["base"]["milk"] == {"price_per_unit": 0.6, "unit": "l", "pack_size": 1, "est": 0} and got["stores"][0]["source"] == "live"
     assert build(c, ing, {}, fx, {"a": ({"milk": {"price_per_unit": 9.0, "unit": "l"}}, None)}, None)["stores"][0]["source"] == "index"  # в 18 раз дороже оценки
+    # цена-ориентир: 1.00 EUR у донора с уровнем 100, страна с уровнем 120 и валютой 25 за EUR -> 1.2 * 25 = 30
+    cz = {"code": "CZ", "currency": {"code": "CZK"}, "priceLevel": {"pli": 120}}
+    de = {"code": "DE", "currency": {"code": "EUR"}, "priceLevel": {"pli": 100}}
+    items, k = proxy_items(cz, de, {"id": "lidl_de", "items": {"milk": {"price_per_unit": 1.0, "pack_price": 0.5, "unit": "l"}}}, "EUR",
+                           {"eur": {"EUR": 1, "CZK": 25}})
+    assert abs(k - 30) < 1e-9 and items["milk"] == {"price_per_unit": 30.0, "pack_price": 15.0, "unit": "l", "est": "proxy", "src": "lidl_de@DE"}
+    assert proxy_items(cz, de, {"id": "x", "items": {"milk": {"price_per_unit": 1.0}}}, "EUR", {"eur": {"EUR": 1, "CZK": 25}}, ["milk"])[0] == {}
 
 
 if __name__ == "__main__":

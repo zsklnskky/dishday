@@ -108,7 +108,7 @@
    "live": [
     "magnit"
    ],
-   "coverage": 0.345
+   "coverage": 0.363
   },
   "MD": {
    "updated": "2026-09-16",
@@ -117,7 +117,7 @@
     "linella",
     "kaufland_md"
    ],
-   "coverage": 0.239
+   "coverage": 0.248
   },
   "CH": {
    "updated": "2026-09-16",
@@ -135,7 +135,7 @@
     "lidl_si",
     "tus"
    ],
-   "coverage": 0.186
+   "coverage": 0.177
   },
   "IT": {
    "updated": "2026-09-16",
@@ -153,7 +153,7 @@
     "lidl_pt",
     "auchan_pt"
    ],
-   "coverage": 0.327
+   "coverage": 0.336
   },
   "SK": {
    "updated": "2026-09-16",
@@ -199,6 +199,13 @@
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [],
+   "proxy": [
+    "leclerc",
+    "carrefour_fr",
+    "intermarche",
+    "lidl_fr",
+    "aldi_fr"
+   ],
    "coverage": 0
   },
   "NL": {
@@ -216,7 +223,7 @@
    "live": [
     "silpo"
    ],
-   "coverage": 0.54
+   "coverage": 0.531
   },
   "AM": {
    "updated": "2026-09-16",
@@ -262,6 +269,12 @@
    "updated": "2026-09-16",
    "currency": "CZK",
    "live": [],
+   "proxy": [
+    "lidl_cz",
+    "kaufland_cz",
+    "albert",
+    "penny_cz"
+   ],
    "coverage": 0
   },
   "KZ": {
@@ -277,18 +290,35 @@
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [],
+   "proxy": [
+    "colruyt",
+    "delhaize_be",
+    "carrefour_be",
+    "aldi_be",
+    "lidl_be"
+   ],
    "coverage": 0
   },
   "GE": {
    "updated": "2026-09-16",
    "currency": "GEL",
    "live": [],
+   "proxy": [
+    "nikora",
+    "carrefour_ge",
+    "spar_ge"
+   ],
    "coverage": 0
   },
   "FI": {
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [],
+   "proxy": [
+    "s_group",
+    "k_group",
+    "lidl_fi"
+   ],
    "coverage": 0
   },
   "HR": {
@@ -313,30 +343,54 @@
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [],
+   "proxy": [
+    "cactus",
+    "delhaize_lu",
+    "aldi_lu",
+    "lidl_lu"
+   ],
    "coverage": 0
   },
   "IS": {
    "updated": "2026-09-16",
    "currency": "ISK",
    "live": [],
+   "proxy": [
+    "bonus",
+    "kronan",
+    "hagkaup"
+   ],
    "coverage": 0
   },
   "MK": {
    "updated": "2026-09-16",
    "currency": "MKD",
    "live": [],
+   "proxy": [
+    "kam",
+    "kipper",
+    "stokomak"
+   ],
    "coverage": 0
   },
   "AL": {
    "updated": "2026-09-16",
    "currency": "ALL",
    "live": [],
+   "proxy": [
+    "big_market",
+    "spar_al"
+   ],
    "coverage": 0
   },
   "BA": {
    "updated": "2026-09-16",
    "currency": "BAM",
    "live": [],
+   "proxy": [
+    "bingo",
+    "konzum_ba"
+   ],
    "coverage": 0
   }
  },
