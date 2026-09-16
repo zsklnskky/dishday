@@ -7,6 +7,7 @@
     "aldi_de",
     "kaufland_de"
    ],
+   "proxy": [],
    "coverage": 0.257
   },
   "ES": {
@@ -15,6 +16,7 @@
    "live": [
     "consum"
    ],
+   "proxy": [],
    "coverage": 0.434
   },
   "PL": {
@@ -23,7 +25,8 @@
    "live": [
     "frisco"
    ],
-   "coverage": 0.487
+   "proxy": [],
+   "coverage": 0.478
   },
   "GB": {
    "updated": "2026-09-16",
@@ -31,6 +34,7 @@
    "live": [
     "aldi_gb"
    ],
+   "proxy": [],
    "coverage": 0.407
   },
   "RO": {
@@ -41,6 +45,7 @@
     "kaufland_ro",
     "auchan_ro"
    ],
+   "proxy": [],
    "coverage": 0.292
   },
   "SE": {
@@ -50,6 +55,7 @@
     "willys",
     "hemkop"
    ],
+   "proxy": [],
    "coverage": 0.504
   },
   "AT": {
@@ -58,6 +64,7 @@
    "live": [
     "spar_at"
    ],
+   "proxy": [],
    "coverage": 0.363
   },
   "HU": {
@@ -67,6 +74,7 @@
     "lidl_hu",
     "aldi_hu"
    ],
+   "proxy": [],
    "coverage": 0.088
   },
   "LT": {
@@ -75,6 +83,7 @@
    "live": [
     "maxima_lt"
    ],
+   "proxy": [],
    "coverage": 0.425
   },
   "LV": {
@@ -83,6 +92,7 @@
    "live": [
     "maxima_lv"
    ],
+   "proxy": [],
    "coverage": 0.407
   },
   "EE": {
@@ -91,6 +101,7 @@
    "live": [
     "maxima_ee"
    ],
+   "proxy": [],
    "coverage": 0.434
   },
   "BY": {
@@ -100,6 +111,7 @@
     "euroopt",
     "green"
    ],
+   "proxy": [],
    "coverage": 0.46
   },
   "RU": {
@@ -108,7 +120,8 @@
    "live": [
     "magnit"
    ],
-   "coverage": 0.363
+   "proxy": [],
+   "coverage": 0.327
   },
   "MD": {
    "updated": "2026-09-16",
@@ -117,7 +130,8 @@
     "linella",
     "kaufland_md"
    ],
-   "coverage": 0.248
+   "proxy": [],
+   "coverage": 0.239
   },
   "CH": {
    "updated": "2026-09-16",
@@ -125,6 +139,7 @@
    "live": [
     "aldi_ch"
    ],
+   "proxy": [],
    "coverage": 0.159
   },
   "SI": {
@@ -135,7 +150,8 @@
     "lidl_si",
     "tus"
    ],
-   "coverage": 0.177
+   "proxy": [],
+   "coverage": 0.186
   },
   "IT": {
    "updated": "2026-09-16",
@@ -144,6 +160,7 @@
     "conad",
     "lidl_it"
    ],
+   "proxy": [],
    "coverage": 0.115
   },
   "PT": {
@@ -153,7 +170,8 @@
     "lidl_pt",
     "auchan_pt"
    ],
-   "coverage": 0.336
+   "proxy": [],
+   "coverage": 0.327
   },
   "SK": {
    "updated": "2026-09-16",
@@ -161,6 +179,7 @@
    "live": [
     "kaufland_sk"
    ],
+   "proxy": [],
    "coverage": 0.354
   },
   "MT": {
@@ -169,6 +188,7 @@
    "live": [
     "lidl_mt"
    ],
+   "proxy": [],
    "coverage": 0.044
   },
   "GR": {
@@ -177,6 +197,7 @@
    "live": [
     "lidl_gr"
    ],
+   "proxy": [],
    "coverage": 0.106
   },
   "RS": {
@@ -185,6 +206,7 @@
    "live": [
     "lidl_rs"
    ],
+   "proxy": [],
    "coverage": 0.071
   },
   "CY": {
@@ -193,6 +215,7 @@
    "live": [
     "lidl_cy"
    ],
+   "proxy": [],
    "coverage": 0.08
   },
   "FR": {
@@ -215,6 +238,7 @@
     "dirk",
     "spar_nl"
    ],
+   "proxy": [],
    "coverage": 0.46
   },
   "UA": {
@@ -223,6 +247,7 @@
    "live": [
     "silpo"
    ],
+   "proxy": [],
    "coverage": 0.531
   },
   "AM": {
@@ -231,6 +256,7 @@
    "live": [
     "sas"
    ],
+   "proxy": [],
    "coverage": 0.381
   },
   "IE": {
@@ -239,7 +265,8 @@
    "live": [
     "supervalu"
    ],
-   "coverage": 0.292
+   "proxy": [],
+   "coverage": 0.248
   },
   "DK": {
    "updated": "2026-09-16",
@@ -247,6 +274,7 @@
    "live": [
     "rema1000_dk"
    ],
+   "proxy": [],
    "coverage": 0.425
   },
   "NO": {
@@ -255,6 +283,7 @@
    "live": [
     "oda"
    ],
+   "proxy": [],
    "coverage": 0.398
   },
   "ME": {
@@ -263,6 +292,7 @@
    "live": [
     "voli"
    ],
+   "proxy": [],
    "coverage": 0.363
   },
   "CZ": {
@@ -284,6 +314,7 @@
     "magnum",
     "galmart"
    ],
+   "proxy": [],
    "coverage": 0.381
   },
   "BE": {
@@ -328,6 +359,7 @@
     "konzum",
     "plodine"
    ],
+   "proxy": [],
    "coverage": 0.531
   },
   "BG": {
@@ -337,6 +369,7 @@
     "kaufland_bg",
     "fantastico"
    ],
+   "proxy": [],
    "coverage": 0.257
   },
   "LU": {
