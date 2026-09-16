@@ -306,6 +306,19 @@
      "access": "unknown",
      "accessNote": "not checked",
      "price": "index"
+    },
+    {
+     "id": "picard",
+     "name": {
+      "ru": "Picard",
+      "en": "Picard"
+     },
+     "color": "#5DA9E9",
+     "site": "https://www.picard.fr",
+     "price": "index",
+     "why": "поиск picard.fr закрыт robots.txt (Disallow: */recherche)",
+     "ref": 1,
+     "access": "blocked"
     }
    ],
    "usd": {
@@ -453,6 +466,19 @@
      "access": "unknown",
      "accessNote": "not checked",
      "price": "index"
+    },
+    {
+     "id": "lidl_it",
+     "name": {
+      "ru": "Лидл",
+      "en": "Lidl"
+     },
+     "color": "#4799F5",
+     "site": "https://www.lidl.it",
+     "parser": "lidl",
+     "price": "live",
+     "lang": "it",
+     "region": "ассортимент магазина, поиск lidl.it"
     }
    ],
    "usd": {
@@ -599,12 +625,10 @@
      "color": "#F56C47",
      "site": "https://www.dia.es",
      "catalog": "https://www.dia.es",
-     "access": "unknown",
+     "access": "blocked",
      "accessNote": "not checked; Consum 3.6% is close behind",
-     "price": "live",
-     "parser": "dia",
-     "region": "Мадрид 28041",
-     "lang": "es"
+     "price": "index",
+     "why": "поиск dia.es закрыт robots.txt (Disallow: */search/reduced?*)"
     },
     {
      "id": "consum",
@@ -1082,6 +1106,34 @@
      "access": "unknown",
      "accessNote": "not checked; Dirk share also undisclosed",
      "price": "index"
+    },
+    {
+     "id": "dirk",
+     "name": {
+      "ru": "Dirk",
+      "en": "Dirk"
+     },
+     "color": "#F5A647",
+     "site": "https://www.dirk.nl",
+     "parser": "dirk",
+     "price": "live",
+     "lang": "nl",
+     "region": "поиск dirk.nl",
+     "why": "Albert Heijn и Jumbo закрыты robots.txt"
+    },
+    {
+     "id": "spar_nl",
+     "name": {
+      "ru": "Spar",
+      "en": "Spar"
+     },
+     "color": "#4FC28A",
+     "site": "https://www.spar.nl",
+     "parser": "spar_nl",
+     "price": "live",
+     "lang": "nl",
+     "region": "интернет-магазин spar.nl",
+     "why": "Albert Heijn и Jumbo закрыты robots.txt"
     }
    ],
    "usd": {
@@ -1163,7 +1215,10 @@
      "catalog": "https://www.lidl.ro",
      "access": "html",
      "accessNote": "offers + weekly flyer with prices; food promo only",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "ro",
+     "region": "ассортимент магазина, поиск lidl.ro"
     },
     {
      "id": "kaufland_ro",
@@ -1234,6 +1289,19 @@
      "access": "json_api",
      "accessNote": "Next.js + /api/v1/ GraphQL (Ahold platform); prices without store",
      "price": "index"
+    },
+    {
+     "id": "auchan_ro",
+     "name": {
+      "ru": "Ашан",
+      "en": "Auchan"
+     },
+     "color": "#F5764F",
+     "site": "https://www.auchan.ro",
+     "parser": "vtex",
+     "price": "live",
+     "lang": "ro",
+     "region": "онлайн-магазин auchan.ro"
     }
    ],
    "usd": {
@@ -1313,9 +1381,10 @@
      "color": "#4799F5",
      "site": "https://www.lidl.cz",
      "catalog": "https://www.lidl.cz/q/search",
-     "access": "html",
+     "access": "blocked",
      "accessNote": "search page returns prices in HTML without store choice",
-     "price": "index"
+     "price": "index",
+     "why": "поиск lidl.cz закрыт robots.txt (Disallow: *search?q=*)"
     },
     {
      "id": "kaufland_cz",
@@ -1496,7 +1565,10 @@
      "site": "https://www.lidl.pt",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "pt",
+     "region": "ассортимент магазина, поиск lidl.pt"
     },
     {
      "id": "mercadona_pt",
@@ -1531,8 +1603,8 @@
      "accessNote": "not checked; Intermarché share not published in source",
      "price": "live",
      "parser": "auchan_pt",
-     "region": "онлайн-магазин auchan.pt",
-     "lang": "pt"
+     "lang": "pt",
+     "region": "онлайн-магазин auchan.pt"
     }
    ],
    "usd": {
@@ -2076,7 +2148,10 @@
      "catalog": "https://www.lidl.hu",
      "access": "html",
      "accessNote": "offers with prices in HTML; food promo only",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "hu",
+     "region": "ассортимент магазина, поиск lidl.hu"
     },
     {
      "id": "spar_hu",
@@ -2239,7 +2314,10 @@
      "site": "https://www.lidl-hellas.gr",
      "access": "leaflet_only",
      "accessNote": "est. revenue €2.1bn+; no e-shop",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "el",
+     "region": "ассортимент магазина, поиск lidl.gr"
     },
     {
      "id": "ab_vassilopoulos",
@@ -2269,9 +2347,10 @@
      "color": "#F56C47",
      "site": "https://www.mymarket.gr",
      "catalog": "https://www.mymarket.gr",
-     "access": "unknown",
+     "access": "blocked",
      "accessNote": "Metro AEBE 2024 revenue €1.62bn incl. cash&carry; not checked",
-     "price": "index"
+     "price": "index",
+     "why": "поиск mymarket.gr закрыт robots.txt (Disallow: /*?*query=*)"
     },
     {
      "id": "masoutis",
@@ -2935,7 +3014,7 @@
      "catalog": "https://green-dostavka.by",
      "access": "unknown",
      "accessNote": "доставка на green-dostavka.by, не проверял",
-     "price": "index",
+     "price": "live",
      "idx": 1.09,
      "cat": {
       "Мясо и рыба": 1.12,
@@ -2946,7 +3025,10 @@
       "Консервы": 1.11,
       "Хлеб": 1.07,
       "Специи": 1.06
-     }
+     },
+     "parser": "green",
+     "lang": "ru",
+     "region": "каталог green-dostavka.by"
     }
    ],
    "usd": {
@@ -3115,12 +3197,10 @@
      "color": "#47F59C",
      "site": "https://vkusvill.ru",
      "catalog": "https://vkusvill.ru/goods/",
-     "access": "closed",
+     "access": "blocked",
      "accessNote": "403 на бот-запрос, не обходил",
-     "price": "live",
-     "parser": "vkusvill",
-     "region": "регион сайта по умолчанию",
-     "lang": "ru"
+     "price": "index",
+     "why": "поиск vkusvill.ru закрыт robots.txt (Disallow: */?*)"
     },
     {
      "id": "auchan",
@@ -3227,7 +3307,10 @@
      "catalog": "https://magnum.kz/catalog",
      "access": "unknown",
      "accessNote": "JS-оболочка, в HTML цен нет; онлайн через Kaspi/E-Magnum",
-     "price": "index"
+     "price": "live",
+     "parser": "magnum",
+     "lang": "ru",
+     "region": "акции недели magnum.kz, обычная цена"
     },
     {
      "id": "small",
@@ -3274,7 +3357,10 @@
      "catalog": "https://galmart.kz",
      "access": "store_required",
      "accessNote": "интернет-магазин с выбором локации, цены не проверены",
-     "price": "index"
+     "price": "live",
+     "parser": "galmart",
+     "lang": "ru",
+     "region": "каталог galmart.kz"
     },
     {
      "id": "anvar",
@@ -3368,9 +3454,10 @@
      "color": "#E97353",
      "site": "https://www.atbmarket.com",
      "catalog": "https://www.atbmarket.com/catalog/287-ovochi-ta-frukti",
-     "access": "unknown",
+     "access": "blocked",
      "accessNote": "403 на бот-запрос, не обходил",
-     "price": "index"
+     "price": "index",
+     "why": "поиск atbmarket.com закрыт robots.txt (Disallow: /sch*)"
     },
     {
      "id": "silpo",
@@ -3387,7 +3474,10 @@
      "catalog": "https://silpo.ua",
      "access": "unknown",
      "accessNote": "403 на бот-запрос, не обходил",
-     "price": "index"
+     "price": "live",
+     "parser": "silpo",
+     "lang": "uk",
+     "region": "онлайн-витрина silpo.ua, филиал по умолчанию"
     },
     {
      "id": "fora",
@@ -3553,7 +3643,10 @@
      "catalog": "https://www.lidl.rs",
      "access": "html",
      "accessNote": "offers + online leaflet; food promo only",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "sr",
+     "region": "ассортимент магазина, поиск lidl.rs"
     },
     {
      "id": "idea_rs",
@@ -3840,7 +3933,10 @@
      "catalog": "https://www.sas.am",
      "access": "html",
      "accessNote": "интернет-магазин 30 000+ товаров, цены в AMD",
-     "price": "index"
+     "price": "live",
+     "parser": "sas",
+     "lang": "hy",
+     "region": "поиск sas.am"
     },
     {
      "id": "nor_zovq",
@@ -3964,7 +4060,10 @@
      "catalog": "https://linella.md/ro/catalog",
      "access": "html",
      "accessNote": "каталог 14 500+ товаров с ценами в MDL",
-     "price": "index"
+     "price": "live",
+     "parser": "linella",
+     "lang": "ro",
+     "region": "каталог linella.md"
     },
     {
      "id": "local_md",
@@ -4147,7 +4246,10 @@
      "catalog": "https://shop.supervalu.ie",
      "access": "unknown",
      "accessNote": "403 to fetcher",
-     "price": "index"
+     "price": "live",
+     "parser": "supervalu",
+     "lang": "en",
+     "region": "магазин доставки 5550"
     },
     {
      "id": "lidl_ie",
@@ -4294,7 +4396,10 @@
      "catalog": "https://shop.rema1000.dk",
      "access": "json_api",
      "accessNote": "web shop backed by JSON API; best guess, not checked",
-     "price": "index"
+     "price": "live",
+     "parser": "rema1000_dk",
+     "lang": "da",
+     "region": "приложение REMA 1000"
     },
     {
      "id": "dagrofa",
@@ -4619,6 +4724,21 @@
      "access": "leaflet_only",
      "accessNote": "best guess, not checked",
      "price": "index"
+    },
+    {
+     "id": "oda",
+     "name": {
+      "ru": "Oda",
+      "en": "Oda"
+     },
+     "color": "#6FCF97",
+     "site": "https://oda.com",
+     "parser": "oda",
+     "price": "live",
+     "lang": "no",
+     "region": "онлайн-супермаркет oda.com",
+     "why": "крупнейший онлайн-супермаркет Норвегии; сети топ-5 без открытого каталога",
+     "ref": 1
     }
    ],
    "usd": {
@@ -4841,9 +4961,10 @@
      "color": "#4799F5",
      "site": "https://www.lidl.sk",
      "catalog": "https://www.lidl.sk",
-     "access": "html",
+     "access": "blocked",
      "accessNote": "offers with prices in HTML; food promo only",
-     "price": "index"
+     "price": "index",
+     "why": "поиск lidl.sk закрыт robots.txt (Disallow: *search?q=*)"
     },
     {
      "id": "kaufland_sk",
@@ -4859,7 +4980,10 @@
      "site": "https://www.kaufland.sk",
      "access": "unknown",
      "accessNote": "403 from BY; same platform as kaufland.hr",
-     "price": "index"
+     "price": "live",
+     "parser": "kaufland",
+     "lang": "sk",
+     "region": "акции недели, филиал по умолчанию"
     },
     {
      "id": "tesco_sk",
@@ -5042,7 +5166,10 @@
      "catalog": "https://www.lidl.si",
      "access": "html",
      "accessNote": "offers + flyer with prices; food promo only",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "sl",
+     "region": "ассортимент магазина, поиск lidl.si"
     },
     {
      "id": "tus",
@@ -5058,7 +5185,10 @@
      "site": "https://www.tus.si",
      "access": "unknown",
      "accessNote": "not checked",
-     "price": "index"
+     "price": "live",
+     "parser": "tus",
+     "lang": "sl",
+     "region": "акции tus.si, обычная цена"
     }
    ],
    "usd": {
@@ -5139,7 +5269,10 @@
      "catalog": "https://www.konzum.hr/web",
      "access": "html",
      "accessNote": "online shop pages show € prices in HTML without store choice",
-     "price": "index"
+     "price": "live",
+     "parser": "konzum",
+     "lang": "hr",
+     "region": "поиск konzum.hr"
     },
     {
      "id": "lidl_hr",
@@ -5173,7 +5306,10 @@
      "catalog": "https://www.plodine.hr/pregled-kataloga",
      "access": "html",
      "accessNote": "promo products with prices on site + catalog; no shop",
-     "price": "index"
+     "price": "live",
+     "parser": "plodine",
+     "lang": "hr",
+     "region": "акции недели plodine.hr"
     },
     {
      "id": "spar_hr",
@@ -5304,7 +5440,10 @@
      "catalog": "https://www.kaufland.bg",
      "access": "html",
      "accessNote": "offer pages in HTML; /api/autosuggest/assortment/1/ referenced",
-     "price": "index"
+     "price": "live",
+     "parser": "kaufland",
+     "lang": "bg",
+     "region": "акции недели, филиал по умолчанию"
     },
     {
      "id": "billa_bg",
@@ -5353,7 +5492,10 @@
      "catalog": "https://www.fantastico.bg/special-offers",
      "access": "leaflet_only",
      "accessNote": "offers as flippingbook brochure",
-     "price": "index"
+     "price": "live",
+     "parser": "fantastico",
+     "lang": "bg",
+     "region": "ежедневный прайс для КЗП, крупнейший магазин"
     }
    ],
    "usd": {
@@ -5433,7 +5575,10 @@
      "site": "https://www.lidl.com.cy",
      "access": "leaflet_only",
      "accessNote": "#1 per Cyprus Mail 2025; no e-shop",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "el",
+     "region": "ассортимент магазина, поиск lidl.com.cy"
     },
     {
      "id": "alphamega",
@@ -5711,7 +5856,10 @@
      "site": "https://www.lidl.com.mt",
      "access": "unknown",
      "accessNote": "not checked; #1 by est. revenue (EUR 260M+)",
-     "price": "index"
+     "price": "live",
+     "parser": "lidl",
+     "lang": "en",
+     "region": "ассортимент магазина, поиск lidl.com.mt"
     },
     {
      "id": "welbees",
@@ -5995,7 +6143,10 @@
      "catalog": "https://voli.me",
      "access": "html",
      "accessNote": "product listing with € prices in HTML",
-     "price": "index"
+     "price": "live",
+     "parser": "voli",
+     "lang": "sr",
+     "region": "категории voli.me"
     },
     {
      "id": "idea_me",

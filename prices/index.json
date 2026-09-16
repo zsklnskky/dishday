@@ -13,7 +13,6 @@
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [
-    "dia_es",
     "consum"
    ],
    "coverage": 0.434
@@ -38,9 +37,11 @@
    "updated": "2026-09-16",
    "currency": "RON",
    "live": [
-    "kaufland_ro"
+    "lidl_ro",
+    "kaufland_ro",
+    "auchan_ro"
    ],
-   "coverage": 0.177
+   "coverage": 0.292
   },
   "SE": {
    "updated": "2026-09-16",
@@ -49,7 +50,7 @@
     "willys",
     "hemkop"
    ],
-   "coverage": 0.513
+   "coverage": 0.504
   },
   "AT": {
    "updated": "2026-09-16",
@@ -57,15 +58,16 @@
    "live": [
     "spar_at"
    ],
-   "coverage": 0.381
+   "coverage": 0.363
   },
   "HU": {
    "updated": "2026-09-16",
    "currency": "HUF",
    "live": [
+    "lidl_hu",
     "aldi_hu"
    ],
-   "coverage": 0.08
+   "coverage": 0.088
   },
   "LT": {
    "updated": "2026-09-16",
@@ -89,32 +91,33 @@
    "live": [
     "maxima_ee"
    ],
-   "coverage": 0.442
+   "coverage": 0.434
   },
   "BY": {
-   "updated": "2026-09-15",
+   "updated": "2026-09-16",
    "currency": "BYN",
    "live": [
-    "euroopt"
+    "euroopt",
+    "green"
    ],
-   "coverage": 0.425
+   "coverage": 0.46
   },
   "RU": {
    "updated": "2026-09-16",
    "currency": "RUB",
    "live": [
-    "magnit",
-    "vkusvill"
+    "magnit"
    ],
-   "coverage": 0.469
+   "coverage": 0.363
   },
   "MD": {
    "updated": "2026-09-16",
    "currency": "MDL",
    "live": [
+    "linella",
     "kaufland_md"
    ],
-   "coverage": 0.08
+   "coverage": 0.248
   },
   "CH": {
    "updated": "2026-09-16",
@@ -128,15 +131,18 @@
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [
-    "hofer_si"
+    "hofer_si",
+    "lidl_si",
+    "tus"
    ],
-   "coverage": 0.115
+   "coverage": 0.177
   },
   "IT": {
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [
-    "conad"
+    "conad",
+    "lidl_it"
    ],
    "coverage": 0.115
   },
@@ -144,9 +150,50 @@
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [
+    "lidl_pt",
     "auchan_pt"
    ],
    "coverage": 0.336
+  },
+  "SK": {
+   "updated": "2026-09-16",
+   "currency": "EUR",
+   "live": [
+    "kaufland_sk"
+   ],
+   "coverage": 0.354
+  },
+  "MT": {
+   "updated": "2026-09-16",
+   "currency": "EUR",
+   "live": [
+    "lidl_mt"
+   ],
+   "coverage": 0.044
+  },
+  "GR": {
+   "updated": "2026-09-16",
+   "currency": "EUR",
+   "live": [
+    "lidl_gr"
+   ],
+   "coverage": 0.106
+  },
+  "RS": {
+   "updated": "2026-09-16",
+   "currency": "RSD",
+   "live": [
+    "lidl_rs"
+   ],
+   "coverage": 0.071
+  },
+  "CY": {
+   "updated": "2026-09-16",
+   "currency": "EUR",
+   "live": [
+    "lidl_cy"
+   ],
+   "coverage": 0.08
   },
   "FR": {
    "updated": "2026-09-16",
@@ -157,8 +204,59 @@
   "NL": {
    "updated": "2026-09-16",
    "currency": "EUR",
-   "live": [],
-   "coverage": 0
+   "live": [
+    "dirk",
+    "spar_nl"
+   ],
+   "coverage": 0.46
+  },
+  "UA": {
+   "updated": "2026-09-16",
+   "currency": "UAH",
+   "live": [
+    "silpo"
+   ],
+   "coverage": 0.531
+  },
+  "AM": {
+   "updated": "2026-09-16",
+   "currency": "AMD",
+   "live": [
+    "sas"
+   ],
+   "coverage": 0.381
+  },
+  "IE": {
+   "updated": "2026-09-16",
+   "currency": "EUR",
+   "live": [
+    "supervalu"
+   ],
+   "coverage": 0.292
+  },
+  "DK": {
+   "updated": "2026-09-16",
+   "currency": "DKK",
+   "live": [
+    "rema1000_dk"
+   ],
+   "coverage": 0.425
+  },
+  "NO": {
+   "updated": "2026-09-16",
+   "currency": "NOK",
+   "live": [
+    "oda"
+   ],
+   "coverage": 0.398
+  },
+  "ME": {
+   "updated": "2026-09-16",
+   "currency": "EUR",
+   "live": [
+    "voli"
+   ],
+   "coverage": 0.363
   },
   "CZ": {
    "updated": "2026-09-16",
@@ -166,33 +264,18 @@
    "live": [],
    "coverage": 0
   },
-  "BE": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
-   "live": [],
-   "coverage": 0
-  },
-  "GR": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
-   "live": [],
-   "coverage": 0
-  },
   "KZ": {
    "updated": "2026-09-16",
    "currency": "KZT",
-   "live": [],
-   "coverage": 0
+   "live": [
+    "magnum",
+    "galmart"
+   ],
+   "coverage": 0.381
   },
-  "UA": {
+  "BE": {
    "updated": "2026-09-16",
-   "currency": "UAH",
-   "live": [],
-   "coverage": 0
-  },
-  "RS": {
-   "updated": "2026-09-16",
-   "currency": "RSD",
+   "currency": "EUR",
    "live": [],
    "coverage": 0
   },
@@ -202,37 +285,7 @@
    "live": [],
    "coverage": 0
   },
-  "AM": {
-   "updated": "2026-09-16",
-   "currency": "AMD",
-   "live": [],
-   "coverage": 0
-  },
-  "IE": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
-   "live": [],
-   "coverage": 0
-  },
-  "DK": {
-   "updated": "2026-09-16",
-   "currency": "DKK",
-   "live": [],
-   "coverage": 0
-  },
   "FI": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
-   "live": [],
-   "coverage": 0
-  },
-  "NO": {
-   "updated": "2026-09-16",
-   "currency": "NOK",
-   "live": [],
-   "coverage": 0
-  },
-  "SK": {
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [],
@@ -241,28 +294,22 @@
   "HR": {
    "updated": "2026-09-16",
    "currency": "EUR",
-   "live": [],
-   "coverage": 0
+   "live": [
+    "konzum",
+    "plodine"
+   ],
+   "coverage": 0.531
   },
   "BG": {
    "updated": "2026-09-16",
    "currency": "EUR",
-   "live": [],
-   "coverage": 0
-  },
-  "CY": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
-   "live": [],
-   "coverage": 0
+   "live": [
+    "kaufland_bg",
+    "fantastico"
+   ],
+   "coverage": 0.257
   },
   "LU": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
-   "live": [],
-   "coverage": 0
-  },
-  "MT": {
    "updated": "2026-09-16",
    "currency": "EUR",
    "live": [],
@@ -271,12 +318,6 @@
   "IS": {
    "updated": "2026-09-16",
    "currency": "ISK",
-   "live": [],
-   "coverage": 0
-  },
-  "ME": {
-   "updated": "2026-09-16",
-   "currency": "EUR",
    "live": [],
    "coverage": 0
   },

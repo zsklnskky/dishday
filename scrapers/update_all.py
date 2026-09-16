@@ -109,7 +109,7 @@ def build(c, ing, words, fx, live, old):
     level = level_vs_by(c)
     base = estimate(ing, c, fx, level)
     oldstores = {s["id"]: s for s in (old or {}).get("stores", [])}
-    stores, ratios = [], []
+    stores, ratios, store_meds = [], [], []
     for ch in c["chains"]:
         prev = oldstores.get(ch["id"], {})
         s = {"id": ch["id"], "name": ch["name"], "color": ch["color"], "source": "index", "region": ch.get("region"),
@@ -126,10 +126,13 @@ def build(c, ing, words, fx, live, old):
             else:
                 s["error"] = err or "ничего не найдено"
         if s["source"] == "live":
-            ratios += [v["price_per_unit"] / base[k]["price_per_unit"] for k, v in s["items"].items() if k in base]
+            r = [v["price_per_unit"] / base[k]["price_per_unit"] for k, v in s["items"].items() if k in base]
+            ratios += r
+            if len(r) >= 8:  # медиана по каждой сети отдельно: иначе сеть с бОльшим покрытием товаров (не обязательно
+                store_meds.append(statistics.median(r))  # репрезентативная - парсер есть не у лидеров рынка) перетягивает уровень страны на себя
         stores.append(s)
-    if len(ratios) >= 8:  # живых цен достаточно: уровень страны берём из них, оценки подтягиваются к реальности
-        level *= statistics.median(ratios)
+    if len(ratios) >= 8 and store_meds:  # живых цен достаточно: уровень страны берём из них, оценки подтягиваются к реальности
+        level *= statistics.median(store_meds)
         base = estimate(ing, c, fx, level)
     for s in stores:  # в базе - медиана живых цен сетей страны, где есть
         for k in ing:

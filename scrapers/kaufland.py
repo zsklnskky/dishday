@@ -4,7 +4,9 @@ from common import by_catalog, fetch, pack
 
 PAGES = {"DE": ("https://filiale.kaufland.de/angebote/uebersicht.html", "de"),
          "RO": ("https://www.kaufland.ro/oferte/oferte-saptamanale/saptamana-curenta.html", "ro"),
-         "MD": ("https://www.kaufland.md/ro/oferte/prezentare-generala-oferte.html", "ro")}
+         "MD": ("https://www.kaufland.md/ro/oferte/prezentare-generala-oferte.html", "ro"),
+         "SK": ("https://predajne.kaufland.sk/aktualna-ponuka/prehlad.html", "sk"),
+         "BG": ("https://www.kaufland.bg/aktualni-predlozheniya/ot-ponedelnik.html", "bg")}
 _BASE = re.compile(r"1\s*(kg|l)\s*=?\s*([\d.,]+)", re.I)
 
 

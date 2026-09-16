@@ -28,9 +28,35 @@ def allowed(url):
         except Exception as e:
             status, body = type(e).__name__, ""
         ROBOTS_STATUS[p.netloc] = status
-        rp.parse(body.splitlines() if status == 200 else [] if status in (404, 410) else ["User-agent: *", "Disallow: /"])
-        _robots[base] = rp
-    return _robots[base].can_fetch(BOT, url)
+        lines = body.splitlines() if status == 200 else [] if status in (404, 410) else ["User-agent: *", "Disallow: /"]
+        rp.parse(lines)
+        _robots[base] = (rp, wildcards(lines))
+    rp, wild = _robots[base]
+    path = (p.path or "/") + ("?" + p.query if p.query else "")
+    return rp.can_fetch(BOT, url) and not any(w.match(path) for w in wild)
+
+
+def wildcards(lines):
+    """Правила Disallow со * и $ для нашего бота и для «*». urllib.robotparser их не понимает и пропускает
+    «Disallow: *?*» (закрыты все адреса с параметрами). Allow с шаблонами не учитываем - это строже, не мягче."""
+    out, agents, grp = [], set(), False
+    for ln in lines:
+        ln = ln.split("#", 1)[0].strip()
+        if ":" not in ln:
+            continue
+        k, v = (x.strip() for x in ln.split(":", 1))
+        k = k.lower()
+        if k == "user-agent":
+            if grp:
+                agents, grp = set(), False
+            agents.add(v.lower())
+        else:
+            grp = True
+            if k == "disallow" and ("*" in v or v.endswith("$")) and agents & {"*", BOT.lower()}:
+                rx = re.escape(v).replace(r"\*", ".*")
+                rx = rx[:-2] + "$" if rx.endswith(r"\$") else rx
+                out.append(re.compile(rx if rx.startswith((".*", "/")) else "/" + rx))
+    return out
 
 
 def iri(url):
@@ -60,7 +86,7 @@ def fetch(url, check=True, raw=False, data=None, headers=None, lang="en"):
     text = body.decode("utf-8", "ignore")
     if raw:
         return status, text, ctype
-    if status != 200:
+    if status not in (200, 206):  # 206 отдают витрины VTEX на запрос диапазона товаров
         raise RuntimeError(f"HTTP {status}")
     return text
 
@@ -73,8 +99,9 @@ def get_json(url, **kw):
 UNITS = {"kg": ("kg", 1), "кг": ("kg", 1), "g": ("kg", .001), "gr": ("kg", .001), "г": ("kg", .001), "гр": ("kg", .001),
          "l": ("l", 1), "л": ("l", 1), "ltr": ("l", 1), "ml": ("l", .001), "мл": ("l", .001), "cl": ("l", .01), "dl": ("l", .1),
          "шт": ("pc", 1), "pcs": ("pc", 1), "pc": ("pc", 1), "st": ("pc", 1), "stk": ("pc", 1), "szt": ("pc", 1), "ks": ("pc", 1),
-         "db": ("pc", 1), "buc": ("pc", 1), "vnt": ("pc", 1), "gab": ("pc", 1), "tk": ("pc", 1), "x": None}
-_Q = re.compile(r"(?:(\d+)\s*[x×х]\s*)?(\d+(?:[.,]\d+)?)\s*(kg|кг|gr|г|гр|g|ltr|l|л|ml|мл|cl|dl|шт|pcs|pc|stk|st|szt|ks|db|buc|vnt|gab|tk)(?![a-zа-яё])", re.I)
+         "db": ("pc", 1), "buc": ("pc", 1), "vnt": ("pc", 1), "gab": ("pc", 1), "tk": ("pc", 1),
+         "kus": ("pc", 1), "kom": ("pc", 1), "бр": ("pc", 1), "τεμ": ("pc", 1), "x": None}
+_Q = re.compile(r"(?:(\d+)\s*[x×х]\s*)?(\d+(?:[.,]\d+)?)\s*(kg|кг|gr|г|гр|g|ltr|l|л|ml|мл|cl|dl|шт|pcs|pc|stk|st|szt|kus|ks|kom|db|buc|vnt|gab|tk|бр|τεμ)(?![a-zа-яё])", re.I)
 
 
 def pack(title):
@@ -156,7 +183,9 @@ def pick(rows, want):
     Возвращает запись контракта или None."""
     cand = []
     for r in rows:
-        ppu = r.get("ppu") or per_unit(r["price"], r.get("size"), r.get("unit"), want)
+        # готовая цена сайта за единицу годится, только если это та же единица: «за кг» не равно «за штуку»
+        fit = r.get("ppu") and (r.get("unit") == want or {r.get("unit"), want} == {"kg", "l"})
+        ppu = r["ppu"] if fit else per_unit(r["price"], r.get("size"), r.get("unit"), want)
         if ppu and ppu > 0:
             cand.append((ppu, r))
     if not cand:
@@ -275,4 +304,7 @@ if __name__ == "__main__":
     assert pick([{"name": "Eggs 10 pcs", "price": 3.0, "size": 10, "unit": "pc"}], "pc")["price_per_unit"] == .3
     assert pick([{"name": "x", "price": 2, "size": 1, "unit": "pc"}], "kg") is None  # штуки не превращаем в килограммы
     assert pick([{"name": "a 1 kg", "price": 1, "size": 1, "unit": "kg"}, {"name": "b 1 kg", "price": 10, "size": 1, "unit": "kg"}], "kg") is None
+    w = wildcards(["User-agent: Googlebot", "Disallow: /", "", "User-agent: *", "Disallow: *?*", "Disallow: /*.pdf$"])
+    assert len(w) == 2 and w[0].match("/search?q=1") and not w[0].match("/catalog/milk")
+    assert w[1].match("/a/b.pdf") and not w[1].match("/a/b.pdf?x")
     print("common self-check ok")
