@@ -24,6 +24,8 @@ if ("serviceWorker" in navigator) {
 <meta property="og:description" content="Запуск 1 октября. Первые 150 из листа ожидания получают месяц Pro Plus бесплатно.">
 <meta property="og:image" content="https://zsklnskky.github.io/dishday/icons/icon-512.png">
 <meta name="twitter:card" content="summary">
+<meta property="og:url" content="https://zsklnskky.github.io/dishday/">
+<script>addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__ddInstall=e})</script>
 <script>/* тема до первой отрисовки, без вспышки тёмного фона: S.theme = system | light | dark */
 try{var dt=(JSON.parse(localStorage.getItem("raskladka5")||"null")||{}).theme||"system";dt=dt==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):dt;document.documentElement.dataset.theme=dt;document.querySelector('meta[name="theme-color"]').content=dt==="light"?"#F4F6FB":"#05070F"}catch(e){}</script>
 <style>@font-face {
@@ -1883,5 +1885,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=a3c01469";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=9c19bf2c";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
