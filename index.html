@@ -971,7 +971,9 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .s-prompt{font-size:0.9062rem; padding:0.75rem 0.875rem}
   .s-dishes{grid-template-columns:minmax(0,1fr); gap:0.5rem}
   .s-dish{flex-direction:row}
-  .s-dish .ph{width:5.75rem; aspect-ratio:auto; flex:none}
+  /* aspect-ratio оставляем 1/1: без него высота .ph неопределённая, а у фото внутри height:100% - WebKit (Safari)
+     замыкает цикл и растягивает карточку на пол-экрана. Chromium в том же месте читает height:100% как auto */
+  .s-dish .ph{width:5.75rem; flex:none}
   .s-dish .bd{padding:0.625rem 0.75rem}
   .s-sec{padding-block:4.5rem}
   .s-head{margin-bottom:1.875rem}
@@ -1888,5 +1890,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=f2e0c0c2";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=6dfd7d8c";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
