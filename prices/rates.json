@@ -171,63 +171,63 @@
  "src": "https://www.exchangerate-api.com",
  "usd": {
   "EUR": {
-   "rate": 0.866776,
-   "date": "2026-09-16",
+   "rate": 0.871004,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "BAM": {
-   "rate": 1.695267,
-   "date": "2026-09-16",
+   "rate": 1.703536,
+   "date": "2026-09-17",
    "src": "фиксированный 1.95583 BAM/EUR + ECB data-api.ecb.europa.eu EXR"
   },
   "CHF": {
-   "rate": 0.819017,
-   "date": "2026-09-16",
+   "rate": 0.824493,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "CZK": {
-   "rate": 21.073936,
-   "date": "2026-09-16",
+   "rate": 21.172372,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "DKK": {
-   "rate": 6.479587,
-   "date": "2026-09-16",
+   "rate": 6.511018,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "GBP": {
-   "rate": 0.743174,
-   "date": "2026-09-16",
+   "rate": 0.747583,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "HUF": {
-   "rate": 315.89668,
-   "date": "2026-09-16",
+   "rate": 316.157129,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "ISK": {
-   "rate": 121.175349,
-   "date": "2026-09-16",
+   "rate": 121.766397,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "NOK": {
-   "rate": 9.351218,
-   "date": "2026-09-16",
+   "rate": 9.428621,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "PLN": {
-   "rate": 3.768137,
-   "date": "2026-09-16",
+   "rate": 3.795837,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "RON": {
-   "rate": 4.561758,
-   "date": "2026-09-16",
+   "rate": 4.583573,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "SEK": {
-   "rate": 9.783739,
-   "date": "2026-09-16",
+   "rate": 9.817525,
+   "date": "2026-09-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "BYN": {

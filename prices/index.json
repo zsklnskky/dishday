@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.345
+   "coverage": 0.327
   },
   "MD": {
    "updated": "2026-09-17",
@@ -151,7 +151,7 @@
     "tus"
    ],
    "proxy": [],
-   "coverage": 0.186
+   "coverage": 0.177
   },
   "IT": {
    "updated": "2026-09-17",
@@ -239,7 +239,7 @@
     "spar_nl"
    ],
    "proxy": [],
-   "coverage": 0.46
+   "coverage": 0.469
   },
   "UA": {
    "updated": "2026-09-17",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.372
   },
   "BE": {
    "updated": "2026-09-17",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.531
+   "coverage": 0.522
   },
   "BG": {
    "updated": "2026-09-17",
