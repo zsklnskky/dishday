@@ -8,7 +8,7 @@
     "kaufland_de"
    ],
    "proxy": [],
-   "coverage": 0.248
+   "coverage": 0.23
   },
   "ES": {
    "updated": "2026-09-18",
@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.301
   },
   "SE": {
    "updated": "2026-09-18",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.372
   },
   "MD": {
    "updated": "2026-09-18",
@@ -131,7 +131,7 @@
     "kaufland_md"
    ],
    "proxy": [],
-   "coverage": 0.239
+   "coverage": 0.248
   },
   "CH": {
    "updated": "2026-09-18",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.522
+   "coverage": 0.531
   },
   "AM": {
    "updated": "2026-09-18",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.381
   },
   "IE": {
    "updated": "2026-09-18",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.398
   },
   "BE": {
    "updated": "2026-09-18",
