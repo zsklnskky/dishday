@@ -75,7 +75,7 @@
     "aldi_hu"
    ],
    "proxy": [],
-   "coverage": 0.124
+   "coverage": 0.115
   },
   "LT": {
    "updated": "2026-09-19",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.354
   },
   "MD": {
    "updated": "2026-09-19",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.522
+   "coverage": 0.54
   },
   "AM": {
    "updated": "2026-09-19",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.398
   },
   "IE": {
    "updated": "2026-09-19",
@@ -275,7 +275,7 @@
     "rema1000_dk"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.416
   },
   "NO": {
    "updated": "2026-09-19",
