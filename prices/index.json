@@ -75,7 +75,7 @@
     "aldi_hu"
    ],
    "proxy": [],
-   "coverage": 0.115
+   "coverage": 0.124
   },
   "LT": {
    "updated": "2026-09-20",
@@ -112,7 +112,7 @@
     "green"
    ],
    "proxy": [],
-   "coverage": 0.46
+   "coverage": 0.451
   },
   "RU": {
    "updated": "2026-09-20",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.363
+   "coverage": 0.345
   },
   "MD": {
    "updated": "2026-09-20",
@@ -171,7 +171,7 @@
     "auchan_pt"
    ],
    "proxy": [],
-   "coverage": 0.327
+   "coverage": 0.336
   },
   "SK": {
    "updated": "2026-09-20",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.54
+   "coverage": 0.549
   },
   "AM": {
    "updated": "2026-09-20",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.416
+   "coverage": 0.434
   },
   "IE": {
    "updated": "2026-09-20",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.522
+   "coverage": 0.513
   },
   "BG": {
    "updated": "2026-09-20",
