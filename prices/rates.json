@@ -171,64 +171,64 @@
  "src": "https://www.exchangerate-api.com",
  "usd": {
   "EUR": {
-   "rate": 0.870322,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 0.87176,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "BAM": {
-   "rate": 1.702202,
-   "date": "2026-09-21",
-   "src": "фиксированный 1.95583 BAM/EUR + ECB data-api.ecb.europa.eu EXR"
+   "rate": 1.704945,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "CHF": {
-   "rate": 0.82141,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 0.821512,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "CZK": {
-   "rate": 21.194082,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 21.207773,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "DKK": {
-   "rate": 6.506092,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 6.513626,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "GBP": {
-   "rate": 0.746562,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 0.747749,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "HUF": {
-   "rate": 315.4047,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 315.634774,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "ISK": {
-   "rate": 120.800696,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 121.093546,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "NOK": {
-   "rate": 9.410792,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 9.435161,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "PLN": {
-   "rate": 3.788512,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 3.79125,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "RON": {
-   "rate": 4.581984,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 4.58637,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "SEK": {
-   "rate": 9.812881,
-   "date": "2026-09-21",
-   "src": "ECB data-api.ecb.europa.eu EXR"
+   "rate": 9.833813,
+   "date": "22 Sep 2026",
+   "src": "exchangerate-api.com"
   },
   "BYN": {
    "rate": 3.0222,
