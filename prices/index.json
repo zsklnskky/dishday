@@ -112,7 +112,7 @@
     "green"
    ],
    "proxy": [],
-   "coverage": 0.451
+   "coverage": 0.46
   },
   "RU": {
    "updated": "2026-09-23",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.354
   },
   "MD": {
    "updated": "2026-09-23",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.363
+   "coverage": 0.354
   },
   "CZ": {
    "updated": "2026-09-23",
