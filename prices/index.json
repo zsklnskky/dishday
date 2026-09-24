@@ -207,7 +207,7 @@
     "lidl_rs"
    ],
    "proxy": [],
-   "coverage": 0.08
+   "coverage": 0.088
   },
   "CY": {
    "updated": "2026-09-24",
@@ -216,7 +216,7 @@
     "lidl_cy"
    ],
    "proxy": [],
-   "coverage": 0.106
+   "coverage": 0.115
   },
   "FR": {
    "updated": "2026-09-24",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.522
   },
   "AM": {
    "updated": "2026-09-24",
