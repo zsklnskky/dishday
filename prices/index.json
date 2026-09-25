@@ -8,7 +8,7 @@
     "kaufland_de"
    ],
    "proxy": [],
-   "coverage": 0.239
+   "coverage": 0.221
   },
   "ES": {
    "updated": "2026-09-25",
@@ -112,7 +112,7 @@
     "green"
    ],
    "proxy": [],
-   "coverage": 0.46
+   "coverage": 0.451
   },
   "RU": {
    "updated": "2026-09-25",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.398
   },
   "IE": {
    "updated": "2026-09-25",
@@ -275,7 +275,7 @@
     "rema1000_dk"
    ],
    "proxy": [],
-   "coverage": 0.416
+   "coverage": 0.407
   },
   "NO": {
    "updated": "2026-09-25",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.531
+   "coverage": 0.513
   },
   "BG": {
    "updated": "2026-09-25",
