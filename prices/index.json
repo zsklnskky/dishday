@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.301
   },
   "SE": {
    "updated": "2026-09-26",
@@ -102,7 +102,7 @@
     "maxima_ee"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.434
   },
   "BY": {
    "updated": "2026-09-26",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.54
+   "coverage": 0.531
   },
   "AM": {
    "updated": "2026-09-26",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.416
   },
   "IE": {
    "updated": "2026-09-26",
@@ -275,7 +275,7 @@
     "rema1000_dk"
    ],
    "proxy": [],
-   "coverage": 0.407
+   "coverage": 0.416
   },
   "NO": {
    "updated": "2026-09-26",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.381
   },
   "BE": {
    "updated": "2026-09-26",
