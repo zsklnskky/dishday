@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.301
+   "coverage": 0.31
   },
   "SE": {
    "updated": "2026-09-27",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.54
+   "coverage": 0.531
   },
   "AM": {
    "updated": "2026-09-27",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.389
   },
   "BE": {
    "updated": "2026-09-27",
