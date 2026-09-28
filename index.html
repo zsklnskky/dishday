@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="ru">
 <meta charset="utf-8">
 <link rel="manifest" href="manifest.webmanifest">
 <script>
@@ -768,8 +770,8 @@ input[type=range]::-moz-range-thumb{width:1.75rem; height:1.75rem; border-radius
   transform:translate(-50%,-110%); transition:opacity .15s; background:#10162A; border:1px solid var(--stroke2); z-index:5}
 .chart .tip.on{opacity:1}
 .kbju{padding:1rem 1.125rem; margin-top:1rem}
-.kb-row{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0.5rem}
-.kb{--c:var(--amber)} .kb:nth-child(2){--c:var(--mp)} .kb:nth-child(3){--c:var(--mf)} .kb:nth-child(4){--c:var(--mc)}
+.kb-row{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0.5rem}
+.kb{--c:var(--amber)} .kb:nth-child(2){--c:var(--mp)} .kb:nth-child(3){--c:var(--mf)} .kb:nth-child(4){--c:var(--mc)} .kb:nth-child(5){--c:var(--mint)}
 .kb b{display:block; font:600 1.375rem var(--fd); color:var(--c)}
 .kb span{color:var(--ink2); font-size:0.7812rem}
 .energy{display:flex; gap:0.125rem; height:0.5rem; border-radius:0.5rem; overflow:hidden; margin-top:0.75rem}
@@ -780,7 +782,9 @@ input[type=range]::-moz-range-thumb{width:1.75rem; height:1.75rem; border-radius
 .prof{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0.5rem; margin-top:0.75rem}
 .prof label{display:flex; flex-direction:column; gap:0.25rem; font-size:0.7812rem; color:var(--ink3)}
 .chips-row{display:flex; gap:0.375rem; flex-wrap:wrap; margin-top:0.375rem}
-@media (max-width:620px){ .nsum{grid-template-columns:1fr; justify-items:center} .fields{grid-template-columns:1fr 1fr} .prof{grid-template-columns:1fr 1fr} .kb-row{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:620px){ .nsum{grid-template-columns:1fr; justify-items:center} .fields{grid-template-columns:1fr 1fr} .prof{grid-template-columns:1fr 1fr} .kb-row{grid-template-columns:repeat(3,minmax(0,1fr))} }
+/* 5 плиток КБЖУ: на совсем узком экране (320 px) три в ряд не влезают, ставим две */
+@media (max-width:360px){ .kb-row{grid-template-columns:repeat(2,minmax(0,1fr))} }
 
 .cook{position:fixed; inset:0; z-index:80; display:none; background:radial-gradient(56.25rem 37.5rem at 80% 0%,rgba(139,124,246,.14),transparent 70%),var(--bg0)}
 .cook.on{display:flex; flex-direction:column}
@@ -977,12 +981,6 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .s-dish .bd{padding:0.625rem 0.75rem}
   .s-sec{padding-block:4.5rem}
   .s-head{margin-bottom:1.875rem}
-  .s-steps{grid-template-columns:minmax(0,1fr); gap:1.75rem; padding-left:4rem}
-  .s-steps::before,.s-steps::after{left:1.4375rem; right:auto; top:1.5rem; bottom:1.5rem; width:1px; height:auto}
-  .s-steps::after{transform:scaleY(0); transform-origin:50% 0}
-  .s-steps.in::after{transform:scaleY(1)}
-  .s-step-n{position:absolute; left:-4rem; top:0}
-  .s-step h3{margin-top:0.625rem}
   .s-bento{grid-template-columns:minmax(0,1fr); grid-template-areas:"price" "week" "timer" "kbju"}
   .s-cell{padding:1.25rem}
   .s-bar-n, .s-bar-v b{font-size:0.9375rem}
@@ -1100,6 +1098,19 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .cb-acts{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .cb-acts .btn{padding-inline:0.625rem; white-space:normal; text-align:center}
   .cb-acts [data-cb="all"]{grid-column:1/-1}
+}
+/* «Как это работает»: на десктопе шаги стоят в ряд и соединены горизонтальной линией,
+   на узком экране колонка и линия вертикальная. Второе условие - запасной рубеж: если
+   телефон открыл страницу в режиме «версия для ПК», лэйаут-вьюпорт становится ~980 px,
+   первое условие не срабатывает и горизонтальная линия уходила за край экрана.
+   Ширину самого экрана подмена вьюпорта не меняет, планшеты (от 744 px) не задевает */
+@media (max-width:760px), (max-device-width:480px){
+  .s-steps{grid-template-columns:minmax(0,1fr); gap:1.75rem; padding-left:4rem}
+  .s-steps::before,.s-steps::after{left:1.4375rem; right:auto; top:1.5rem; bottom:1.5rem; width:1px; height:auto}
+  .s-steps::after{transform:scaleY(0); transform-origin:50% 0}
+  .s-steps.in::after{transform:scaleY(1)}
+  .s-step-n{position:absolute; left:-4rem; top:0}
+  .s-step h3{margin-top:0.625rem}
 }
 .p-wrap{grid-template-columns:minmax(0,1fr)}
 #win:focus{outline:none}
@@ -1890,5 +1901,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=7137c5e5";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=9d3671e3";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
