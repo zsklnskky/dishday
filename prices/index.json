@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.31
+   "coverage": 0.301
   },
   "SE": {
    "updated": "2026-09-29",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.363
   },
   "MD": {
    "updated": "2026-09-29",
@@ -140,7 +140,7 @@
     "aldi_ch"
    ],
    "proxy": [],
-   "coverage": 0.177
+   "coverage": 0.186
   },
   "SI": {
    "updated": "2026-09-29",
@@ -151,7 +151,7 @@
     "tus"
    ],
    "proxy": [],
-   "coverage": 0.177
+   "coverage": 0.186
   },
   "IT": {
    "updated": "2026-09-29",
@@ -216,7 +216,7 @@
     "lidl_cy"
    ],
    "proxy": [],
-   "coverage": 0.115
+   "coverage": 0.133
   },
   "FR": {
    "updated": "2026-09-29",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.522
+   "coverage": 0.513
   },
   "AM": {
    "updated": "2026-09-29",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.398
+   "coverage": 0.372
   },
   "IE": {
    "updated": "2026-09-29",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.363
   },
   "CZ": {
    "updated": "2026-09-29",
