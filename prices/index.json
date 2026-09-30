@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.363
   },
   "MD": {
    "updated": "2026-09-30",
@@ -171,7 +171,7 @@
     "auchan_pt"
    ],
    "proxy": [],
-   "coverage": 0.336
+   "coverage": 0.345
   },
   "SK": {
    "updated": "2026-09-30",
@@ -198,7 +198,7 @@
     "lidl_gr"
    ],
    "proxy": [],
-   "coverage": 0.106
+   "coverage": 0.115
   },
   "RS": {
    "updated": "2026-09-30",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.407
+   "coverage": 0.381
   },
   "IE": {
    "updated": "2026-09-30",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.381
   },
   "BE": {
    "updated": "2026-09-30",
