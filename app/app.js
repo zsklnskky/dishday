@@ -12248,8 +12248,7 @@ function renderAccount(){
   card.innerHTML = `<span class="ava">${escH((acctName()[0] || "?").toUpperCase())}</span>
     <div class="who"><b>${escH(u.name || u.email || "")}<span class="sub-badge" id="acctPlan" hidden></span></b><span>${escH(u.email || "")}</span></div>
     <button type="button" class="btn btn-ghost btn-sm" data-sgout>${escH(t("sgOut"))}</button>
-    <div class="stores"><span data-storeinfo></span><button type="button" class="btn btn-ghost btn-sm" data-geo>${escH(t("geoUpd"))}</button></div>
-    ${launched() ? "" : `<p class="src" style="flex-basis:100%">${escH(t("sgWait", {email:u.email || ""}))}</p>`}`;
+    <div class="stores"><span data-storeinfo></span><button type="button" class="btn btn-ghost btn-sm" data-geo>${escH(t("geoUpd"))}</button></div>`;   // про 20 октября говорит полоса над заголовком, второй раз не повторяем
   renderSub(); paintStores();
 }
 function openSign(){
@@ -12638,7 +12637,6 @@ function renderApp(){ paintWaitBar(); renderSub(); renderHead(); renderPlan(); r
 const dietLabel = () => { const x = tr(DIETS.find(d=>d.id===S.diet)); return S.lang==="ru" ? x.toLowerCase() : x; };
 function renderHead(){
   const h = new Date().getHours();
-  $("#greet").textContent = t(h<5?"gNight":h<11?"gMorning":h<17?"gDay":"gEvening");
   const cu = S.cuisines.length ? pn(S.cuisines.length,"cuisine") : t("allCuisines");
   const ex = S.exclude.groups.length + S.exclude.items.length;
   /* чипы это ответы анкеты: нажатие открывает тот самый вопрос, ответы при этом сохраняются */
@@ -12854,8 +12852,8 @@ function renderBasics(){
        <div style="display:flex;align-items:center;gap:10px"><button class="chip sm" data-sp="-1" aria-label="${t("fewerP")}">−</button><b class="num" style="min-width:2ch;text-align:center">${S.people}</b><button class="chip sm" data-sp="1" aria-label="${t("moreP")}">+</button></div></div>
      <div class="rule"><div class="t"><b>${t("dinnersPerWeek")}</b><p>${t("dinnersFromMon",{n:S.days.length})}</p></div>
        <div style="display:flex;align-items:center;gap:10px"><button class="chip sm" data-sd="-1" aria-label="${t("fewerD")}">−</button><b class="num" style="min-width:2ch;text-align:center">${S.days.length}</b><button class="chip sm" data-sd="1" aria-label="${t("moreD")}">+</button></div></div>
-     <div class="rule" style="display:block"><div class="t"><b>${t("weekBudget")}</b><p class="num">${t("budgetPer",{b:rub0(S.budget), p:rub(per)})}</p></div>
-       <input type="range" id="setBud" min="${B.min}" max="${B.max}" step="${B.step}" value="${S.budget}" style="--p:${p}%; margin-top:12px" aria-label="${t("weekBudget")}"><div class="bud-free"><label for="setBudNum">${t("manualAmount")}</label><input type="number" id="setBudNum" min="${B.step}" step="${B.step}" inputmode="numeric" value="${Math.round(S.budget)}"><span>${curSym()}</span></div></div>
+     <div class="rule" style="display:block"><div class="t"><b>${t("weekBudget")}</b><p class="num" id="setBudLine">${t("budgetPer",{b:rub0(S.budget), p:rub(per)})}</p></div>
+       <input type="range" id="setBud" min="${B.min}" max="${B.max}" step="${B.step}" value="${S.budget}" style="--p:${p}%; margin-top:12px" aria-label="${t("weekBudget")}" data-budline><div class="bud-free"><label for="setBudNum">${t("manualAmount")}</label><input type="number" id="setBudNum" min="${B.step}" step="${B.step}" inputmode="numeric" value="${Math.round(S.budget)}"><span>${curSym()}</span></div></div>
      <div class="rule" style="display:block"><div class="t"><b>${t("dietType")}</b><p>${tr(DIETS.find(d=>d.id===S.diet),"d")}</p></div>
        <div class="scroller" style="margin-top:10px">${DIETS.map(d=>`<button class="chip sm" aria-pressed="${S.diet===d.id}" data-sdiet="${d.id}">${tr(d)}</button>`).join("")}</div></div>`;
 }
@@ -12873,10 +12871,16 @@ $("#pane-set").addEventListener("change", e=>{ if(e.target.id==="setBudNum"){ re
 $("#pane-set").addEventListener("input", e=>{
   if(e.target.id==="setBudNum"){ S.budget = Math.max(REGION.C.budget.step, Math.round(+e.target.value||0)); save(); return; }
   if(e.target.id!=="setBud") return;
+  /* перерисовывать блок на каждое движение нельзя: ползунок пересоздаётся, браузер теряет
+     захват мыши и перетаскивание обрывается после первого же шага. Пока тянут - меняем
+     только подписи, полный пересчёт делаем, когда отпустили (событие change ниже) */
   S.budget = +e.target.value; save();
   e.target.style.setProperty("--p", budPct(S.budget)+"%");
-  renderBasics(); $("#setBud").focus();
+  const line = $("#setBudLine"), num = $("#setBudNum");
+  if(line) line.textContent = t("budgetPer", {b:rub0(S.budget), p:rub(S.budget/Math.max(1,S.days.length)/S.people)});
+  if(num) num.value = Math.round(S.budget);
 });
+$("#pane-set").addEventListener("change", e=>{ if(e.target.id==="setBud"){ renderBasics(); renderHead(); } });
 function renderSettings(){
   renderBasics();
   $("#setExcl").innerHTML = exclHTML("s");
@@ -12890,7 +12894,6 @@ function renderSettings(){
   $("#photoNote").textContent = have ? t("photosReady",{n:have}) : t("noPhotos");
   $("#photoSw").setAttribute("aria-pressed", !!S.photos);
   $("#setSummary").innerHTML = [["s_people",S.people],["s_days",S.days.length],["s_budget",rub0(S.budget)],["s_diet",tr(DIETS.find(d=>d.id===S.diet))],["s_skip",(S.exclude.groups.length+S.exclude.items.length)||t("nothing")],["s_fit",suitableCount()],["s_catalog",RECIPES.length],["s_cuisines",CUISINES.length]].map(([k,v])=>`<div class="kv"><span>${t(k)}</span><b>${v}</b></div>`).join("");
-  $("#setSrc").textContent = t("priceSrc");
 }
 
 

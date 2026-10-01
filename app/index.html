@@ -931,7 +931,14 @@ input[type=range]{background:linear-gradient(90deg,var(--a1),var(--violet)) 0/va
   border:1px solid var(--stroke2); background:linear-gradient(135deg,var(--mint),var(--mp)); color:#05070F; font:700 0.9375rem var(--fb);
   transition:transform .2s var(--ease), box-shadow .2s var(--ease)}
 .acct-ava:hover{transform:translateY(-1px); box-shadow:0 0.375rem 1rem rgba(139,124,246,.35)}
-.acct-card{display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:1rem}
+/* профиль: аккаунт во всю ширину сверху, остальное двумя равными колонками.
+   Раньше слева был один блок, а справа четыре, и страница выглядела пустой слева */
+.prof-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; align-items:start}
+.prof-main{grid-column:1/-1}
+.prof-side{display:contents}
+.prof-side > *{margin:0}
+@media (max-width:760px){ .prof-grid{grid-template-columns:minmax(0,1fr)} }
+.acct-card{display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:0}
 .acct-card .ava{width:3.25rem; height:3.25rem; border-radius:50%; display:grid; place-items:center; flex:none;
   background:linear-gradient(135deg,var(--mint),var(--mp)); color:#05070F; font:700 1.25rem var(--fb)}
 .acct-card .who{flex:1 1 12rem; min-width:0}
@@ -1706,7 +1713,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   <div class="wrap">
     <div class="wait-bar" id="waitBar" hidden></div>
     <div class="page-head">
-      <div><div class="hello" id="greet">Добрый вечер</div><h1 id="appTitle">Неделя собрана</h1>
+      <div><h1 id="appTitle">Неделя собрана</h1>
         <div class="st-line"><span data-storelabel></span><button type="button" class="geo-upd" data-geo data-i18n="geoUpd">Обновить геопозицию</button></div></div>
       <div class="head-chips" id="headChips"></div>
     </div>
@@ -1823,7 +1830,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
     </div>
 
     <div class="pane" id="pane-set">
-      <button type="button" class="btn btn-ghost btn-sm set-back" data-jump="profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span data-i18n="toProfile">К профилю</span></button>
+      <button type="button" class="btn btn-ghost btn-sm set-back" style="margin-bottom:1.25rem" data-jump="profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span data-i18n="toProfile">К профилю</span></button>
       <div class="cols">
         <div>
           <div class="glass panel">
@@ -1855,7 +1862,6 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
             <h3>Dishday</h3><div id="setSummary" style="margin-top:6px"></div>
             <div class="stack"><button class="btn btn-main" id="redo" data-magnet data-i18n="rebuild">Пересобрать неделю</button><button class="btn btn-ghost" id="reset" data-i18n="startOver">Начать заново</button><a class="btn btn-ghost" href="#top" data-go="site" data-i18n="openSite">Открыть сайт Dishday</a></div>
           </div>
-          <div class="glass panel"><h3 data-i18n="priceFrom">Откуда цены</h3><p class="src" style="margin-top:8px" id="setSrc"></p></div>
         </aside>
       </div>
     </div>
@@ -1863,20 +1869,14 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
     <div class="pane" id="pane-community"><div id="ddCommunity"></div></div>
 
     <div class="pane" id="pane-profile">
-      <div class="cols">
-        <div><div class="glass panel acct-card" id="acctCard"></div><div id="ddProfile"></div></div>
-        <aside class="side">
+      <div class="prof-grid">
+        <div class="prof-main"><div class="glass panel acct-card" id="acctCard"></div><div id="ddProfile"></div></div>
+        <aside class="prof-side">
           <div class="glass panel sub-card" id="subCard"></div>
           <div class="glass panel"><h3 data-i18n="appSetT">Настройки приложения</h3><div class="sub" data-i18n="appSetSub">Бюджет, кухни, ограничения, магазины и оформление</div>
             <button type="button" class="btn btn-main" style="margin-top:14px" data-jump="set" data-i18n="appSetBtn">Открыть настройки</button>
             <div class="theme-row"><span class="lbl-f" id="themeLbl" data-i18n="themeT">Тема</span>
               <div class="pl-terms theme-seg" role="radiogroup" aria-labelledby="themeLbl"><button type="button" role="radio" data-theme-set="system" data-i18n="themeSys">Системная</button><button type="button" role="radio" data-theme-set="light" data-i18n="themeLight">Светлая</button><button type="button" role="radio" data-theme-set="dark" data-i18n="themeDark">Тёмная</button></div></div></div>
-          <div class="glass panel"><h3 data-i18n="contactsT">Связь с нами</h3>
-            <div class="contact-links"><a class="btn btn-ghost btn-sm" href="https://www.instagram.com/dishday_" target="_blank" rel="noopener noreferrer" data-i18n="contactIg">Мы в Instagram</a><a class="btn btn-ghost btn-sm" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=marketingdishday@gmail.com" target="_blank" rel="noopener noreferrer" data-i18n="contactMail">Написать нам</a></div>
-            <p class="src" style="margin-top:8px">@dishday_ · marketingdishday@gmail.com</p></div>
-          <div class="glass panel"><h3 data-i18n="storesT">Магазины</h3><p class="src" style="margin-top:8px" data-storeinfo></p>
-            <button type="button" class="btn btn-ghost btn-sm" style="margin-top:12px" data-geo data-i18n="geoUpd">Обновить геопозицию</button>
-            <p class="src" style="margin-top:8px" data-i18n="geoPrivacy"></p></div>
         </aside>
       </div>
     </div>
@@ -1945,5 +1945,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=ac0142a7";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=95710e9f";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
