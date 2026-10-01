@@ -1,15 +1,12 @@
 
 
 /* ===== mod_aurora.js ===== */
-/* Dishday: фон «Шёлк в растре».
-
-   Два варианта из лаборатории сведены в один проход: шёлковые ленты и упорядоченный
-   дизеринг поверх них. Двумя слоями это стоило бы двух полноэкранных шейдеров на кадр,
-   поэтому растр живёт прямо в конце фрагментного шейдера лент.
+/* Dishday: фон «Шёлк».
 
    Фрагментный шейдер лент - warp из @paper-design/shaders, лицензия Apache-2.0,
-   https://github.com/paper-design/shaders. Изменения: добавлены ddBayer8, u_dither,
-   u_ditherPx, u_dim и блок квантования перед записью цвета. Рантайм библиотеки не
+   https://github.com/paper-design/shaders. Изменения: добавлены u_dim, приглушение
+   центра и виньетка перед записью цвета. Растр из дизеринга пробовали поверх лент,
+   заказчик снял его как «сетку». Рантайм библиотеки не
    используется: кадры, размеры и паузы считает код ниже, он уже был написан под
    прежний фон. Вершинный шейдер свой - из их варианта нужен только v_patternUV
    при fit = none, а это одна строка вместо ста.
@@ -60,22 +57,8 @@ in vec2 v_patternUV;
 
 out vec4 fragColor;
 
-uniform float u_dither;
-uniform float u_ditherPx;
 uniform float u_dim;
 uniform vec2 u_resolution;
-
-/* Упорядоченная матрица Байера 8x8, собранная перестановкой битов вместо таблицы.
-   Порог зависит только от координаты пикселя, поэтому растр стоит на месте,
-   а лента под ним течёт - из-за этого он и читается как печать, а не как шум. */
-float ddBayer8(vec2 fc) {
-  ivec2 p = ivec2(mod(fc, 8.));
-  int x = p.x ^ p.y, y = p.y;
-  int v = (((x >> 2) & 1)     ) | (((y >> 2) & 1) << 1)
-        | (((x >> 1) & 1) << 2) | (((y >> 1) & 1) << 3)
-        | (((x     ) & 1) << 4) | (((y     ) & 1) << 5);
-  return float(v) / 64.;
-}
 
 
 #define TWO_PI 6.28318530718
@@ -177,20 +160,13 @@ void main() {
   color *= u_dim * (1. - .34 * exp(-dot(sp, sp) * 2.4));
   color *= smoothstep(1.35, .08, length(sp * vec2(.8, 1.1)));
 
-  /* Пять ступеней на канал со сдвигом порога по матрице: цвет распадается на точки.
-     Смешиваем с исходным, иначе переливы шёлка рассыпаются целиком и остаётся плакат. */
-  float lv = 5.;
-  float th = ddBayer8(gl_FragCoord.xy / max(1., u_ditherPx));
-  vec3 quant = floor(color * lv + th) / lv;
-  color = mix(color, quant, u_dither);
-
   fragColor = vec4(color, opacity);
 }
 `;
 
   const U_NAMES = ["u_resolution","u_scale","u_time","u_noiseTexture","u_colors[0]","u_colorsCount",
     "u_proportion","u_softness","u_shape","u_shapeScale","u_distortion","u_swirl","u_swirlIterations",
-    "u_dither","u_ditherPx","u_dim"];
+    "u_dim"];
 
   let gl, prog, U = {}, cv, raf = 0, t0 = performance.now(), last = 0;
   const mouse = {x:.5, y:.5, tx:.5, ty:.5};
@@ -267,8 +243,6 @@ void main() {
     gl.uniform1f(U["u_shapeScale"], .12);
     gl.uniform1f(U["u_distortion"], .22);
     gl.uniform1f(U["u_swirlIterations"], 8);
-    gl.uniform1f(U["u_dither"], .45);
-    gl.uniform1f(U["u_ditherPx"], 1.5);
     cv.addEventListener("webglcontextlost", e=>{ e.preventDefault(); stop(); document.documentElement.classList.add("no-gl"); });
     addEventListener("resize", size, {passive:true});
     addEventListener("pointermove", e=>{ mouse.tx = e.clientX/innerWidth; mouse.ty = e.clientY/innerHeight; }, {passive:true});
