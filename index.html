@@ -10,6 +10,16 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker.register("sw.js").catch(function () {});
   });
+  // новая версия встала - перезагружаемся один раз, иначе человек остаётся на старой
+  // до ручного обновления. При первой установке контроллера ещё нет, и перезагрузка не нужна
+  if (navigator.serviceWorker.controller) {
+    var ddReloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", function () {
+      if (ddReloaded) return;
+      ddReloaded = true;
+      location.reload();
+    });
+  }
 }
 </script>
 <script>window.DD_ENTRY="site"</script>

@@ -2,7 +2,7 @@
 // network-first для HTML (чтобы люди сразу видели обновления онлайн),
 // cache-first для статики (фото с ?v=хэш), stale-while-revalidate для prices/*.json (обновляет GitHub Actions),
 // Apps Script (оплата, лист ожидания) не трогаем никогда.
-const CACHE = "dishday-v3";
+const CACHE = "dishday-28bbc266";
 const PRECACHE_URLS = [
   "./",
   "./app/",
@@ -25,7 +25,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k.startsWith("dishday-") && k !== CACHE).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
