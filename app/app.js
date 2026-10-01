@@ -11150,7 +11150,7 @@ const STR = {
   /* запись, пробный месяц, бесплатный режим */
   joinH:["Попробуйте бесплатно","Try it free"],
   joinP:["Войдите через Google, и откроется бесплатный режим на 2 месяца. Первым 150 - Pro Plus на 2 месяца в подарок.","Sign in with Google to open 2 months of free mode. The first 150 people get 2 months of Pro Plus."],
-  jnPreH:["Оставьте почту","Leave your email"],
+  jnPreH:["Займите место","Save your spot"],
   jnPreP:["20 октября в 9:00 пришлём на почту ссылку на готовое приложение","On October 20 at 9:00 we will email you a link to the finished app"],
   jnPreDoneP:["Готово. 20 октября в 9:00 ссылка придёт на {email}","Done. On October 20 at 9:00 the link will arrive at {email}"],
   marqChains:[()=>`${CHAINS.length} ${plural(CHAINS.length,"сеть","сети","сетей")}`, ()=>`${CHAINS.length} ${CHAINS.length===1?"chain":"chains"}`], marqAppl:["16 видов техники","16 kitchen appliance types"],
@@ -11349,6 +11349,17 @@ const STR = {
              ()=>CHAINS.length>1 ? `${ccName()}: all ${NUMW.en[CHAINS.length]} chains are connected. We compare them automatically, or you can pin one` : `${ccName()}: ${tr(CHAINS[0])} is connected. Other chains appear once they share prices`],
   cuMix:["Кухни в подборе","Cuisines in the mix"], look:["Оформление","Appearance"], lookSub:["Палитра меняет фон, акценты и свечение","The palette changes the background, accents and glow"],
   photosT:["Фотографии блюд","Dish photos"], cursorT:["Живой курсор","Live cursor"], cursorD:["Кольцо со шлейфом следует за мышью и подсказывает действие","A ring with a trail follows the mouse and hints at actions"],
+  gContinue:["Продолжить с Google","Continue with Google"],
+  waitBar:[v=>`<b>Сервис открывается 20 октября.</b> Пока это предпросмотр: пользуйтесь, а в день запуска напишем на ${v.email}.`,
+    v=>`<b>We open on 20 October.</b> This is a preview for now: look around, and on launch day we will email ${v.email}.`],
+  waitBarNo:["<b>Сервис открывается 20 октября.</b> Пока это предпросмотр.", "<b>We open on 20 October.</b> This is a preview for now."],
+  sgTitle:["Аккаунт Dishday","Your Dishday account"],
+  sgLead:["Один аккаунт на сайте и в приложении: план, список покупок и доступ привязаны к нему.",
+    "One account on the site and in the app: your week, shopping list and access belong to it."],
+  sgIn:["Войти","Sign in"], sgOut:["Выйти","Sign out"],
+  sgOutAsk:["Выйти из аккаунта? План и настройки останутся в этом браузере.",
+    "Sign out? Your week and settings stay in this browser."],
+  sgWait:[v=>`Сервис откроется 20 октября. Напишем на ${v.email}.`, v=>`We open on 20 October. We will email ${v.email}.`],
   rebuild:["Пересобрать неделю","Rebuild the week"], startOver:["Начать заново","Start over"], editAnswers:["Изменить ответы","Edit answers"], priceFrom:["Откуда цены","Where prices come from"],
   planTier:["Тариф: {x}","Plan: {x}"], accessTill:["Доступ оплачен до {d}","Paid access until {d}"],
   freeOpen:["открыто {f} блюд из {n} после первой недели","{f} of {n} dishes unlocked after the first week"],
@@ -12191,19 +12202,66 @@ const gsiLoad = () => gsiP || (gsiP = new Promise((ok, no) => {
   el.onload = ok; el.onerror = no;
   document.head.appendChild(el);
 }));
-function paintGoogleBtn(){
-  const box = $("#jnGoogle"), cid = DD_PAY.wl.googleClientId;
-  if(!box) return;
-  if(!cid){ box.hidden = true; return; }
-  box.hidden = false;
-  $("#jnForm").hidden = true;   // вход только через Google, почту набирать руками больше не нужно
-  if(box.dataset.ready) return;
+const G_MARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3C3.7 21.5 7.6 24 12 24z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3C17.7 1.2 15.1 0 12 0 7.6 0 3.7 2.5 1.8 6.1l3.8 3C6.5 6.5 9 4.8 12 4.8z"/></svg>';
+/* одна кнопка на все места: своя снаружи, настоящая гугловская прозрачным слоем сверху */
+function googleBtn(box){
+  const cid = DD_PAY.wl.googleClientId;
+  if(!box || !cid) return false;
+  if(box.dataset.ready) return true;
   box.dataset.ready = "1";
+  box.innerHTML = `<span class="g-wrap"><button type="button" class="g-face" tabindex="-1">${G_MARK}<span>${escH(t("gContinue"))}</span></button><span class="g-real"></span></span>`;
+  const real = box.querySelector(".g-real");
   gsiLoad().then(()=>{
     google.accounts.id.initialize({client_id:cid, ux_mode:"popup", auto_select:false, callback:r=>googleSignIn(r.credential)});
-    google.accounts.id.renderButton(box, {type:"standard", theme:"filled_black", size:"large", shape:"pill", text:"continue_with", width:320, locale:S.lang});
-  }).catch(()=>{ box.hidden = true; box.dataset.ready = ""; $("#jnForm").hidden = false; });
+    google.accounts.id.renderButton(real, {type:"standard", theme:"filled_black", size:"large", shape:"pill", text:"continue_with", width:Math.round(box.getBoundingClientRect().width) || 320, locale:S.lang});
+  }).catch(()=>{ box.dataset.ready = ""; box.innerHTML = ""; if($("#jnForm")) $("#jnForm").hidden = false; });
+  return true;
 }
+function paintGoogleBtn(){
+  const box = $("#jnGoogle");
+  if(!box) return;
+  const on = googleBtn(box);
+  box.hidden = !on;
+  if($("#jnForm")) $("#jnForm").hidden = on;   // вход только через Google, почту набирать руками не нужно
+}
+/* до дня запуска приложение работает как предпросмотр, и это видно сразу */
+function paintWaitBar(){
+  const el = $("#waitBar"); if(!el) return;
+  el.hidden = launched();
+  if(el.hidden) return;
+  const email = S.user && S.user.email;
+  el.innerHTML = `<i class="dot" aria-hidden="true"></i><span>${email ? t("waitBar", {email:escH(email)}) : t("waitBarNo")}</span>`;
+}
+/* аккаунт в шапке приложения: тот же, под которым вошли на сайте */
+const acctName = () => (S.user && (S.user.name || S.user.email)) || "";
+function renderAccount(){
+  const el = $("#acct"); if(!el) return;
+  const u = S.user;
+  el.innerHTML = u
+    ? `<button type="button" class="acct" data-sgopen><span class="ava">${escH((acctName()[0] || "?").toUpperCase())}</span><span class="nm">${escH(acctName())}</span></button>`
+    : `<button type="button" class="btn btn-ghost btn-sm" data-sgopen>${escH(t("sgIn"))}</button>`;
+}
+function openSign(){
+  const dlg = $("#signDlg"), body = $("#sgBody"), u = S.user;
+  body.dataset.ready = "";
+  body.innerHTML = u
+    ? `<div class="who"><span class="ava">${escH((acctName()[0] || "?").toUpperCase())}</span><div><b>${escH(u.name || "")}</b><span>${escH(u.email || "")}</span></div></div>
+       ${launched() ? "" : `<p class="src">${escH(t("sgWait", {email:u.email || ""}))}</p>`}
+       <button type="button" class="btn btn-ghost" data-sgout style="margin-top:0.75rem">${escH(t("sgOut"))}</button>`
+    : "";
+  if(!u) googleBtn(body);
+  if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-sgopen],[data-sgclose],[data-sgout]"); if(!b) return;
+  const dlg = $("#signDlg");
+  if(b.hasAttribute("data-sgopen")) return openSign();
+  if(b.hasAttribute("data-sgclose")) return dlg.close ? dlg.close() : dlg.removeAttribute("open");
+  if(!confirm(t("sgOutAsk"))) return;
+  S.user = null; S.free = null; S.access = null; S.trial = null; save();
+  if(dlg.close) dlg.close(); else dlg.removeAttribute("open");
+  renderAccount(); jnDone = null; if($("#site").classList.contains("on")) renderSite(); else goSite("join");
+});
 function applyGoogle(r){
   const email = r.email, same = S.free && S.free.email === email;
   if(r.plan === "trial" && r.active) S.access = {plan:"trial", src:"wl", orderId:"", paidAt:Date.now(), until:Date.parse(r.until) || 0, email, token:r.access_token};
@@ -12218,6 +12276,9 @@ function googleSignIn(credential){
   DD_PAY.wl.google({credential, lang:S.lang, country:REGION.cc}).then(r=>{
     if(!r || !r.ok) return toastSafe(t("jnFail"));
     applyGoogle(r);
+    renderAccount();
+    const dlg = $("#signDlg"); if(dlg && dlg.open){ if(dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+    if($("#app").classList.contains("on")) return renderApp();
     jnDone = r.trial_token ? {kind:"trial", n:r.position, email:r.email}
       : canEnter() ? {kind:"app", email:r.email} : {kind:"ok", email:r.email};
     renderSite();
@@ -12565,7 +12626,7 @@ function show(id){
   return id;
 }
 function go(id, after){ return F.shutter(()=>show(id)).then(()=>{ if(after) after(); }); }
-function renderApp(){ renderSub(); renderHead(); renderPlan(); renderMeals(); renderFridge(); renderList(); renderNutri(); renderSettings(); paintStores(); if(window.DD_REVIEWS){ DD_REVIEWS.renderAuthChip($("#ddAuth")); paintSocial(curTab); } }
+function renderApp(){ paintWaitBar(); renderSub(); renderHead(); renderPlan(); renderMeals(); renderFridge(); renderList(); renderNutri(); renderSettings(); paintStores(); renderAccount(); if(window.DD_REVIEWS) paintSocial(curTab); }
 const dietLabel = () => { const x = tr(DIETS.find(d=>d.id===S.diet)); return S.lang==="ru" ? x.toLowerCase() : x; };
 function renderHead(){
   const h = new Date().getHours();

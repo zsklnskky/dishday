@@ -907,7 +907,38 @@ input[type=range]{background:linear-gradient(90deg,var(--a1),var(--violet)) 0/va
 .lg-other-g span{color:var(--a1); font-size:0.875rem; font-weight:600}
 .lg-up{position:fixed; right:1.25rem; bottom:calc(1.25rem + env(safe-area-inset-bottom) + var(--cbh)); z-index:45; width:3.25rem; height:3.25rem; background:rgba(16,22,42,.92); border-color:var(--stroke2); color:var(--ink)}
 
-.jn-google{display:flex; justify-content:center; margin-bottom:1rem; min-height:2.75rem}
+/* кнопка Google в нашем стиле: сверху своя, под ней настоящая кнопка Google прозрачным слоем.
+   Клик всё равно уходит в неё, так что поведение остаётся гугловским, а вид наш */
+.g-wrap{position:relative; display:block; width:100%}
+.g-face{display:flex; align-items:center; justify-content:center; gap:0.625rem; width:100%; padding:0.875rem 1.25rem;
+  border-radius:999px; border:1px solid var(--stroke2); background:var(--panel); color:var(--ink);
+  font:600 0.9375rem var(--fb); cursor:pointer; transition:border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease)}
+.g-face:hover{border-color:var(--mp); background:var(--panel-2)}
+.g-wrap:active .g-face{transform:scale(.99)}
+.g-face svg{width:1.125rem; height:1.125rem; flex:none}
+.g-real{position:absolute; inset:0; opacity:0; overflow:hidden; border-radius:999px}
+.g-real > div{width:100% !important; height:100% !important}
+.g-real iframe{width:100% !important; height:100% !important}
+.jn-google{display:block; margin-bottom:1rem; min-height:2.75rem}
+
+/* аккаунт в шапке приложения */
+.wait-bar{display:flex; align-items:center; gap:0.75rem; margin:7.5rem 0 -5rem;   /* шапка плавающая, поэтому отступ сверху как у заголовка */ padding:0.875rem 1.125rem; border-radius:var(--r-l);
+  border:1px solid var(--stroke2); background:linear-gradient(90deg,rgba(110,231,249,.10),rgba(139,124,246,.10)); color:var(--ink2); font-size:0.9062rem}
+.wait-bar b{color:var(--ink); font-weight:600}
+.wait-bar .dot{width:0.5rem; height:0.5rem; border-radius:50%; flex:none; background:var(--mint); box-shadow:0 0 0 0.25rem rgba(110,231,249,.18)}
+.acct{display:inline-flex; align-items:center; gap:0.5rem; padding:0.375rem 0.75rem 0.375rem 0.375rem; border-radius:999px;
+  border:1px solid var(--stroke2); background:var(--panel); color:var(--ink); font:600 0.8125rem var(--fb); cursor:pointer;
+  transition:border-color .2s var(--ease), background .2s var(--ease)}
+.acct:hover{border-color:var(--mp)}
+.acct .ava{width:1.625rem; height:1.625rem; border-radius:50%; display:grid; place-items:center; flex:none;
+  background:linear-gradient(135deg,var(--mint),var(--mp)); color:#05070F; font:700 0.8125rem var(--fb)}
+.acct .nm{max-width:10rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sign-dlg{max-width:24rem}
+.sign-dlg .who{display:flex; align-items:center; gap:0.75rem; margin:1rem 0}
+.sign-dlg .who .ava{width:2.5rem; height:2.5rem; border-radius:50%; display:grid; place-items:center;
+  background:linear-gradient(135deg,var(--mint),var(--mp)); color:#05070F; font:700 1rem var(--fb)}
+.sign-dlg .who b{display:block; font:600 0.9375rem var(--fb)}
+.sign-dlg .who span{color:var(--ink2); font-size:0.8125rem; word-break:break-all}
 
 /* ================= cookie: баннер и окно ================= */
 /* компактная карточка в углу: не закрывает первый экран и бегущую строку; фон из токена темы, иначе в светлой теме тёмный текст на тёмном */
@@ -1027,6 +1058,7 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .topbar .brand{font-size:1rem} .topbar .brand .mark{width:1.625rem; height:1.625rem}
   .icon-btn{width:2.75rem; height:2.75rem}
   .page-head{padding-top:calc(env(safe-area-inset-top) + 5.25rem); gap:0.875rem}
+  .wait-bar{margin:calc(env(safe-area-inset-top) + 5.25rem) 0 -3.75rem; font-size:0.8438rem}
   .page-head > div:first-child{width:100%}
   .page-head h1{font-size:2rem}
   .head-chips{flex-wrap:nowrap; overflow-x:auto; width:calc(100% + 2rem); margin-inline:-1rem; padding-inline:1rem; scrollbar-width:none;
@@ -1670,11 +1702,12 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
       <button type="button" class="geo-upd st-wide" data-geo data-i18n="geoUpd">Обновить геопозицию</button>
       <button class="lang-pill" data-langtoggle aria-label="Язык" data-i18n-aria="langName"><b data-l="ru">RU</b><b data-l="en">EN</b></button>
       <button type="button" class="sub-badge" id="subBadge" data-jump="profile" hidden></button>
-      <span id="ddAuth"></span>
+      <span id="acct"></span>
     </div>
   </header>
 
   <div class="wrap">
+    <div class="wait-bar" id="waitBar" hidden></div>
     <div class="page-head">
       <div><div class="hello" id="greet">Добрый вечер</div><h1 id="appTitle">Неделя собрана</h1>
         <div class="st-line"><span data-storelabel></span><button type="button" class="geo-upd" data-geo data-i18n="geoUpd">Обновить геопозицию</button></div></div>
@@ -1887,6 +1920,12 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   <div class="cb-txt"><h2 id="cbTitle" data-i18n="cbTitle">Cookie и хранилище браузера</h2><p data-i18n-html="cbText">Dishday хранит настройки и план в вашем браузере, без трекеров. Аналитику включим только с вашего согласия. <a href="#cookies">Политика cookie</a></p></div>
   <div class="cb-acts"><button type="button" class="btn btn-ghost btn-sm" data-cb="config" data-i18n="cbConfig">Настроить</button><button type="button" class="btn btn-ghost btn-sm" data-cb="necessary" data-i18n="cbNecessary">Только необходимые</button><button type="button" class="btn btn-main btn-sm" data-cb="all" data-i18n="cbAll">Принять все</button></div>
 </div>
+<dialog class="cdlg glass-panel sign-dlg" id="signDlg" aria-labelledby="sgTitle">
+  <h2 id="sgTitle" data-i18n="sgTitle">Аккаунт Dishday</h2>
+  <p class="src" id="sgLead" data-i18n="sgLead">Один аккаунт на сайте и в приложении: план, список покупок и доступ привязаны к нему.</p>
+  <div id="sgBody"></div>
+  <div class="cb-acts" style="margin-top:1rem"><button type="button" class="btn btn-ghost btn-sm" data-sgclose data-i18n="close">Закрыть</button></div>
+</dialog>
 <dialog class="cdlg glass-panel" id="cookieDlg" aria-labelledby="cdTitle">
   <form method="dialog" class="cdlg-in">
     <div class="cdlg-head"><h2 id="cdTitle" data-i18n="cdTitle">Настройки cookie</h2><button type="submit" value="cancel" class="icon-btn" data-i18n-aria="close" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -1909,5 +1948,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=b93f7e0c";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=2410e9f8";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
