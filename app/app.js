@@ -22,10 +22,10 @@
      Экран приложения идёт вчетверо тише: там читают план и список покупок. */
   const BG = [5,7,15], MINT = [110,231,249], PLUM = [139,124,246], APRICOT = [247,183,120], INDIGO = [96,132,232];
   const TONES = [
-    { c:[BG, MINT, PLUM, APRICOT], dim:.5 },
-    { c:[BG, PLUM, MINT, APRICOT], dim:.5 },
-    { c:[BG, MINT, APRICOT, PLUM], dim:.5 },
-    { c:[BG, MINT, PLUM, INDIGO],  dim:.26 }
+    { c:[BG, MINT, PLUM, APRICOT], dim:.82 },
+    { c:[BG, PLUM, MINT, APRICOT], dim:.82 },
+    { c:[BG, MINT, APRICOT, PLUM], dim:.82 },
+    { c:[BG, MINT, PLUM, INDIGO],  dim:.44 }
   ];
   const VS = `#version 300 es
 precision mediump float;
@@ -174,8 +174,8 @@ void main() {
   /* Кадр нормирован по высоте. Центр притушен и края уведены в тень: там, где лежит
      текст, важен контраст с ним, а цвет остаётся по углам и держит глубину. */
   vec2 sp = (gl_FragCoord.xy / u_resolution - .5) * vec2(u_resolution.x / u_resolution.y, 1.);
-  color *= u_dim * (1. - .52 * exp(-dot(sp, sp) * 2.2));
-  color *= smoothstep(1.12, .1, length(sp * vec2(.82, 1.12)));
+  color *= u_dim * (1. - .34 * exp(-dot(sp, sp) * 2.4));
+  color *= smoothstep(1.35, .08, length(sp * vec2(.8, 1.1)));
 
   /* Пять ступеней на канал со сдвигом порога по матрице: цвет распадается на точки.
      Смешиваем с исходным, иначе переливы шёлка рассыпаются целиком и остаётся плакат. */
