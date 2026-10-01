@@ -11356,7 +11356,7 @@ const STR = {
   sgTitle:["Аккаунт Dishday","Your Dishday account"],
   sgLead:["Один аккаунт на сайте и в приложении: план, список покупок и доступ привязаны к нему.",
     "One account on the site and in the app: your week, shopping list and access belong to it."],
-  sgIn:["Войти","Sign in"], sgOut:["Выйти","Sign out"],
+  sgIn:["Войти","Sign in"], sgOut:["Выйти","Sign out"], sgHi:[v=>`Вы вошли как ${v.name}`, v=>`Signed in as ${v.name}`],
   sgOutAsk:["Выйти из аккаунта? План и настройки останутся в этом браузере.",
     "Sign out? Your week and settings stay in this browser."],
   sgWait:[v=>`Сервис откроется 20 октября. Напишем на ${v.email}.`, v=>`We open on 20 October. We will email ${v.email}.`],
@@ -12235,21 +12235,28 @@ function paintWaitBar(){
 /* аккаунт в шапке приложения: тот же, под которым вошли на сайте */
 const acctName = () => (S.user && (S.user.name || S.user.email)) || "";
 function renderAccount(){
-  const el = $("#acct"); if(!el) return;
-  const u = S.user;
-  el.innerHTML = u
-    ? `<button type="button" class="acct" data-sgopen><span class="ava">${escH((acctName()[0] || "?").toUpperCase())}</span><span class="nm">${escH(acctName())}</span></button>`
+  const el = $("#acct"), u = S.user;
+  if(el) el.innerHTML = u
+    ? `<button type="button" class="acct-ava" data-jump="profile" title="${escH(acctName())}" aria-label="${escH(acctName())}">${escH((acctName()[0] || "?").toUpperCase())}</button>`
     : `<button type="button" class="btn btn-ghost btn-sm" data-sgopen>${escH(t("sgIn"))}</button>`;
+  const card = $("#acctCard"); if(!card) return;
+  if(!u){
+    card.innerHTML = `<div class="who"><b>${escH(t("sgIn"))}</b><span>${escH(t("sgLead"))}</span></div>
+      <button type="button" class="btn btn-main btn-sm" data-sgopen>${escH(t("sgIn"))}</button>`;
+    return;
+  }
+  card.innerHTML = `<span class="ava">${escH((acctName()[0] || "?").toUpperCase())}</span>
+    <div class="who"><b>${escH(u.name || u.email || "")}<span class="sub-badge" id="acctPlan" hidden></span></b><span>${escH(u.email || "")}</span></div>
+    <button type="button" class="btn btn-ghost btn-sm" data-sgout>${escH(t("sgOut"))}</button>
+    <div class="stores"><span data-storeinfo></span><button type="button" class="btn btn-ghost btn-sm" data-geo>${escH(t("geoUpd"))}</button></div>
+    ${launched() ? "" : `<p class="src" style="flex-basis:100%">${escH(t("sgWait", {email:u.email || ""}))}</p>`}`;
+  renderSub(); paintStores();
 }
 function openSign(){
-  const dlg = $("#signDlg"), body = $("#sgBody"), u = S.user;
-  body.dataset.ready = "";
-  body.innerHTML = u
-    ? `<div class="who"><span class="ava">${escH((acctName()[0] || "?").toUpperCase())}</span><div><b>${escH(u.name || "")}</b><span>${escH(u.email || "")}</span></div></div>
-       ${launched() ? "" : `<p class="src">${escH(t("sgWait", {email:u.email || ""}))}</p>`}
-       <button type="button" class="btn btn-ghost" data-sgout style="margin-top:0.75rem">${escH(t("sgOut"))}</button>`
-    : "";
-  if(!u) googleBtn(body);
+  const dlg = $("#signDlg"), body = $("#sgBody");
+  if(S.user) return switchTab("profile");   // вошедшему показываем профиль, а не окно
+  body.dataset.ready = ""; body.innerHTML = "";
+  googleBtn(body);
   if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
 }
 document.addEventListener("click", e=>{
@@ -12278,7 +12285,8 @@ function googleSignIn(credential){
     applyGoogle(r);
     renderAccount();
     const dlg = $("#signDlg"); if(dlg && dlg.open){ if(dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
-    if($("#app").classList.contains("on")) return renderApp();
+    if($("#app").classList.contains("on")){ renderApp(); return toast(t("sgHi", {name:acctName()})); }
+    if(canEnter()) return F.shutter(openAppFlow);   // доступ есть - сразу в приложение, а не в карточку записи
     jnDone = r.trial_token ? {kind:"trial", n:r.position, email:r.email}
       : canEnter() ? {kind:"app", email:r.email} : {kind:"ok", email:r.email};
     renderSite();
@@ -12728,12 +12736,14 @@ function subInfo(){
   return {tier:tr_, end, start, days, months:a && a.months, warn:days <= 3, short:t({pro:"shortPro", plus:"shortPlus", trial:"shortTrial", free:"shortFree"}[tr_])};
 }
 function renderSub(){
-  const s = subInfo(), badge = $("#subBadge"), card = $("#subCard");
+  const s = subInfo(), badge = $("#acctPlan"), card = $("#subCard");
   const dm = ts => new Date(ts).toLocaleDateString(loc(), {day:"2-digit", month:"2-digit"});
-  badge.hidden = !s;
-  if(s){
-    badge.textContent = s.tier==="trial" || s.tier==="free" ? t("subBadgeLeft",{p:s.short, n:s.days}) : t("subBadgeTill",{p:s.short, d:dm(s.end)});
-    badge.classList.toggle("warn", s.warn);
+  if(badge){
+    badge.hidden = !s;
+    if(s){
+      badge.textContent = s.tier==="trial" || s.tier==="free" ? t("subBadgeLeft",{p:s.short, n:s.days}) : t("subBadgeTill",{p:s.short, d:dm(s.end)});
+      badge.classList.toggle("warn", s.warn);
+    }
   }
   if(!card) return;
   card.classList.toggle("warn", !!(s && s.warn));
@@ -13321,7 +13331,13 @@ function setTab(tab){
 function paintSocial(tab){
   if(!window.DD_REVIEWS) return;
   if(tab==="community") DD_REVIEWS.renderCommunity($("#ddCommunity"));
-  if(tab==="profile") DD_REVIEWS.renderProfile($("#ddProfile"));
+  /* профиль отзывов рисуем только в боевом режиме: в демо он давал второй блок «Профиль»
+     со своим входом и путал с настоящим аккаунтом */
+  if(tab==="profile"){
+    const live = DD_REVIEWS.config && DD_REVIEWS.config.mode === "live";
+    $("#ddProfile").hidden = !live;
+    if(live) DD_REVIEWS.renderProfile($("#ddProfile"));
+  }
 }
 document.addEventListener("dd-reviews:profile", ()=>{ if($("#app").classList.contains("on")) switchTab("profile"); });
 document.addEventListener("dd-reviews:cook", ()=>switchTab("plan"));
