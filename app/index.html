@@ -907,6 +907,8 @@ input[type=range]{background:linear-gradient(90deg,var(--a1),var(--violet)) 0/va
 .lg-other-g span{color:var(--a1); font-size:0.875rem; font-weight:600}
 .lg-up{position:fixed; right:1.25rem; bottom:calc(1.25rem + env(safe-area-inset-bottom) + var(--cbh)); z-index:45; width:3.25rem; height:3.25rem; background:rgba(16,22,42,.92); border-color:var(--stroke2); color:var(--ink)}
 
+.jn-google{display:flex; justify-content:center; margin-bottom:1rem; min-height:2.75rem}
+
 /* ================= cookie: баннер и окно ================= */
 /* компактная карточка в углу: не закрывает первый экран и бегущую строку; фон из токена темы, иначе в светлой теме тёмный текст на тёмном */
 .cb{position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:9500; width:min(26rem,calc(100% - 32px)); /*px*/
@@ -1473,7 +1475,8 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
           <div class="jn-cd" id="jnCd" hidden></div>
         </div>
         <div class="jn-r">
-          <form id="jnForm" novalidate>
+          <div class="jn-google" id="jnGoogle" hidden></div>
+        <form id="jnForm" novalidate>
             <label class="lbl-f" for="jnEmail" data-i18n="jnEmailL">Почта</label>
             <input class="fld" id="jnEmail" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@mail.com" aria-describedby="jnErr">
             <input class="hp" id="jnWebsite" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -1906,5 +1909,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=65c24c21";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=7d7eece1";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 

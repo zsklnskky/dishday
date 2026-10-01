@@ -1658,7 +1658,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
        activate(token)        -> {ok, plan:"trial", until, email, access_token} | {ok:false, error}
        access(email, token)   -> {active, plan:"trial"|"free"|"", until, free_end} */
     wl: {
-      endpoint:"https://script.google.com/macros/s/AKfycbw4P1whKe5TKHJApDOb7IMLs6Gz7ijRUGN5s3TsGnrE28KReY9aJA0maL9SGXojV9KT/exec", googleClientId:"", LIMIT:TRIAL_SEATS, DEMO_BASE:37,
+      endpoint:"https://script.google.com/macros/s/AKfycbw4P1whKe5TKHJApDOb7IMLs6Gz7ijRUGN5s3TsGnrE28KReY9aJA0maL9SGXojV9KT/exec", googleClientId:"81665171834-1867mbrdgubboaak0nanmi7ag5rtr8gr.apps.googleusercontent.com", LIMIT:TRIAL_SEATS, DEMO_BASE:37,
       isDemo(){ return !this.endpoint; },
       _db(){ try{ return JSON.parse(localStorage.getItem("dd_wl_demo") || "null") || {base:this.DEMO_BASE, list:[]}; }catch(e){ return {base:this.DEMO_BASE, list:[]}; } },
       _save(db){ try{ localStorage.setItem("dd_wl_demo", JSON.stringify(db)); }catch(e){} },
@@ -1698,6 +1698,12 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
           return Promise.resolve({ok:true, plan:"trial", until:row.trial_end, email:row.email, access_token:row.access_token});
         }
         return post(this.endpoint, {action:"trial_activate", token}).then(r=>({...r, until:+new Date(r.until)||0}));
+      },
+      /* вход через Google: сервер сам проверяет id_token у Google и по подтверждённой почте
+         заводит или находит запись, поэтому права приходят тем же ответом */
+      google(d){
+        if(this.isDemo()) return Promise.resolve({ok:false, error:"demo"});
+        return post(this.endpoint, {action:"google", ...d});
       },
       access(email, token){
         if(this.isDemo() || !token) return Promise.resolve({active:true});
@@ -11943,7 +11949,7 @@ function renderSite(){
   const canOpen = canEnter() && launched(), cta = t(canOpen ? "openApp" : "getAccess"); $("#navCta").textContent = cta; $("#heroCta").textContent = cta;
   /* на сайте «Открыть приложение» - обычная ссылка на /app/, «Получить доступ» - к блоку записи; до запуска (LAUNCH_AT) - всегда «Получить доступ» */
   if(SPLIT && ENTRY==="site") ["#navCta","#heroCta"].forEach(s=>$(s).setAttribute("href", canOpen ? "app/" : "#join"));
-  renderJoinDone(); paintTracker(); paintCountdown(); paintMarq();
+  renderJoinDone(); paintGoogleBtn(); paintTracker(); paintCountdown(); paintMarq();
   $("#priceIntro").textContent = t("priceIntro",{n:RECIPES.length, c:CUISINES.length});
   renderPlans(); renderFaq(); renderWeekDemo();
   $("#demoBars").innerHTML = demoBarsHTML();
@@ -12137,7 +12143,7 @@ function paintMarq(){
 setInterval(()=>{ if($("#site").classList.contains("on")) paintCountdown(); }, 30000);
 function renderJoinDone(){
   const d = jnDone || (!launched() ? null : S.trial && !hasAccess() ? {kind:"trial", n:S.trial.position} : hasAccess() || freeOn() ? {kind:"app"} : null);
-  $("#jnForm").hidden = !!d; $("#jnDone").hidden = !d;
+  $("#jnForm").hidden = !!d || !!DD_PAY.wl.googleClientId; $("#jnGoogle").hidden = !!d || !DD_PAY.wl.googleClientId; $("#jnDone").hidden = !d;
   if(!d) return;
   if(!launched()){ $("#jnDone").innerHTML = `<h3 class="jn-h" tabindex="-1">${t("jnPreDoneP",{email:d.email||""})}</h3>`; return; }
   const btn = (attr, k, main) => `<button type="button" class="btn ${main ? "btn-main" : "btn-ghost"}" ${attr}>${t(k)}</button>`;
@@ -12175,6 +12181,51 @@ $("#site").addEventListener("submit", e=>{
     renderSite(); $("#jnDone .jn-h").focus({preventScroll:true});
   }).catch(()=>bad("jnFail")).finally(()=>{ go.removeAttribute("aria-busy"); go.textContent = t("jnGo"); });
 });
+/* ===== вход через Google =====
+   Google подтверждает почту, поэтому сервер по ней сразу находит или заводит запись и отдаёт права.
+   Client ID подставляет сборка: без него кнопки нет и остаётся запись по почте */
+let gsiP = null;
+const gsiLoad = () => gsiP || (gsiP = new Promise((ok, no) => {
+  if(window.google && window.google.accounts) return ok();
+  const el = document.createElement("script");
+  el.src = "https://accounts.google.com/gsi/client"; el.async = true;
+  el.onload = ok; el.onerror = no;
+  document.head.appendChild(el);
+}));
+function paintGoogleBtn(){
+  const box = $("#jnGoogle"), cid = DD_PAY.wl.googleClientId;
+  if(!box) return;
+  if(!cid){ box.hidden = true; return; }
+  box.hidden = false;
+  $("#jnForm").hidden = true;   // вход только через Google, почту набирать руками больше не нужно
+  if(box.dataset.ready) return;
+  box.dataset.ready = "1";
+  gsiLoad().then(()=>{
+    google.accounts.id.initialize({client_id:cid, ux_mode:"popup", auto_select:false, callback:r=>googleSignIn(r.credential)});
+    google.accounts.id.renderButton(box, {type:"standard", theme:"filled_black", size:"large", shape:"pill", text:"continue_with", width:320, locale:S.lang});
+  }).catch(()=>{ box.hidden = true; box.dataset.ready = ""; $("#jnForm").hidden = false; });
+}
+function applyGoogle(r){
+  const email = r.email, same = S.free && S.free.email === email;
+  if(r.plan === "trial" && r.active) S.access = {plan:"trial", src:"wl", orderId:"", paidAt:Date.now(), until:Date.parse(r.until) || 0, email, token:r.access_token};
+  const fe = Date.parse(r.free_end) || 0;
+  if(fe) S.free = {email, start:same ? S.free.start : Date.now(), end:fe, token:r.access_token};
+  if(r.trial_token) S.trial = {token:r.trial_token, position:+r.position | 0, at:Date.now()};
+  S.user = {email, name:String(r.name || "")};
+  save();
+}
+function googleSignIn(credential){
+  if(!credential) return;
+  DD_PAY.wl.google({credential, lang:S.lang, country:REGION.cc}).then(r=>{
+    if(!r || !r.ok) return toastSafe(t("jnFail"));
+    applyGoogle(r);
+    jnDone = r.trial_token ? {kind:"trial", n:r.position, email:r.email}
+      : canEnter() ? {kind:"app", email:r.email} : {kind:"ok", email:r.email};
+    renderSite();
+    const h = $("#jnDone .jn-h"); if(h) h.focus({preventScroll:true});
+  }).catch(()=>toastSafe(t("jnFail")));
+}
+
 /* «Начать сейчас» (сайт, баннер в приложении, ссылка #trial= из письма): активирует сервер, месяц с момента нажатия */
 function startTrial(token){
   return DD_PAY.wl.activate(token).then(r=>{
