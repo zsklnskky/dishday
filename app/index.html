@@ -1502,9 +1502,9 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
           <p class="jn-kick" id="jnKick" data-i18n="jnKick">Закрытый запуск · 20 октября</p>
           <h2 class="s-h2" id="joinH" data-i18n="joinH">Попробуйте бесплатно</h2>
           <p class="s-intro" id="joinP" data-i18n="joinP">Войдите через Google, и откроется бесплатный режим на 2 месяца. Первым 150 - Pro Plus на 2 месяца в подарок.</p>
-          <div class="jn-track">
+          <div class="jn-track" id="jnStatBox" hidden>
             <div class="jn-nums">
-              <div><b class="num" id="jnTotal">0</b><span data-i18n="jnTotalL">Записались</span></div>
+              <div id="jnTotalBox" hidden><b class="num" id="jnTotal">0</b><span data-i18n="jnTotalL">Записались</span></div>
               <div><b class="num" id="jnLeft">150</b><span data-i18n="jnLeftL">Осталось бесплатных мест</span></div>
               <span class="lg-draft jn-demo" id="jnDemoTag" hidden>demo</span>
             </div>
@@ -1945,5 +1945,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=95710e9f";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=c2190100";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
