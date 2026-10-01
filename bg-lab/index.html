@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Фоны Dishday: сравнение</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg0:#05070F; --ink:#F3F5FC; --ink2:#A7B0CC;
+    --mint:#6EE7F9; --plum:#8B7CF6; --apricot:#F7B778;
+    --stroke:rgba(170,190,255,.14); --panel:rgba(14,19,37,.72);
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg0); color:var(--ink); font:400 16px/1.5 Onest,system-ui,sans-serif; padding:24px 16px 72px}
+  h1{font:900 clamp(26px,4vw,40px)/1.05 Unbounded,sans-serif; letter-spacing:-.025em; text-wrap:balance; margin:0 0 .4em}
+  .lead{color:var(--ink2); max-width:62ch; text-wrap:pretty; margin:0 0 28px}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:18px; max-width:1360px; margin:0 auto}
+  .card{border:1px solid var(--stroke); border-radius:20px; overflow:hidden; background:#070A14}
+  .frame{position:relative; height:300px}
+  /* подложка шейдера: ShaderMount сам вставляет внутрь canvas и следит за размером */
+  .mount{position:absolute; inset:0}
+  .over::before{content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 35%,rgba(5,7,15,.75) 85%)}
+  .over{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; gap:10px; padding:20px; pointer-events:none}
+  .over b, .over span{position:relative}
+  .over b{font:900 clamp(22px,3.4vw,34px)/1 Unbounded,sans-serif; letter-spacing:-.025em}
+  .over span{color:var(--ink2); font-size:14px}
+  .meta{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border-top:1px solid var(--stroke)}
+  .meta h2{font:600 15px/1.2 Onest,sans-serif; margin:0}
+  .meta p{margin:2px 0 0; color:var(--ink2); font-size:13px; text-wrap:pretty}
+  button{font:600 13px/1 Onest,sans-serif; color:var(--ink); background:rgba(170,190,255,.1);
+    border:1px solid var(--stroke); border-radius:999px; padding:9px 14px; cursor:pointer; transition:background .2s var(--ease); white-space:nowrap}
+  button:hover{background:rgba(170,190,255,.18)}
+  .full{position:fixed; inset:0; z-index:50; display:none}
+  .full.on{display:block}
+  .full .mount{position:absolute; inset:0}
+  .hero{position:absolute; inset:0; display:grid; align-content:center; gap:14px; padding:clamp(20px,6vw,90px); pointer-events:none}
+  .hero h2{font:900 clamp(44px,9vw,120px)/.92 Unbounded,sans-serif; letter-spacing:-.025em; margin:0; text-wrap:balance; max-width:14ch}
+  .hero h2 i{font-style:normal; background:linear-gradient(100deg,var(--mint),var(--plum)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .hero p{margin:0; color:var(--ink2); font-size:clamp(15px,1.6vw,20px); max-width:46ch; text-wrap:pretty}
+  .hero .row{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px}
+  .pill{border-radius:999px; padding:14px 26px; font:600 16px/1 Onest,sans-serif; color:#06102a; background:linear-gradient(100deg,var(--mint),var(--plum))}
+  .pill.ghost{color:var(--ink); background:var(--panel); border:1px solid var(--stroke)}
+  .close{position:fixed; top:16px; right:16px; z-index:60; pointer-events:auto}
+  .note{max-width:72ch; margin:30px auto 0; color:var(--ink2); font-size:14px; text-wrap:pretty}
+  .note code{color:var(--ink); font-size:13px}
+</style>
+</head>
+<body>
+
+<h1>Шесть фонов на выбор</h1>
+<p class="lead">Все шесть считаются на видеокарте в палитре Dishday: мята, слива, абрикос поверх #05070F.
+Кнопка «Во весь экран» показывает фон под настоящим первым экраном, иначе судить бесполезно.
+Движение намеренно медленное: фон не должен тянуть взгляд на себя.</p>
+
+<div class="grid" id="grid"></div>
+
+<p class="note">Библиотека: <code>@paper-design/shaders</code>, лицензия Apache-2.0, файлы лежат рядом в <code>vendor/</code>,
+никаких запросов на сторонние CDN. Пауза за экраном и в скрытой вкладке у неё встроена.
+В боевую сборку пойдёт только выбранный шейдер, а не весь набор.</p>
+
+<div class="full" id="full">
+  <div class="mount" id="fullMount"></div>
+  <div class="hero">
+    <h2>Ужин <i>решён.</i></h2>
+    <p>Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.</p>
+    <div class="row"><span class="pill">Получить доступ</span><span class="pill ghost">Как это работает</span></div>
+  </div>
+</div>
+<button class="close" id="close" hidden>Закрыть</button>
+
+<script type="module">
+import { ShaderMount } from "./vendor/shader-mount.js";
+import { getShaderColorFromString } from "./vendor/get-shader-color-from-string.js";
+import { getShaderNoiseTexture } from "./vendor/get-shader-noise-texture.js";
+import { ShaderFitOptions, defaultObjectSizing, defaultPatternSizing } from "./vendor/shader-sizing.js";
+import { grainGradientFragmentShader, GrainGradientShapes } from "./vendor/shaders/grain-gradient.js";
+import { ditheringFragmentShader, DitheringShapes, DitheringTypes } from "./vendor/shaders/dithering.js";
+import { meshGradientFragmentShader } from "./vendor/shaders/mesh-gradient.js";
+import { warpFragmentShader, WarpPatterns } from "./vendor/shaders/warp.js";
+import { swirlFragmentShader } from "./vendor/shaders/swirl.js";
+
+const BG = "#05070F", MINT = "#6EE7F9", PLUM = "#8B7CF6", APRICOT = "#F7B778", INDIGO = "#6084E8";
+
+/* текстура шума приходит как Image с data-URI и не готова в тот же тик.
+   Смонтировать шейдер до её декодирования значит получить отказ на первом же кадре */
+const noiseTex = getShaderNoiseTexture();
+if(noiseTex && !noiseTex.complete) await noiseTex.decode().catch(()=>{});
+
+/* ShaderMount ждёт плоский набор uniform. Сайзинг у всех одинаковый, поэтому собираем его один раз */
+const sizing = (base) => ({
+  u_fit: ShaderFitOptions[base.fit], u_scale: base.scale, u_rotation: base.rotation,
+  u_offsetX: base.offsetX, u_offsetY: base.offsetY, u_originX: base.originX, u_originY: base.originY,
+  u_worldWidth: base.worldWidth, u_worldHeight: base.worldHeight
+});
+const obj = sizing(defaultObjectSizing), pat = sizing(defaultPatternSizing);
+const colors = (arr) => ({ u_colors: arr.map(getShaderColorFromString), u_colorsCount: arr.length });
+
+const VARIANTS = [
+  {
+    id: "grain-wave",
+    name: "Зернистые волны",
+    note: "Мягкие полосы света с плёночным зерном. Ближе всего к нынешнему фону, но чище и глубже.",
+    shader: grainGradientFragmentShader, speed: .16,
+    uniforms: { ...pat, scale: .8, ...colors([BG, MINT, PLUM, APRICOT]), u_colorBack: getShaderColorFromString(BG),
+      u_softness: .6, u_intensity: .3, u_noise: .45, u_shape: GrainGradientShapes.wave, u_noiseTexture: noiseTex }
+  },
+  {
+    id: "grain-blob",
+    name: "Зернистые пятна",
+    note: "Крупные перетекающие пятна. Самый спокойный вариант, лучше всех держит текст поверх.",
+    shader: grainGradientFragmentShader, speed: .12,
+    uniforms: { ...obj, u_scale: 1.35, ...colors([BG, MINT, PLUM, APRICOT]), u_colorBack: getShaderColorFromString(BG),
+      u_softness: 1, u_intensity: .5, u_noise: .4, u_shape: GrainGradientShapes.blob, u_noiseTexture: noiseTex }
+  },
+  {
+    id: "dither",
+    name: "Дизеринг",
+    note: "Упорядоченный растр вместо плавного градиента. Ни у кого в нашей нише такого нет.",
+    shader: ditheringFragmentShader, speed: .16,
+    uniforms: { ...obj, u_scale: .7, u_colorBack: getShaderColorFromString(BG), u_colorFront: getShaderColorFromString("#1E5E78"),
+      u_shape: DitheringShapes.simplex, u_type: DitheringTypes["8x8"], u_pxSize: 3 }
+  },
+  {
+    id: "mesh",
+    name: "Сеточный градиент",
+    note: "Классика Stripe и Linear: цвета перетекают друг в друга. Ровный и безопасный.",
+    shader: meshGradientFragmentShader, speed: .14,
+    uniforms: { ...obj, ...colors([BG, BG, MINT, PLUM, APRICOT]),
+      u_distortion: .85, u_swirl: .35, u_grainMixer: .35, u_grainOverlay: .15 }
+  },
+  {
+    id: "warp",
+    name: "Шёлк",
+    note: "Ткань, по которой идёт свет. Самый дорогой на вид и при этом тихий.",
+    shader: warpFragmentShader, speed: .1,
+    uniforms: { ...obj, u_scale: .9, ...colors([BG, MINT, PLUM, APRICOT]),
+      u_proportion: .42, u_softness: 1, u_distortion: .22, u_swirl: .7, u_swirlIterations: 8,
+      u_shapeScale: .12, u_shape: WarpPatterns.stripes, u_noiseTexture: noiseTex }
+  },
+  {
+    id: "swirl",
+    name: "Воронка",
+    note: "Закрученные полосы из центра. Сильный характер, но спорит с заголовком по центру.",
+    shader: swirlFragmentShader, speed: .08,
+    uniforms: { ...obj, u_scale: .8, u_colorBack: getShaderColorFromString(BG), ...colors([BG, MINT, PLUM]),
+      u_bandCount: 2, u_twist: .25, u_center: .35, u_proportion: .45, u_softness: 1, u_noiseFrequency: .3, u_noise: .4 }
+  }
+];
+
+const grid = document.getElementById("grid");
+const mounts = [];
+for(const v of VARIANTS){
+  const card = document.createElement("div"); card.className = "card";
+  card.innerHTML = `<div class="frame"><div class="mount"></div>
+      <div class="over"><b>Ужин решён.</b><span>Неделя ужинов под ваш бюджет</span></div></div>
+    <div class="meta"><div><h2>${v.name}</h2><p>${v.note}</p></div>
+      <button type="button" data-id="${v.id}">Во весь экран</button></div>`;
+  grid.appendChild(card);
+  mounts.push(new ShaderMount(card.querySelector(".mount"), v.shader, v.uniforms, undefined, v.speed));
+}
+
+/* на весь экран монтируем отдельный экземпляр и сносим его при закрытии:
+   держать шесть полноэкранных шейдеров живыми незачем */
+const full = document.getElementById("full"), fullMount = document.getElementById("fullMount"), closeBtn = document.getElementById("close");
+let live = null;
+grid.addEventListener("click", e => {
+  const b = e.target.closest("button[data-id]"); if(!b) return;
+  const v = VARIANTS.find(x => x.id === b.dataset.id);
+  if(live){ live.dispose(); live = null; }
+  fullMount.innerHTML = "";
+  live = new ShaderMount(fullMount, v.shader, v.uniforms, undefined, v.speed);
+  full.classList.add("on"); closeBtn.hidden = false; document.body.style.overflow = "hidden";
+  location.hash = v.id;
+});
+const closeFull = () => {
+  if(live){ live.dispose(); live = null; }
+  fullMount.innerHTML = "";
+  full.classList.remove("on"); closeBtn.hidden = true; document.body.style.overflow = "";
+  history.replaceState(null, "", location.pathname);
+};
+closeBtn.addEventListener("click", closeFull);
+addEventListener("keydown", e => { if(e.key === "Escape" && full.classList.contains("on")) closeFull(); });
+</script>
+</body>
+</html>
