@@ -12106,15 +12106,18 @@ function loadJoinStats(){ DD_API.stats().then(s=>{ jnStats = s; paintTracker(); 
 /* из прежней страницы листа ожидания: отсчёт до запуска и бегущая строка фактов */
 const LAUNCH_AT = Date.parse("2026-10-01T09:00:00+03:00");
 const launched = () => Date.now() >= LAUNCH_AT;
-/* ранний доступ владельцу до запуска: /app/?early=dishday один раз, дальше ключ лежит в браузере;
-   /app/?early=off выключает. Для посетителей приложение закрыто до 1 октября */
+/* ранний доступ владельцу: /app/?early=dishday один раз, дальше ключ лежит в браузере, /app/?early=off выключает.
+   До запуска прямая ссылка на /app/ открывала приложение всем - так было нужно, чтобы показывать его до 1 октября.
+   После запуска это уже дыра: доступ дают только оплата, Pro Plus или бесплатный режим после записи,
+   а ранний ключ остаётся только у того, кто его явно включил */
 function preview(){
   try{
     const q = new URLSearchParams(location.search).get("early");
     if(q === "off"){ localStorage.setItem("dd_early", "0"); return false; }
     if(q === "dishday") localStorage.setItem("dd_early", "1");
-    return localStorage.getItem("dd_early") !== "0";   // до запуска /app/ открыт всем, кто пришёл по прямой ссылке
-  }catch(_){ return true; }
+    if(launched()) return localStorage.getItem("dd_early") === "1";
+    return localStorage.getItem("dd_early") !== "0";
+  }catch(_){ return false; }
 }
 function paintCountdown(){
   const ms = LAUNCH_AT - Date.now(), el = $("#jnCd"), on = ms > 0;
