@@ -11343,7 +11343,7 @@ const STR = {
              ()=>CHAINS.length>1 ? `${ccName()}: all ${NUMW.en[CHAINS.length]} chains are connected. We compare them automatically, or you can pin one` : `${ccName()}: ${tr(CHAINS[0])} is connected. Other chains appear once they share prices`],
   cuMix:["Кухни в подборе","Cuisines in the mix"], look:["Оформление","Appearance"], lookSub:["Палитра меняет фон, акценты и свечение","The palette changes the background, accents and glow"],
   photosT:["Фотографии блюд","Dish photos"], cursorT:["Живой курсор","Live cursor"], cursorD:["Кольцо со шлейфом следует за мышью и подсказывает действие","A ring with a trail follows the mouse and hints at actions"],
-  rebuild:["Пересобрать неделю","Rebuild the week"], startOver:["Начать заново","Start over"], priceFrom:["Откуда цены","Where prices come from"],
+  rebuild:["Пересобрать неделю","Rebuild the week"], startOver:["Начать заново","Start over"], editAnswers:["Изменить ответы","Edit answers"], priceFrom:["Откуда цены","Where prices come from"],
   planTier:["Тариф: {x}","Plan: {x}"], accessTill:["Доступ оплачен до {d}","Paid access until {d}"],
   freeOpen:["открыто {f} блюд из {n} после первой недели","{f} of {n} dishes unlocked after the first week"],
   toFree:["Вернуть бесплатный","Switch to free"], getPlus:["Открыть Plus","Get Plus"],
@@ -11582,7 +11582,8 @@ const ICON = {
   down:'<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
   tick:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-  flip:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>'
+  flip:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>',
+  pen:'<svg viewBox="0 0 24 24"><path d="M4 20h4l10-10-4-4L4 16v4zM14 6l4 4"/></svg>'
 };
 
 /* ================= ЦЕНЫ ================= */
@@ -12521,7 +12522,19 @@ function renderHead(){
   $("#greet").textContent = t(h<5?"gNight":h<11?"gMorning":h<17?"gDay":"gEvening");
   const cu = S.cuisines.length ? pn(S.cuisines.length,"cuisine") : t("allCuisines");
   const ex = S.exclude.groups.length + S.exclude.items.length;
-  $("#headChips").innerHTML = [pn(S.people,"portion"), (dishCount()<S.days.length ? t("dishesForDays",{n:dishCount(), d:S.days.length}) : pn(S.days.length,"dinner")), cu, dietLabel(), ex?t("skipN",{n:ex}):"", rub0(S.budget)].filter(Boolean).map(x=>`<span class="chip sm">${x}</span>`).join("");
+  /* чипы это ответы анкеты: нажатие открывает тот самый вопрос, ответы при этом сохраняются */
+  const chips = [[pn(S.people,"portion"), "people"],
+    [dishCount()<S.days.length ? t("dishesForDays",{n:dishCount(), d:S.days.length}) : pn(S.days.length,"dinner"), "days"],
+    [cu, "cuisines"], [dietLabel(), "diet"], [ex?t("skipN",{n:ex}):"", "excl"], [rub0(S.budget), "budget"]];
+  $("#headChips").innerHTML = chips.filter(c=>c[0]).map(([x,k])=>`<button type="button" class="chip sm" data-onb="${k}" title="${escH(t("editAnswers"))}">${x}</button>`).join("")
+    + `<button type="button" class="chip sm chip-onb" data-onb="all">${ICON.pen} ${t("editAnswers")}</button>`;
+}
+/* анкета из приложения: открывается на нужном вопросе, ничего не стирает. «Собрать мою неделю»
+   в конце пересоберёт план, выход без сборки оставит прежний */
+function openOnb(key){
+  const i = key === "all" ? 0 : stepsDef.findIndex(x=>x.k===key);
+  step = i < 0 ? 0 : i;
+  F.shutter(()=>{ show("onb"); drawStep(); });
 }
 const todayIdx = ()=> S.days.indexOf(DAYS[(new Date().getDay()+6)%7]);
 function renderHero(){
@@ -13264,6 +13277,7 @@ $("#app").addEventListener("click", e=>{
   if(d.setcuall){ S.cuisines = []; save(); renderSettings(); renderHead(); return; }
   if(b.id==="photoSw"){ S.photos = !S.photos; save(); renderApp(); moveInd(); return; }
   if(b.id==="copyList"){ const rows = basket(S.plan); const txt = t("listHead",{c:tr(activeChain())}) + "\n" + rows.map(r=>`- ${ingName(r.key)}: ${qty(r.buy,r.g.u)}`).join("\n") + "\n" + t("listTotal",{x:rub(basketSum(rows))}); navigator.clipboard?.writeText(txt).then(()=>toast(t("copied")),()=>toast(t("copyFail"))); return; }
+  if(b.dataset.onb) return openOnb(b.dataset.onb);
   if(b.id==="redo") return buildWeek(e);
   if(b.id==="reset"){ F.shutter(()=>{ S = {...structuredClone(DEF), lang:S.lang, access:S.access}; applyCountry(REGION.cc); save(); step = 0; show("onb"); drawStep(); }, {...at(e), label:t("freshStart")}); return; }
 });
