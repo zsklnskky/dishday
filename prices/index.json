@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.345
   },
   "MD": {
    "updated": "2026-10-01",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.531
   },
   "AM": {
    "updated": "2026-10-01",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.381
   },
   "IE": {
    "updated": "2026-10-01",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.504
   },
   "BG": {
    "updated": "2026-10-01",
