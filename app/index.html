@@ -116,7 +116,16 @@ input[type=checkbox]{accent-color:var(--a2)}
 
 /* фон: сияние (canvas) + точечная сетка + зерно */
 #aurora{position:fixed; inset:0; width:100vw; height:100vh; z-index:0; pointer-events:none; display:block}
-html.no-gl body{background:radial-gradient(56.25rem 32.5rem at 18% 12%,rgba(110,231,249,.10),transparent 60%),radial-gradient(50rem 37.5rem at 85% 30%,rgba(139,124,246,.12),transparent 60%),radial-gradient(43.75rem 31.25rem at 50% 100%,rgba(240,168,208,.08),transparent 60%),var(--bg0) fixed}
+/* без WebGL (телефоны, слабое железо, отказ контекста) фон рисует CSS. Композиция
+   повторяет шейдер: мята внизу слева, слива справа, тёплый свет сверху справа,
+   и тёмное ядро по центру, где лежит текст */
+html.no-gl body{background:
+  radial-gradient(62% 30% at 50% 44%,rgba(5,7,15,.85),transparent 64%),
+  radial-gradient(85% 40% at 8% 84%,rgba(110,231,249,.22),transparent 64%),
+  radial-gradient(80% 42% at 94% 48%,rgba(139,124,246,.24),transparent 64%),
+  radial-gradient(55% 26% at 92% 2%,rgba(247,183,120,.20),transparent 62%),
+  radial-gradient(72% 34% at 30% 12%,rgba(96,132,232,.16),transparent 64%),
+  var(--bg0) fixed}
 .bg-grid{position:fixed; inset:0; z-index:1; pointer-events:none;
   background-image:radial-gradient(rgba(170,190,255,.16) 1px,transparent 1.3px); background-size:1.75rem 1.75rem;
   -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 10%,transparent 75%); mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 10%,transparent 75%); opacity:.5}
@@ -1440,7 +1449,12 @@ html[data-theme="light"]{
   color-scheme:light;
 }
 html[data-theme="light"] #aurora{display:none}
-html[data-theme="light"], html[data-theme="light"] body{background:radial-gradient(56rem 32rem at 12% 8%,rgba(110,231,249,.2),transparent 60%),radial-gradient(50rem 36rem at 88% 24%,rgba(139,124,246,.14),transparent 60%),radial-gradient(44rem 30rem at 50% 100%,rgba(240,168,208,.16),transparent 60%),var(--bg0) fixed}
+html[data-theme="light"], html[data-theme="light"] body{background:
+  radial-gradient(80% 40% at 6% 4%,rgba(110,231,249,.26),transparent 64%),
+  radial-gradient(78% 42% at 96% 26%,rgba(139,124,246,.18),transparent 64%),
+  radial-gradient(58% 28% at 70% 0%,rgba(247,183,120,.24),transparent 60%),
+  radial-gradient(74% 36% at 42% 102%,rgba(240,168,208,.16),transparent 62%),
+  var(--bg0) fixed}
 html[data-theme="light"] body::after{opacity:.015}
 html[data-theme="light"] .bg-grid{background-image:radial-gradient(rgba(30,45,100,.14) 1px,transparent 1.3px)}
 html[data-theme="light"] ::selection{background:rgba(91,69,214,.22); color:var(--ink)}
@@ -2007,5 +2021,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=971ce523";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app.js?v=f76b1376";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
