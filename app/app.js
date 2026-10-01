@@ -11062,7 +11062,7 @@ const STR = {
   docTermsP:["Правила пользования сервисом, рекомендации по питанию, ответственность сторон.","Rules for using the service, nutrition advice limits and responsibilities."],
   docOfferT:["Публичная оферта","Public offer"], docOfferS:["Оферта","Offer"],
   docOfferP:["Цены Plus и Pro Plus, сроки 1-12 месяцев, бесплатный период, отказ и возврат денег.","Plus and Pro Plus prices, 1-12 month terms, the free period, cancellation and refunds."],
-  jnKick:["Закрытый запуск · 1 октября","Private launch · October 1"], toLaunch:["До запуска","Until launch"],
+  jnKick:["Закрытый запуск · 20 октября","Private launch · October 20"], toLaunch:["До запуска","Until launch"],
   choosePlan:["Выбрать тариф","Choose a plan"],
   marqSeats:[v=>`${v.n} мест с Pro Plus на 2 месяца`, v=>`${v.n} spots with 2 months of Pro Plus`], marqDays:["7 ужинов","7 dinners"], marqList:["1 список покупок","1 shopping list"],
   docCookT:["Политика cookie","Cookie policy"], docCookS:["Cookie","Cookies"], docConsS:["Согласия","Consents"],
@@ -11151,8 +11151,8 @@ const STR = {
   joinH:["Попробуйте бесплатно","Try it free"],
   joinP:["Войдите через Google, и откроется бесплатный режим на 2 месяца. Первым 150 - Pro Plus на 2 месяца в подарок.","Sign in with Google to open 2 months of free mode. The first 150 people get 2 months of Pro Plus."],
   jnPreH:["Оставьте почту","Leave your email"],
-  jnPreP:["1 октября в 9:00 пришлём на почту ссылку на готовое приложение","On October 1 at 9:00 we will email you a link to the finished app"],
-  jnPreDoneP:["Готово. 1 октября в 9:00 ссылка придёт на {email}","Done. On October 1 at 9:00 the link will arrive at {email}"],
+  jnPreP:["20 октября в 9:00 пришлём на почту ссылку на готовое приложение","On October 20 at 9:00 we will email you a link to the finished app"],
+  jnPreDoneP:["Готово. 20 октября в 9:00 ссылка придёт на {email}","Done. On October 20 at 9:00 the link will arrive at {email}"],
   marqChains:[()=>`${CHAINS.length} ${plural(CHAINS.length,"сеть","сети","сетей")}`, ()=>`${CHAINS.length} ${CHAINS.length===1?"chain":"chains"}`], marqAppl:["16 видов техники","16 kitchen appliance types"],
   jnTotalL:["Записались","Signed up"], jnLeftL:["Осталось бесплатных мест","Free spots left"],
   jnDemo:["демо: счётчик считает записи в этом браузере","demo: the counter only counts sign-ups in this browser"],
@@ -12111,10 +12111,10 @@ function paintTracker(){
 }
 function loadJoinStats(){ DD_API.stats().then(s=>{ jnStats = s; paintTracker(); }).catch(()=>{ $("#jnNote").textContent = t("jnStatsFail"); }); }
 /* из прежней страницы листа ожидания: отсчёт до запуска и бегущая строка фактов */
-const LAUNCH_AT = Date.parse("2026-10-01T09:00:00+03:00");
+const LAUNCH_AT = Date.parse("2026-10-20T09:00:00+03:00");
 const launched = () => Date.now() >= LAUNCH_AT;
 /* ранний доступ владельцу: /app/?early=dishday один раз, дальше ключ лежит в браузере, /app/?early=off выключает.
-   До запуска прямая ссылка на /app/ открывала приложение всем - так было нужно, чтобы показывать его до 1 октября.
+   До запуска прямая ссылка на /app/ открывала приложение всем - так было нужно, чтобы показывать его до запуска.
    После запуска это уже дыра: доступ дают только оплата, Pro Plus или бесплатный режим после записи,
    а ранний ключ остаётся только у того, кто его явно включил */
 function preview(){
@@ -12122,8 +12122,7 @@ function preview(){
     const q = new URLSearchParams(location.search).get("early");
     if(q === "off"){ localStorage.setItem("dd_early", "0"); return false; }
     if(q === "dishday") localStorage.setItem("dd_early", "1");
-    if(launched()) return localStorage.getItem("dd_early") === "1";
-    return localStorage.getItem("dd_early") !== "0";
+    return localStorage.getItem("dd_early") === "1";
   }catch(_){ return false; }
 }
 function paintCountdown(){
@@ -12317,7 +12316,7 @@ $("#payForm").addEventListener("submit", e=>{
     payOrder = {orderId:res.orderId, plan:payPlan, months:payTerm, email};
     if(live){ S.pendingOrder = payOrder; save(); if(res.redirectUrl){ if(win) win.location = res.redirectUrl; else location.href = res.redirectUrl; } }
     waitPay();
-  }).catch(e=>{ if(win) win.close(); if(e && e.message==="payments_soon"){ toastSafe(S.lang==="en" ? "Payments open soon. Leave your email and we will send the link on October 1." : "Оплата скоро откроется. Оставьте почту, 1 октября пришлём ссылку."); return; } payFailed("error"); }).finally(()=>{ go.removeAttribute("aria-busy"); go.textContent = label; });
+  }).catch(e=>{ if(win) win.close(); if(e && e.message==="payments_soon"){ toastSafe(S.lang==="en" ? "Payments open soon. Leave your email and we will send the link on October 20." : "Оплата скоро откроется. Оставьте почту, 20 октября пришлём ссылку."); return; } payFailed("error"); }).finally(()=>{ go.removeAttribute("aria-busy"); go.textContent = label; });
 });
 function waitPay(){
   setPayState("payWait");
@@ -13657,7 +13656,7 @@ function tryTrialHash(){
   if(ENTRY==="app"){
     /* /app/: только приложение. Без доступа - запись на сайте (не оплата); основной экран без хэша в адресе */
     if(lp && legalOut(h)) return;
-    if(!launched() && !preview()) return goSite("join");   // до LAUNCH_AT приложение закрыто, кроме доступа по ключу
+    if(!canEnter()) return goSite("join");   // пускает право: оплата, Pro Plus, бесплатный режим или ключ раннего доступа
     if(lp) openLegal(lp.doc, lp.sec, false);
     else if(pm) openPay(pm[1], pm[2]);
     else if(S.pendingOrder && !hasAccess()) resumePay();
