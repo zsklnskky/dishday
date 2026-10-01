@@ -985,8 +985,19 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
   };
   FX.observe = function(root, selector){
     if(RM() || !root || !("IntersectionObserver" in window)) return;
+    /* Волна идёт по диагонали: и задержка, и начальный сдвиг зависят от номера колонки.
+       Сетка, которая появляется одновременно, читается как «блоки моргнули».
+       Ширину колонки читаем один раз на весь батч - в цикле это layout thrashing. */
+    let cols = 0, cw = 0;
     const io = new IntersectionObserver(entries=>{
-      entries.forEach(en=>{ if(en.isIntersecting){ io.unobserve(en.target); FX.reveal([en.target], {y:44, step:0}); } });
+      entries.forEach(en=>{
+        if(!en.isIntersecting) return;
+        io.unobserve(en.target);
+        const p = en.target.parentElement;
+        if(!cw){ cw = en.target.offsetWidth || 1; cols = Math.max(1, Math.round((p ? p.clientWidth : root.clientWidth) / cw)); }
+        const colI = p ? [...p.children].indexOf(en.target) % cols : 0;
+        FX.reveal([en.target], {y:26 + colI*12, step:0, delay:colI*55});
+      });
     }, {rootMargin:"0px 0px -6% 0px"});
     root.querySelectorAll(selector).forEach(el=>{
       if(el.__fxObs) return;
@@ -10923,6 +10934,7 @@ function lineReveal(el, text, opts){
   if(!el) return; opts = opts || {};
   if(text != null) el.textContent = text;
   if(RM() || !el.animate) return;
+  const html = el.innerHTML, run = el.__lr = (el.__lr || 0) + 1;
   const label = el.textContent, parts = [];
   [...el.childNodes].forEach(n=>{
     if(n.nodeType===3) n.textContent.split(/(\s+)/).forEach(w=>{ if(w) parts.push(/^\s+$/.test(w) ? " " : {w}); });
@@ -10937,12 +10949,22 @@ function lineReveal(el, text, opts){
     el.appendChild(s); spans.push(s);
   });
   el.setAttribute("aria-label", label);
-  let line = -1, top = null;
-  spans.forEach(s=>{
-    const y = s.offsetTop; if(top===null || Math.abs(y-top) > 4){ line++; top = y; }
-    s.animate([{opacity:0, filter:"blur(12px)", transform:"translateY(.35em)"},{opacity:1, filter:"blur(0)", transform:"none"}],
-      {duration:900, delay:(opts.delay||0) + line*130, easing:"cubic-bezier(.16,1,.3,1)", fill:"backwards"});
-  });
+  /* строка определяется по offsetTop, волна внутри строки - по номеру слова. Вся волна
+     упакована в 420 мс независимо от длины заголовка: иначе «Неделя ужинов под ваш бюджет»
+     доезжает позже, чем человек успевает прочитать первое слово */
+  const rows = []; let line = -1, top = null;
+  spans.forEach(s=>{ const y = s.offsetTop; if(top===null || Math.abs(y-top) > 4){ line++; top = y; } rows.push(line); });
+  const n = spans.length, wave = Math.min(55*(n-1), 420);
+  const done = spans.map((s,i)=>s.animate(
+    [{opacity:0, transform:"translateY(.3em) scale(.94)"},{opacity:1, transform:"none"}],
+    {duration:620, delay:(opts.delay||0) + rows[i]*70 + (n>1 ? i/(n-1)*wave : 0),
+     easing:"cubic-bezier(.34,1.56,.64,1)", fill:"backwards"}).finished);
+  /* спаны схлопываем обратно: display:inline-block на словах отменяет text-wrap:balance,
+     и заголовок остаётся с висячим словом до конца жизни страницы */
+  Promise.all(done).then(()=>{
+    if(el.__lr !== run) return;
+    el.innerHTML = html; el.removeAttribute("aria-label");
+  }).catch(()=>{});
 }
 const F = {
   /* смена экранов без View Transitions: снимок тяжёлой страницы с WebGL давал пустой кадр и лаг.
@@ -11860,8 +11882,12 @@ function geoRefreshIfGranted(){
 /* первый вход в приложение: экран-запрос. true - окно открыто, then() вызовется после его закрытия */
 function askGeo(then){
   let asked = true; try{ asked = !!localStorage.getItem(GEO_ASKED); }catch(e){}
-  const dlg = $("#geoDlg");
+  const dlg = $("#geoDlg"), cb = $("#cookieBar");
   if(asked || !navigator.geolocation || dlg.open) return false;
+  /* Пока висит полоса согласия, окно геопозиции не открываем: два окна разом - это два
+     вопроса на первом же экране, причём полоса оказывается под модалкой и обрезается.
+     GEO_ASKED при этом не ставим, так что вопрос придёт при следующем входе в приложение */
+  if(cb && !cb.hidden) return false;
   try{ localStorage.setItem(GEO_ASKED, "1"); }catch(e){}
   $("#geoMsg").textContent = "";
   dlg.addEventListener("close", ()=>then(), {once:true}); dlg.showModal();
@@ -12528,10 +12554,10 @@ function drawStep(dir){
   const paint = ()=>{ body.innerHTML = d.r(); body.classList.toggle("mid", d.k==="people" || d.k==="budget"); paintStepMeta(); };
   if(!dir || RM()){ paint(); F.kinetic($("#stepQ"), q); $("#stepHint").textContent = h; return; }
   const outEls = [body, $("#stepHint")];
-  Promise.all(outEls.map(el=>el.animate([{opacity:1,transform:"none",filter:"blur(0)"},{opacity:0,transform:`translateX(${-dir*50}px) scale(.98)`,filter:"blur(12px)"}],{duration:280,easing:"cubic-bezier(.5,0,.75,0)",fill:"forwards"}).finished)).then(()=>{
+  Promise.all(outEls.map(el=>el.animate([{opacity:1,transform:"none"},{opacity:0,transform:`translateX(${-dir*50}px) scale(.98)`}],{duration:280,easing:"cubic-bezier(.5,0,.75,0)",fill:"forwards"}).finished)).then(()=>{
     paint(); outEls.forEach(el=>el.getAnimations().forEach(a=>a.cancel()));
     F.kinetic($("#stepQ"), q); $("#stepHint").textContent = h;
-    outEls.forEach(el=>el.animate([{opacity:0,transform:`translateX(${dir*50}px) scale(.98)`,filter:"blur(12px)"},{opacity:1,transform:"none",filter:"blur(0)"}],{duration:600,easing:"cubic-bezier(.22,1,.36,1)"}));
+    outEls.forEach(el=>el.animate([{opacity:0,transform:`translateX(${dir*50}px) scale(.98)`},{opacity:1,transform:"none"}],{duration:600,easing:"cubic-bezier(.22,1,.36,1)"}));
     F.reveal([...body.querySelectorAll(".tile,.chip,.stepper,.money-big")], {step:32, delay:120, y:22});
   });
 }
@@ -12566,7 +12592,7 @@ $("#onbBody").addEventListener("click", e=>{
   if(d_.people!==undefined){
     S.people = Math.min(30,Math.max(1,S.people + +d_.people)); save();
     const v = $("#peopleVal"); v.textContent = S.people;
-    if(!RM()) v.animate([{transform:`translateY(${d_.people>0?-40:40}px) scale(.8)`,opacity:0,filter:"blur(6px)"},{transform:"none",opacity:1,filter:"blur(0)"}],{duration:520,easing:"cubic-bezier(.34,1.56,.64,1)"});
+    if(!RM()) v.animate([{transform:`translateY(${d_.people>0?-40:40}px) scale(.8)`,opacity:0},{transform:"none",opacity:1}],{duration:520,easing:"cubic-bezier(.34,1.56,.64,1)"});
     $("#peopleNote").textContent = t("atTable",{n:S.people}); return;
   }
   if(d_.mode || d_.usenext || d_.useside){
@@ -13329,7 +13355,7 @@ function drawCook(dir){
   $("#cookStep").innerHTML = `<div class="n grad-text num" id="cookN">${String(i+1).padStart(2,"0")}</div><div class="txt" id="cookTxt">${how[i]}</div>
     ${mins?`<button class="timer" id="timerBtn" data-min="${mins}"><span class="tr"><svg viewBox="0 0 50 50"><circle class="bgc" cx="25" cy="25" r="20"/><circle class="fg" id="timerFg" cx="25" cy="25" r="20" stroke-dasharray="125.7" stroke-dashoffset="0"/></svg></span><span id="timerTxt">${t("timerN",{n:mins})}</span></button>`:""}
     ${i===0?`<div class="cook-ings">${Object.keys(r.ing).map(k=>`<span class="chip sm">${ingName(k)} · ${qty(r.ing[k]*scale(),ING[k].u)}</span>`).join("")}</div>`:""}`;
-  if(dir && !RM()){ $("#cookStep").animate([{opacity:0,transform:`translateX(${dir*80}px)`,filter:"blur(14px)"},{opacity:1,transform:"none",filter:"blur(0)"}],{duration:620,easing:"cubic-bezier(.22,1,.36,1)"}); }
+  if(dir && !RM()){ $("#cookStep").animate([{opacity:0,transform:`translateX(${dir*80}px)`},{opacity:1,transform:"none"}],{duration:620,easing:"cubic-bezier(.22,1,.36,1)"}); }
   F.odometer($("#cookN"), String(i+1).padStart(2,"0"));
   $("#cookPrev").disabled = i===0; $("#cookNext").textContent = i===n-1 ? t("doneEnjoy") : t("doneNext");
   stopTimer();
@@ -13417,8 +13443,8 @@ $("#app").addEventListener("click", e=>{
     const next = rnd(alts).r.id, row = b.closest(".day");
     const doIt = ()=>{ S.plan = S.plan.map(x=>x===cur ? next : x); save(); renderPlan(); renderList(); renderHead(); };
     if(row && !RM()){
-      row.animate([{opacity:1,transform:"none",filter:"blur(0)"},{opacity:0,transform:"rotateX(70deg) translateY(20px)",filter:"blur(8px)"}],{duration:300,easing:"ease-in",fill:"forwards"}).finished.then(()=>{ doIt();
-        const nr = $(`#days .day[data-day-i="${i}"]`); if(nr) nr.animate([{opacity:0,transform:"rotateX(-70deg) translateY(-20px)",filter:"blur(8px)"},{opacity:1,transform:"none",filter:"blur(0)"}],{duration:620,easing:"cubic-bezier(.34,1.56,.64,1)"}); });
+      row.animate([{opacity:1,transform:"none"},{opacity:0,transform:"rotateX(70deg) translateY(20px)"}],{duration:300,easing:"ease-in",fill:"forwards"}).finished.then(()=>{ doIt();
+        const nr = $(`#days .day[data-day-i="${i}"]`); if(nr) nr.animate([{opacity:0,transform:"rotateX(-70deg) translateY(-20px)"},{opacity:1,transform:"none"}],{duration:620,easing:"cubic-bezier(.34,1.56,.64,1)"}); });
     } else doIt();
     toast(t("swapped",{a:rn(byId(cur)), b:rn(byId(next))})); return;
   }
