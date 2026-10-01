@@ -11360,7 +11360,9 @@ const STR = {
   sgOutAsk:["Выйти из аккаунта? План и настройки останутся в этом браузере.",
     "Sign out? Your week and settings stay in this browser."],
   sgWait:[v=>`Сервис откроется 20 октября. Напишем на ${v.email}.`, v=>`We open on 20 October. We will email ${v.email}.`],
-  rebuild:["Пересобрать неделю","Rebuild the week"], startOver:["Начать заново","Start over"], editAnswers:["Изменить ответы","Edit answers"], priceFrom:["Откуда цены","Where prices come from"],
+  rebuild:["Пересобрать неделю","Rebuild the week"], startOver:["Начать заново","Start over"],
+  resetAsk:["Начать заново? План, список покупок и настройки будут стёрты. Отменить это нельзя.","Start over? Your week, shopping list and settings will be erased. This cannot be undone."],
+  profile:["Профиль","Profile"], editAnswers:["Изменить ответы","Edit answers"], priceFrom:["Откуда цены","Where prices come from"],
   planTier:["Тариф: {x}","Plan: {x}"], accessTill:["Доступ оплачен до {d}","Paid access until {d}"],
   freeOpen:["открыто {f} блюд из {n} после первой недели","{f} of {n} dishes unlocked after the first week"],
   toFree:["Вернуть бесплатный","Switch to free"], getPlus:["Открыть Plus","Get Plus"],
@@ -11389,7 +11391,7 @@ const STR = {
   /* навигация */
   title_plan:["Неделя собрана","Your week is ready"], title_meals:["Каталог блюд","Dish catalog"], title_fridge:["Что дома","At home"],
   title_list:["Покупки","Shopping"], title_nutri:["Питание","Nutrition"], title_set:["Настройки","Settings"], title_community:["Сообщество","Community"], title_profile:["Профиль","Profile"],
-  dock_plan:["Неделя","Week"], dock_meals:["Блюда","Dishes"], dock_fridge:["Дома","Fridge"], dock_list:["Список","List"], dock_nutri:["Питание","Nutrition"], dock_set:["Настройки","Settings"], dock_community:["Сообщество","Community"],
+  dock_plan:["Неделя","Week"], dock_meals:["Блюда","Dishes"], dock_fridge:["Дома","Fridge"], dock_list:["Список","List"], dock_nutri:["Питание","Nutrition"], dock_set:["Настройки","Settings"], dock_community:["Отзывы","Reviews"],
 
   /* питание */
   ndTitle:["Дневник питания","Food diary"], prevDay:["Предыдущий день","Previous day"], nextDay:["Следующий день","Next day"],
@@ -11600,7 +11602,8 @@ const ICON = {
   tick:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   flip:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>',
-  pen:'<svg viewBox="0 0 24 24"><path d="M4 20h4l10-10-4-4L4 16v4zM14 6l4 4"/></svg>'
+  pen:'<svg viewBox="0 0 24 24"><path d="M4 20h4l10-10-4-4L4 16v4zM14 6l4 4"/></svg>',
+  user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/></svg>'
 };
 
 /* ================= ЦЕНЫ ================= */
@@ -12258,7 +12261,7 @@ function renderAccount(){
   const el = $("#acct"), u = S.user;
   if(el) el.innerHTML = u
     ? `<button type="button" class="acct-ava" data-jump="profile" title="${escH(acctName())}" aria-label="${escH(acctName())}">${escH((acctName()[0] || "?").toUpperCase())}</button>`
-    : `<button type="button" class="btn btn-ghost btn-sm" data-sgopen>${escH(t("sgIn"))}</button>`;
+    : `<button type="button" class="acct-ava guest" data-jump="profile" title="${escH(t("profile"))}" aria-label="${escH(t("profile"))}">${ICON.user}</button>`;
   const card = $("#acctCard"); if(!card) return;
   if(!u){
     card.innerHTML = `<div class="who"><b>${escH(t("sgIn"))}</b><span>${escH(t("sgLead"))}</span></div>
@@ -12900,7 +12903,7 @@ $("#pane-set").addEventListener("input", e=>{
   if(line) line.textContent = t("budgetPer", {b:rub0(S.budget), p:rub(S.budget/Math.max(1,S.days.length)/S.people)});
   if(num) num.value = Math.round(S.budget);
 });
-$("#pane-set").addEventListener("change", e=>{ if(e.target.id==="setBud"){ renderBasics(); renderHead(); } });
+$("#pane-set").addEventListener("change", e=>{ if(e.target.id==="setBud"){ renderBasics(); renderHead(); renderSetSummary(); } });
 function renderSettings(){
   renderBasics();
   $("#setExcl").innerHTML = exclHTML("s");
@@ -12913,6 +12916,11 @@ function renderSettings(){
   const have = typeof PHOTOS!=="undefined" ? Object.keys(PHOTOS).length : 0;
   $("#photoNote").textContent = have ? t("photosReady",{n:have}) : t("noPhotos");
   $("#photoSw").setAttribute("aria-pressed", !!S.photos);
+  renderSetSummary();
+}
+/* сводка справа показывала значения на момент первой отрисовки и расходилась с чипами */
+function renderSetSummary(){
+  if(!$("#setSummary")) return;
   $("#setSummary").innerHTML = [["s_people",S.people],["s_days",S.days.length],["s_budget",rub0(S.budget)],["s_diet",tr(DIETS.find(d=>d.id===S.diet))],["s_skip",(S.exclude.groups.length+S.exclude.items.length)||t("nothing")],["s_fit",suitableCount()],["s_catalog",RECIPES.length],["s_cuisines",CUISINES.length]].map(([k,v])=>`<div class="kv"><span>${t(k)}</span><b>${v}</b></div>`).join("");
 }
 
@@ -13429,7 +13437,7 @@ $("#app").addEventListener("click", e=>{
   if(b.id==="copyList"){ const rows = basket(S.plan); const txt = t("listHead",{c:tr(activeChain())}) + "\n" + rows.map(r=>`- ${ingName(r.key)}: ${qty(r.buy,r.g.u)}`).join("\n") + "\n" + t("listTotal",{x:rub(basketSum(rows))}); navigator.clipboard?.writeText(txt).then(()=>toast(t("copied")),()=>toast(t("copyFail"))); return; }
   if(b.dataset.onb) return openOnb(b.dataset.onb);
   if(b.id==="redo") return buildWeek(e);
-  if(b.id==="reset"){ F.shutter(()=>{ S = {...structuredClone(DEF), lang:S.lang, access:S.access}; applyCountry(REGION.cc); save(); step = 0; show("onb"); drawStep(); }, {...at(e), label:t("freshStart")}); return; }
+  if(b.id==="reset"){ if(!confirm(t("resetAsk"))) return; F.shutter(()=>{ S = {...structuredClone(DEF), lang:S.lang, access:S.access}; applyCountry(REGION.cc); save(); step = 0; show("onb"); drawStep(); }, {...at(e), label:t("freshStart")}); return; }
 });
 $("#app").addEventListener("input", e=>{ if(e.target.id==="sExIn") exclSuggest("s"); if(["ndSearch","nfSearch","nfGrams"].includes(e.target.id)) renderAddResults(); });
 $("#app").addEventListener("change", e=>{
