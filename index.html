@@ -996,10 +996,14 @@ p, li, .src{text-wrap:pretty}
   background:linear-gradient(135deg,var(--mint),var(--mp)); opacity:0; transition:opacity .25s var(--ease);
   -webkit-mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000); -webkit-mask-composite:xor;
   mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000); mask-composite:exclude}
+/* Курсор двигает заливку, а не маску. Переопределять mask-image на :hover нельзя:
+   mask-composite:exclude и mask-clip:content-box остаются от базового правила, и
+   радиальный слой встаёт первым - вместо рамки плитка заливается целиком, с дырой
+   под курсором. Маска остаётся неизменной и всегда вырезает ровно рамку в 1px */
 @media (hover:hover) and (pointer:fine){
   .s-cell:hover::after{opacity:1;
-    -webkit-mask-image:radial-gradient(15rem 15rem at var(--mx,50%) var(--my,50%),#000 0%,#0009 30%,#0003 50%,#0000 70%), linear-gradient(#000,#000);
-    mask-image:radial-gradient(15rem 15rem at var(--mx,50%) var(--my,50%),#000 0%,#0009 30%,#0003 50%,#0000 70%), linear-gradient(#000,#000)}
+    background:radial-gradient(12rem 12rem at var(--mx,50%) var(--my,50%),
+      var(--mint) 0%, color-mix(in srgb,var(--mp) 70%,transparent) 35%, transparent 72%)}
 }
 @media (prefers-reduced-motion: reduce){ .s-cell::after{display:none} }
 
