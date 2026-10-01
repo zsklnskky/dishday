@@ -786,7 +786,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
     el.innerHTML = text.split(/(\s+)/).map(w => /^\s+$/.test(w) ? " " :
       `<span class="fx-kw" aria-hidden="true">${[...w].map(ch=>`<span class="fx-kc">${esc(ch)}</span>`).join("")}</span>`).join("");
     el.querySelectorAll(".fx-kc").forEach((c,i)=>c.animate(
-      [{transform:"translateY(.9em) rotateX(-95deg)", opacity:0, filter:"blur(8px)"},{transform:"none", opacity:1, filter:"blur(0)"}],
+      [{transform:"translateY(.9em) rotateX(-95deg)", opacity:0},{transform:"none", opacity:1}],
       {duration:860, delay:(opts.delay||0)+Math.min(i*24, 900), easing:EASE_OUT, fill:"backwards"}));
   };
 
@@ -978,7 +978,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
     const y = opts.y ?? 28, step = opts.step ?? 60, delay = opts.delay || 0;
     [...els].filter(Boolean).forEach((el,i)=>{
       try{
-        el.animate([{opacity:0, transform:`translateY(${y}px) scale(.97)`, filter:"blur(10px)"},{opacity:1, transform:"none", filter:"blur(0)"}],
+        el.animate([{opacity:0, transform:`translateY(${y}px) scale(.97)`},{opacity:1, transform:"none"}],
           {duration:780, delay:delay+Math.min(i*step, 900), easing:EASE_OUT, fill:"backwards"});
       }catch(err){}
     });
