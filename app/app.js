@@ -11149,7 +11149,7 @@ const STR = {
   cuLocal:["Популярное в вашей стране","Popular in your country"],
   /* запись, пробный месяц, бесплатный режим */
   joinH:["Попробуйте бесплатно","Try it free"],
-  joinP:["Введите почту, и откроется бесплатный режим на 2 месяца. Первым 150 - Pro Plus на 2 месяца в подарок.","Enter your email to open 2 months of free mode. The first 150 people get 2 months of Pro Plus."],
+  joinP:["Войдите через Google, и откроется бесплатный режим на 2 месяца. Первым 150 - Pro Plus на 2 месяца в подарок.","Sign in with Google to open 2 months of free mode. The first 150 people get 2 months of Pro Plus."],
   jnPreH:["Оставьте почту","Leave your email"],
   jnPreP:["1 октября в 9:00 пришлём на почту ссылку на готовое приложение","On October 1 at 9:00 we will email you a link to the finished app"],
   jnPreDoneP:["Готово. 1 октября в 9:00 ссылка придёт на {email}","Done. On October 1 at 9:00 the link will arrive at {email}"],
