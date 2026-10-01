@@ -1,124 +1,288 @@
 
 
 /* ===== mod_aurora.js ===== */
-/* Dishday: фон «Полночная кухня». WebGL-ленты сияния в цветах акцента поверх #05070F.
-   Курсор слегка сдвигает поле и подсвечивает ленты рядом, прокрутка меняет оттенок по разделам.
-   Пауза на скрытой вкладке, при reduced-motion один статичный кадр, без WebGL - CSS-градиент (html.no-gl).
-   Наружу: window.AURORA = {init(canvas), tone(index)} */
+/* Dishday: фон «Шёлк в растре».
+
+   Два варианта из лаборатории сведены в один проход: шёлковые ленты и упорядоченный
+   дизеринг поверх них. Двумя слоями это стоило бы двух полноэкранных шейдеров на кадр,
+   поэтому растр живёт прямо в конце фрагментного шейдера лент.
+
+   Фрагментный шейдер лент - warp из @paper-design/shaders, лицензия Apache-2.0,
+   https://github.com/paper-design/shaders. Изменения: добавлены ddBayer8, u_dither,
+   u_ditherPx, u_dim и блок квантования перед записью цвета. Рантайм библиотеки не
+   используется: кадры, размеры и паузы считает код ниже, он уже был написан под
+   прежний фон. Вершинный шейдер свой - из их варианта нужен только v_patternUV
+   при fit = none, а это одна строка вместо ста.
+
+   Курсор слегка ведёт поле, прокрутка меняет аккорд по разделам. Пауза на скрытой
+   вкладке и во время прокрутки, при reduced-motion один статичный кадр.
+   Без WebGL2 - CSS-градиент (html.no-gl). Наружу: window.AURORA = {init, tone, pause} */
 (function(){
-  /* три пятна света на раздел. В каждом аккорде одна тёплая нота: холодная тройка
-     циан-фиолет-розовый сходилась в один синий туман, сколько её ни двигай */
+  /* Аккорд: цвета лент плюс общая яркость. Первый цвет - подложка, он и даёт глубину.
+     Экран приложения идёт вчетверо тише: там читают план и список покупок. */
+  const BG = [5,7,15], MINT = [110,231,249], PLUM = [139,124,246], APRICOT = [247,183,120], INDIGO = [96,132,232];
   const TONES = [
-    [[110,231,249],[139,124,246],[247,183,120]],
-    [[139,124,246],[110,231,249],[240,168,208]],
-    [[247,183,120],[139,124,246],[110,231,249]],
-    /* экран приложения: те же цвета, но вчетверо тусклее. Здесь человек читает план и
-       список покупок, фон не должен спорить с панелями и подсвечивать полосы каустик */
-    [[44,92,100],[56,50,98],[38,53,93]]
+    { c:[BG, MINT, PLUM, APRICOT], dim:.5 },
+    { c:[BG, PLUM, MINT, APRICOT], dim:.5 },
+    { c:[BG, MINT, APRICOT, PLUM], dim:.5 },
+    { c:[BG, MINT, PLUM, INDIGO],  dim:.26 }
   ];
-  const VS = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
-  const FS = `precision mediump float;
-uniform vec2 R;uniform float T;uniform vec2 M;uniform float G;uniform vec3 C1;uniform vec3 C2;uniform vec3 C3;
-float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
-float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
-float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p*=2.03;a*=.5;}return v;}
-/* мягкое пятно: экспонента от квадрата расстояния, у неё нет видимого края */
-float glow(vec2 p, vec2 c, float r){vec2 d=(p-c)/r;return exp(-dot(d,d));}
+  const VS = `#version 300 es
+precision mediump float;
+layout(location = 0) in vec2 a_pos;
+uniform vec2 u_resolution;
+uniform float u_scale;
+out vec2 v_patternUV;
 void main(){
-  vec2 p=(gl_FragCoord.xy-.5*R)/R.y;
-  vec2 m=(M-.5)*vec2(R.x/R.y,1.);
-  float t=T*.05;
-  /* доменное искажение: поле течёт само, иначе пятна читаются как лампочки под скатертью */
-  vec2 q=p+.3*(vec2(fbm(p*1.1+vec2(t,0.)),fbm(p*1.1+vec2(0.,t)+5.2))-.5);
-  q-=m*.045;
-  vec3 col=vec3(0.);
-  /* пятна разнесены и невелики: когда они перекрываются, сумма трёх цветов белеет
-     и фон уходит в серую муть вместо глубины */
-  /* кадр нормирован по высоте, видимое поле - это x от -A/2 до A/2 и y от -.5 до .5.
-     Центры задаём в долях этого поля, иначе на широком экране пятна уезжают за край */
-  vec2 H=vec2(R.x/R.y,1.)*.5;
-  col+=C1*glow(q,vec2(-.72+.09*sin(t*.70),-.56+.12*cos(t*.90))*H,.52)*1.30;
-  col+=C2*glow(q,vec2( .70+.09*cos(t*.62), .12+.12*sin(t*.80))*H,.54)*1.20;
-  col+=C3*glow(q,vec2(-.22+.11*sin(t*.50+2.), .86+.10*cos(t*.70))*H,.44)*.90;
-  /* тёплый свет из дальнего угла: без него палитра сходится в один синий,
-     а рядом с мятным он дал бы зелень, поэтому разведены по диагонали */
-  col+=vec3(1.,.66,.32)*glow(q,vec2(.78,.92)*H,.34)*.95;
-  /* каустики: нити света, как от воды на дне. Три слоя с разным наклоном и скоростью */
-  float ca=0.;
-  for(int i=0;i<3;i++){float fi=float(i);
-    float s=sin((q.x*2.6+q.y*(1.1+fi*.6))*2.2+t*(1.3+fi*.5)+fbm(q*1.6+t*.4)*3.);
-    ca+=pow(1.-abs(s),14.);
-  }
-  col+=mix(C1,C2,.5)*ca*.16;
-  float d=length(p-m);
-  col*=1.+G*.8*exp(-d*d*5.);
-  /* тональная компрессия: ядра пятен остаются цветными вместо того, чтобы выгорать
-     в белое, а всё между ними остаётся по-настоящему тёмным */
-  col=col/(1.+col*.8);
-  col=pow(col,vec3(1.18));
-  /* центр кадра притушен: там лежит текст, и контраст с ним важнее цвета.
-     Цвет остаётся по краям, где от него только ощущение глубины */
-  col*=1.-.42*exp(-dot(p,p)*2.2);
-  float vig=smoothstep(1.45,.10,length(p*vec2(.78,1.08)));
-  /* подложка теплеет книзу: ровная заливка читается как незагрузившийся экран */
-  vec3 bg=mix(vec3(6.,8.,16.),vec3(13.,9.,21.),smoothstep(-.6,.7,-p.y))/255.;
-  /* зерно: восемь бит на канал всегда дают полосы на плавном градиенте, шум их разбивает */
-  float gr=(h(gl_FragCoord.xy+fract(T)*vec2(13.,7.))-.5)*.018;
-  gl_FragColor=vec4(bg+col*vig*.95+gr,1.);
+  gl_Position = vec4(a_pos, 0., 1.);
+  /* то же, что patternUV у paper при fit = none и центре в середине кадра:
+     координаты в пикселях, делённые на масштаб, и множитель .01 против потери точности */
+  v_patternUV = a_pos * .5 * u_resolution / u_scale * .01;
 }`;
+  const FS = `#version 300 es
+precision mediump float;
+
+uniform float u_time;
+
+uniform sampler2D u_noiseTexture;
+
+uniform vec4 u_colors[10];
+uniform float u_colorsCount;
+uniform float u_proportion;
+uniform float u_softness;
+uniform float u_shape;
+uniform float u_shapeScale;
+uniform float u_distortion;
+uniform float u_swirl;
+uniform float u_swirlIterations;
+
+in vec2 v_patternUV;
+
+out vec4 fragColor;
+
+uniform float u_dither;
+uniform float u_ditherPx;
+uniform float u_dim;
+uniform vec2 u_resolution;
+
+/* Упорядоченная матрица Байера 8x8, собранная перестановкой битов вместо таблицы.
+   Порог зависит только от координаты пикселя, поэтому растр стоит на месте,
+   а лента под ним течёт - из-за этого он и читается как печать, а не как шум. */
+float ddBayer8(vec2 fc) {
+  ivec2 p = ivec2(mod(fc, 8.));
+  int x = p.x ^ p.y, y = p.y;
+  int v = (((x >> 2) & 1)     ) | (((y >> 2) & 1) << 1)
+        | (((x >> 1) & 1) << 2) | (((y >> 1) & 1) << 3)
+        | (((x     ) & 1) << 4) | (((y     ) & 1) << 5);
+  return float(v) / 64.;
+}
+
+
+#define TWO_PI 6.28318530718
+#define PI 3.14159265358979323846
+
+
+vec2 rotate(vec2 uv, float th) {
+  return mat2(cos(th), sin(th), -sin(th), cos(th)) * uv;
+}
+
+float randomG(vec2 p) {
+  vec2 uv = floor(p) / 100. + .5;
+  return texture(u_noiseTexture, fract(uv)).g;
+}
+float valueNoise(vec2 st) {
+  vec2 i = floor(st);
+  vec2 f = fract(st);
+  float a = randomG(i);
+  float b = randomG(i + vec2(1.0, 0.0));
+  float c = randomG(i + vec2(0.0, 1.0));
+  float d = randomG(i + vec2(1.0, 1.0));
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  float x1 = mix(a, b, u.x);
+  float x2 = mix(c, d, u.x);
+  return mix(x1, x2, u.y);
+}
+
+
+void main() {
+  vec2 uv = v_patternUV;
+  uv *= .5;
+
+  const float firstFrameOffset = 118.;
+  float t = 0.0625 * (u_time + firstFrameOffset);
+
+  float n1 = valueNoise(uv * 1. + t);
+  float n2 = valueNoise(uv * 2. - t);
+  float angle = n1 * TWO_PI;
+  uv.x += 4. * u_distortion * n2 * cos(angle);
+  uv.y += 4. * u_distortion * n2 * sin(angle);
+
+  float swirl = u_swirl;
+  for (int i = 1; i <= 20; i++) {
+    if (i >= int(u_swirlIterations)) break;
+    float iFloat = float(i);
+    uv.x += swirl / iFloat * cos(t + iFloat * 1.5 * uv.y);
+    uv.y += swirl / iFloat * cos(t + iFloat * 1. * uv.x);
+  }
+
+  float proportion = clamp(u_proportion, 0., 1.);
+
+  float shape = 0.;
+  if (u_shape < .5) {
+    vec2 checksShape_uv = uv * (.5 + 3.5 * u_shapeScale);
+    shape = .5 + .5 * sin(checksShape_uv.x) * cos(checksShape_uv.y);
+    shape += .48 * sign(proportion - .5) * pow(abs(proportion - .5), .5);
+  } else if (u_shape < 1.5) {
+    vec2 stripesShape_uv = uv * (2. * u_shapeScale);
+    float f = fract(stripesShape_uv.y);
+    shape = smoothstep(.0, .55, f) * (1.0 - smoothstep(.45, 1., f));
+    shape += .48 * sign(proportion - .5) * pow(abs(proportion - .5), .5);
+  } else {
+    float shapeScaling = 5. * (1. - u_shapeScale);
+    float e0 = 0.45 - shapeScaling;
+    float e1 = 0.55 + shapeScaling;
+    shape = smoothstep(min(e0, e1), max(e0, e1), 1.0 - uv.y + 0.3 * (proportion - 0.5));
+  }
+
+  float mixer = shape * (u_colorsCount - 1.);
+  vec4 gradient = u_colors[0];
+  gradient.rgb *= gradient.a;
+  float aa = fwidth(shape);
+  for (int i = 1; i < 10; i++) {
+    if (i >= int(u_colorsCount)) break;
+    float m = clamp(mixer - float(i - 1), 0.0, 1.0);
+
+    float localMixerStart = floor(m);
+    float softness = .5 * u_softness + fwidth(m);
+    float smoothed = smoothstep(max(0., .5 - softness - aa), min(1., .5 + softness + aa), m - localMixerStart);
+    float stepped = localMixerStart + smoothed;
+
+    m = mix(stepped, m, u_softness);
+
+    vec4 c = u_colors[i];
+    c.rgb *= c.a;
+    gradient = mix(gradient, c, m);
+  }
+
+  vec3 color = gradient.rgb;
+  float opacity = gradient.a;
+
+  
+  color += 1. / 256. * (fract(sin(dot(.014 * gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453123) - .5);
+
+
+  /* Кадр нормирован по высоте. Центр притушен и края уведены в тень: там, где лежит
+     текст, важен контраст с ним, а цвет остаётся по углам и держит глубину. */
+  vec2 sp = (gl_FragCoord.xy / u_resolution - .5) * vec2(u_resolution.x / u_resolution.y, 1.);
+  color *= u_dim * (1. - .52 * exp(-dot(sp, sp) * 2.2));
+  color *= smoothstep(1.12, .1, length(sp * vec2(.82, 1.12)));
+
+  /* Пять ступеней на канал со сдвигом порога по матрице: цвет распадается на точки.
+     Смешиваем с исходным, иначе переливы шёлка рассыпаются целиком и остаётся плакат. */
+  float lv = 5.;
+  float th = ddBayer8(gl_FragCoord.xy / max(1., u_ditherPx));
+  vec3 quant = floor(color * lv + th) / lv;
+  color = mix(color, quant, u_dither);
+
+  fragColor = vec4(color, opacity);
+}
+`;
+
+  const U_NAMES = ["u_resolution","u_scale","u_time","u_noiseTexture","u_colors[0]","u_colorsCount",
+    "u_proportion","u_softness","u_shape","u_shapeScale","u_distortion","u_swirl","u_swirlIterations",
+    "u_dither","u_ditherPx","u_dim"];
+
   let gl, prog, U = {}, cv, raf = 0, t0 = performance.now(), last = 0;
-  const mouse = {x:.5, y:.5, tx:.5, ty:.5, g:0, tg:0};
-  let cur = TONES[0].map(c=>c.slice()), target = TONES[0];
+  const mouse = {x:.5, y:.5, tx:.5, ty:.5};
+  let cur = TONES[0].c.map(c=>c.slice()), target = TONES[0].c, dim = TONES[0].dim, dimT = TONES[0].dim;
   const rm = matchMedia("(prefers-reduced-motion: reduce)");
 
   function size(){
     if(!cv) return;
-    const k = Math.min(1, devicePixelRatio||1) * .5; // полразрешения: ленты мягкие, экономим GPU
+    const k = Math.min(1, devicePixelRatio||1) * .5; // полразрешения: ленты мягкие, растр крупнее, GPU свободнее
     cv.width = Math.max(1, Math.round(innerWidth*k)); cv.height = Math.max(1, Math.round(innerHeight*k));
     if(gl){ gl.viewport(0,0,cv.width,cv.height); if(!raf) frame(performance.now(), true); }
   }
   function frame(now, once){
-    if(!once && last && now-last < 30){ raf = requestAnimationFrame(frame); return; } // 30 fps: лентам хватает, GPU вдвое свободнее
+    if(!once && last && now-last < 30){ raf = requestAnimationFrame(frame); return; } // 30 кадров: лентам хватает
     const dt = Math.min(64, now-(last||now)); last = now;
     const e = 1-Math.pow(.001, dt/1000*.9);
-    mouse.x += (mouse.tx-mouse.x)*e*2; mouse.y += (mouse.ty-mouse.y)*e*2; mouse.g += (mouse.tg-mouse.g)*e*2;
+    mouse.x += (mouse.tx-mouse.x)*e*2; mouse.y += (mouse.ty-mouse.y)*e*2;
+    dim += (dimT-dim)*e*2;
     cur.forEach((c,i)=>c.forEach((v,j)=>{ c[j] = v+(target[i][j]-v)*e; }));
-    gl.uniform2f(U.R, cv.width, cv.height);
-    gl.uniform1f(U.T, rm.matches ? 40 : (now-t0)/1000);
-    gl.uniform2f(U.M, mouse.x, 1-mouse.y);
-    gl.uniform1f(U.G, mouse.g);
-    ["C1","C2","C3"].forEach((k,i)=>gl.uniform3f(U[k], cur[i][0]/255, cur[i][1]/255, cur[i][2]/255));
+    const flat = new Float32Array(40);
+    cur.forEach((c,i)=>{ flat[i*4] = c[0]/255; flat[i*4+1] = c[1]/255; flat[i*4+2] = c[2]/255; flat[i*4+3] = 1; });
+    gl.uniform2f(U["u_resolution"], cv.width, cv.height);
+    gl.uniform1f(U["u_time"], rm.matches ? 40 : (now-t0)/1000);
+    gl.uniform4fv(U["u_colors[0]"], flat);
+    gl.uniform1f(U["u_dim"], dim);
+    /* курсор слегка меняет наклон лент: заметно только в движении, отдельного кадра не стоит */
+    gl.uniform1f(U["u_swirl"], .62 + (mouse.x-.5)*.16);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     if(!once) raf = requestAnimationFrame(frame);
   }
-  let held = false, scrollT = 0; // пауза на время рецепта и режима готовки: WebGL под перекрытием не нужен
+  let held = false, scrollT = 0;
   function start(){ if(!gl || raf || document.hidden || held || scrollT) return; if(rm.matches){ frame(performance.now(), true); return; } last = 0; raf = requestAnimationFrame(frame); }
   function stop(){ if(raf){ cancelAnimationFrame(raf); raf = 0; } }
 
+  /* шум для valueNoise: у paper он приходит картинкой в base64 на 23 КБ,
+     но нужен только случайный зелёный канал - такую текстуру дешевле породить на месте */
+  function noiseTexture(){
+    const N = 128, d = new Uint8Array(N*N*4);
+    for(let i=0;i<d.length;i++) d[i] = (Math.random()*256)|0;
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, N, N, 0, gl.RGBA, gl.UNSIGNED_BYTE, d);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    return tex;
+  }
+
   function init(canvas){
     cv = canvas; if(!cv) return;
+    const fail = ()=>{ document.documentElement.classList.add("no-gl"); cv.remove(); gl = null; };
     // телефон и слабое железо (mod_perf.js): статичный CSS-градиент вместо WebGL
-    if(window.DD_LITE){ document.documentElement.classList.add("no-gl"); cv.remove(); return; }
-    try{ gl = cv.getContext("webgl", {antialias:false, alpha:false, powerPreference:"low-power"}); }catch(e){ gl = null; }
-    const sh = (type, src)=>{ const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; };
-    const vs = gl && sh(gl.VERTEX_SHADER, VS), fs = gl && sh(gl.FRAGMENT_SHADER, FS);
-    if(!gl || !vs || !fs){ document.documentElement.classList.add("no-gl"); cv.remove(); gl = null; return; }
+    if(window.DD_LITE){ fail(); return; }
+    try{ gl = cv.getContext("webgl2", {antialias:false, alpha:false, powerPreference:"low-power"}); }catch(e){ gl = null; }
+    if(!gl){ fail(); return; }
+    const sh = (type, src)=>{ const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+      if(gl.getShaderParameter(s, gl.COMPILE_STATUS)) return s;
+      console.warn("фон:", gl.getShaderInfoLog(s)); return null; };
+    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
+    if(!vs || !fs){ fail(); return; }
     prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog); gl.useProgram(prog);
     const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    ["R","T","M","G","C1","C2","C3"].forEach(k=>U[k] = gl.getUniformLocation(prog, k));
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    U_NAMES.forEach(k=>U[k] = gl.getUniformLocation(prog, k));
+    gl.activeTexture(gl.TEXTURE0); noiseTexture(); gl.uniform1i(U["u_noiseTexture"], 0);
+    /* постоянные настройки лент: подобраны в лаборатории, в кадре не меняются */
+    gl.uniform1f(U["u_scale"], .9);
+    gl.uniform1f(U["u_colorsCount"], 4);
+    gl.uniform1f(U["u_proportion"], .56);
+    gl.uniform1f(U["u_softness"], 1);
+    gl.uniform1f(U["u_shape"], 1);          // полосы
+    gl.uniform1f(U["u_shapeScale"], .12);
+    gl.uniform1f(U["u_distortion"], .22);
+    gl.uniform1f(U["u_swirlIterations"], 8);
+    gl.uniform1f(U["u_dither"], .45);
+    gl.uniform1f(U["u_ditherPx"], 1.5);
     cv.addEventListener("webglcontextlost", e=>{ e.preventDefault(); stop(); document.documentElement.classList.add("no-gl"); });
     addEventListener("resize", size, {passive:true});
-    addEventListener("pointermove", e=>{ mouse.tx = e.clientX/innerWidth; mouse.ty = e.clientY/innerHeight; mouse.tg = 1; }, {passive:true});
-    document.addEventListener("pointerleave", ()=>{ mouse.tg = 0; });
+    addEventListener("pointermove", e=>{ mouse.tx = e.clientX/innerWidth; mouse.ty = e.clientY/innerHeight; }, {passive:true});
     document.addEventListener("visibilitychange", ()=> document.hidden ? stop() : start());
     // пока страницу крутят, кадр фона не перерисовываем: вся мощность на прокрутку
     addEventListener("scroll", ()=>{ stop(); clearTimeout(scrollT); scrollT = setTimeout(()=>{ scrollT = 0; start(); }, 200); }, {passive:true});
     (rm.addEventListener ? rm.addEventListener("change", ()=>{ stop(); start(); }) : 0);
     size(); start();
   }
-  function tone(i){ target = TONES[((i|0)%TONES.length+TONES.length)%TONES.length]; if(gl && !raf) frame(performance.now(), true); }
+  function tone(i){
+    const T = TONES[((i|0)%TONES.length+TONES.length)%TONES.length];
+    target = T.c; dimT = T.dim;
+    if(gl && !raf) frame(performance.now(), true);
+  }
   function pause(on){ held = !!on; if(held) stop(); else start(); }
   window.AURORA = {init, tone, pause};
 })();
