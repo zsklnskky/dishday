@@ -11767,6 +11767,15 @@ function pickPlan(){
 }
 const noteText = () => Array.isArray(S.planNote) ? S.planNote.map(([k,v])=>t(k,v)).join(" ") : (S.lang==="ru" ? S.planNote||"" : "");
 
+/* подсветка плиток идёт за курсором: один обработчик на секцию, координаты в переменных */
+addEventListener("pointermove", e=>{
+  const tile = e.target.closest && e.target.closest(".s-cell");
+  if(!tile) return;
+  const r = tile.getBoundingClientRect();
+  tile.style.setProperty("--mx", Math.round(e.clientX - r.left) + "px");
+  tile.style.setProperty("--my", Math.round(e.clientY - r.top) + "px");
+}, {passive:true});
+
 /* ================= ГРАФИКА ================= */
 function chainLogo(c, h){
   const H = h||22, W = Math.round(H*3.3), nm = tr(c);
