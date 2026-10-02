@@ -22,7 +22,7 @@
     { c:[BG, MINT, PLUM, APRICOT], dim:.82 },
     { c:[BG, PLUM, MINT, APRICOT], dim:.82 },
     { c:[BG, MINT, APRICOT, PLUM], dim:.82 },
-    { c:[BG, MINT, PLUM, INDIGO],  dim:.44 }
+    { c:[BG, MINT, PLUM, INDIGO],  dim:.26 }
   ];
   const VS = `#version 300 es
 precision mediump float;
@@ -11537,6 +11537,7 @@ const STR = {
              ()=>CHAINS.length>1 ? `${ccName()}: all ${NUMW.en[CHAINS.length]} chains are connected. We compare them automatically, or you can pin one` : `${ccName()}: ${tr(CHAINS[0])} is connected. Other chains appear once they share prices`],
   cuMix:["Кухни в подборе","Cuisines in the mix"], look:["Оформление","Appearance"], lookSub:["Палитра меняет фон, акценты и свечение","The palette changes the background, accents and glow"],
   photosT:["Фотографии блюд","Dish photos"], cursorT:["Живой курсор","Live cursor"], cursorD:["Кольцо со шлейфом следует за мышью и подсказывает действие","A ring with a trail follows the mouse and hints at actions"],
+  gRetry:["Вход не завершился. Нажмите «Продолжить с Google» ещё раз","Sign-in did not finish. Press «Continue with Google» again"],
   gContinue:["Продолжить с Google","Continue with Google"],
   waitBar:[v=>`<b>Сервис открывается 20 октября.</b> Пока это предпросмотр: пользуйтесь, а в день запуска напишем на ${v.email}.`,
     v=>`<b>We open on 20 October.</b> This is a preview for now: look around, and on launch day we will email ${v.email}.`],
@@ -12425,7 +12426,10 @@ const gRand = () => (crypto.randomUUID ? crypto.randomUUID() : String(Math.rando
 function googleGo(){
   const cid = DD_PAY.wl.googleClientId; if(!cid) return;
   const nonce = gRand(), state = gRand();
-  try{ sessionStorage.setItem("dd_g", JSON.stringify({nonce, state, back:location.hash})); }catch(e){}
+  /* Храним в localStorage, а не в sessionStorage: Brave чистит сессионное хранилище при
+     возврате со стороннего сайта, и страница переставала узнавать собственный вход -
+     человек возвращался от Google, и ничего не происходило. Запись живёт до возврата. */
+  try{ localStorage.setItem("dd_g", JSON.stringify({nonce, state, back:location.hash, at:Date.now()})); }catch(e){}
   location.href = G_AUTH + "?client_id=" + encodeURIComponent(cid)
     + "&response_type=id_token&scope=" + encodeURIComponent("openid email profile")
     + "&redirect_uri=" + encodeURIComponent(location.origin + location.pathname)
@@ -12438,9 +12442,16 @@ function googleReturn(){
   const q = new URLSearchParams(location.hash.slice(1));
   const tok = q.get("id_token"), st = q.get("state");
   let saved = null;
-  try{ saved = JSON.parse(sessionStorage.getItem("dd_g") || "null"); sessionStorage.removeItem("dd_g"); }catch(e){}
+  try{
+    saved = JSON.parse(localStorage.getItem("dd_g") || "null");
+    localStorage.removeItem("dd_g"); sessionStorage.removeItem("dd_g");
+  }catch(e){}
   history.replaceState(null, "", location.pathname + ((saved && saved.back) || ""));
-  if(!tok || !saved || saved.state !== st) return false;
+  /* Молча ничего не делать нельзя: для человека это выглядит как сломанный вход */
+  if(!tok || !saved || saved.state !== st || Date.now() - (saved.at || 0) > 36e5){
+    toastSafe(t("gRetry"));
+    return false;
+  }
   googleSignIn(tok, saved.nonce);
   return true;
 }
