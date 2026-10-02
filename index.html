@@ -943,9 +943,16 @@ input[type=range]{background:linear-gradient(90deg,var(--a1),var(--violet)) 0/va
 .g-face:hover{border-color:var(--mp); background:var(--panel-2)}
 .g-wrap:active .g-face{transform:scale(.99)}
 .g-face svg{width:1.125rem; height:1.125rem; flex:none}
+/* Настоящую кнопку Google прибиваем к левому верхнему углу обёртки. Google рендерит её
+   внутри своей вёрстки, и у неё бывает отступ сверху: кадр уезжал на 40 пикселей вниз,
+   обрезался по overflow, и клик по видимой кнопке попадал в пустоту. */
 .g-real{position:absolute; inset:0; opacity:0; overflow:hidden; border-radius:999px}
-.g-real > div{width:100% !important; height:100% !important}
-.g-real iframe{width:100% !important; height:100% !important}
+.g-real > div{position:absolute !important; top:0 !important; left:0 !important; margin:0 !important;
+  width:100% !important; height:100% !important}
+.g-real iframe{position:absolute !important; top:0 !important; left:0 !important; margin:0 !important;
+  width:100% !important; height:100% !important}
+/* наша кнопка только рисует: клики всегда уходят в слой Google над ней */
+.g-face{pointer-events:none}
 .jn-google{display:block; margin-bottom:1rem; min-height:2.75rem}
 
 /* аккаунт в шапке приложения */
