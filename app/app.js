@@ -11204,7 +11204,7 @@ const STR = {
   priceH:["Тарифы","Pricing"],
   priceIntro:[v=>`Бесплатно: 50 блюд из 10 кухонь на 2 месяца. Plus открывает все ${pn(v.n,"dish")} из ${pn(v.c,"cuisineGen")}, Pro Plus добавляет «Питание». Чем длиннее срок, тем дешевле месяц.`, v=>`Free: 50 dishes from 10 cuisines for 2 months. Plus unlocks all ${v.n} dishes from ${v.c} cuisines, Pro Plus adds Nutrition. The longer the term, the cheaper each month.`],
   freeOverNote:["Бесплатный период закончился. Заполните параметры и выберите тариф: меню и настройки сохранятся.","Your free period has ended. Fill in your preferences and pick a plan: your menu and settings stay."],
-  planPlus:["Dishday Plus","Dishday Plus"], planPro:["Dishday Pro Plus","Dishday Pro Plus"], planTrial:["Pro Plus бесплатно","Pro Plus free"], planFree:["Бесплатный режим","Free mode"],
+  planNone:["Без тарифа","No plan"], planPlus:["Dishday Plus","Dishday Plus"], planPro:["Dishday Pro Plus","Dishday Pro Plus"], planTrial:["Pro Plus бесплатно","Pro Plus free"], planFree:["Бесплатный режим","Free mode"],
   plusD:["Все кухни и блюда, всё кроме «Питания»","All cuisines and dishes, everything except Nutrition"],
   proD:["Всё, что умеет Dishday, включая «Питание»","Everything Dishday does, including Nutrition"],
   allIn:["Всё включено","All included"], perMonth:["в месяц","a month"],
@@ -11870,7 +11870,9 @@ function dietOnly(r){
 const dietOk = r => dietOnly(r) && badIngs(r).length===0;
 /* счётчик в анкете считает только те блюда, которые человеку реально откроются: в бесплатном
    режиме это 50 блюд, иначе каталог целиком. Иначе анкета обещает сотни блюд, а план пустой */
-const suitableCount = () => RECIPES.filter(r=>isOpen(r) && dietOk(r) && (!S.cuisines.length || S.cuisines.includes(r.cu))).length;
+/* Считаем каталог, а не доступное. С фильтром открытости 59 кухонь из 69 показывали
+   «0 блюд под ваш выбор», хотя блюда есть - человек думал, что для него ничего нет. */
+const suitableCount = () => RECIPES.filter(r=>dietOk(r) && (!S.cuisines.length || S.cuisines.includes(r.cu))).length;
 
 /* пустой план: называем ограничения, которые закрывают больше всего блюд, чтобы человеку
    было что ослабить. Считаем по одному снятию: сколько блюд вернётся, если убрать группу */
@@ -12113,7 +12115,8 @@ function paintStores(){
   $$("[data-storeinfo]").forEach(el=>{ el.textContent = storeInfo(); });
 }
 const fmtDate = ts => new Date(ts).toLocaleDateString(loc(),{day:"numeric", month:"long", year:"numeric"}).replace(/\s?г\.$/, "");
-const planName = plan => t(plan==="pro" ? "planPro" : plan==="trial" ? "planTrial" : plan==="free" ? "planFree" : "planPlus");
+/* ветки для «нет тарифа» не было, и гость видел у себя «Dishday Plus» */
+const planName = plan => t(plan==="pro" ? "planPro" : plan==="trial" ? "planTrial" : plan==="free" ? "planFree" : plan==="plus" ? "planPlus" : "planNone");
 const planTitle = planName;
 const photoOf = r => typeof PHOTOS!=="undefined" && PHOTOS[r.id];
 function scrollToId(id){ if(id==="top") return scrollTo({top:0, behavior:RM()?"auto":"smooth"}); const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:RM()?"auto":"smooth", block:"start"}); }
@@ -12686,7 +12689,7 @@ function rPeople(){ return `<div class="stepper"><button class="icon-btn" data-p
 function rDays(){ return `<div class="tiles">${DAYS.map(d=>tile(dayName(d),"",S.days.includes(d),`data-day="${d}"`)).join("")}</div><p class="center-note" id="daysNote" style="margin-top:16px">${t("dinnersWeek",{n:S.days.length})}</p>`; }
 /* бюджет в валюте страны: шаг и потолок из countries.json (RU до 30 000 ₽, DE до 300 €) */
 const budPct = v => { const B = REGION.C.budget; return Math.max(0, Math.min(100, (v-B.min)/(B.max-B.min)*100)); };
-function rBudget(){ const B = REGION.C.budget, per = S.budget/Math.max(1,S.days.length)/S.people; return `<div class="money-big num" id="budVal">${numFmt(0).format(S.budget)} <small>${curSym()}</small></div><input type="range" id="bud" min="${B.min}" max="${B.max}" step="${B.step}" value="${S.budget}" style="--p:${budPct(S.budget)}%" aria-label="${t("weekBudget")}"><div class="bud-free"><label for="budNum">${t("anyAmount")}</label><input type="number" id="budNum" min="${B.step}" step="${B.step}" inputmode="numeric" value="${Math.round(S.budget)}"><span>${curSym()}</span></div><p class="center-note num" id="budNote">${t("perServing",{x:rub(per)})}</p>`; }
+function rBudget(){ const B = REGION.C.budget, per = S.budget/Math.max(1,S.days.length)/S.people; return `<div class="money-big num" id="budVal">${numFmt(0).format(S.budget)} <small>${curSym()}</small></div><input type="range" id="bud" min="${B.min}" max="${B.max}" step="${B.step}" value="${S.budget}" style="--p:${budPct(S.budget)}%" aria-label="${t("weekBudget")}"><div class="bud-free"><label for="budNum">${t("anyAmount")}</label><input type="number" id="budNum" min="${B.min}" max="${B.max}" step="${B.step}" inputmode="numeric" value="${Math.round(S.budget)}"><span>${curSym()}</span></div><p class="center-note num" id="budNote">${t("perServing",{x:rub(per)})}</p>`; }
 function rMoods(){ return `<div class="tiles">${MOODS.map(m=>tile(tr(m),tr(m,"d"),S.moods.includes(m.id),`data-mood="${m.id}"`)).join("")}</div>`; }
 function rDiet(){ return `<div class="tiles">${DIETS.map(d=>tile(tr(d),tr(d,"d"),S.diet===d.id,`data-diet="${d.id}"`)).join("")}</div><p class="center-note" id="dietNote">${cuCount()}</p>`; }
 const exHaveHTML = () => S.exclude.items.map(k=>`<button class="chip sm no" aria-pressed="true" data-exdel="${k}">${ingName(k)} ×</button>`).join("");
@@ -12818,7 +12821,7 @@ $("#onbBody").addEventListener("click", e=>{
 $("#onbBody").addEventListener("input", e=>{
   if(e.target.id==="cuSearch"){ window.__cuQ = e.target.value; const pos = e.target.selectionStart; $("#onbBody").innerHTML = rCuisines(); const el=$("#cuSearch"); el.focus(); el.setSelectionRange(pos,pos); return; }
   if(e.target.id==="oExIn") return exclSuggest("o");
-  if(e.target.id==="budNum"){ const v = Math.max(REGION.C.budget.step, Math.round(+e.target.value||0)); S.budget = v; save(); const s=$("#bud"); if(s){ s.value = Math.min(REGION.C.budget.max,v); s.style.setProperty("--p", budPct(v)+"%"); } $("#budVal").innerHTML = `${numFmt(0).format(v)} <small>${curSym()}</small>`; $("#budNote").textContent = t("perServing",{x:rub(v/Math.max(1,S.days.length)/S.people)}); return; }
+  if(e.target.id==="budNum"){ const B = REGION.C.budget, v = Math.min(B.max, Math.max(B.min, Math.round(+e.target.value||0))); S.budget = v; save(); const s=$("#bud"); if(s){ s.value = Math.min(REGION.C.budget.max,v); s.style.setProperty("--p", budPct(v)+"%"); } $("#budVal").innerHTML = `${numFmt(0).format(v)} <small>${curSym()}</small>`; $("#budNote").textContent = t("perServing",{x:rub(v/Math.max(1,S.days.length)/S.people)}); return; }
   if(e.target.id==="bud"){ S.budget = +e.target.value; const bn=$("#budNum"); if(bn) bn.value = S.budget; save(); e.target.style.setProperty("--p",budPct(S.budget)+"%"); $("#budVal").innerHTML = `${numFmt(0).format(S.budget)} <small>${curSym()}</small>`; $("#budNote").textContent = t("perServing",{x:rub(S.budget/Math.max(1,S.days.length)/S.people)}); }
 });
 $("#onbBody").addEventListener("keydown", e=>{ if(e.target.id==="oExIn" && e.key==="Enter"){ const f=$("#oExSug [data-exadd]"); if(f) f.click(); } });
@@ -13062,7 +13065,9 @@ function frSuggest(){
   box.classList.add("on");
 }
 function spin(e){
-  const cand = RECIPES.filter(dietOk).map(r=>({r,m:fridgeMatch(r)})).filter(x=>S.fridge.length?x.m>=.4:true);
+  /* только открытые: барабан брал из всех 588, из которых 538 закрыты, и «Открыть рецепт»
+     выбрасывало человека из приложения на страницу тарифов */
+  const cand = RECIPES.filter(r=>isOpen(r) && dietOk(r)).map(r=>({r,m:fridgeMatch(r)})).filter(x=>S.fridge.length?x.m>=.4:true);
   if(!cand.length){ toast(t("addFoods")); return; }
   const final = rnd(cand);
   $("#slotSlot").innerHTML = `<div class="slotm glass" id="slotm"><span class="thumb" id="slotPic"></span><div style="min-width:0"><div class="hello">${t("randomPick")}</div><div class="nm" id="slotName"></div><div class="meta" id="slotMeta"></div><div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap" id="slotBtns"></div></div></div>`;
@@ -13109,7 +13114,7 @@ function renderBasics(){
      <div class="rule"><div class="t"><b>${t("dinnersPerWeek")}</b><p>${t("dinnersFromMon",{n:S.days.length})}</p></div>
        <div style="display:flex;align-items:center;gap:10px"><button class="chip sm" data-sd="-1" aria-label="${t("fewerD")}">−</button><b class="num" style="min-width:2ch;text-align:center">${S.days.length}</b><button class="chip sm" data-sd="1" aria-label="${t("moreD")}">+</button></div></div>
      <div class="rule" style="display:block"><div class="t"><b>${t("weekBudget")}</b><p class="num" id="setBudLine">${t("budgetPer",{b:rub0(S.budget), p:rub(per)})}</p></div>
-       <input type="range" id="setBud" min="${B.min}" max="${B.max}" step="${B.step}" value="${S.budget}" style="--p:${p}%; margin-top:12px" aria-label="${t("weekBudget")}" data-budline><div class="bud-free"><label for="setBudNum">${t("manualAmount")}</label><input type="number" id="setBudNum" min="${B.step}" step="${B.step}" inputmode="numeric" value="${Math.round(S.budget)}"><span>${curSym()}</span></div></div>
+       <input type="range" id="setBud" min="${B.min}" max="${B.max}" step="${B.step}" value="${S.budget}" style="--p:${p}%; margin-top:12px" aria-label="${t("weekBudget")}" data-budline><div class="bud-free"><label for="setBudNum">${t("manualAmount")}</label><input type="number" id="setBudNum" min="${B.min}" max="${B.max}" step="${B.step}" inputmode="numeric" value="${Math.round(S.budget)}"><span>${curSym()}</span></div></div>
      <div class="rule" style="display:block"><div class="t"><b>${t("dietType")}</b><p>${tr(DIETS.find(d=>d.id===S.diet),"d")}</p></div>
        <div class="scroller" style="margin-top:10px">${DIETS.map(d=>`<button class="chip sm" aria-pressed="${S.diet===d.id}" data-sdiet="${d.id}">${tr(d)}</button>`).join("")}</div></div>`;
 }
@@ -13125,7 +13130,7 @@ $("#pane-set").addEventListener("click", e=>{
 });
 $("#pane-set").addEventListener("change", e=>{ if(e.target.id==="setBudNum"){ renderBasics(); renderHead(); } });
 $("#pane-set").addEventListener("input", e=>{
-  if(e.target.id==="setBudNum"){ S.budget = Math.max(REGION.C.budget.step, Math.round(+e.target.value||0)); save(); return; }
+  if(e.target.id==="setBudNum"){ const B = REGION.C.budget; S.budget = Math.min(B.max, Math.max(B.min, Math.round(+e.target.value||0))); save(); return; }
   if(e.target.id!=="setBud") return;
   /* перерисовывать блок на каждое движение нельзя: ползунок пересоздаётся, браузер теряет
      захват мыши и перетаскивание обрывается после первого же шага. Пока тянут - меняем

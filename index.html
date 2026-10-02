@@ -1023,6 +1023,7 @@ html.cb-on .dock{bottom:calc(1.125rem + var(--cbh))}
 html.cb-on .cook .foot{padding-bottom:calc(1.375rem + var(--cbh))}
 html.cb-on .s-footer{padding-bottom:calc(2.25rem + var(--cbh))}
 html.cb-on .p-wrap, html.cb-on .lg-wrap{padding-bottom:calc(6rem + var(--cbh))}
+
 .cdlg{width:min(35rem,calc(100% - 2rem)); max-height:calc(100dvh - 2rem); padding:0; color:var(--ink); border-radius:1.75rem; background:#10162A; border:1px solid var(--stroke2)}
 .cdlg::backdrop{background:rgba(3,4,10,.72)}
 .cdlg-in{padding:1.5rem; display:grid; gap:1rem}
@@ -1186,6 +1187,16 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .cb-acts .btn{flex:1 1 auto}
   html.cb-on .dock, html.cb-on .onb-nav{bottom:calc(env(safe-area-inset-bottom) + 0.5rem + var(--cbh))}
   html.cb-on .toast{bottom:calc(env(safe-area-inset-bottom) + 5.75rem + var(--cbh))}
+  /* Полоса согласия ужимается до одной строки и ряда кнопок: в полном виде она занимала
+     22 процента экрана и перекрывала кнопку записи. Подробности остаются в «Настроить». */
+  .cb{padding:0.75rem 0.875rem; gap:0.5rem; right:8px; left:8px; width:auto;
+    bottom:calc(8px + env(safe-area-inset-bottom))}
+  .cb h2{display:none}                 /* заголовок на телефоне только занимает место */
+  .cb p{font-size:0.8125rem; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .cb-acts{flex-wrap:nowrap; gap:0.375rem}
+  .cb-acts .btn{flex:1 1 0; min-width:0; padding:0.5rem 0.375rem; font-size:0.75rem; white-space:nowrap}
+  /* «Принять все» идёт первой: это главный ответ, а не последний */
+  .cb-acts [data-cb="all"]{order:-1; flex:1.3 1 0}
   .wtoast{bottom:calc(env(safe-area-inset-bottom) + 5.75rem + var(--cbh)); width:calc(100% - 1.25rem); max-width:none}
   .wtoast span{flex:1; min-width:0}
   .rm-nums{grid-template-columns:minmax(0,1fr)}
@@ -1421,6 +1432,9 @@ span.cc-pill:active{transform:none}
 
 @media (max-width:760px){ /*px*/
   .jn{grid-template-columns:1fr; padding:1.5rem 1.125rem; gap:1.5rem}
+  /* На телефоне кнопка входа идёт сразу под заголовком, а счётчик и таймер под ней.
+     Внизу карточки она попадала в полосу согласия и в нижнюю кромку экрана. */
+  .jn-r{order:-1}
   .jn-nums b{font-size:2rem}
   .pl-cards{grid-template-columns:minmax(0,1fr)}
   .pl-card .btn{white-space:normal; text-align:center}
@@ -2016,5 +2030,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=c5fe376b";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=e3c23954";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
