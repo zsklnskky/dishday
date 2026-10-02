@@ -872,9 +872,10 @@ window.CUISINE_FONT_NOTES = {
   font:900 clamp(40px,8.5vw,128px)/1 Rubik,Nunito,system-ui,sans-serif;letter-spacing:-.045em;color:#06102a;text-wrap:balance}
 .fx-kw{display:inline-block;white-space:nowrap;perspective:700px}
 .fx-kc{display:inline-block;transform-origin:50% 90%;will-change:transform}
-.fx-od{display:inline-block;height:1.12em;line-height:1.12em;overflow:hidden;vertical-align:-.16em}
+.fx-od{display:inline-block;user-select:none;-webkit-user-select:none;height:1.12em;line-height:1.12em;overflow:hidden;vertical-align:-.16em}
 .fx-od>span{display:flex;flex-direction:column}
 .fx-od>span>span{display:block;height:1.12em;text-align:center}
+.fx-od-txt{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .fx-dot{position:fixed;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--a1);
   box-shadow:0 0 16px var(--a1);pointer-events:none;z-index:99999}
 .fx-ring{position:fixed;left:0;top:0;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;pointer-events:none;z-index:99999;
@@ -988,6 +989,11 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
       void el.offsetWidth;
     }
     el.setAttribute("aria-label", text);
+    /* настоящий текст рядом с барабаном: его не видно, но он выделяется мышью,
+       находится поиском по странице и копируется без цифрового мусора */
+    let plain = el.querySelector(".fx-od-txt");
+    if(!plain){ plain = document.createElement("span"); plain.className = "fx-od-txt"; el.appendChild(plain); }
+    plain.textContent = text;
     const colsEl = el.querySelectorAll(".fx-od > span");
     let di = 0;
     chars.forEach(c=>{
@@ -2313,7 +2319,10 @@ html.perf-lite [data-rv]{filter:none!important}`;
       L.el.style.setProperty('--rc-c', 'rgb(' + rgb.join(',') + ')');
       L.body.innerHTML = cartSVG(L.uid, rgb) + '<span class="rc-pill"></span>';
       L.carPill = L.body.querySelector('.rc-pill');
-      var light = luminance(rgb) > 0.6;
+      /* Порог по яркости давал белый текст на лососевом (#E97353) с контрастом 3.0 при норме 4.5.
+         Считаем контраст обоих вариантов и берём лучший: на том же цвете тёмный даёт 5.9. */
+      var lum = luminance(rgb);
+      var light = (lum + 0.05) / 0.059 > 1.05 / (lum + 0.05);
       L.carPill.classList.toggle('is-light', light);
       L.namePill.classList.toggle('is-light', light);
       L.wheels = Array.prototype.map.call(L.body.querySelectorAll('.rc-wheel'), function (g) {
@@ -11157,6 +11166,8 @@ const STR = {
   navAria:["Разделы сайта","Site sections"], nav_how:["Как это работает","How it works"], nav_feat:["Возможности","Features"],
   nav_story:["Как мы создавали","How we built it"], nav_price:["Тарифы","Pricing"], nav_faq:["Вопросы","FAQ"],
   moreAria:["Ещё разделы","More sections"], menuAria:["Меню","Menu"],
+  heroKick:["Бесплатно, без карты. Полный доступ откроется 20 октября","Free, no card. Full access opens on 20 October"],
+  heroCtaFree:["Собрать мою неделю","Build my week"],
   getAccess:["Получить доступ","Get access"], openApp:["Открыть приложение","Open the app"], openSite:["Открыть сайт Dishday","Open the Dishday site"],
   heroH:['Ужин <span class="grad-text">решён.</span>','Dinner, <span class="grad-text">decided.</span>'],
   heroSub:[()=>`Неделя ужинов под ваш бюджет: цены ${chainsGen()} сверены, список покупок готов.`, ()=>`A week of dinners on your budget, ${chainsEn("priced across {w} stores","priced at {c}")}, with one shopping list.`],
@@ -11211,7 +11222,9 @@ const STR = {
   termAria:["Срок оплаты","Billing term"], termShort:["{n} мес","{n} mo"],
   planSum:[v=>`${v.x} за ${v.n} мес · ${v.m} в месяц${v.s ? ` · экономия ${v.s} (${v.p}%)` : ""}`, v=>`${v.x} for ${v.n} mo · ${v.m} a month${v.s ? ` · save ${v.s} (${v.p}%)` : ""}`],
   planSum1:["Оплата за месяц, без автопродления","Paid for one month, no auto-renewal"],
-  subscribeX:["Оформить {x}","Get {x}"], soonPay:["Подписка в вашей стране скоро","Subscription coming soon in your country"],
+  subscribeX:["Оформить {x}","Get {x}"],
+  /* ссылка ведёт на запись, поэтому и говорит о записи: «подписка скоро» выглядела мёртвой кнопкой */
+  soonPay:["Оплата у вас пока закрыта. Записаться","Payments are not open in your country yet. Join the list"],
   soonNote:[v=>`Цены в ${v.c} по курсу. Оплата пока работает только в Беларуси: запишитесь, и мы напишем, когда подписка откроется у вас.`, v=>`Prices in ${v.c} at the current rate. Payment only works in Belarus for now: sign up and we'll write when it opens for you.`],
   cmpH:["Сравнение тарифов","Compare plans"], cmpWhat:["Что входит","What's included"], cmpFree:["Бесплатно","Free"],
   cmp1:["Блюда и кухни","Dishes and cuisines"], cmp1f:["50 блюд, 10 кухонь","50 dishes, 10 cuisines"], cmp1p:[v=>`все ${v.n}`, v=>`all ${v.n}`],
@@ -11413,6 +11426,7 @@ const STR = {
   q_gear:["Что есть на кухне?","What's in your kitchen?"],
   h_gear:["Рецепты подбираются под вашу технику.","Recipes are matched to your equipment."],
   cuCount:[v=>`${v.sel?`Выбрано ${v.sel} · `:""}${v.c} ${pl(v.c,"dish")} под ваш выбор`, v=>`${v.sel?`${v.sel} selected · `:""}${v.c} ${pl(v.c,"dish")} ${v.c===1?"matches":"match"} your choices`],
+  freeOpenNote:[v=>`В бесплатном режиме открыто ${v.n} блюд, остальные в Plus`, v=>`${v.n} dishes are open in free mode, the rest are in Plus`],
   cuSearchPh:["Грузинская, тайская, белорусская","Georgian, Thai, Belarusian"], cuSearchAria:["Поиск кухни","Search cuisines"],
   allN:["Все {n}","All {n}"], fewer:["Меньше","Fewer"], more:["Больше","More"],
   atTable:[v=>`${pl(v.n,"person")} за столом`, v=>`${v.n===1?"person":"people"} at the table`],
@@ -11585,6 +11599,7 @@ const STR = {
   /* питание */
   ndTitle:["Дневник питания","Food diary"], prevDay:["Предыдущий день","Previous day"], nextDay:["Следующий день","Next day"],
   today:["Сегодня","Today"], yesterday:["Вчера","Yesterday"], tomorrow:["Завтра","Tomorrow"],
+  ndToday:["Сегодня","Today"],
   kcalLeft:["осталось ккал","kcal left"], kcalOver:["ккал сверх нормы","kcal over"],
   fitsLeft:["Подобрать под остаток","Fits what's left"], weekKcal:["Калории за неделю","Calories this week"], water:["Вода","Water"], weight:["Вес","Weight"],
   weightPh:["Вес сегодня, кг","Today's weight, kg"], log:["Записать","Log"], myNorm:["Моя норма","My targets"],
@@ -11703,7 +11718,30 @@ function priceFaq(l){
   if(REGION.C.base) out.push(t("estCountry") + ".");
   return out.join(" ");
 }
-const hit = (q, ...names) => names.some(s=>String(s).toLowerCase().includes(q));
+/* Люди пишут «курица» и «помидоры», а в каталоге «филе куриное» и «томаты».
+   Словарь переводит обиходное слово в корень из каталога, а короткий стем ловит
+   остальные падежи. Без этого человек не мог ни найти продукт, ни исключить его. */
+const SYN = {
+  курица:"кур", курицу:"кур", курицы:"кур", куры:"кур", куриное:"кур", куриная:"кур", курочка:"кур",
+  помидор:"томат", помидоры:"томат", помидора:"томат", помидоров:"томат", помидорка:"томат", помидорки:"томат",
+  картошка:"картофел", картошки:"картофел", картошку:"картофел", картоха:"картофел",
+  яйцо:"яйц", яйца:"яйц", яиц:"яйц", яички:"яйц",
+  орехи:"орех", орешки:"орех", орех:"орех",
+  говядина:"говяд", говядину:"говяд", свинина:"свин", свинину:"свин",
+  индейка:"индей", индейку:"индей", рыба:"рыб", рыбу:"рыб",
+  морковка:"морков", морковь:"морков", моркови:"морков",
+  капуста:"капуст", капусту:"капуст", огурцы:"огурц", огурец:"огурц", огурчики:"огурц",
+  грибы:"гриб", грибов:"гриб", шампиньоны:"шампинь", шампиньон:"шампинь",
+  макароны:"макарон паста", паста:"паста макарон", гречка:"гречнев", гречку:"гречнев",
+  молоко:"молок", молока:"молок", масло:"масл", сметана:"сметан", творог:"творог",
+  лук:"лук", чеснок:"чеснок", перец:"перц перец", сыр:"сыр", хлеб:"хлеб",
+  фасоль:"фасол", горох:"горох", кабачок:"кабач", кабачки:"кабач", баклажан:"баклаж", баклажаны:"баклаж"
+};
+const stem = w => w.length > 6 ? w.slice(0, -2) : w.length > 4 ? w.slice(0, -1) : w;
+const hit = (q, ...names) => {
+  const keys = [q, stem(q)].concat(SYN[q] ? SYN[q].split(" ") : []).filter(k => k && k.length > 2);
+  return names.some(s => { const n = String(s).toLowerCase(); return keys.some(k => n.includes(k)); });
+};
 /* ================= СПРАВОЧНИКИ ================= */
 /* сети выбранной страны (applyCountry): в сравнении только сети с коэффициентом; цвета из countries.json, красные бренды взяты тёплым оттенком */
 let CHAINS = [];
@@ -12165,7 +12203,10 @@ function siteEnter(){
   dio.observe($("#demo"));
 }
 function renderSite(){
-  const canOpen = canEnter() && launched(), cta = t(canOpen ? "openApp" : "getAccess"); $("#navCta").textContent = cta; $("#heroCta").textContent = cta;
+  const canOpen = canEnter() && launched(), cta = t(canOpen ? "openApp" : "getAccess");
+  $("#navCta").textContent = cta;
+  /* в шапке коротко, в герое по делу: «получить доступ» обещало доступ, а давало письмо */
+  $("#heroCta").textContent = canOpen ? cta : t("heroCtaFree");
   /* на сайте «Открыть приложение» - обычная ссылка на /app/, «Получить доступ» - к блоку записи; до запуска (LAUNCH_AT) - всегда «Получить доступ» */
   if(SPLIT && ENTRY==="site") ["#navCta","#heroCta"].forEach(s=>$(s).setAttribute("href", canOpen ? "app/" : "#join"));
   renderJoinDone(); paintGoogleBtn(); paintTracker(); paintCountdown(); paintMarq();
@@ -12330,6 +12371,9 @@ function paintTracker(){
   if(!s) return;
   const tot = $("#jnTotalBox"); if(tot) tot.hidden = s.total < JN_SHOW_TOTAL;
   $("#jnTotal").textContent = s.total; $("#jnLeft").textContent = s.left;
+  /* остаток показываем только когда мест осталось мало: пока их много, крупная цифра
+     читается как «сюда никто не идёт» */
+  $("#jnLeftBox").hidden = s.left > 50;
   const bar = $("#jnBar"); bar.setAttribute("aria-valuemax", s.limit); bar.setAttribute("aria-valuenow", Math.min(s.limit, s.total));
   $("#jnBarI").style.transform = `scaleX(${Math.min(1, s.total / s.limit)})`;
   $("#jnDemoTag").hidden = !s.demo;
@@ -12866,7 +12910,7 @@ function buildWeek(){
     $("#buildShim").classList.remove("shim"); $("#buildShim").textContent = t("weekReady");
     await new Promise(r=>setTimeout(r, 1200));
     building = false;
-    F.shutter(()=>{ show("app"); renderApp(); setTab("plan"); }).then(()=>{ F.kinetic($("#appTitle"), TITLES.plan); F.reveal([$("#heroSlot"), ...$$("#days .day"), ...$$("#pane-plan .side .panel")], {step:70}); });
+    F.shutter(()=>{ show("app"); renderApp(); setTab(tabFromHash(), true); }).then(()=>{ F.kinetic($("#appTitle"), TITLES.plan); F.reveal([$("#heroSlot"), ...$$("#days .day"), ...$$("#pane-plan .side .panel")], {step:70}); });
   });
 }
 
@@ -13587,8 +13631,13 @@ function moveInd(){
   const d = $("#dock").getBoundingClientRect(), b = cur.getBoundingClientRect();
   $("#dockInd").style.width = b.width+"px"; $("#dockInd").style.transform = `translateX(${b.left-d.left}px)`;
 }
-function setTab(tab){
+function setTab(tab, fromHistory){
   curTab = tab;
+  /* вкладка пишется в адрес: это и есть вся история внутри приложения */
+  if(!fromHistory){
+    const h = "#" + tab;
+    if(location.hash !== h) history.pushState({tab}, "", h);
+  }
   $$("#dock button").forEach(x=> x.dataset.tab===tab ? x.setAttribute("aria-current","page") : x.removeAttribute("aria-current"));
   $$(".pane").forEach(p=>p.classList.toggle("on", p.id==="pane-"+tab));
   /* чипы меню недели (порции, ужины, бюджет) нужны только экранам меню, не соцчасти и настройкам */
@@ -13596,6 +13645,14 @@ function setTab(tab){
   $("#appTitle").textContent = TITLES[tab]; window.scrollTo(0,0); requestAnimationFrame(moveInd);
   paintSocial(tab);
 }
+/* возврат по кнопке браузера переключает вкладку, а не выходит из приложения */
+addEventListener("popstate", e=>{
+  if(!$("#app").classList.contains("on")) return;
+  const tab = (e.state && e.state.tab) || (location.hash || "").slice(1);
+  if(tab && TITLES[tab] && tab !== curTab) setTab(tab, true);
+});
+/* вкладка из адреса при открытии: перезагрузка больше не роняет человека обратно на неделю */
+const tabFromHash = () => { const h = (location.hash || "").slice(1); return TITLES[h] ? h : "plan"; };
 /* соцчасть (mod_reviews.js): лента и профиль рисуются при открытии своей вкладки */
 function paintSocial(tab){
   if(!window.DD_REVIEWS) return;
@@ -13626,6 +13683,11 @@ addEventListener("resize", moveInd);
 /* ================= СОБЫТИЯ ================= */
 function rerenderAfterPrefs(){ renderHead(); renderMeals(); renderFridge(); renderSettings(); }
 $("#app").addEventListener("click", e=>{
+  /* Вся карточка блюда открывает рецепт. Кнопка-фото на лицевой грани перекрыта обратной
+     стороной, которая выезжает при наведении, поэтому клик по названию или описанию
+     раньше не делал ничего, и карточка выглядела мёртвой. */
+  const card = e.target.closest(".flip[data-card]");
+  if(card && !e.target.closest("button, a")) return openRecipe(card.dataset.card, card);
   const b = e.target.closest("button, a"); if(!b) return;
   const d = b.dataset;
   if(b.closest("#pane-nutri") && nutriClick(b, e)) return;
@@ -13937,7 +13999,7 @@ function openAppFlow(){
   if(!canEnter()) return freeOver() ? openPaywall() : goSite("join");
   if(askGeo(openAppFlow)) return;
   if(S.done && S.plan.some(id=>{ const r = byId(id); return !r || !dietOk(r) || (S.cuisines.length && !S.cuisines.includes(r.cu)); })){ S.plan = pickPlan(); save(); }
-  if(S.done && S.plan.length){ show("app"); renderApp(); setTab("plan"); F.kinetic($("#appTitle"), TITLES.plan); F.reveal([$("#heroSlot"), ...$$("#days .day"), ...$$("#pane-plan .side .panel")], {step:70}); F.observe($("#pane-plan"), ".glass"); requestAnimationFrame(moveInd); }
+  if(S.done && S.plan.length){ show("app"); renderApp(); setTab(tabFromHash(), true); F.kinetic($("#appTitle"), TITLES.plan); F.reveal([$("#heroSlot"), ...$$("#days .day"), ...$$("#pane-plan .side .panel")], {step:70}); F.observe($("#pane-plan"), ".glass"); requestAnimationFrame(moveInd); }
   else { step = 0; show("onb"); drawStep(); F.reveal([$("#onbLeft"), $(".o-card")], {step:160, y:30}); }
 }
 /* #app, #onb, #build без оплаты уводят на сайт; #pay открывает оплату */

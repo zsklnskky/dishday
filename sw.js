@@ -2,7 +2,7 @@
 // network-first для HTML (чтобы люди сразу видели обновления онлайн),
 // cache-first для статики (фото с ?v=хэш), stale-while-revalidate для prices/*.json (обновляет GitHub Actions),
 // Apps Script (оплата, лист ожидания) не трогаем никогда.
-const CACHE = "dishday-0119d79c";
+const CACHE = "dishday-22e22ab2";
 const PRECACHE_URLS = [
   "./",
   "./app/",

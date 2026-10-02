@@ -26,6 +26,14 @@ if ("serviceWorker" in navigator) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#05070F">
 <noscript><style>.screen{display:none}#site{display:block}</style></noscript>
+<script>
+/* Навигация обрывает незавершённые запросы, и браузер считает это необработанной ошибкой.
+   Для человека это не значит ничего, а в мониторинге создаёт шум. */
+addEventListener("unhandledrejection", e => {
+  const m = e.reason && (e.reason.name || e.reason.message || "");
+  if (String(m).includes("Abort") || String(m).includes("aborted")) e.preventDefault();
+});
+</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -36,7 +44,11 @@ if ("serviceWorker" in navigator) {
 <meta property="og:site_name" content="Dishday">
 <meta property="og:title" content="Dishday. Ужин решён.">
 <meta property="og:description" content="Запуск 20 октября. Первые 150 из листа ожидания получают 2 месяца Pro Plus бесплатно.">
-<meta property="og:image" content="https://zsklnskky.github.io/dishday/icons/icon-512.png">
+<!-- снимок первого экрана, а не иконка: ссылка в мессенджере должна показывать продукт -->
+<meta property="og:image" content="https://zsklnskky.github.io/dishday/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:card" content="summary">
 <meta property="og:url" content="https://zsklnskky.github.io/dishday/">
 <script>addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__ddInstall=e})</script>
@@ -242,9 +254,18 @@ html.motion [data-rv]:not(.in){opacity:0; transform:translateY(1.375rem)}
 .s-head{margin-bottom:3rem}
 
 /* первый экран + бегущая строка помещаются в окно: min-height минус высота строки */
-.s-hero{min-height:calc(100dvh - 7rem); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:3.5rem; align-items:center; padding-block:7rem 1.5rem}
+.s-hero{min-height:calc(100dvh - 7rem); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:3.5rem; align-items:center; padding-block:7rem 1.5rem; position:relative; isolation:isolate}
+/* Фон живой, и контраст текста поверх него гулял от 2.74 до 3.66 при норме 4.5.
+   Подложка гасит фон только под колонкой с текстом и не трогает сам текст. */
+.s-hero::before{content:""; position:absolute; inset:-2rem -1rem; z-index:-1; pointer-events:none;
+  background:linear-gradient(100deg, rgba(5,7,15,.88) 0%, rgba(5,7,15,.72) 34%, rgba(5,7,15,.3) 52%, transparent 66%)}
+html[data-theme="light"] .s-hero::before{background:linear-gradient(100deg, rgba(244,246,251,.92) 0%, rgba(244,246,251,.78) 34%, rgba(244,246,251,.32) 52%, transparent 66%)}
+@media (max-width:860px){ .s-hero::before{background:linear-gradient(180deg, rgba(5,7,15,.86) 0%, rgba(5,7,15,.7) 55%, transparent 100%)}
+  html[data-theme="light"] .s-hero::before{background:linear-gradient(180deg, rgba(244,246,251,.9) 0%, rgba(244,246,251,.74) 55%, transparent 100%)} }
 /* размер заголовка от ширины своей колонки (cqw), а не окна: «решён.» ≈ 4.6em, при любом масштабе не заезжает под демо-карточку */
 .s-hero > div:first-child{container-type:inline-size; min-width:0}
+.s-kick{display:inline-block; margin:0 0 1rem; padding:0.375rem 0.875rem; border-radius:62.4375rem;
+  border:1px solid var(--stroke2); background:var(--panel); color:var(--ink2); font-size:0.875rem; font-weight:500}
 .s-h1{font-size:clamp(3rem,20.5cqw,9rem); font-weight:900; line-height:.92; letter-spacing:-.025em; text-wrap:balance}
 .s-lead{font-size:1.25rem; color:var(--ink2); max-width:34ch; margin-top:1.375rem; line-height:1.5}
 .s-cta{display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:2.125rem}
@@ -257,6 +278,12 @@ html.motion [data-rv]:not(.in){opacity:0; transform:translateY(1.375rem)}
 .shim{background:linear-gradient(90deg,#8A94B4 0%,#8A94B4 35%,#F3F5FC 48%,#6EE7F9 52%,#8A94B4 65%,#8A94B4 100%) 0 0/300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shim 2.4s linear infinite}
 @keyframes shim{from{background-position:100% 0} to{background-position:-100% 0}}
 .s-dishes{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0.75rem; margin-top:0.75rem; flex:1; align-content:start}
+/* Пока демо считается, блоки должны выглядеть загружающимися, а не сломанными */
+.s-dishes .sk{display:block; min-height:9rem; border-radius:var(--r-m); background:var(--raise,rgba(255,255,255,.05));
+  background-image:linear-gradient(90deg,transparent 20%,rgba(255,255,255,.07) 50%,transparent 80%);
+  background-size:220% 100%; animation:sk-run 1.5s linear infinite}
+@keyframes sk-run{from{background-position:120% 0} to{background-position:-120% 0}}
+@media (prefers-reduced-motion:reduce){ .s-dishes .sk{animation:none} }
 .s-dish{border-radius:var(--r-l); overflow:hidden; background:rgba(255,255,255,.035); border:1px solid var(--stroke); display:flex; flex-direction:column}
 .s-dish .ph{aspect-ratio:1/1; overflow:hidden; background:#0E1426; position:relative}
 .s-dish .ph img,.s-dish .ph svg{width:100%; height:100%; object-fit:cover; display:block}
@@ -305,6 +332,8 @@ html.motion [data-rv]:not(.in){opacity:0; transform:translateY(1.375rem)}
 .s-bar-v{display:inline-flex; align-items:center; gap:0.625rem}
 .s-bar-v b{font-weight:600; font-size:1rem; color:var(--ink)}
 .s-diff{font-style:normal; font-size:0.875rem; font-weight:600; color:var(--c)}
+/* В светлой теме этот текст брал цвет тёмной и давал контраст 1.4 к белому */
+html[data-theme="light"] .s-diff{color:var(--good)}
 .s-badge{font-style:normal; font-size:0.7812rem; font-weight:700; padding:0.1875rem 0.625rem; border-radius:62.4375rem; color:#05070F; background:var(--c); box-shadow:0 0 1.125rem -0.25rem var(--c)}
 .s-bar-tr{display:block; height:0.875rem; border-radius:62.4375rem; background:rgba(170,190,255,.08); overflow:hidden}
 .s-bar-tr i{display:block; height:100%; border-radius:62.4375rem; background:linear-gradient(90deg,color-mix(in srgb,var(--c) 45%,transparent),var(--c)); box-shadow:0 0 1rem -0.125rem var(--c);
@@ -504,6 +533,11 @@ button.s-wd:hover{background:rgba(255,255,255,.06)}
 .center-note{text-align:center; color:var(--ink2); font-size:0.9375rem; margin-top:0.875rem}
 input[type=range]{-webkit-appearance:none; appearance:none; width:100%; height:0.375rem; border-radius:0.375rem; margin:2.125rem 0 0.5rem;
   background:linear-gradient(90deg,#6EE7F9,#8B7CF6) 0/var(--p,50%) 100% no-repeat, rgba(170,190,255,.14)}
+/* Область попадания у ползунка равна его боксу, а бегунок рисуется поверх. На телефоне
+   7 пикселей высоты не поймать пальцем, поэтому растим сам бокс и прячем лишнее отступом. */
+@media (max-width:860px){
+  input[type=range]{height:2.75rem; padding-block:1.125rem; background-clip:content-box}
+}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:1.75rem; height:1.75rem; border-radius:50%; background:#F3F5FC; box-shadow:0 0 0 0.375rem rgba(139,124,246,.3), 0 0.375rem 1rem rgba(1,3,12,.6)}
 input[type=range]::-moz-range-thumb{width:1.75rem; height:1.75rem; border-radius:50%; background:#F3F5FC; border:none}
 .excl-have{display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.75rem}
@@ -633,7 +667,7 @@ input[type=range]::-moz-range-thumb{width:1.75rem; height:1.75rem; border-radius
 .scroller::-webkit-scrollbar{display:none}
 .scroller > *{flex:none}
 .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(16.25rem,1fr)); gap:1rem; margin-top:1.125rem}
-.flip{perspective:87.5rem; height:22.5rem}
+.flip{perspective:87.5rem; height:22.5rem; cursor:pointer}
 .flip .inner{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .8s var(--ease)}
 @media (hover:hover){ .flip:hover .inner{transform:rotateY(180deg)} }
 .flip.flipped .inner{transform:rotateY(180deg)}
@@ -1368,6 +1402,10 @@ span.cc-pill:active{transform:none}
 .pl-terms button:hover{color:var(--ink)}
 .pl-terms button[aria-checked="true"]{color:var(--ink); background:rgba(139,124,246,.3); box-shadow:inset 0 0 0 1px rgba(169,155,255,.6)}
 .pl-soon{text-align:center; margin:0.875rem auto 0; max-width:48rem}
+/* ссылки в подвале были ниже минимальной цели касания */
+@media (max-width:860px){ .s-footer a{display:inline-block; padding-block:0.625rem} }
+/* кнопка, которая ничего не делает, не должна выглядеть живой */
+.btn[disabled]{opacity:.45; cursor:not-allowed; pointer-events:none}
 .pl-over{margin:0 0 1.25rem}
 .pl-cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; margin-top:1.5rem}
 .pl-card{padding:2rem; display:flex; flex-direction:column; gap:1rem; align-items:flex-start; border-radius:var(--r-xl)}
@@ -1564,6 +1602,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   <main id="top" class="wrap">
     <section class="s-hero" data-tone="0">
       <div>
+        <p class="s-kick" data-i18n="heroKick">Бесплатно, без карты. Полный доступ откроется 20 октября</p>
         <h1 class="s-h1" id="heroH" data-i18n-html="heroH">Ужин <span class="grad-text">решён.</span></h1>
         <p class="s-lead" data-i18n="heroSub">Неделя ужинов под ваш бюджет: цены пяти сетей сверены, список покупок готов.</p>
         <div class="s-cta">
@@ -1574,7 +1613,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
       <div class="s-demo glass-panel spot" id="demo">
         <div class="s-prompt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.5a8 8 0 0 1 16 0" fill="none" stroke="url(#gradRing)" stroke-width="1.8" stroke-linecap="round"/><path d="M2.5 19.5h19" fill="none" stroke="#6EE7F9" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.2" r="1.3" fill="#8B7CF6"/></svg><span id="demoTyped" aria-live="polite"></span><span class="caret" aria-hidden="true"></span></div>
         <div class="s-think" id="demoThink"></div>
-        <div class="s-dishes" id="demoDishes"></div>
+        <div class="s-dishes" id="demoDishes" aria-busy="true"><i class="sk"></i><i class="sk"></i><i class="sk"></i></div>
         <div id="demoSum"></div>
       </div>
     </section>
@@ -1589,8 +1628,8 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
           <p class="s-intro" id="joinP" data-i18n="joinP">Войдите через Google, и откроется бесплатный режим на 2 месяца. Первым 150 - Pro Plus на 2 месяца в подарок.</p>
           <div class="jn-track" id="jnStatBox" hidden>
             <div class="jn-nums">
-              <div id="jnTotalBox" hidden><b class="num" id="jnTotal">0</b><span data-i18n="jnTotalL">Записались</span></div>
-              <div><b class="num" id="jnLeft">150</b><span data-i18n="jnLeftL">Осталось бесплатных мест</span></div>
+              <div id="jnTotalBox"><b class="num" id="jnTotal">0</b><span data-i18n="jnTotalL">Записались</span></div>
+              <div id="jnLeftBox" hidden><b class="num" id="jnLeft">150</b><span data-i18n="jnLeftL">Осталось бесплатных мест</span></div>
               <span class="lg-draft jn-demo" id="jnDemoTag" hidden>demo</span>
             </div>
             <div class="jn-bar" id="jnBar" role="progressbar" aria-valuemin="0" aria-valuemax="150" aria-valuenow="0" data-i18n-aria="jnTotalL" aria-label="Записались"><i id="jnBarI"></i></div>
@@ -1891,11 +1930,11 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
           <div class="glass panel">
             <div class="nd-head">
               <div><h3 data-i18n="ndTitle">Дневник питания</h3><div class="sub" id="ndSub"></div></div>
-              <div class="nd-date"><button class="icon-btn" data-ndate="-1" aria-label="Предыдущий день" data-i18n-aria="prevDay">‹</button><b id="ndDate">Сегодня</b><button class="icon-btn" data-ndate="1" aria-label="Следующий день" data-i18n-aria="nextDay">›</button></div>
+              <div class="nd-date"><button class="icon-btn" data-ndate="-1" aria-label="Предыдущий день" data-i18n-aria="prevDay">‹</button><b id="ndDate" data-i18n="ndToday">Сегодня</b><button class="icon-btn" data-ndate="1" aria-label="Следующий день" data-i18n-aria="nextDay">›</button></div>
             </div>
             <div class="nsum">
               <div class="bigring" id="kRing"><svg viewBox="0 0 176 176"><circle class="bgc" cx="88" cy="88" r="72"/><circle class="fg" id="kFg" cx="88" cy="88" r="72" stroke-dasharray="452.4" stroke-dashoffset="452.4"/></svg>
-                <div class="c"><div><b id="kLeft">0</b><small id="kLeftCap">осталось ккал</small></div></div></div>
+                <div class="c"><div><b id="kLeft">0</b><small id="kLeftCap" data-i18n="kcalLeft">осталось ккал</small></div></div></div>
               <div id="macroBars" style="width:100%"></div>
             </div>
           </div>
@@ -2030,5 +2069,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=e3c23954";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=e42ebec8";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 
