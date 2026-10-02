@@ -12418,27 +12418,41 @@ $("#site").addEventListener("submit", e=>{
 /* ===== вход через Google =====
    Google подтверждает почту, поэтому сервер по ней сразу находит или заводит запись и отдаёт права.
    Client ID подставляет сборка: без него кнопки нет и остаётся запись по почте */
-let gsiP = null;
-const gsiLoad = () => gsiP || (gsiP = new Promise((ok, no) => {
-  if(window.google && window.google.accounts) return ok();
-  const el = document.createElement("script");
-  el.src = "https://accounts.google.com/gsi/client"; el.async = true;
-  el.onload = ok; el.onerror = no;
-  document.head.appendChild(el);
-}));
+const G_AUTH = "https://accounts.google.com/o/oauth2/v2/auth";
+const gRand = () => (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now());
+/* Уходим на Google целой страницей. Токен вернётся во фрагменте адреса: фрагмент не
+   уходит на сервер и не попадает в журналы, в отличие от строки запроса. */
+function googleGo(){
+  const cid = DD_PAY.wl.googleClientId; if(!cid) return;
+  const nonce = gRand(), state = gRand();
+  try{ sessionStorage.setItem("dd_g", JSON.stringify({nonce, state, back:location.hash})); }catch(e){}
+  location.href = G_AUTH + "?client_id=" + encodeURIComponent(cid)
+    + "&response_type=id_token&scope=" + encodeURIComponent("openid email profile")
+    + "&redirect_uri=" + encodeURIComponent(location.origin + location.pathname)
+    + "&nonce=" + nonce + "&state=" + state + "&prompt=select_account";
+}
+/* Возврат от Google. state сверяем со своим: чужую ссылку с токеном принимать нельзя,
+   а nonce уходит на сервер, чтобы он убедился, что токен выдан именно по нашему запросу. */
+function googleReturn(){
+  if(location.hash.indexOf("id_token=") < 0) return false;
+  const q = new URLSearchParams(location.hash.slice(1));
+  const tok = q.get("id_token"), st = q.get("state");
+  let saved = null;
+  try{ saved = JSON.parse(sessionStorage.getItem("dd_g") || "null"); sessionStorage.removeItem("dd_g"); }catch(e){}
+  history.replaceState(null, "", location.pathname + ((saved && saved.back) || ""));
+  if(!tok || !saved || saved.state !== st) return false;
+  googleSignIn(tok, saved.nonce);
+  return true;
+}
+document.addEventListener("click", e=>{ if(e.target.closest("[data-gsign]")) googleGo(); });
 const G_MARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3C3.7 21.5 7.6 24 12 24z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3C17.7 1.2 15.1 0 12 0 7.6 0 3.7 2.5 1.8 6.1l3.8 3C6.5 6.5 9 4.8 12 4.8z"/></svg>';
-/* одна кнопка на все места: своя снаружи, настоящая гугловская прозрачным слоем сверху */
+/* одна кнопка на все места, своя целиком: по клику страница уходит на Google */
 function googleBtn(box){
   const cid = DD_PAY.wl.googleClientId;
   if(!box || !cid) return false;
   if(box.dataset.ready) return true;
   box.dataset.ready = "1";
-  box.innerHTML = `<span class="g-wrap"><button type="button" class="g-face" tabindex="-1">${G_MARK}<span>${escH(t("gContinue"))}</span></button><span class="g-real"></span></span>`;
-  const real = box.querySelector(".g-real");
-  gsiLoad().then(()=>{
-    google.accounts.id.initialize({client_id:cid, ux_mode:"popup", auto_select:false, callback:r=>googleSignIn(r.credential)});
-    google.accounts.id.renderButton(real, {type:"standard", theme:"filled_black", size:"large", shape:"pill", text:"continue_with", width:Math.round(box.getBoundingClientRect().width) || 320, locale:S.lang});
-  }).catch(()=>{ box.dataset.ready = ""; box.innerHTML = ""; if($("#jnForm")) $("#jnForm").hidden = false; });
+  box.innerHTML = `<button type="button" class="g-face" data-gsign>${G_MARK}<span>${escH(t("gContinue"))}</span></button>`;
   return true;
 }
 function paintGoogleBtn(){
@@ -12501,9 +12515,9 @@ function applyGoogle(r){
   S.user = {email, name:String(r.name || "")};
   save();
 }
-function googleSignIn(credential){
+function googleSignIn(credential, nonce){
   if(!credential) return;
-  DD_PAY.wl.google({credential, lang:S.lang, country:REGION.cc}).then(r=>{
+  DD_PAY.wl.google({credential, nonce, lang:S.lang, country:REGION.cc}).then(r=>{
     if(!r || !r.ok) return toastSafe(t("jnFail"));
     applyGoogle(r);
     renderAccount();
@@ -13889,6 +13903,9 @@ document.addEventListener("focusin", e=>{
 /* ================= СТАРТ ================= */
 if(!RM()) document.documentElement.classList.add("motion");
 { const d = detectCountry(); applyCountry(d.cc, d.how, d.soon); }
+/* возврат от Google разбираем до первой отрисовки: иначе человек на миг увидит
+   страницу гостем, а токен из адреса успеет уехать в историю */
+googleReturn();
 applyTheme(); applyStatic(); paintStores(); if(window.AURORA) AURORA.init($("#aurora")); F.inter(); cookieInit();
 if(window.DD_REVIEWS) DD_REVIEWS.plusUntil().then(ms=>{ ms = +ms||0; if(ms!==(S.bonusUntil||0)){ S.bonusUntil = ms; save(); if(siteReady) renderSite(); } }).catch(()=>{});
 if(FXM.liquidDock) dockCtl = FXM.liquidDock($("#dock"), $("#dockInd"));
