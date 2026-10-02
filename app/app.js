@@ -12377,7 +12377,11 @@ function paintMarq(){
 }
 setInterval(()=>{ if($("#site").classList.contains("on")) paintCountdown(); }, 30000);
 function renderJoinDone(){
-  const d = jnDone || (!launched() ? null : S.trial && !hasAccess() ? {kind:"trial", n:S.trial.position} : hasAccess() || freeOn() ? {kind:"app"} : null);
+  /* Запись помнится между заходами. Раньше статус жил только в переменной текущей
+     сессии: человек входил, видел «вы в списке», перезагружал страницу - и снова
+     получал форму записи, будто вход не случился. */
+  const signed = S.user && S.user.email ? {kind:"pre", email:S.user.email} : null;
+  const d = jnDone || (!launched() ? signed : S.trial && !hasAccess() ? {kind:"trial", n:S.trial.position} : hasAccess() || freeOn() ? {kind:"app"} : null);
   $("#jnForm").hidden = !!d || !!DD_PAY.wl.googleClientId; $("#jnGoogle").hidden = !!d || !DD_PAY.wl.googleClientId; $("#jnDone").hidden = !d;
   if(!d) return;
   if(!launched()){ $("#jnDone").innerHTML = `<h3 class="jn-h" tabindex="-1">${t("jnPreDoneP",{email:d.email||""})}</h3>`; return; }
@@ -12470,8 +12474,11 @@ function paintGoogleBtn(){
   const box = $("#jnGoogle");
   if(!box) return;
   const on = googleBtn(box);
-  box.hidden = !on;
-  if($("#jnForm")) $("#jnForm").hidden = on;   // вход только через Google, почту набирать руками не нужно
+  /* тому, кто уже записан, кнопка входа не нужна: на её месте стоит статус с его почтой.
+     Без этой проверки renderJoinDone прячет кнопку, а эта функция тут же показывает обратно */
+  const signed = !!(S.user && S.user.email);
+  box.hidden = !on || signed;
+  if($("#jnForm")) $("#jnForm").hidden = on || signed;   // вход только через Google, почту набирать руками не нужно
 }
 /* до дня запуска приложение работает как предпросмотр, и это видно сразу */
 function paintWaitBar(){
