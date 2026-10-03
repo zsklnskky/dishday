@@ -84,7 +84,7 @@
     "maxima_lt"
    ],
    "proxy": [],
-   "coverage": 0.434
+   "coverage": 0.425
   },
   "LV": {
    "updated": "2026-10-03",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.345
   },
   "MD": {
    "updated": "2026-10-03",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.504
   },
   "AM": {
    "updated": "2026-10-03",
@@ -275,7 +275,7 @@
     "rema1000_dk"
    ],
    "proxy": [],
-   "coverage": 0.416
+   "coverage": 0.425
   },
   "NO": {
    "updated": "2026-10-03",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.381
   },
   "ME": {
    "updated": "2026-10-03",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.398
+   "coverage": 0.389
   },
   "BE": {
    "updated": "2026-10-03",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.504
+   "coverage": 0.496
   },
   "BG": {
    "updated": "2026-10-03",
