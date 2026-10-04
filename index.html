@@ -257,9 +257,9 @@ html.motion [data-rv]:not(.in){opacity:0; transform:translateY(1.375rem)}
 .s-hero{min-height:calc(100dvh - 7rem); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:3.5rem; align-items:center; padding-block:7rem 1.5rem; position:relative; isolation:isolate}
 /* Фон живой, и контраст текста поверх него гулял от 2.74 до 3.66 при норме 4.5.
    Подложка гасит фон только под колонкой с текстом и не трогает сам текст. */
-.s-hero::before{content:""; position:absolute; inset:-2rem -1rem; z-index:-1; pointer-events:none;
-  background:linear-gradient(100deg, rgba(5,7,15,.88) 0%, rgba(5,7,15,.72) 34%, rgba(5,7,15,.3) 52%, transparent 66%)}
-html[data-theme="light"] .s-hero::before{background:linear-gradient(100deg, rgba(244,246,251,.92) 0%, rgba(244,246,251,.78) 34%, rgba(244,246,251,.32) 52%, transparent 66%)}
+.s-hero::before{content:""; position:absolute; top:-2rem; bottom:-2rem; left:50%; width:100vw; transform:translateX(-50%); z-index:-1; pointer-events:none;
+  background:linear-gradient(100deg, transparent 0%, rgba(5,7,15,.86) 12%, rgba(5,7,15,.7) 40%, rgba(5,7,15,.28) 56%, transparent 68%)}
+html[data-theme="light"] .s-hero::before{background:linear-gradient(100deg, transparent 0%, rgba(244,246,251,.9) 12%, rgba(244,246,251,.76) 40%, rgba(244,246,251,.3) 56%, transparent 68%)}
 @media (max-width:860px){ .s-hero::before{background:linear-gradient(180deg, rgba(5,7,15,.86) 0%, rgba(5,7,15,.7) 55%, transparent 100%)}
   html[data-theme="light"] .s-hero::before{background:linear-gradient(180deg, rgba(244,246,251,.9) 0%, rgba(244,246,251,.74) 55%, transparent 100%)} }
 /* размер заголовка от ширины своей колонки (cqw), а не окна: «решён.» ≈ 4.6em, при любом масштабе не заезжает под демо-карточку */
@@ -2059,7 +2059,7 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
 <!-- первый вход: запрос геопозиции. Ручного выбора страны нет -->
 <dialog class="cdlg glass-panel" id="geoDlg" aria-labelledby="geoTitle" aria-describedby="geoLead">
   <div class="cdlg-in" tabindex="-1" autofocus>
-    <div class="geo-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></div>
+    <div class="geo-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.2c3.6-4.1 5.4-7.2 5.4-9.4a5.4 5.4 0 1 0-10.8 0c0 2.2 1.8 5.3 5.4 9.4z"/><circle cx="12" cy="11.6" r="2.1"/></svg></div>
     <h2 id="geoTitle" data-i18n="geoAskT">Магазины и цены рядом с вами</h2>
     <p id="geoLead" data-i18n="geoAskP">Разрешите геопозицию, чтобы показать магазины и цены рядом с вами</p>
     <p class="src geo-vpn" data-i18n="geoVpn"></p>
@@ -2069,5 +2069,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=e42ebec8";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=506ca38b";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 

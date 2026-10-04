@@ -22,6 +22,7 @@
     { c:[BG, MINT, PLUM, APRICOT], dim:.82 },
     { c:[BG, PLUM, MINT, APRICOT], dim:.82 },
     { c:[BG, MINT, APRICOT, PLUM], dim:.82 },
+    { c:[BG, PLUM, MINT, APRICOT], dim:.5 },   /* «как мы создавали»: свой аккорд, раньше брал приглушённый для приложения */
     { c:[BG, MINT, PLUM, INDIGO],  dim:.26 }
   ];
   const VS = `#version 300 es
@@ -180,9 +181,9 @@ void main() {
     if(gl){ gl.viewport(0,0,cv.width,cv.height); if(!raf) frame(performance.now(), true); }
   }
   function frame(now, once){
-    if(!once && last && now-last < 30){ raf = requestAnimationFrame(frame); return; } // 30 кадров: лентам хватает
+    if(!once && last && now-last < (scrolling ? 60 : 30)){ raf = requestAnimationFrame(frame); return; } // 30 кадров: лентам хватает
     const dt = Math.min(64, now-(last||now)); last = now;
-    const e = 1-Math.pow(.001, dt/1000*.9);
+    const e = 1-Math.pow(.001, dt/1000*.35);   /* смена аккорда по разделам идёт втрое медленнее: рывок был заметен */
     mouse.x += (mouse.tx-mouse.x)*e*2; mouse.y += (mouse.ty-mouse.y)*e*2;
     dim += (dimT-dim)*e*2;
     cur.forEach((c,i)=>c.forEach((v,j)=>{ c[j] = v+(target[i][j]-v)*e; }));
@@ -197,8 +198,8 @@ void main() {
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     if(!once) raf = requestAnimationFrame(frame);
   }
-  let held = false, scrollT = 0;
-  function start(){ if(!gl || raf || document.hidden || held || scrollT) return; if(rm.matches){ frame(performance.now(), true); return; } last = 0; raf = requestAnimationFrame(frame); }
+  let held = false, scrollT = 0, scrolling = 0;
+  function start(){ if(!gl || raf || document.hidden || held) return; if(rm.matches){ frame(performance.now(), true); return; } last = 0; raf = requestAnimationFrame(frame); }
   function stop(){ if(raf){ cancelAnimationFrame(raf); raf = 0; } }
 
   /* шум для valueNoise: у paper он приходит картинкой в base64 на 23 КБ,
@@ -248,7 +249,7 @@ void main() {
     addEventListener("pointermove", e=>{ mouse.tx = e.clientX/innerWidth; mouse.ty = e.clientY/innerHeight; }, {passive:true});
     document.addEventListener("visibilitychange", ()=> document.hidden ? stop() : start());
     // пока страницу крутят, кадр фона не перерисовываем: вся мощность на прокрутку
-    addEventListener("scroll", ()=>{ stop(); clearTimeout(scrollT); scrollT = setTimeout(()=>{ scrollT = 0; start(); }, 200); }, {passive:true});
+    addEventListener("scroll", ()=>{ scrolling = 1; clearTimeout(scrollT); scrollT = setTimeout(()=>{ scrolling = 0; }, 220); }, {passive:true});
     (rm.addEventListener ? rm.addEventListener("change", ()=>{ stop(); start(); }) : 0);
     size(); start();
   }
@@ -12140,7 +12141,7 @@ function refreshCountry(){
   if($("#legal").classList.contains("on") && legalDoc) renderLegal();
   if($("#pay").classList.contains("on") && !REGION.pay) goSite("pricing");
 }
-const GEO_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>';
+const GEO_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.2c3.6-4.1 5.4-7.2 5.4-9.4a5.4 5.4 0 1 0-10.8 0c0 2.2 1.8 5.3 5.4 9.4z"/><circle cx="12" cy="11.6" r="2.1"/></svg>';
 const storeInfo = () => [`${t("storesLbl",{x:ccName()})} · ${REGION.currency}`, REGION.soon ? t("geoSoon") : "", CHAINS.some(c=>c.city) ? t("cnRegional",{x:t("regionIn")}) : ""].filter(Boolean).join(". ") + ".";
 /* неинтерактивная метка «Магазины: страна · валюта» в шапках и строка в профиле и настройках */
 function paintStores(){
@@ -12920,7 +12921,7 @@ function buildWeek(){
 const hasAccess = () => !!(S.access && S.access.until > Date.now()) || (S.bonusUntil||0) > Date.now();
 /* в приложение пускает оплата, пробный месяц или бесплатный режим после записи (в любой стране) */
 const canEnter = () => hasAccess() || freeOn() || preview();   // ранний доступ владельцу открывает и экраны продукта
-const GATED = ["onb","build","app"], SCREEN_TONE = {site:0, pay:0, legal:1, onb:1, build:2, app:3};
+const GATED = ["onb","build","app"], SCREEN_TONE = {site:0, pay:0, legal:1, onb:1, build:2, app:4};
 function show(id){
   if(GATED.includes(id) && !canEnter()) id = "site";
   /* сайт и приложение - разные адреса: чужой экран открываем в соседней копии */
@@ -13921,7 +13922,9 @@ function cookieInit(){
   const setBar = on => { bar.hidden = !on; root.classList.toggle("cb-on", on); size(); };
   if(window.ResizeObserver) new ResizeObserver(size).observe(bar);
   let opener = null;
-  const decide = analytics => { DD_CONSENT.set({analytics}); const had = !bar.hidden; setBar(false); toastSafe(t("cdSaved")); if(had && document.activeElement===document.body) $(".screen.on") && ($(".screen.on").querySelector("a,button")||document.body).focus({preventScroll:true}); };
+  const decide = analytics => { DD_CONSENT.set({analytics}); const had = !bar.hidden; setBar(false); toastSafe(t("cdSaved"));
+    /* полоса согласия закрыта - можно спросить про геопозицию, раньше запрос пропадал */
+    if($("#app").classList.contains("on")) setTimeout(()=>askGeo(()=>{}), 400); if(had && document.activeElement===document.body) $(".screen.on") && ($(".screen.on").querySelector("a,button")||document.body).focus({preventScroll:true}); };
   DD_CONSENT.open = () => {
     opener = document.activeElement; const c = DD_CONSENT.get(); $("#cdAna").checked = !!(c && c.analytics);
     if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
