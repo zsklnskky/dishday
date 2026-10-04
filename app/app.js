@@ -1259,12 +1259,26 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
     bank:"",      // банк и БИК
     account:""    // расчётный счёт (IBAN)
   };
-  const PH = {name:["ФИО ИП","full name"], unp:["______","______"], address:["адрес","address"], email:["email","email"], phone:["телефон","phone"], bank:["банк, БИК","bank, BIC"], account:["______","______"]};
   const escR = v => String(v).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  const P = s => `<span class="ph">[${s}]</span>`;
-  const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : P(PH[k][en ? 1 : 0]);
-  const IP_RU = `индивидуальный предприниматель ${R("name")}, УНП ${R("unp")}, адрес: ${R("address")}`;
-  const IP_EN = `individual entrepreneur ${R("name", 1)}, UNP ${R("unp", 1)}, address ${R("address", 1)}`;
+  /* Пустое поле раньше печаталось плейсхолдером в квадратных скобках прямо в документе.
+   Теперь пустое поле просто не выводится, а текст вокруг построен так, чтобы это читалось. */
+const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
+  /* Владелец сервиса назван без формы регистрации и реквизитов: организационная форма
+     ещё не выбрана, а пустые скобки в опубликованном документе выглядят как заготовка.
+     Когда появятся реквизиты, они подставятся через REQUISITES. */
+  const IP_RU = REQUISITES.name
+    ? `${escR(REQUISITES.name)}${REQUISITES.unp ? `, УНП ${escR(REQUISITES.unp)}` : ""}${REQUISITES.address ? `, адрес: ${escR(REQUISITES.address)}` : ""}`
+    : "владелец Сервиса Dishday";
+  const IP_EN = REQUISITES.name
+    ? `${escR(REQUISITES.name)}${REQUISITES.unp ? `, UNP ${escR(REQUISITES.unp)}` : ""}${REQUISITES.address ? `, address ${escR(REQUISITES.address)}` : ""}`
+    : "the owner of the Dishday Service";
+  /* Контакты и банковская часть собираются только из заполненных полей:
+     пустые раньше давали в документе «, УНП , адрес: , тел.: ». */
+  const join = (...parts) => parts.filter(Boolean).join(", ");
+  const CONTACTS_RU = join(IP_RU, REQUISITES.email ? `email: ${escR(REQUISITES.email)}` : "",
+    REQUISITES.phone ? `тел.: ${escR(REQUISITES.phone)}` : "", "Instagram: @dishday_") + ".";
+  const BANK_RU = join(REQUISITES.account ? `расчётный счёт: ${escR(REQUISITES.account)}` : "",
+    REQUISITES.bank ? `банк: ${escR(REQUISITES.bank)}` : "");
   const L = (id, ru, en) => ({id, ru, en});
 
   const DOCS = {
@@ -1300,7 +1314,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
         ["Cookie и локальное хранилище", `<p>Сейчас Сервис не устанавливает cookie и хранит настройки, план, доступ и язык только в локальном хранилище браузера пользователя. Сторонние трекеры не подключены. Аналитика подключается только после согласия. Подробно - в <a href="#cookies">Политике cookie</a>.</p>`],
         ["Возрастные ограничения", `<p>Сервис не предназначен для лиц младше 16 лет. Оператор не осуществляет намеренный сбор персональных данных таких лиц. При выявлении факта обработки данных лица младше 16 лет без согласия законного представителя такие данные подлежат удалению.</p>`],
         ["Изменение Политики", `<p>Оператор вправе вносить изменения в Политику. Действующая редакция всегда доступна на странице Сервиса. Существенные изменения доводятся до пользователей дополнительно, в том числе по электронной почте.</p>`],
-        ["Контакты", `<p>По вопросам обработки персональных данных: ${R("email")}, ${R("address")}. Instagram: @dishday_.</p>`]
+        ["Контакты", `<p>${join("По вопросам обработки персональных данных: " + (REQUISITES.email ? escR(REQUISITES.email) : "Instagram @dishday_"), REQUISITES.address ? escR(REQUISITES.address) : "")}.</p>`]
       ]
     }, {
       t:"Privacy Policy", short:"Privacy",
@@ -1340,7 +1354,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
         ["Персональные данные", `<p>Обработка персональных данных Пользователя осуществляется в соответствии с <a href="#privacy">Политикой обработки персональных данных</a> и на основании отдельных <a href="#consents">согласий</a> Пользователя.</p>`],
         ["Изменение и расторжение", `<p>Оператор вправе изменять условия Соглашения с уведомлением Пользователей через Сервис и/или по электронной почте. Продолжение использования Сервиса после вступления изменений в силу означает согласие с новой редакцией. Пользователь вправе прекратить использование Сервиса в любой момент: удалить свои данные кнопкой «Начать заново» или очисткой данных сайта в браузере, а запись из листа ожидания - письмом Оператору на ${R("email")}.</p>`],
         ["Применимое право и споры", `<p>К настоящему Соглашению применяется законодательство Республики Беларусь. Споры разрешаются путём переговоров, а при недостижении согласия - в судебном порядке по месту нахождения Оператора либо в порядке, установленном законодательством о защите прав потребителей.</p>`],
-        ["Контакты Оператора", `<p>${R("name")}, УНП ${R("unp")}, адрес: ${R("address")}, email: ${R("email")}, тел.: ${R("phone")}, Instagram: @dishday_.</p>`]
+        ["Контакты Оператора", `<p>${CONTACTS_RU}</p>`]
       ]
     }, {
       t:"Terms of Use", short:"Terms",
@@ -1366,7 +1380,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
       t:"Публичная оферта на подписку Dishday Plus и Dishday Pro Plus", short:"Оферта",
       lead:"Настоящий документ является публичной офертой в значении статьи 407 Гражданского кодекса Республики Беларусь. Акцепт оферты осуществляется путём оформления подписки в интерфейсе Сервиса с отметкой о принятии.",
       s:[
-        ["Оферент", `<p>${IP_RU}, расчётный счёт: ${R("account")}, банк: ${R("bank")} (далее - «Оператор»).</p>`],
+        ["Оферент", `<p>${IP_RU}${BANK_RU} (далее - «Оператор»).</p>`],
         ["Предмет оферты", `<p>Оператор предоставляет Пользователю доступ к расширенному функционалу Сервиса Dishday на условиях настоящей оферты по одному из тарифов: «Dishday Plus» - все кухни и блюда Сервиса, кроме раздела «Питание»; «Dishday Pro Plus» - все функции Сервиса, включая раздел «Питание» (дневник калорий и КБЖУ, вода, вес, цели и напоминания). Подробный состав функций указывается в интерфейсе Сервиса на момент оформления подписки.</p>`],
         ["Цена подписки", `%%PRICES_RU%%
           <p>Стоимость установлена в долларах США (Plus - 7 USD в месяц, Pro Plus - 15 USD в месяц) и оплачивается в белорусских рублях по курсу, указанному в интерфейсе Сервиса на момент оплаты, с округлением до целого рубля. Скидка за срок: 3 месяца - 10%, 6 месяцев - 20%, 9 месяцев - 25%, 12 месяцев - 30% от стоимости помесячной оплаты. Цены указаны с учётом применимых налогов. Промокод даёт бесплатно первый месяц выбранного срока. Оператор вправе изменять цены подписки; изменение цены не применяется к уже оплаченному сроку.</p>`],
@@ -1374,11 +1388,11 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
           <p>Пробный месяц начинается не с даты записи, а с момента активации по ссылке из письма. Активировать его можно в течение 30 дней с даты записи, а при записи до запуска Сервиса - в течение 30 дней с 20.10.2026; по истечении этого срока место с бесплатным Pro Plus сгорает. По окончании бесплатного Pro Plus платный доступ сам не оформляется и оплата не списывается.</p>`],
         ["Срок и продление", `<p>Подписка оформляется на срок 1, 3, 6, 9 или 12 месяцев с разовой оплатой за весь срок. Автоматического продления и автоматических списаний нет. По окончании срока доступ к платным функциям прекращается; продлить его можно новой оплатой, при этом новый срок добавляется к неиспользованному остатку.</p>`],
         ["Отказ от подписки", `<p>Пользователь вправе отказаться от подписки в любой момент, направив обращение на адрес электронной почты Оператора. Доступ к платным функциям сохраняется до конца оплаченного срока, если Пользователь не потребовал возврата денежных средств.</p>`],
-        ["Возврат денежных средств", `<p>За бесплатный Pro Plus и бесплатный режим оплата не взимается. При отказе Пользователя от подписки после списания оплаты за период (в том числе при удалении своих данных) Пользователю по его обращению возвращается часть уплаченной суммы, пропорциональная неиспользованной части оплаченного периода, за вычетом дней фактического использования, если иное прямо не следует из законодательства Республики Беларусь о защите прав потребителей. Возврат осуществляется тем же способом, которым была произведена оплата, в срок, установленный правилами платёжного оператора bePaid, но не более ${P("10 рабочих дней")} с момента одобрения обращения.</p>`],
+        ["Возврат денежных средств", `<p>За бесплатный Pro Plus и бесплатный режим оплата не взимается. При отказе Пользователя от подписки после списания оплаты за период (в том числе при удалении своих данных) Пользователю по его обращению возвращается часть уплаченной суммы, пропорциональная неиспользованной части оплаченного периода, за вычетом дней фактического использования, если иное прямо не следует из законодательства Республики Беларусь о защите прав потребителей. Возврат осуществляется тем же способом, которым была произведена оплата, в срок, установленный правилами платёжного оператора bePaid, но не более 10 рабочих дней с момента одобрения обращения.</p>`],
         ["Способы оплаты", `<p>Оплата производится через платёжного оператора bePaid с использованием банковских платёжных карт, карт платёжной системы «БЕЛКАРТ», а также через систему «Расчёт» (ЕРИП). Приём оплаты доступен только Пользователям в Республике Беларусь и только в белорусских рублях. На дату настоящей редакции приём оплаты не подключён: оформить платную подписку нельзя, доступны бесплатный режим и бесплатный Pro Plus. О подключении оплаты Оператор сообщит в Сервисе и по электронной почте. Оператор не получает и не хранит полные реквизиты платёжных карт Пользователя.</p>`],
         ["Права потребителя", `<p>Положения настоящей оферты применяются с учётом прав потребителя, установленных Законом Республики Беларусь от 09.01.2002 №90-З «О защите прав потребителей», в части, не урегулированной настоящей офертой либо противоречащей императивным нормам указанного Закона.</p>`],
         ["Изменение оферты", `<p>Оператор вправе изменять условия оферты с публикацией новой редакции в Сервисе. К уже оформленной подписке до конца оплаченного периода применяются условия, действовавшие на момент оформления, если более поздние условия не улучшают положение Пользователя. Версия принятой редакции фиксируется при оплате.</p>`],
-        ["Реквизиты Оператора", `<p>${R("name")}, УНП ${R("unp")}, адрес: ${R("address")}, р/с ${R("account")} в ${R("bank")}, email: ${R("email")}, тел.: ${R("phone")}, Instagram: @dishday_.</p>`]
+        ["Реквизиты Оператора", `<p>${CONTACTS_RU}</p>`]
       ]
     }, {
       t:"Dishday Plus and Pro Plus Public Offer", short:"Offer",
@@ -1392,7 +1406,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
           <p>The free month does not start on sign-up: it starts when you activate it with the link from the email. Activation is possible within 30 days of signing up, or within 30 days of 1 October 2026 if you signed up before launch; after that the reserved spot lapses. When the month ends, no paid plan starts and nothing is charged.</p>`],
         ["Term and renewal", `<p>A subscription is bought for 1, 3, 6, 9 or 12 months with a one-off payment for the whole term. There is no auto-renewal and no automatic charges. Access to paid features ends with the term; a new payment extends it, adding the new term to any unused time.</p>`],
         ["Cancellation", `<p>Users may give up the subscription at any time by writing to the Operator's email. Access continues until the end of the paid term unless the user asks for a refund.</p>`],
-        ["Refunds", `<p>The free month and free mode are never charged. After a period has been charged, a refund proportional to the unused part of the period is issued on request, unless Belarusian consumer-protection law requires otherwise, via the original payment method, within ${P("10 business days")} of approval.</p>`],
+        ["Refunds", `<p>The free month and free mode are never charged. After a period has been charged, a refund proportional to the unused part of the period is issued on request, unless Belarusian consumer-protection law requires otherwise, via the original payment method, within 10 business days of approval.</p>`],
         ["Payment methods", `<p>Payments are processed by bePaid via bank cards, Belkart cards and ERIP. Payment is available only to users in the Republic of Belarus and only in Belarusian rubles. As of this version payment is not yet connected: a paid subscription cannot be bought, and only the free mode and the free month are available. The Operator will announce the launch of payments in the Service and by email. The Operator does not receive or store full card details.</p>`],
         ["Consumer rights", `<p>These terms apply subject to the mandatory consumer-protection rules of the Republic of Belarus (Law No. 90-З).</p>`],
         ["Changes", `<p>The Operator may amend this offer by publishing a new version; an active subscription is governed by the terms in force at purchase until the paid period ends, unless later terms are more favourable to the user. The accepted version is recorded at payment.</p>`],
@@ -11168,8 +11182,8 @@ const STR = {
   nav_story:["Как мы создавали","How we built it"], nav_price:["Тарифы","Pricing"], nav_faq:["Вопросы","FAQ"],
   moreAria:["Ещё разделы","More sections"], menuAria:["Меню","Menu"],
   heroKick:["Бесплатно, без карты. Полный доступ откроется 20 октября","Free, no card. Full access opens on 20 October"],
-  heroCtaFree:["Собрать мою неделю","Build my week"],
-  getAccess:["Получить доступ","Get access"], openApp:["Открыть приложение","Open the app"], openSite:["Открыть сайт Dishday","Open the Dishday site"],
+  heroCtaFree:["Собрать неделю бесплатно","Build my week, free"],
+  getAccess:["Занять место","Claim a spot"], openApp:["Открыть приложение","Open the app"], openSite:["Открыть сайт Dishday","Open the Dishday site"],
   heroH:['Ужин <span class="grad-text">решён.</span>','Dinner, <span class="grad-text">decided.</span>'],
   heroSub:[()=>`Неделя ужинов под ваш бюджет: цены ${chainsGen()} сверены, список покупок готов.`, ()=>`A week of dinners on your budget, ${chainsEn("priced across {w} stores","priced at {c}")}, with one shopping list.`],
   demoQuery:[()=>`грузинская кухня, на четверых, до ${rub0(REGION.C.budget.demo)}`, ()=>`Georgian food for four, under ${rub0(REGION.C.budget.demo)}`],
@@ -11398,7 +11412,6 @@ const STR = {
   left3Added:["Продукты добавлены в список покупок","Groceries added to your shopping list"], left3Removed:["Продукты убраны из списка","Groceries removed from the list"],
   left3Nothing:["Докупать ничего не нужно","Nothing extra to buy"], left3Back:["К рецепту","Back to recipe"],
   lt_soup:["суп","soup"], lt_salad:["салат","salad"], lt_bake:["запеканка","bake"], lt_filling:["начинка","filling"], lt_bowl:["боул","bowl"], lt_pan:["сковорода","skillet"], lt_left:["из остатков","leftovers"],
-  lgCountry:["Документы для вашей страны готовятся. Сейчас действуют документы по праву Республики Беларусь.","Documents for your country are being prepared. The documents below follow the law of the Republic of Belarus."],
   u_g:["г","g"], u_kg:["кг","kg"], u_ml:["мл","ml"], u_l:["л","l"],
   "u_шт":["шт","pcs"], "u_банка":["банка", v=>v.n===1?"can":"cans"], "u_уп":["уп", v=>v.n===1?"pack":"packs"], "u_пучок":["пучок", v=>v.n===1?"bunch":"bunches"],
   min:["мин","min"], kcal:["ккал","kcal"],
@@ -13868,7 +13881,6 @@ function renderLegal(){
       <p class="lg-kick">${t("lgKicker")}</p>
       <h1>${escH(doc.t)}</h1>
       <div class="lg-meta"><span class="lg-ed">${t("lgEdition",{d:L.date})}</span>${L.draft ? `<span class="lg-draft">${t("lgDraft")}</span>` : ""}</div>
-      ${REGION.cc!=="BY" ? `<p class="lg-cc">${t("lgCountry")}</p>` : ""}
       <p class="lg-lead">${escH(doc.lead)}</p>
     </header>
     <div class="lg-grid">
