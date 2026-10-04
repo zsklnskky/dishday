@@ -575,7 +575,7 @@ input[type=range]::-moz-range-thumb{width:1.75rem; height:1.75rem; border-radius
 .topbar{position:fixed; top:0.875rem; left:50%; transform:translateX(-50%); z-index:30; width:min(var(--maxw),calc(100% - 1.75rem));
   display:flex; align-items:center; justify-content:space-between; gap:0.75rem; padding:0.5rem 0.5rem 0.5rem 1.125rem; border-radius:62.4375rem}
 .topbar .right{display:flex; gap:0.5rem; align-items:center; min-width:0}
-.page-head{padding-top:7.5rem; display:flex; justify-content:space-between; align-items:flex-end; gap:1.25rem; flex-wrap:wrap}
+.page-head{padding-top:7.5rem; padding-bottom:1.75rem; display:flex; justify-content:space-between; align-items:flex-end; gap:1.25rem; flex-wrap:wrap}
 .page-head h1{font-size:clamp(2rem,4.4vw,3rem); line-height:1.06; margin-top:0.375rem; letter-spacing:-.03em}
 .head-chips{display:flex; gap:0.5rem; flex-wrap:wrap}
 .head-chips .chip{color:var(--ink2)}
@@ -1015,8 +1015,16 @@ p, li, .src{text-wrap:pretty}
 
 /* Края затухают маской, а не размытием и не градиентной заглушкой: маска умножает альфу
    по готовым слоям, без выборки соседних пикселей и без перерисовки большой площади */
+/* Бегущая строка: маска гасит края, чтобы слова не обрывались по живому.
+   Рамки сверху и снизу нет намеренно - она делила первый экран тёмной полосой. */
 .jn-marq{-webkit-mask-image:linear-gradient(90deg,var(--mask-off),var(--mask-on) 3rem calc(100% - 3rem),var(--mask-off));
   mask-image:linear-gradient(90deg,var(--mask-off),var(--mask-on) 3rem calc(100% - 3rem),var(--mask-off))}
+.jn-marq{position:relative; left:50%; width:100vw!important; max-width:none!important; transform:translateX(-50%); margin:0!important; overflow:hidden; padding-block:0.75rem}
+.jn-marq-t{display:flex; width:max-content; animation:jnmarq 120s linear infinite}
+.jn-marq-t span{font:900 clamp(2rem,4vw,3.75rem)/1 var(--fd); letter-spacing:-.04em; padding-right:3rem; white-space:nowrap; color:var(--ink3)}
+.jn-marq-t span:nth-child(odd){background:linear-gradient(100deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+@media (prefers-reduced-motion:reduce){ .jn-marq-t{animation:none} }
+@keyframes jnmarq{to{transform:translateX(-50%)}}
 .scroller{-webkit-mask-image:linear-gradient(90deg,var(--mask-off),var(--mask-on) 1.5rem calc(100% - 1.5rem),var(--mask-off));
   mask-image:linear-gradient(90deg,var(--mask-off),var(--mask-on) 1.5rem calc(100% - 1.5rem),var(--mask-off))}
 
@@ -1082,6 +1090,7 @@ html.cb-on .p-wrap, html.cb-on .lg-wrap{padding-bottom:calc(6rem + var(--cbh))}
 /* ================= ПЛАНШЕТ И ТЕЛЕФОН ================= */
 @media (max-width:980px){
   .s-hero{grid-template-columns:minmax(0,1fr); gap:2.25rem; min-height:0; padding-top:7rem}
+  .jn-marq{order:-2; margin-top:1.75rem!important}
   .s-bento{grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:"price price" "week week" "timer kbju"}
   .s-story{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .st-logo{grid-column:span 1} .st-slog{grid-column:span 1}
@@ -1106,7 +1115,6 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   main#top{display:flex; flex-direction:column}
   .s-hero{display:contents}
   .s-hero > div:first-child{order:-3; padding-top:calc(env(safe-area-inset-top) + 6rem)}
-  .jn-marq{order:-2; margin-top:1.75rem!important}
   .s-hero > .s-demo{order:-1; margin-top:1.75rem; margin-bottom:2rem}
   .s-h1{font-size:clamp(3rem,20.5cqw,4.5rem)}
   html[lang="en"] .s-h1{font-size:clamp(3rem,19cqw,4.5rem)} /* «decided.» длиннее «решён.»: на 360-390 px выходил за поле */
@@ -1165,7 +1173,7 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .topbar{top:calc(env(safe-area-inset-top) + 0.375rem); width:calc(100% - 1.25rem); padding:0.375rem 0.375rem 0.375rem 0.875rem}
   .topbar .brand{font-size:1rem} .topbar .brand .mark{width:1.625rem; height:1.625rem}
   .icon-btn{width:2.75rem; height:2.75rem}
-  .page-head{padding-top:calc(env(safe-area-inset-top) + 5.25rem); gap:0.875rem}
+  .page-head{padding-top:calc(env(safe-area-inset-top) + 5.25rem); padding-bottom:1.25rem; gap:0.875rem}
   .wait-bar{margin:calc(env(safe-area-inset-top) + 5.25rem) 0 -3.75rem; font-size:0.8438rem}
   .page-head > div:first-child{width:100%}
   .page-head h1{font-size:2rem}
@@ -1178,6 +1186,10 @@ button, a, .tile, .chip{-webkit-tap-highlight-color:transparent; touch-action:ma
   .dock{left:0.625rem; right:0.625rem; transform:none; bottom:calc(env(safe-area-inset-bottom) + 0.5rem); padding:0.375rem; gap:0; border-radius:1.625rem; justify-content:space-between}
   .dock .ind{top:0.375rem; bottom:0.375rem; border-radius:1.25rem}
   .dock button{flex:1 1 0; min-width:0; flex-direction:column; justify-content:center; gap:0.1875rem; padding:0.5rem 0 0.4375rem; border-radius:1.25rem; font-size:0.6875rem; letter-spacing:-.01em}
+  /* замок у «Питания» уезжал на свою строку и делал вкладку выше соседних */
+  .dock button .dk-lock{position:absolute; top:0.3125rem; right:0.5rem; margin:0}
+  .dock button .dk-lock svg{width:0.75rem; height:0.75rem}
+  .dock button span{font-size:0.75rem}
   .dock button span{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%}
   .dock button svg{width:1.375rem; height:1.375rem}
   .dock .dk-lock-label{display:none}   /* на телефоне подпись замка не влезает, остаётся сам замок */
@@ -1389,12 +1401,6 @@ span.cc-pill:active{transform:none}
 .jn-cd-l{color:var(--ink2); font-size:0.875rem; width:100%}
 .jn-cd-u b{font:700 1.75rem/1 var(--fd); margin-right:0.25rem} .jn-cd-u small{color:var(--ink2)}
 /* на всю ширину окна при любом масштабе: не зависит от ширины контейнера .wrap */
-.jn-marq{position:relative; left:50%; width:100vw!important; max-width:none!important; transform:translateX(-50%); margin:0!important; overflow:hidden; border-block:1px solid var(--stroke); padding-block:0.75rem}
-.jn-marq-t{display:flex; width:max-content; animation:jnmarq 120s linear infinite}
-.jn-marq-t span{font:900 clamp(2rem,4vw,3.75rem)/1 var(--fd); letter-spacing:-.04em; padding-right:3rem; white-space:nowrap; color:var(--ink3)}
-.jn-marq-t span:nth-child(odd){background:linear-gradient(100deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent}
-@keyframes jnmarq{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){ .jn-marq-t{animation:none} }
 
 /* ================= тарифы: срок, две карточки, сравнение ================= */
 .pl-terms-wrap{display:flex; justify-content:center; overflow-x:auto; scrollbar-width:none; padding:0.25rem}
@@ -1619,9 +1625,9 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
         <div id="demoSum"></div>
       </div>
     </section>
+
     <script>(function(){var l=window.DD_PRE;if(!l)return;var E={"nav_how": "How it works", "nav_feat": "Features", "nav_story": "How we built it", "nav_price": "Pricing", "nav_faq": "FAQ", "getAccess": "Get access", "heroH": "Dinner, <span class=\"grad-text\">decided.</span>"},S=[["DE", ["Europe/Berlin"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["FR", ["Europe/Paris"], "Неделя ужинов под ваш бюджет: цены пяти сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across five stores, with one shopping list."], ["IT", ["Europe/Rome"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["ES", ["Europe/Madrid", "Atlantic/Canary", "Africa/Ceuta"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["PL", ["Europe/Warsaw"], "Неделя ужинов под ваш бюджет: цены Frisco сверены, список покупок готов.", "A week of dinners on your budget, priced at Frisco, with one shopping list."], ["GB", ["Europe/London"], "Неделя ужинов под ваш бюджет: цены Aldi сверены, список покупок готов.", "A week of dinners on your budget, priced at Aldi, with one shopping list."], ["NL", ["Europe/Amsterdam"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["RO", ["Europe/Bucharest"], "Неделя ужинов под ваш бюджет: цены трёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across three stores, with one shopping list."], ["CZ", ["Europe/Prague"], "Неделя ужинов под ваш бюджет: цены четырёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across four stores, with one shopping list."], ["PT", ["Europe/Lisbon", "Atlantic/Madeira", "Atlantic/Azores"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["SE", ["Europe/Stockholm"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["BE", ["Europe/Brussels"], "Неделя ужинов под ваш бюджет: цены пяти сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across five stores, with one shopping list."], ["AT", ["Europe/Vienna"], "Неделя ужинов под ваш бюджет: цены Spar сверены, список покупок готов.", "A week of dinners on your budget, priced at Spar, with one shopping list."], ["HU", ["Europe/Budapest"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["GR", ["Europe/Athens"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["LT", ["Europe/Vilnius"], "Неделя ужинов под ваш бюджет: цены Maxima сверены, список покупок готов.", "A week of dinners on your budget, priced at Maxima, with one shopping list."], ["LV", ["Europe/Riga"], "Неделя ужинов под ваш бюджет: цены Maxima сверены, список покупок готов.", "A week of dinners on your budget, priced at Maxima, with one shopping list."], ["EE", ["Europe/Tallinn"], "Неделя ужинов под ваш бюджет: цены Maxima сверены, список покупок готов.", "A week of dinners on your budget, priced at Maxima, with one shopping list."], ["BY", ["Europe/Minsk"], "Неделя ужинов под ваш бюджет: цены пяти сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across five stores, with one shopping list."], ["RU", ["Europe/Moscow", "Europe/Samara", "Asia/Yekaterinburg", "Asia/Novosibirsk", "Asia/Krasnoyarsk", "Asia/Irkutsk", "Asia/Vladivostok"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["KZ", ["Asia/Almaty", "Asia/Aqtobe"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["UA", ["Europe/Kyiv"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["RS", ["Europe/Belgrade"], "Неделя ужинов под ваш бюджет: цены Лидл сверены, список покупок готов.", "A week of dinners on your budget, priced at Lidl, with one shopping list."], ["GE", ["Asia/Tbilisi"], "Неделя ужинов под ваш бюджет: цены трёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across three stores, with one shopping list."], ["AM", ["Asia/Yerevan"], "Неделя ужинов под ваш бюджет: цены SAS сверены, список покупок готов.", "A week of dinners on your budget, priced at SAS, with one shopping list."], ["MD", ["Europe/Chisinau"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["IE", ["Europe/Dublin"], "Неделя ужинов под ваш бюджет: цены SuperValu сверены, список покупок готов.", "A week of dinners on your budget, priced at SuperValu, with one shopping list."], ["DK", ["Europe/Copenhagen"], "Неделя ужинов под ваш бюджет: цены REMA 1000 сверены, список покупок готов.", "A week of dinners on your budget, priced at REMA 1000, with one shopping list."], ["FI", ["Europe/Helsinki"], "Неделя ужинов под ваш бюджет: цены трёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across three stores, with one shopping list."], ["NO", ["Europe/Oslo"], "Неделя ужинов под ваш бюджет: цены Oda сверены, список покупок готов.", "A week of dinners on your budget, priced at Oda, with one shopping list."], ["CH", ["Europe/Zurich"], "Неделя ужинов под ваш бюджет: цены Aldi Suisse сверены, список покупок готов.", "A week of dinners on your budget, priced at Aldi Suisse, with one shopping list."], ["SK", ["Europe/Bratislava"], "Неделя ужинов под ваш бюджет: цены Кауфланд сверены, список покупок готов.", "A week of dinners on your budget, priced at Kaufland, with one shopping list."], ["SI", ["Europe/Ljubljana"], "Неделя ужинов под ваш бюджет: цены трёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across three stores, with one shopping list."], ["HR", ["Europe/Zagreb"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["BG", ["Europe/Sofia"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["CY", ["Asia/Nicosia", "Asia/Famagusta"], "Неделя ужинов под ваш бюджет: цены Lidl сверены, список покупок готов.", "A week of dinners on your budget, priced at Lidl, with one shopping list."], ["LU", ["Europe/Luxembourg"], "Неделя ужинов под ваш бюджет: цены четырёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across four stores, with one shopping list."], ["MT", ["Europe/Malta"], "Неделя ужинов под ваш бюджет: цены Lidl сверены, список покупок готов.", "A week of dinners on your budget, priced at Lidl, with one shopping list."], ["IS", ["Atlantic/Reykjavik"], "Неделя ужинов под ваш бюджет: цены трёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across three stores, with one shopping list."], ["ME", ["Europe/Podgorica"], "Неделя ужинов под ваш бюджет: цены Воли сверены, список покупок готов.", "A week of dinners on your budget, priced at Voli, with one shopping list."], ["MK", ["Europe/Skopje"], "Неделя ужинов под ваш бюджет: цены трёх сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across three stores, with one shopping list."], ["AL", ["Europe/Tirane"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."], ["BA", ["Europe/Sarajevo"], "Неделя ужинов под ваш бюджет: цены двух сетей сверены, список покупок готов.", "A week of dinners on your budget, priced across two stores, with one shopping list."]],c,g,z="";try{g=JSON.parse(localStorage.getItem("dd.geo")||"null");z=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}function f(t){for(var i=0;i<S.length;i++)if(t(S[i]))return S[i]}c=(g&&f(function(s){return s[0]===g.cc}))||f(function(s){return s[1].indexOf(z)>=0})||(navigator.languages||[navigator.language||""]).reduce(function(a,x){return a||f(function(s){return s[0]===String(x).split("-")[1]})},0);if(!c&&S[0]&&S[0][0]==="DE")c=S[0];if(c)E.heroSub=c[l==="en"?3:2];if(l==="en")document.documentElement.lang="en";document.querySelectorAll(".lang-pill b").forEach(function(b){if(b.dataset.l===l)b.classList.add("on")});document.querySelectorAll("#site [data-i18n],#site [data-i18n-html]").forEach(function(e){var k=e.dataset.i18n||e.dataset.i18nHtml;if(E[k]&&(l==="en"||k==="heroSub"))e[e.dataset.i18n?"textContent":"innerHTML"]=E[k]})})()</script>
 <div class="jn-marq" aria-hidden="true"><div class="jn-marq-t" id="jnMarq"></div></div>
-
     <section class="s-sec" id="join" data-tone="2" aria-labelledby="joinH">
       <div class="jn glass-panel">
         <div class="jn-l">
@@ -1837,7 +1843,6 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </header>
 
   <div class="wrap">
-    <div class="wait-bar" id="waitBar" hidden></div>
     <div class="page-head">
       <div><h1 id="appTitle">Неделя собрана</h1>
         <div class="st-line"><span data-storelabel></span><button type="button" class="geo-upd" data-geo data-i18n="geoUpd">Обновить геопозицию</button></div></div>
@@ -2071,5 +2076,5 @@ html[data-theme="light"].perf-lite{--panel:rgba(255,255,255,.95)}
   </div>
 </dialog>
 
-<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=506ca38b";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
+<script>(function(){var d=0,P=window.PerformanceObserver,pre=document.documentElement.classList.contains("pre-site")&&P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf("largest-contentful-paint")>=0;function go(){if(d)return;d=1;var s=document.createElement("script");s.src="app/app.js?v=0e1844cc";document.body.appendChild(s)}if(pre)try{new P(function(){setTimeout(go)}).observe({type:"largest-contentful-paint",buffered:true})}catch(e){pre=0}requestAnimationFrame(function(){setTimeout(go,pre?3000:0)})})()</script>
 

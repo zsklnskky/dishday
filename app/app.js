@@ -12529,13 +12529,6 @@ function paintGoogleBtn(){
   if($("#jnForm")) $("#jnForm").hidden = on || signed;   // вход только через Google, почту набирать руками не нужно
 }
 /* до дня запуска приложение работает как предпросмотр, и это видно сразу */
-function paintWaitBar(){
-  const el = $("#waitBar"); if(!el) return;
-  el.hidden = launched();
-  if(el.hidden) return;
-  const email = S.user && S.user.email;
-  el.innerHTML = `<i class="dot" aria-hidden="true"></i><span>${email ? t("waitBar", {email:escH(email)}) : t("waitBarNo")}</span>`;
-}
 /* аккаунт в шапке приложения: тот же, под которым вошли на сайте */
 const acctName = () => (S.user && (S.user.name || S.user.email)) || "";
 function renderAccount(){
@@ -12937,7 +12930,7 @@ function show(id){
   return id;
 }
 function go(id, after){ return F.shutter(()=>show(id)).then(()=>{ if(after) after(); }); }
-function renderApp(){ paintWaitBar(); renderSub(); renderHead(); renderPlan(); renderMeals(); renderFridge(); renderList(); renderNutri(); renderSettings(); paintStores(); renderAccount(); if(window.DD_REVIEWS) paintSocial(curTab); }
+function renderApp(){ renderSub(); renderHead(); renderPlan(); renderMeals(); renderFridge(); renderList(); renderNutri(); renderSettings(); paintStores(); renderAccount(); if(window.DD_REVIEWS) paintSocial(curTab); }
 const dietLabel = () => { const x = tr(DIETS.find(d=>d.id===S.diet)); return S.lang==="ru" ? x.toLowerCase() : x; };
 function renderHead(){
   const h = new Date().getHours();
@@ -13650,10 +13643,11 @@ function setTab(tab, fromHistory){
 addEventListener("popstate", e=>{
   if(!$("#app").classList.contains("on")) return;
   const tab = (e.state && e.state.tab) || (location.hash || "").slice(1);
-  if(tab && TITLES[tab] && tab !== curTab) setTab(tab, true);
+  if(tab && TABS.includes(tab) && tab !== curTab) setTab(tab, true);
 });
 /* вкладка из адреса при открытии: перезагрузка больше не роняет человека обратно на неделю */
-const tabFromHash = () => { const h = (location.hash || "").slice(1); return TITLES[h] ? h : "plan"; };
+const TABS = ["plan","meals","fridge","list","nutri","set","community","profile"];
+const tabFromHash = () => { const h = (location.hash || "").slice(1); return TABS.includes(h) ? h : "plan"; };
 /* соцчасть (mod_reviews.js): лента и профиль рисуются при открытии своей вкладки */
 function paintSocial(tab){
   if(!window.DD_REVIEWS) return;
