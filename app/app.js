@@ -33,9 +33,10 @@ uniform float u_scale;
 out vec2 v_patternUV;
 void main(){
   gl_Position = vec4(a_pos, 0., 1.);
-  /* то же, что patternUV у paper при fit = none и центре в середине кадра:
-     координаты в пикселях, делённые на масштаб, и множитель .01 против потери точности */
-  v_patternUV = a_pos * .5 * u_resolution / u_scale * .01;
+  /* Рисунок нормирован по высоте кадра, а не по числу пикселей канваса. Прежняя привязка
+     к пикселям означала, что на телефоне в кадр попадает впятеро меньше узора, и фон там
+     выглядел ровным тёмным пятном. Множитель подобран так, чтобы десктоп не изменился. */
+  v_patternUV = a_pos * vec2(u_resolution.x / u_resolution.y, 1.) * (4.5 / u_scale);
 }`;
   const FS = `#version 300 es
 precision mediump float;
@@ -117,9 +118,10 @@ void main() {
     shape = .5 + .5 * sin(checksShape_uv.x) * cos(checksShape_uv.y);
     shape += .48 * sign(proportion - .5) * pow(abs(proportion - .5), .5);
   } else if (u_shape < 1.5) {
+    /* Полосы заданы синусом, а не fract со smoothstep: у прежней формулы край полосы
+       попадал на пиксельную сетку половинного разрешения и читался как резкая диагональ. */
     vec2 stripesShape_uv = uv * (2. * u_shapeScale);
-    float f = fract(stripesShape_uv.y);
-    shape = smoothstep(.0, .55, f) * (1.0 - smoothstep(.45, 1., f));
+    shape = .5 + .5 * sin(stripesShape_uv.y * TWO_PI);
     shape += .48 * sign(proportion - .5) * pow(abs(proportion - .5), .5);
   } else {
     float shapeScaling = 5. * (1. - u_shapeScale);
@@ -176,7 +178,9 @@ void main() {
 
   function size(){
     if(!cv) return;
-    const k = Math.min(1, devicePixelRatio||1) * .5; // полразрешения: ленты мягкие, растр крупнее, GPU свободнее
+    /* На телефоне половина от dpr давала слишком крупный растр, и граница ленты лезла ступенькой.
+       Берём .75 на узких экранах: пикселей всё равно немного, зато переходы гладкие. */
+    const k = Math.min(1, devicePixelRatio||1) * (innerWidth < 760 ? .75 : .5);
     cv.width = Math.max(1, Math.round(innerWidth*k)); cv.height = Math.max(1, Math.round(innerHeight*k));
     if(gl){ gl.viewport(0,0,cv.width,cv.height); if(!raf) frame(performance.now(), true); }
   }
@@ -221,7 +225,7 @@ void main() {
     cv = canvas; if(!cv) return;
     const fail = ()=>{ document.documentElement.classList.add("no-gl"); cv.remove(); gl = null; };
     // телефон и слабое железо (mod_perf.js): статичный CSS-градиент вместо WebGL
-    if(window.DD_LITE){ fail(); return; }
+    if(window.DD_NOGL){ fail(); return; }
     try{ gl = cv.getContext("webgl2", {antialias:false, alpha:false, powerPreference:"low-power"}); }catch(e){ gl = null; }
     if(!gl){ fail(); return; }
     const sh = (type, src)=>{ const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
@@ -1935,9 +1939,13 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
    Разделы лендинга ниже первого экрана не верстаются и не рисуются, пока до них не докрутили (content-visibility). */
 (function(){
   const n = navigator, mm = q => matchMedia(q).matches;
-  const lite = mm("(pointer:coarse)") || (n.hardwareConcurrency||8) <= 4 || (n.deviceMemory||8) <= 4 ||
+  const weak = (n.hardwareConcurrency||8) <= 4 || (n.deviceMemory||8) <= 4 ||
     !!(n.connection && n.connection.saveData) || mm("(prefers-reduced-motion: reduce)");
+  const lite = mm("(pointer:coarse)") || weak;
   window.DD_LITE = lite;
+  /* Фон на телефоне выключался заодно со стеклом: любой сенсорный экран попадал в lite,
+     и живого фона на мобильном не было вовсе. Шейдер снимаем только с реально слабых. */
+  window.DD_NOGL = weak;
   window.DD_PRESITE = document.documentElement.classList.contains("pre-site");  // герой уже нарисован: siteEnter не перезапускает появление заголовка
   document.documentElement.classList.remove("pre-site"); // лендинг до загрузки JS (build.py), дальше экраны ведёт show()
   if(lite) document.documentElement.classList.add("perf-lite");
