@@ -35,7 +35,7 @@
     "aldi_gb"
    ],
    "proxy": [],
-   "coverage": 0.265
+   "coverage": 0.301
   },
   "RO": {
    "updated": "2026-10-12",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.221
+   "coverage": 0.381
   },
   "MD": {
    "updated": "2026-10-12",
@@ -180,7 +180,7 @@
     "kaufland_sk"
    ],
    "proxy": [],
-   "coverage": 0.221
+   "coverage": 0.212
   },
   "MT": {
    "updated": "2026-10-12",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.54
+   "coverage": 0.549
   },
   "AM": {
    "updated": "2026-10-12",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.372
   },
   "IE": {
    "updated": "2026-10-12",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.381
   },
   "CZ": {
    "updated": "2026-10-12",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.363
   },
   "BE": {
    "updated": "2026-10-12",
