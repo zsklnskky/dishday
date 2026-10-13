@@ -93,7 +93,7 @@
     "maxima_lv"
    ],
    "proxy": [],
-   "coverage": 0.416
+   "coverage": 0.425
   },
   "EE": {
    "updated": "2026-10-13",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.398
   },
   "MD": {
    "updated": "2026-10-13",
@@ -216,7 +216,7 @@
     "lidl_cy"
    ],
    "proxy": [],
-   "coverage": 0.133
+   "coverage": 0.142
   },
   "FR": {
    "updated": "2026-10-13",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.363
   },
   "IE": {
    "updated": "2026-10-13",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.372
   },
   "CZ": {
    "updated": "2026-10-13",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.522
   },
   "BG": {
    "updated": "2026-10-13",
