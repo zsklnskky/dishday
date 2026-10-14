@@ -75,7 +75,7 @@
     "aldi_hu"
    ],
    "proxy": [],
-   "coverage": 0.124
+   "coverage": 0.115
   },
   "LT": {
    "updated": "2026-10-14",
@@ -84,7 +84,7 @@
     "maxima_lt"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.442
   },
   "LV": {
    "updated": "2026-10-14",
@@ -93,7 +93,7 @@
     "maxima_lv"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.416
   },
   "EE": {
    "updated": "2026-10-14",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.372
   },
   "MD": {
    "updated": "2026-10-14",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.54
+   "coverage": 0.531
   },
   "AM": {
    "updated": "2026-10-14",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.407
   },
   "IE": {
    "updated": "2026-10-14",
@@ -266,7 +266,7 @@
     "supervalu"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.283
   },
   "DK": {
    "updated": "2026-10-14",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.363
   },
   "CZ": {
    "updated": "2026-10-14",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.381
   },
   "BE": {
    "updated": "2026-10-14",
