@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.301
   },
   "SE": {
    "updated": "2026-10-15",
@@ -84,7 +84,7 @@
     "maxima_lt"
    ],
    "proxy": [],
-   "coverage": 0.442
+   "coverage": 0.434
   },
   "LV": {
    "updated": "2026-10-15",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.389
   },
   "MD": {
    "updated": "2026-10-15",
@@ -216,7 +216,7 @@
     "lidl_cy"
    ],
    "proxy": [],
-   "coverage": 0.15
+   "coverage": 0.142
   },
   "FR": {
    "updated": "2026-10-15",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.416
+   "coverage": 0.566
   },
   "AM": {
    "updated": "2026-10-15",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.398
   },
   "IE": {
    "updated": "2026-10-15",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.504
   },
   "BG": {
    "updated": "2026-10-15",
