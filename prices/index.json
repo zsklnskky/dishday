@@ -8,7 +8,7 @@
     "kaufland_de"
    ],
    "proxy": [],
-   "coverage": 0.283
+   "coverage": 0.248
   },
   "ES": {
    "updated": "2026-10-16",
@@ -26,7 +26,7 @@
     "frisco"
    ],
    "proxy": [],
-   "coverage": 0.46
+   "coverage": 0.451
   },
   "GB": {
    "updated": "2026-10-16",
@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.283
   },
   "SE": {
    "updated": "2026-10-16",
@@ -84,7 +84,7 @@
     "maxima_lt"
    ],
    "proxy": [],
-   "coverage": 0.442
+   "coverage": 0.434
   },
   "LV": {
    "updated": "2026-10-16",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.363
+   "coverage": 0.372
   },
   "MD": {
    "updated": "2026-10-16",
@@ -151,7 +151,7 @@
     "tus"
    ],
    "proxy": [],
-   "coverage": 0.177
+   "coverage": 0.186
   },
   "IT": {
    "updated": "2026-10-16",
@@ -198,7 +198,7 @@
     "lidl_gr"
    ],
    "proxy": [],
-   "coverage": 0.124
+   "coverage": 0.115
   },
   "RS": {
    "updated": "2026-10-16",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.558
+   "coverage": 0.549
   },
   "AM": {
    "updated": "2026-10-16",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.416
   },
   "IE": {
    "updated": "2026-10-16",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.292
   },
   "ME": {
    "updated": "2026-10-16",
