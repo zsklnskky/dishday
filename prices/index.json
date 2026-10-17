@@ -8,7 +8,7 @@
     "kaufland_de"
    ],
    "proxy": [],
-   "coverage": 0.257
+   "coverage": 0.248
   },
   "ES": {
    "updated": "2026-10-17",
@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.301
+   "coverage": 0.292
   },
   "SE": {
    "updated": "2026-10-17",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.363
   },
   "MD": {
    "updated": "2026-10-17",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.398
   },
   "IE": {
    "updated": "2026-10-17",
