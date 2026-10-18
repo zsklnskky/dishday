@@ -12039,7 +12039,7 @@ function dishArt(r){
      Одна разметка для карточки и hero: размеры задаёт контейнер, подпись прячется в маленьких превью (container query) */
   const keys = Object.keys(r.ing).filter(k=>ING[k] && ING[k].c && !["salt_spice","oil","flour","sugar","pepper_mix","bay"].includes(k));
   const c1 = keys[0] ? ING[keys[0]].c : "#8B7CF6", c2 = keys[1] ? ING[keys[1]].c : "#6EE7F9";
-  return `<span class="art" role="img" aria-label="${escH(rn(r))}" style="--c1:${c1};--c2:${c2}"><svg class="art-ic" viewBox="0 0 100 100" aria-hidden="true"><path d="M80 50.32A30 30 0 1 1 45.1 20.4A23 23 0 0 0 80 50.32Z"/><path d="M14 62a36 36 0 0 0 72 0" fill="none"/></svg><small>${escH(cuName(r.cu))}</small></span>`;
+  return `<span class="art" role="img" aria-label="${escH(rn(r))}" style="--c1:${c1};--c2:${c2}"><svg class="art-ic" viewBox="-2 8 104 104" aria-hidden="true"><path d="M80 50.32A30 30 0 1 1 45.1 20.4A23 23 0 0 0 80 50.32Z"/><path d="M14 62a36 36 0 0 0 72 0" fill="none"/></svg><small>${escH(cuName(r.cu))}</small></span>`;
 }
 function ringTo(el, pct, len){ if(el) el.style.strokeDashoffset = String(len*(1-Math.max(0,Math.min(1,pct)))); }
 const at = e => e && e.clientX ? {x:e.clientX, y:e.clientY} : {};

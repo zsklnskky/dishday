@@ -1,6 +1,6 @@
 {
-  "name": "Dishday",
-  "short_name": "Dishday",
+  "name": "Вячэра",
+  "short_name": "Вячэра",
   "description": "Ужин решён: меню на неделю, список покупок и цены сетей Беларуси.",
   "start_url": "./app/",
   "scope": "./",
