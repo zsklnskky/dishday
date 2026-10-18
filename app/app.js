@@ -1,7 +1,7 @@
 
 
 /* ===== mod_aurora.js ===== */
-/* Dishday: фон «Шёлк».
+/* Вячэра: фон «Шёлк».
 
    Фрагментный шейдер лент - warp из @paper-design/shaders, лицензия Apache-2.0,
    https://github.com/paper-design/shaders. Изменения: добавлены u_dim, приглушение
@@ -1247,7 +1247,7 @@ body.has-cursor input,body.has-cursor textarea{cursor:text}
 
 
 /* ===== mod_legal.js ===== */
-/* Dishday: юридические документы (вкладки #privacy #terms #offer #cookies #consents) и согласие на cookie.
+/* Вячэра: юридические документы (вкладки #privacy #terms #offer #cookies #consents) и согласие на cookie.
    Тексты взяты из «04 Документы/Юридические документы» (редакция от 13.09.2026, проверены юристом) и приведены в соответствие
    с фактическим устройством сервиса 17.09.2026: сервера нет, данные живут в браузере, наружу уходят только Google Apps Script
    (лист ожидания и письма) и GitHub Pages (хостинг). Правки 17.09.2026 юристом ещё не проверялись. Рендер и баннер - в app.html. Реквизиты - плейсхолдеры в квадратных скобках. */
@@ -1272,10 +1272,10 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
      Когда появятся реквизиты, они подставятся через REQUISITES. */
   const IP_RU = REQUISITES.name
     ? `${escR(REQUISITES.name)}${REQUISITES.unp ? `, УНП ${escR(REQUISITES.unp)}` : ""}${REQUISITES.address ? `, адрес: ${escR(REQUISITES.address)}` : ""}`
-    : "владелец Сервиса Dishday";
+    : "владелец Сервиса Вячэра";
   const IP_EN = REQUISITES.name
     ? `${escR(REQUISITES.name)}${REQUISITES.unp ? `, UNP ${escR(REQUISITES.unp)}` : ""}${REQUISITES.address ? `, address ${escR(REQUISITES.address)}` : ""}`
-    : "the owner of the Dishday Service";
+    : "the owner of the Viachera Service";
   /* Контакты и банковская часть собираются только из заполненных полей:
      пустые раньше давали в документе «, УНП , адрес: , тел.: ». */
   const join = (...parts) => parts.filter(Boolean).join(", ");
@@ -1288,19 +1288,19 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
   const DOCS = {
     privacy: L("privacy", {
       t:"Политика обработки персональных данных", short:"Политика данных",
-      lead:"Действует в отношении веб-сервиса Dishday (далее - «Сервис»): страницы записи, приложения и листа ожидания до запуска 20.10.2026.",
+      lead:"Действует в отношении веб-сервиса Вячэра (далее - «Сервис»): страницы записи, приложения и листа ожидания до запуска 20.10.2026.",
       s:[
-        ["Общие положения", `<p>Настоящая Политика определяет порядок обработки персональных данных пользователей Сервиса Dishday в соответствии с Законом Республики Беларусь от 07.05.2021 №99-З «О защите персональных данных» (далее - Закон №99-З). Использование Сервиса и передача данных через формы Сервиса означает ознакомление с Политикой.</p>`],
+        ["Общие положения", `<p>Настоящая Политика определяет порядок обработки персональных данных пользователей Сервиса Вячэра в соответствии с Законом Республики Беларусь от 07.05.2021 №99-З «О защите персональных данных» (далее - Закон №99-З). Использование Сервиса и передача данных через формы Сервиса означает ознакомление с Политикой.</p>`],
         ["Оператор персональных данных", `<p>Оператором персональных данных является ${IP_RU}, адрес электронной почты для обращений по вопросам обработки персональных данных: ${R("email")}, Instagram: @dishday_ (далее - «Оператор»).</p>`],
         ["Термины", `<p>«Персональные данные» - любая информация, относящаяся к идентифицированному или идентифицируемому физическому лицу (субъекту персональных данных). «Специальные персональные данные» - данные, касающиеся в том числе здоровья физического лица. «Лист ожидания» - предварительная запись пользователей до запуска Сервиса. «Локальное хранилище» - память браузера на устройстве пользователя (localStorage, sessionStorage).</p>`],
-        ["Как устроен Сервис: где лежат данные", `<p>У Сервиса нет собственного сервера и базы данных пользователей. Приложение Dishday - это страница, которая целиком работает в браузере: она опубликована на хостинге статических страниц GitHub Pages и после загрузки не отправляет ваши данные никуда. Всё, что вы вводите в приложении, остаётся в локальном хранилище вашего браузера на вашем устройстве.</p>
+        ["Как устроен Сервис: где лежат данные", `<p>У Сервиса нет собственного сервера и базы данных пользователей. Приложение Вячэра - это страница, которая целиком работает в браузере: она опубликована на хостинге статических страниц GitHub Pages и после загрузки не отправляет ваши данные никуда. Всё, что вы вводите в приложении, остаётся в локальном хранилище вашего браузера на вашем устройстве.</p>
           <p>Единственный внешний сервис, которому Оператор передаёт данные, - Google: лист ожидания ведётся в Google Таблице, приём записи и служебные операции выполняет скрипт Google Apps Script, письма уходят через почту Google. Платёжный оператор bePaid будет подключён к приёму оплаты подписки; на дату настоящей редакции оплата не подключена и платёжные данные не обрабатываются.</p>`],
         ["Какие данные обрабатываются", `<h4>Остаются только в вашем браузере и на сервер не передаются</h4><ul><li>ответы анкеты, план недели, список покупок, продукты дома, настройки и язык интерфейса;</li><li>записи дневника питания: вес, потребляемые калории, вода, цели (раздел 6 - специальные персональные данные);</li><li>код страны, определённый по геопозиции (сами координаты не сохраняются и никуда не отправляются, страна определяется на устройстве);</li><li>ваш выбор по категориям cookie и аналитики;</li><li>после получения доступа: адрес электронной почты, срок доступа и токен доступа.</li></ul>
           <h4>Передаётся Оператору и хранится в Google Таблице</h4><ul><li>адрес электронной почты;</li><li>имя и идентификатор учётной записи Google - только если запись сделана кнопкой входа через Google;</li><li>язык интерфейса и код страны;</li><li>реферальный код (свой и/или пригласившего пользователя);</li><li>факт и дата согласия, строка User-Agent браузера;</li><li>служебные данные записи: порядковый номер, ссылки-токены доступа, даты бесплатного режима и бесплатного Pro Plus, отметки об отправленных письмах.</li></ul>
           <h4>Технические записи</h4><p>Страница записи отправляет на тот же скрипт Apps Script обезличенные отметки о событиях (открытие страницы, открытие формы, запись, нажатие «поделиться») и сообщения об ошибках JavaScript: текст ошибки, адрес страницы, строку User-Agent, язык. Эти записи не содержат адреса электронной почты и не связываются с конкретным пользователем; они нужны для диагностики работы Сервиса.</p>
           <h4>Оплата подписки</h4><p>При подключении приёма оплаты на сервер заказов будут передаваться адрес электронной почты, выбранный тариф, срок, промокод, факт, дата и версия принятия документов. Полные реквизиты банковских карт обрабатывает платёжный оператор bePaid; Оператор их не получает и не хранит.</p>`],
         ["Специальные данные (здоровье)", `<p>Показатели веса и калорийности питания, вносимые в дневник питания, Оператор рассматривает как специальные персональные данные, поскольку они позволяют делать выводы о состоянии здоровья пользователя. Дневник записывает их только при наличии отдельного явного согласия пользователя, которое запрашивается при первом открытии дневника, независимо от общего согласия на обработку персональных данных. Без такого согласия дневник данные не записывает. Записи дневника хранятся только в браузере пользователя и Оператору не передаются: доступа к ним у Оператора нет.</p>`],
-        ["Цели обработки", `<ul><li>запись в лист ожидания и направление письма о запуске Сервиса;</li><li>открытие бесплатного режима и бесплатного Pro Plus, проверка прав доступа по ссылке-токену;</li><li>работа приложения на устройстве пользователя: меню, рецепты, список покупок, сравнение цен сетей, дневник питания;</li><li>приём и обработка заказа на подписку Dishday Plus и Dishday Pro Plus (после подключения оплаты);</li><li>диагностика ошибок и работоспособности Сервиса;</li><li>направление информационных и рекламных рассылок - при наличии отдельного согласия;</li><li>рассмотрение обращений пользователей и исполнение требований законодательства.</li></ul>`],
+        ["Цели обработки", `<ul><li>запись в лист ожидания и направление письма о запуске Сервиса;</li><li>открытие бесплатного режима и бесплатного Pro Plus, проверка прав доступа по ссылке-токену;</li><li>работа приложения на устройстве пользователя: меню, рецепты, список покупок, сравнение цен сетей, дневник питания;</li><li>приём и обработка заказа на подписку Вячэра Plus и Вячэра Pro Plus (после подключения оплаты);</li><li>диагностика ошибок и работоспособности Сервиса;</li><li>направление информационных и рекламных рассылок - при наличии отдельного согласия;</li><li>рассмотрение обращений пользователей и исполнение требований законодательства.</li></ul>`],
         ["Правовые основания", `<p>Обработка персональных данных осуществляется на основании: согласия субъекта персональных данных; необходимости исполнения договора (<a href="#terms">Пользовательского соглашения</a>, <a href="#offer">Публичной оферты</a> на подписку), одной из сторон которого является субъект персональных данных; необходимости исполнения обязанностей, возложенных на Оператора законодательством Республики Беларусь.</p>`],
         ["Источники данных", `<p>Персональные данные предоставляются пользователем непосредственно через формы Сервиса. При записи кнопкой входа через Google часть данных (адрес электронной почты, имя, идентификатор учётной записи) поступает от Google в объёме, подтверждённом пользователем при входе.</p>`],
         ["Сроки хранения", `<p>Запись в листе ожидания хранится до отзыва согласия, но не дольше 24 месяцев с даты записи. Технические записи о событиях и ошибках хранятся не дольше 24 месяцев. Данные в браузере пользователя хранятся до тех пор, пока пользователь не очистит данные сайта в браузере или не нажмёт «Начать заново» в приложении: срок хранения этих данных определяет сам пользователь, Оператор на него не влияет.</p>`],
@@ -1322,18 +1322,18 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
       ]
     }, {
       t:"Privacy Policy", short:"Privacy",
-      lead:"This English section is a reference translation; the Russian version governs. It covers Dishday (the \"Service\"): the sign-up page, the app and the waitlist before the launch on 1 October 2026.",
+      lead:"This English section is a reference translation; the Russian version governs. It covers Viachera (the \"Service\"): the sign-up page, the app and the waitlist before the launch on 1 October 2026.",
       s:[
         ["Scope", `<p>This Policy describes how the Service processes users' personal data under the Law of the Republic of Belarus No. 99-З "On Personal Data Protection" ("Law No. 99-З").</p>`],
         ["Data controller", `<p>The controller is ${IP_EN}, contact email ${R("email", 1)}, Instagram @dishday_.</p>`],
-        ["How the Service is built: where data lives", `<p>The Service has no server of its own and no user database. The Dishday app is a page that runs entirely in your browser: it is published on GitHub Pages static hosting and, once loaded, sends none of your data anywhere. Everything you enter in the app stays in your browser's local storage on your device.</p>
+        ["How the Service is built: where data lives", `<p>The Service has no server of its own and no user database. The Viachera app is a page that runs entirely in your browser: it is published on GitHub Pages static hosting and, once loaded, sends none of your data anywhere. Everything you enter in the app stays in your browser's local storage on your device.</p>
           <p>The only external provider the controller sends data to is Google: the waitlist is a Google Sheet, sign-ups and housekeeping run on a Google Apps Script, and emails are sent through Google's mail. The payment provider bePaid will handle subscription payments; as of this version payments are not connected and no payment data is processed.</p>`],
         ["Categories of data", `<h4>Stays in your browser and is never sent to a server</h4><p>Questionnaire answers, weekly plan, shopping list, foods at home, settings and language; food diary entries (weight, calories, water, goals - special category health data, section 5); the country code derived from your location (the coordinates themselves are never stored or sent, the country is worked out on your device); your cookie and analytics choices; and, once you have access, your email, access expiry and access token.</p>
           <h4>Sent to the controller and kept in a Google Sheet</h4><p>Email address; name and Google account identifier (only if you sign up with the Google button); interface language and country code; referral code; the fact and date of consent; the browser User-Agent string; and housekeeping data for your sign-up: position in the queue, access tokens, free-mode and free-month dates, flags for emails already sent.</p>
           <h4>Technical records</h4><p>The sign-up page sends the same Apps Script anonymous event markers (page view, form opened, sign-up, share) and JavaScript error reports: error text, page address, User-Agent string, language. These records contain no email address and are not linked to an individual; they exist to diagnose the Service.</p>
           <h4>Payments</h4><p>Once payments are connected, the order server will receive your email, the chosen plan and term, any promo code, and the fact, date and version of the accepted documents. Full card details are handled by bePaid and never received or stored by the controller.</p>`],
         ["Special category data (health)", `<p>Weight and calorie data are treated as special category data concerning health and are recorded only on the basis of a separate explicit consent, requested the first time the food diary is opened. Without it the diary records nothing. Diary entries live only in your browser and are never sent to the controller, who therefore has no access to them.</p>`],
-        ["Purposes and legal bases", `<p>Purposes: waitlist administration and the launch email; opening free mode and the free month and checking access by token; running the app on your device (menus, recipes, shopping list, price comparison, food diary); taking subscription orders for Dishday Plus and Pro Plus once payments are connected; diagnosing errors; marketing communications (opt-in only); and legal compliance. Legal bases are consent and performance of a contract (the <a href="#terms">Terms of Use</a> and the <a href="#offer">Public Offer</a>); where GDPR applies, Article 6(1)(a) and (b) and, for health data, Article 9(2)(a).</p>`],
+        ["Purposes and legal bases", `<p>Purposes: waitlist administration and the launch email; opening free mode and the free month and checking access by token; running the app on your device (menus, recipes, shopping list, price comparison, food diary); taking subscription orders for Viachera Plus and Pro Plus once payments are connected; diagnosing errors; marketing communications (opt-in only); and legal compliance. Legal bases are consent and performance of a contract (the <a href="#terms">Terms of Use</a> and the <a href="#offer">Public Offer</a>); where GDPR applies, Article 6(1)(a) and (b) and, for health data, Article 9(2)(a).</p>`],
         ["International data transfers", `<p>Data is processed outside Belarus by: Google (waitlist storage in Google Sheets, Apps Script, email, Google sign-in) - US/EU; GitHub, a Microsoft company (GitHub Pages hosting, which processes your IP address when a page loads) - US; an analytics tool (PostHog or Microsoft Clarity, planned, only with consent) - EU/US. Payments by bePaid, once connected, are processed in Belarus. The transfer relies on the consent you give when signing up and at checkout, which names these recipients and the risks (see <a href="#consents-s1">Consents, item 1</a> and <a href="#consents-s4">item 4</a>); there is no separate tick box for it, because the Service cannot work without the transfer and the consent text covers it.</p>`],
         ["Data subject rights", `<p>Users may request access, rectification, blocking or erasure of their data, withdraw consent at any time, and lodge a complaint with the National Centre for Personal Data Protection of Belarus. Where GDPR applies, the rights to portability, restriction and objection under Chapter III GDPR also apply.</p>`],
         ["Retention and deletion", `<p>Waitlist records: up to 24 months from sign-up, or until consent is withdrawn. Technical event and error records: up to 24 months. Data in your browser: until you clear site data in your browser or press "Start over" in the app - you control that, and the controller holds no copy. To have your waitlist record deleted, email ${R("email", 1)}.</p>`],
@@ -1346,14 +1346,14 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
       t:"Пользовательское соглашение", short:"Соглашение",
       lead:"Соглашение является публичным договором в значении статьи 396 Гражданского кодекса Республики Беларусь и офертой в значении статьи 405 Гражданского кодекса Республики Беларусь.",
       s:[
-        ["Стороны и предмет", `<p>Оператором Сервиса является ${IP_RU} (далее - «Оператор»). Соглашение регулирует отношения между Оператором и физическим лицом, использующим веб-сервис планирования питания Dishday (далее - «Пользователь»): меню на неделю, рецепты, список покупок со сравнением цен сетей, дневник КБЖУ, режимы готовки и подписки «Dishday Plus» и «Dishday Pro Plus».</p>`],
+        ["Стороны и предмет", `<p>Оператором Сервиса является ${IP_RU} (далее - «Оператор»). Соглашение регулирует отношения между Оператором и физическим лицом, использующим веб-сервис планирования питания Вячэра (далее - «Пользователь»): меню на неделю, рецепты, список покупок со сравнением цен сетей, дневник КБЖУ, режимы готовки и подписки «Вячэра Plus» и «Вячэра Pro Plus».</p>`],
         ["Акцепт соглашения", `<p>Запись в лист ожидания, оформление подписки с отметкой о принятии Соглашения и/или начало использования функций Сервиса означает полный и безоговорочный акцепт условий настоящего Соглашения (пункт 3 статьи 405, статья 408 Гражданского кодекса Республики Беларусь). Если Пользователь не согласен с условиями, он обязан прекратить использование Сервиса.</p>`],
         ["Доступ к Сервису", `<p>Учётных записей в Сервисе нет. Доступ открывается по адресу электронной почты: Пользователь указывает его при записи или при оформлении подписки, а Сервис присылает на этот адрес ссылку доступа. Ссылка доступа персональна, её передача третьим лицам означает передачу оплаченного доступа. Пользователь обязан указывать достоверный адрес электронной почты и отвечает за доступ к своей почте. Все данные Пользователя (план, настройки, дневник питания) хранятся в браузере его устройства, поэтому при смене устройства или очистке данных браузера они не переносятся.</p>`],
         ["Правила использования", `<p>Пользователь обязуется не использовать Сервис для целей, противоречащих законодательству Республики Беларусь, не нарушать работу Сервиса, не предпринимать попыток несанкционированного доступа к системам Оператора и данным других пользователей, не копировать и не распространять содержимое Сервиса в коммерческих целях. Оператор вправе ограничить или прекратить доступ Пользователя к Сервису при нарушении настоящего Соглашения.</p>`],
         ["Рекомендации по питанию", `<p>Меню, рецепты, расчёт КБЖУ и иные рекомендации Сервиса носят информационный и справочный характер и <b>не являются медицинской консультацией, диагностикой или лечением</b>. Перед изменением рациона питания, особенно при наличии заболеваний, беременности, кормлении грудью или приёме лекарственных препаратов, Пользователю следует проконсультироваться с врачом или иным квалифицированным специалистом. Оператор не несёт ответственности за последствия самостоятельного применения рекомендаций Сервиса без такой консультации.</p>`],
         ["Цены сетей и список покупок", `<p>Цены товаров торговых сетей, отображаемые в списке покупок и сравнении цен, носят справочный характер, формируются на основании общедоступных или предоставленных партнёрами данных и могут отличаться от актуальных цен в конкретном магазине на момент покупки. Оператор не гарантирует точность и актуальность отображаемых цен и не несёт ответственности за расхождения.</p>`],
-        ["Подписки Dishday Plus и Pro Plus", `<p>Отдельные функции Сервиса доступны по платным подпискам «Dishday Plus» и «Dishday Pro Plus». Оплата принимается только от Пользователей в Республике Беларусь через платёжного оператора bePaid; на дату настоящей редакции приём оплаты ещё не подключён. Условия подписки, цены, порядок оплаты и отказа регулируются отдельной <a href="#offer">Публичной офертой</a>.</p>`],
-        ["Интеллектуальная собственность", `<p>Все права на Сервис, включая дизайн, программный код, базы данных рецептов и товаров, товарные знаки и наименование Dishday, принадлежат Оператору либо используются им на законном основании. Пользователю предоставляется простая (неисключительная) лицензия на использование Сервиса в личных некоммерческих целях в течение срока действия доступа.</p>`],
+        ["Подписки Вячэра Plus и Pro Plus", `<p>Отдельные функции Сервиса доступны по платным подпискам «Вячэра Plus» и «Вячэра Pro Plus». Оплата принимается только от Пользователей в Республике Беларусь через платёжного оператора bePaid; на дату настоящей редакции приём оплаты ещё не подключён. Условия подписки, цены, порядок оплаты и отказа регулируются отдельной <a href="#offer">Публичной офертой</a>.</p>`],
+        ["Интеллектуальная собственность", `<p>Все права на Сервис, включая дизайн, программный код, базы данных рецептов и товаров, товарные знаки и наименование Вячэра, принадлежат Оператору либо используются им на законном основании. Пользователю предоставляется простая (неисключительная) лицензия на использование Сервиса в личных некоммерческих целях в течение срока действия доступа.</p>`],
         ["Ограничение ответственности", `<p>Сервис предоставляется по принципу «как есть». Оператор не гарантирует бесперебойную и безошибочную работу Сервиса. В максимально допустимой законодательством Республики Беларусь степени Оператор не несёт ответственности за косвенные убытки, упущенную выгоду, а также за последствия использования рекомендаций Сервиса в нарушение разделов 5 и 6 настоящего Соглашения. Ничто в настоящем разделе не ограничивает ответственность Оператора в случаях, когда такое ограничение не допускается законодательством Республики Беларусь, в том числе Законом Республики Беларусь от 09.01.2002 №90-З «О защите прав потребителей».</p>`],
         ["Персональные данные", `<p>Обработка персональных данных Пользователя осуществляется в соответствии с <a href="#privacy">Политикой обработки персональных данных</a> и на основании отдельных <a href="#consents">согласий</a> Пользователя.</p>`],
         ["Изменение и расторжение", `<p>Оператор вправе изменять условия Соглашения с уведомлением Пользователей через Сервис и/или по электронной почте. Продолжение использования Сервиса после вступления изменений в силу означает согласие с новой редакцией. Пользователь вправе прекратить использование Сервиса в любой момент: удалить свои данные кнопкой «Начать заново» или очисткой данных сайта в браузере, а запись из листа ожидания - письмом Оператору на ${R("email")}.</p>`],
@@ -1364,14 +1364,14 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
       t:"Terms of Use", short:"Terms",
       lead:"Reference translation; the Russian version governs and is the binding public offer under Belarusian law.",
       s:[
-        ["Parties and subject matter", `<p>The Service operator is ${IP_EN} ("Operator"). These Terms govern use of the Dishday meal-planning service: weekly menus, recipes, shopping lists with retail price comparison, a calorie and macro diary, cooking modes and the Dishday Plus and Pro Plus subscriptions.</p>`],
+        ["Parties and subject matter", `<p>The Service operator is ${IP_EN} ("Operator"). These Terms govern use of the Viachera meal-planning service: weekly menus, recipes, shopping lists with retail price comparison, a calorie and macro diary, cooking modes and the Viachera Plus and Pro Plus subscriptions.</p>`],
         ["Acceptance", `<p>Signing up for the waitlist, subscribing with the acceptance box ticked and/or using the Service constitutes full acceptance of these Terms.</p>`],
         ["Access", `<p>There are no accounts. Access is tied to an email address: you give it when signing up or at checkout, and the Service emails you an access link. The link is personal; passing it on passes on the paid access. Users are responsible for giving a valid email address and for access to their mailbox. All user data (plan, settings, food diary) lives in the browser on the device, so it does not follow you to another device and is lost if you clear site data.</p>`],
         ["Acceptable use", `<p>Users must not use the Service unlawfully, disrupt it, attempt unauthorised access, or copy and redistribute its content commercially. The Operator may restrict or terminate access for breaches.</p>`],
         ["Nutrition is not medical advice", `<p>Menus, recipes, macro calculations and other recommendations are informational only and <b>are not medical advice, diagnosis or treatment</b>. Consult a doctor before changing your diet, especially if you have a medical condition, are pregnant, breastfeeding, or taking medication.</p>`],
         ["Retailer prices", `<p>Prices shown in the shopping list and price comparison are indicative, based on publicly available or partner-supplied data, and may differ from actual in-store prices.</p>`],
-        ["Dishday Plus and Pro Plus subscriptions", `<p>Paid features are governed by the separate <a href="#offer">Public Offer</a> (pricing, payment, cancellation). Payment is accepted only from users in the Republic of Belarus through the payment provider bePaid, and as of this version payment is not yet connected.</p>`],
-        ["Intellectual property", `<p>All rights to the Service, including design, code, recipe and product databases, trademarks and the Dishday name, belong to or are lawfully used by the Operator. Users receive a limited, non-exclusive licence for personal, non-commercial use for as long as their access lasts.</p>`],
+        ["Viachera Plus and Pro Plus subscriptions", `<p>Paid features are governed by the separate <a href="#offer">Public Offer</a> (pricing, payment, cancellation). Payment is accepted only from users in the Republic of Belarus through the payment provider bePaid, and as of this version payment is not yet connected.</p>`],
+        ["Intellectual property", `<p>All rights to the Service, including design, code, recipe and product databases, trademarks and the Viachera name, belong to or are lawfully used by the Operator. Users receive a limited, non-exclusive licence for personal, non-commercial use for as long as their access lasts.</p>`],
         ["Limitation of liability", `<p>The Service is provided "as is". To the extent permitted under Belarusian law, the Operator is not liable for indirect losses or lost profits, or for consequences of using recommendations contrary to sections 5 and 6. Nothing here limits liability that cannot be limited under Law No. 90-З "On Consumer Rights Protection".</p>`],
         ["Personal data", `<p>Personal data is processed under the <a href="#privacy">Privacy Policy</a> and the applicable <a href="#consents">consents</a>.</p>`],
         ["Changes and termination", `<p>The Operator may amend these Terms with notice; continued use after changes take effect constitutes acceptance. Users may stop using the Service at any time: delete their data with "Start over" or by clearing site data in the browser, and have their waitlist record removed by emailing ${R("email", 1)}.</p>`],
@@ -1381,14 +1381,14 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
     }),
 
     offer: L("offer", {
-      t:"Публичная оферта на подписку Dishday Plus и Dishday Pro Plus", short:"Оферта",
+      t:"Публичная оферта на подписку Вячэра Plus и Вячэра Pro Plus", short:"Оферта",
       lead:"Настоящий документ является публичной офертой в значении статьи 407 Гражданского кодекса Республики Беларусь. Акцепт оферты осуществляется путём оформления подписки в интерфейсе Сервиса с отметкой о принятии.",
       s:[
         ["Оферент", `<p>${IP_RU}${BANK_RU} (далее - «Оператор»).</p>`],
-        ["Предмет оферты", `<p>Оператор предоставляет Пользователю доступ к расширенному функционалу Сервиса Dishday на условиях настоящей оферты по одному из тарифов: «Dishday Plus» - все кухни и блюда Сервиса, кроме раздела «Питание»; «Dishday Pro Plus» - все функции Сервиса, включая раздел «Питание» (дневник калорий и КБЖУ, вода, вес, цели и напоминания). Подробный состав функций указывается в интерфейсе Сервиса на момент оформления подписки.</p>`],
+        ["Предмет оферты", `<p>Оператор предоставляет Пользователю доступ к расширенному функционалу Сервиса Вячэра на условиях настоящей оферты по одному из тарифов: «Вячэра Plus» - все кухни и блюда Сервиса, кроме раздела «Питание»; «Вячэра Pro Plus» - все функции Сервиса, включая раздел «Питание» (дневник калорий и КБЖУ, вода, вес, цели и напоминания). Подробный состав функций указывается в интерфейсе Сервиса на момент оформления подписки.</p>`],
         ["Цена подписки", `%%PRICES_RU%%
           <p>Стоимость установлена в долларах США (Plus - 7 USD в месяц, Pro Plus - 15 USD в месяц) и оплачивается в белорусских рублях по курсу, указанному в интерфейсе Сервиса на момент оплаты, с округлением до целого рубля. Скидка за срок: 3 месяца - 10%, 6 месяцев - 20%, 9 месяцев - 25%, 12 месяцев - 30% от стоимости помесячной оплаты. Цены указаны с учётом применимых налогов. Промокод даёт бесплатно первый месяц выбранного срока. Оператор вправе изменять цены подписки; изменение цены не применяется к уже оплаченному сроку.</p>`],
-        ["Бесплатный режим и бесплатный Pro Plus", `<p>После указания адреса электронной почты Пользователю открывается бесплатный режим на 2 месяца: 50 блюд из 10 кухонь. Первые 150 Пользователей, указавших адрес электронной почты, дополнительно получают два бесплатных месяца доступа по тарифу «Dishday Pro Plus» без оплаты и без привязки карты. Для записавшихся до запуска Сервиса оба срока отсчитываются с 20.10.2026, а не с даты записи.</p>
+        ["Бесплатный режим и бесплатный Pro Plus", `<p>После указания адреса электронной почты Пользователю открывается бесплатный режим на 2 месяца: 50 блюд из 10 кухонь. Первые 150 Пользователей, указавших адрес электронной почты, дополнительно получают два бесплатных месяца доступа по тарифу «Вячэра Pro Plus» без оплаты и без привязки карты. Для записавшихся до запуска Сервиса оба срока отсчитываются с 20.10.2026, а не с даты записи.</p>
           <p>Пробный месяц начинается не с даты записи, а с момента активации по ссылке из письма. Активировать его можно в течение 30 дней с даты записи, а при записи до запуска Сервиса - в течение 30 дней с 20.10.2026; по истечении этого срока место с бесплатным Pro Plus сгорает. По окончании бесплатного Pro Plus платный доступ сам не оформляется и оплата не списывается.</p>`],
         ["Срок и продление", `<p>Подписка оформляется на срок 1, 3, 6, 9 или 12 месяцев с разовой оплатой за весь срок. Автоматического продления и автоматических списаний нет. По окончании срока доступ к платным функциям прекращается; продлить его можно новой оплатой, при этом новый срок добавляется к неиспользованному остатку.</p>`],
         ["Отказ от подписки", `<p>Пользователь вправе отказаться от подписки в любой момент, направив обращение на адрес электронной почты Оператора. Доступ к платным функциям сохраняется до конца оплаченного срока, если Пользователь не потребовал возврата денежных средств.</p>`],
@@ -1399,14 +1399,14 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
         ["Реквизиты Оператора", `<p>${CONTACTS_RU}</p>`]
       ]
     }, {
-      t:"Dishday Plus and Pro Plus Public Offer", short:"Offer",
+      t:"Viachera Plus and Pro Plus Public Offer", short:"Offer",
       lead:"Reference translation; the Russian version governs and constitutes the binding public offer under Belarusian law. Acceptance happens at checkout with the acceptance box ticked.",
       s:[
         ["Offeror", `<p>${IP_EN} ("Operator").</p>`],
-        ["Subject", `<p>Access to Dishday's extended features under one of two plans: "Dishday Plus" - all cuisines and dishes except the Nutrition section; "Dishday Pro Plus" - everything, including Nutrition (calorie and macro diary, water, weight, goals and reminders). The feature set is shown in the Service at the time of purchase.</p>`],
+        ["Subject", `<p>Access to Viachera's extended features under one of two plans: "Viachera Plus" - all cuisines and dishes except the Nutrition section; "Viachera Pro Plus" - everything, including Nutrition (calorie and macro diary, water, weight, goals and reminders). The feature set is shown in the Service at the time of purchase.</p>`],
         ["Price", `%%PRICES_EN%%
           <p>Prices are set in US dollars (Plus USD 7 a month, Pro Plus USD 15 a month) and paid in Belarusian rubles at the rate shown in the Service at payment, rounded to a whole ruble. Term discounts: 3 months 10%, 6 months 20%, 9 months 25%, 12 months 30% off monthly billing. Prices include applicable taxes. A promo code makes the first month of the chosen term free. Price changes never apply to an already-paid term.</p>`],
-        ["Free mode and free month", `<p>After giving an email address the user gets 1 month of free mode: 50 dishes from 10 cuisines. The first 150 users to give an email also get one month of Dishday Pro Plus with no payment and no card. For anyone who signs up before launch, both periods count from 1 October 2026, not from the sign-up date.</p>
+        ["Free mode and free month", `<p>After giving an email address the user gets 1 month of free mode: 50 dishes from 10 cuisines. The first 150 users to give an email also get one month of Viachera Pro Plus with no payment and no card. For anyone who signs up before launch, both periods count from 1 October 2026, not from the sign-up date.</p>
           <p>The free month does not start on sign-up: it starts when you activate it with the link from the email. Activation is possible within 30 days of signing up, or within 30 days of 1 October 2026 if you signed up before launch; after that the reserved spot lapses. When the month ends, no paid plan starts and nothing is charged.</p>`],
         ["Term and renewal", `<p>A subscription is bought for 1, 3, 6, 9 or 12 months with a one-off payment for the whole term. There is no auto-renewal and no automatic charges. Access to paid features ends with the term; a new payment extends it, adding the new term to any unused time.</p>`],
         ["Cancellation", `<p>Users may give up the subscription at any time by writing to the Operator's email. Access continues until the end of the paid term unless the user asks for a refund.</p>`],
@@ -1420,9 +1420,9 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
 
     cookies: L("cookies", {
       t:"Политика cookie и локального хранилища", short:"Cookie",
-      lead:"Описывает, что сайт и приложение Dishday сохраняют в вашем браузере, зачем и как изменить свой выбор. Составлена по фактическому состоянию сайта.",
+      lead:"Описывает, что сайт и приложение Вячэра сохраняют в вашем браузере, зачем и как изменить свой выбор. Составлена по фактическому состоянию сайта.",
       s:[
-        ["Коротко", `<ul><li>Dishday сейчас <b>не устанавливает cookie</b>.</li><li>В локальном хранилище браузера (localStorage) хранятся только настройки, план, доступ и язык - это необходимо для работы.</li><li><b>Сторонних трекеров нет</b>: ни рекламных пикселей, ни счётчиков. Шрифты вшиты в страницу, сторонние скрипты не загружаются.</li><li>Страница записи отправляет на наш собственный сервер на базе Google Apps Script обезличенные отметки о событиях (открытие страницы, открытие формы, запись, «поделиться») и сообщения об ошибках. В них нет вашей почты, и в браузере они ничего не сохраняют.</li><li>Аналитика (PostHog или Microsoft Clarity) планируется и будет загружаться <b>только после вашего согласия</b> в категории «Аналитика».</li></ul>`],
+        ["Коротко", `<ul><li>Вячэра сейчас <b>не устанавливает cookie</b>.</li><li>В локальном хранилище браузера (localStorage) хранятся только настройки, план, доступ и язык - это необходимо для работы.</li><li><b>Сторонних трекеров нет</b>: ни рекламных пикселей, ни счётчиков. Шрифты вшиты в страницу, сторонние скрипты не загружаются.</li><li>Страница записи отправляет на наш собственный сервер на базе Google Apps Script обезличенные отметки о событиях (открытие страницы, открытие формы, запись, «поделиться») и сообщения об ошибках. В них нет вашей почты, и в браузере они ничего не сохраняют.</li><li>Аналитика (PostHog или Microsoft Clarity) планируется и будет загружаться <b>только после вашего согласия</b> в категории «Аналитика».</li></ul>`],
         ["Что такое cookie и локальное хранилище", `<p>Cookie - небольшие файлы, которые сайт сохраняет в браузере и получает обратно при каждом запросе. Локальное хранилище (localStorage, sessionStorage) - похожая технология: данные остаются на вашем устройстве и не отправляются на сервер автоматически. К обеим технологиям применяются одинаковые правила о согласии.</p>`],
         ["Что хранится сейчас", `<div class="lg-table"><table><tr><th>Ключ</th><th>Что внутри</th><th>Категория</th><th>Срок</th></tr>
           <tr><td><code>raskladka5</code></td><td>язык, ответы анкеты, план недели, список покупок, продукты дома, настройки; данные доступа после оплаты (email, срок, токен); записи дневника питания - только после отдельного согласия на данные о здоровье</td><td>Необходимые</td><td>до очистки браузера или «Начать заново»</td></tr>
@@ -1432,7 +1432,7 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
           <tr><td><code>dd_pay_email</code> (sessionStorage)</td><td>email, введённый на экране оплаты, чтобы он не пропал при переходе к документам</td><td>Необходимые</td><td>до закрытия вкладки</td></tr></table></div>`],
         ["Необходимые", `<p>Без этих данных сервис не работает: не запомнит язык, план и оплаченный доступ. Они включены всегда и не требуют согласия, так как строго необходимы для оказания услуги, которую вы запросили. Их можно удалить, очистив данные сайта в браузере.</p>`],
         ["Аналитика", `<p>Когда аналитика будет подключена, она поможет понять, какие экраны непонятны и где возникают ошибки. До вашего согласия скрипты аналитики не загружаются и никакие запросы к её серверам не отправляются. Серверы аналитики могут находиться за пределами Республики Беларусь (ЕС, США) - это трансграничная передача, описанная в <a href="#consents-s4">Согласиях, пункт 4</a>: включив аналитику, вы соглашаетесь и с ней.</p>`],
-        ["Оплата и внешние страницы", `<p>При оплате вы переходите на защищённую страницу платёжного оператора bePaid. Эта страница может устанавливать собственные cookie по правилам bePaid; Dishday их не читает. Данные заказа (email, тариф, факт принятия документов) передаются на сервер приёма заказов на базе Google Apps Script.</p>`],
+        ["Оплата и внешние страницы", `<p>При оплате вы переходите на защищённую страницу платёжного оператора bePaid. Эта страница может устанавливать собственные cookie по правилам bePaid; Вячэра их не читает. Данные заказа (email, тариф, факт принятия документов) передаются на сервер приёма заказов на базе Google Apps Script.</p>`],
         ["Данные о здоровье", `<p>Вес и калории в дневнике питания - специальные персональные данные. Дневник записывает их в хранилище браузера только после отдельного согласия, которое запрашивается при первом открытии дневника. Без согласия дневник ничего не сохраняет.</p>`],
         ["Как изменить выбор", `<p>Нажмите «Настройки cookie» в подвале сайта: там можно включить или выключить аналитику в любой момент, так же просто, как дать согласие. Удалить все сохранённые данные можно в настройках браузера (очистка данных сайта) или кнопкой «Начать заново» в приложении.</p>`],
         ["Правовые основания", `<p>Закон Республики Беларусь от 07.05.2021 №99-З «О защите персональных данных»: согласие на обработку, включающее трансграничную передачу, и отдельное согласие на обработку специальных данных о здоровье. Подробнее - в <a href="#privacy">Политике обработки персональных данных</a>.</p>`],
@@ -1440,9 +1440,9 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
       ]
     }, {
       t:"Cookie and Local Storage Policy", short:"Cookies",
-      lead:"What the Dishday site and app store in your browser, why, and how to change your choice. Written from the site's actual current behaviour.",
+      lead:"What the Viachera site and app store in your browser, why, and how to change your choice. Written from the site's actual current behaviour.",
       s:[
-        ["In short", `<ul><li>Dishday currently <b>sets no cookies</b>.</li><li>Your browser's local storage (localStorage) holds only settings, your plan, access and language - strictly necessary for the Service to work.</li><li><b>No third-party trackers</b>: no ad pixels, no counters. Fonts are embedded and no third-party scripts are loaded.</li><li>The sign-up page sends our own Google Apps Script server anonymous markers (page view, form opened, sign-up, share) and error reports. They contain no email address and store nothing in your browser.</li><li>Analytics (PostHog or Microsoft Clarity) is planned and will load <b>only after you consent</b> to the "Analytics" category.</li></ul>`],
+        ["In short", `<ul><li>Viachera currently <b>sets no cookies</b>.</li><li>Your browser's local storage (localStorage) holds only settings, your plan, access and language - strictly necessary for the Service to work.</li><li><b>No third-party trackers</b>: no ad pixels, no counters. Fonts are embedded and no third-party scripts are loaded.</li><li>The sign-up page sends our own Google Apps Script server anonymous markers (page view, form opened, sign-up, share) and error reports. They contain no email address and store nothing in your browser.</li><li>Analytics (PostHog or Microsoft Clarity) is planned and will load <b>only after you consent</b> to the "Analytics" category.</li></ul>`],
         ["Cookies and local storage", `<p>Cookies are small files a site stores in your browser and receives back with each request. Local storage (localStorage, sessionStorage) is similar, but the data stays on your device and is not sent to a server automatically. The same consent rules apply to both (ePrivacy Directive, Art. 5(3)).</p>`],
         ["What is stored now", `<div class="lg-table"><table><tr><th>Key</th><th>Contents</th><th>Category</th><th>Duration</th></tr>
           <tr><td><code>raskladka5</code></td><td>language, questionnaire answers, weekly plan, shopping list, foods at home, settings; access data after payment (email, expiry, token); food diary entries - only after separate health-data consent</td><td>Strictly necessary</td><td>until you clear browser data or press "Start over"</td></tr>
@@ -1452,7 +1452,7 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
           <tr><td><code>dd_pay_email</code> (sessionStorage)</td><td>the email typed on the payment screen, kept while you read the legal documents</td><td>Strictly necessary</td><td>until the tab is closed</td></tr></table></div>`],
         ["Strictly necessary", `<p>Without this data the Service cannot remember your language, plan or paid access. It is always on and exempt from consent because it is strictly necessary to provide the service you requested. You can delete it by clearing site data in your browser.</p>`],
         ["Analytics", `<p>Once connected, analytics will help us see which screens are confusing and where errors happen. Until you consent, analytics scripts are not loaded and no requests are sent to their servers. The legal basis is your consent (Article 6(1)(a) GDPR where applicable). Analytics servers may be outside Belarus (EU, US); this is a cross-border transfer described in <a href="#consents-s4">Consents, item 4</a>, and switching analytics on covers it.</p>`],
-        ["Payments and external pages", `<p>At checkout you move to the secure bePaid payment page, which may set its own cookies under bePaid's rules; Dishday does not read them. Order data (email, plan, acceptance of terms) is sent to an order server built on Google Apps Script.</p>`],
+        ["Payments and external pages", `<p>At checkout you move to the secure bePaid payment page, which may set its own cookies under bePaid's rules; Viachera does not read them. Order data (email, plan, acceptance of terms) is sent to an order server built on Google Apps Script.</p>`],
         ["Health data", `<p>Weight and calories in the food diary are special category data. The diary stores them only after a separate explicit consent requested the first time you open it. Without consent the diary saves nothing.</p>`],
         ["Changing your choice", `<p>Use "Cookie settings" in the site footer to switch analytics on or off at any time - withdrawing consent is as easy as giving it. To delete everything, clear site data in your browser or press "Start over" in the app.</p>`],
         ["Legal bases", `<p>Law of the Republic of Belarus No. 99-З "On Personal Data Protection": consent to processing, which covers the cross-border transfer, and a separate consent to special category health data. Where GDPR applies: Articles 6(1)(a), 9(2)(a) and 7(3). See the <a href="#privacy">Privacy Policy</a>.</p>`],
@@ -1462,16 +1462,16 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
 
     consents: L("consents", {
       t:"Тексты согласий", short:"Согласия",
-      lead:"Формулировки согласий, которые запрашивает Dishday. Ни один чекбокс не предзаполнен. Короткая формулировка стоит рядом с чекбоксом, полная - здесь.",
+      lead:"Формулировки согласий, которые запрашивает Вячэра. Ни один чекбокс не предзаполнен. Короткая формулировка стоит рядом с чекбоксом, полная - здесь.",
       s:[
-        ["Лист ожидания", `<p class="lg-short">Согласен(на) на обработку email для доступа к Dishday и писем о нём.</p>
-          <p><b>Полная формулировка.</b> Я даю согласие ${IP_RU} (Оператор), на обработку моих персональных данных: адреса электронной почты, имени и идентификатора учётной записи Google (если запись сделана кнопкой входа через Google), языка интерфейса, кода страны, реферального кода, даты согласия и строки User-Agent браузера - в целях включения в лист ожидания сервиса Dishday, открытия бесплатного режима и бесплатного Pro Plus, направления письма о запуске Сервиса и рассмотрения моих обращений.</p>
+        ["Лист ожидания", `<p class="lg-short">Согласен(на) на обработку email для доступа к Вячэра и писем о нём.</p>
+          <p><b>Полная формулировка.</b> Я даю согласие ${IP_RU} (Оператор), на обработку моих персональных данных: адреса электронной почты, имени и идентификатора учётной записи Google (если запись сделана кнопкой входа через Google), языка интерфейса, кода страны, реферального кода, даты согласия и строки User-Agent браузера - в целях включения в лист ожидания сервиса Вячэра, открытия бесплатного режима и бесплатного Pro Plus, направления письма о запуске Сервиса и рассмотрения моих обращений.</p>
           <p>Я согласен(на) с тем, что для этих целей мои данные передаются и хранятся на серверах Google (Google Таблицы, Google Apps Script, почта Google) в США и странах Европейского союза, а страницы Сервиса размещены на хостинге GitHub Pages в США, который при загрузке страницы обрабатывает мой IP-адрес. Я проинформирован(а), что США не включены в перечень государств, обеспечивающих надлежащий уровень защиты прав субъектов персональных данных (Приказ Национального центра защиты персональных данных от 15.11.2021 №14), уровень защиты моих данных там может отличаться от уровня, установленного законодательством Республики Беларусь, и принимаю связанные с этим риски (подробнее - пункт 4).</p>
           <p>Согласие действует до отзыва в порядке, указанном в <a href="#privacy">Политике обработки персональных данных</a>, либо не дольше 24 месяцев с даты записи в лист ожидания.</p>`],
-        ["Данные о здоровье (вес, калории)", `<p class="lg-short">Отдельно согласен(на) на обработку данных о весе и калорийности питания как специальных персональных данных о здоровье для ведения дневника питания в Dishday.</p>
-          <p><b>Полная формулировка.</b> Я даю отдельное явное согласие на обработку сведений о моём весе, потребляемых калориях и иных показателях, которые я вношу в дневник питания сервиса Dishday, как специальных персональных данных, относящихся к состоянию здоровья. Обработка осуществляется в целях ведения дневника питания и формирования статистики внутри Сервиса. Записи дневника хранятся только в локальном хранилище моего браузера, Оператору не передаются и на его серверы не попадают. Данное согласие является дополнительным к согласию на обработку персональных данных и отзывается отдельно - кнопкой «Отозвать согласие и удалить записи» в разделе «Питание» или обращением на ${R("email")}; при отзыве записи дневника удаляются. Я понимаю, что рекомендации Сервиса не являются медицинской консультацией.</p>`],
-        ["Рассылки", `<p class="lg-short">Хочу получать письмо о запуске Dishday и новостные/рекламные рассылки на указанный email. Могу отписаться в любой момент.</p>
-          <p><b>Полная формулировка.</b> Я согласен(на) на получение от Оператора по указанному мной адресу электронной почты информационного письма о запуске сервиса Dishday, а также последующих новостных и рекламных рассылок в соответствии с Законом Республики Беларусь от 10.05.2007 №225-З «О рекламе». Данное согласие не является условием регистрации или использования Сервиса и может быть отозвано в любой момент по ссылке «отписаться» в любом письме либо обращением на ${R("email")}.</p>`],
+        ["Данные о здоровье (вес, калории)", `<p class="lg-short">Отдельно согласен(на) на обработку данных о весе и калорийности питания как специальных персональных данных о здоровье для ведения дневника питания в Вячэра.</p>
+          <p><b>Полная формулировка.</b> Я даю отдельное явное согласие на обработку сведений о моём весе, потребляемых калориях и иных показателях, которые я вношу в дневник питания сервиса Вячэра, как специальных персональных данных, относящихся к состоянию здоровья. Обработка осуществляется в целях ведения дневника питания и формирования статистики внутри Сервиса. Записи дневника хранятся только в локальном хранилище моего браузера, Оператору не передаются и на его серверы не попадают. Данное согласие является дополнительным к согласию на обработку персональных данных и отзывается отдельно - кнопкой «Отозвать согласие и удалить записи» в разделе «Питание» или обращением на ${R("email")}; при отзыве записи дневника удаляются. Я понимаю, что рекомендации Сервиса не являются медицинской консультацией.</p>`],
+        ["Рассылки", `<p class="lg-short">Хочу получать письмо о запуске Вячэра и новостные/рекламные рассылки на указанный email. Могу отписаться в любой момент.</p>
+          <p><b>Полная формулировка.</b> Я согласен(на) на получение от Оператора по указанному мной адресу электронной почты информационного письма о запуске сервиса Вячэра, а также последующих новостных и рекламных рассылок в соответствии с Законом Республики Беларусь от 10.05.2007 №225-З «О рекламе». Данное согласие не является условием регистрации или использования Сервиса и может быть отозвано в любой момент по ссылке «отписаться» в любом письме либо обращением на ${R("email")}.</p>`],
         ["Трансграничная передача", `<p class="lg-short">Отдельного чекбокса нет: передача за пределы Республики Беларусь описана в согласиях 1 и 5, которые вы отмечаете при записи и при оплате.</p>
           <p><b>Полная формулировка.</b> Трансграничная передача моих персональных данных осуществляется операторам инфраструктуры Сервиса, расположенным за пределами Республики Беларусь: Google (США и страны ЕС - хранение листа ожидания в Google Таблице, приём записи и заказов через Google Apps Script, отправка писем, вход через Google-аккаунт); GitHub, компания Microsoft (США - хостинг страниц Сервиса на GitHub Pages, обработка IP-адреса при загрузке страницы); сервис аналитики PostHog или Microsoft Clarity (ЕС/США - планируется, только при отдельном включении аналитики в «Настройках cookie»). Платежи через bePaid обрабатываются в Республике Беларусь и трансграничной передачей не являются.</p>
           <p>Я проинформирован(а), что в отношении государств, не включённых в перечень государств с надлежащим уровнем защиты прав субъектов персональных данных (Приказ Национального центра защиты персональных данных от 15.11.2021 №14), в том числе США, уровень защиты моих данных может отличаться от уровня, установленного законодательством Республики Беларусь, и принимаю связанные с этим риски. Без такой передачи Сервис работать не может, поэтому она входит в общее согласие на обработку данных, а не выделена в отдельный чекбокс.</p>`],
@@ -1482,11 +1482,11 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
       ]
     }, {
       t:"Consent Texts", short:"Consents",
-      lead:"The consents Dishday asks for. No box is pre-ticked. The short text sits next to the checkbox, the full text is here. Reference translation; the Russian version governs.",
+      lead:"The consents Viachera asks for. No box is pre-ticked. The short text sits next to the checkbox, the full text is here. Reference translation; the Russian version governs.",
       s:[
-        ["Waitlist", `<p class="lg-short">I agree to the processing of my email for Dishday access and emails about it.</p><p>Full text: consent to process email, name and Google account identifier (if you sign up with the Google button), language, country code, referral code, consent date and browser User-Agent for the waitlist, for opening free mode and the free month, for the launch email and for answering enquiries. This includes storage on Google's servers (Google Sheets, Apps Script, Google mail) in the US and EU and hosting on GitHub Pages in the US, which processes your IP address when a page loads; the US is not on Belarus's list of countries with an adequate level of protection, the level of protection there may differ, and you accept that risk (see item 4). Valid until withdrawn or for up to 24 months from sign-up.</p>`],
+        ["Waitlist", `<p class="lg-short">I agree to the processing of my email for Viachera access and emails about it.</p><p>Full text: consent to process email, name and Google account identifier (if you sign up with the Google button), language, country code, referral code, consent date and browser User-Agent for the waitlist, for opening free mode and the free month, for the launch email and for answering enquiries. This includes storage on Google's servers (Google Sheets, Apps Script, Google mail) in the US and EU and hosting on GitHub Pages in the US, which processes your IP address when a page loads; the US is not on Belarus's list of countries with an adequate level of protection, the level of protection there may differ, and you accept that risk (see item 4). Valid until withdrawn or for up to 24 months from sign-up.</p>`],
         ["Health data (weight, calories)", `<p class="lg-short">I separately agree to the processing of my weight and calorie data for the food diary.</p><p>Full text: separate explicit consent (Article 9(2)(a) GDPR where applicable) to process weight, calories and related entries for the food diary and in-app statistics. The entries stay in your browser's local storage and are never sent to the Operator. Withdrawable on its own with "Withdraw consent and delete entries" in the Nutrition tab, which deletes the entries. The Service's recommendations are not medical advice.</p>`],
-        ["Emails", `<p class="lg-short">Send me the Dishday launch email and news or marketing updates. I can unsubscribe anytime.</p><p>Full text: opt-in consent to the launch notice and later marketing emails; not a condition for using the Service; withdrawable anytime via the unsubscribe link in any email or by writing to ${R("email", 1)}.</p>`],
+        ["Emails", `<p class="lg-short">Send me the Viachera launch email and news or marketing updates. I can unsubscribe anytime.</p><p>Full text: opt-in consent to the launch notice and later marketing emails; not a condition for using the Service; withdrawable anytime via the unsubscribe link in any email or by writing to ${R("email", 1)}.</p>`],
         ["Cross-border transfer", `<p class="lg-short">There is no separate tick box: the transfer outside Belarus is described in consents 1 and 5, which you tick when signing up and at checkout.</p><p>Full text: personal data is transferred to Google (US and EU - waitlist stored in Google Sheets, sign-ups and orders through Apps Script, emails, Google sign-in), to GitHub, a Microsoft company (US - GitHub Pages hosting, which processes your IP address when a page loads), and, once enabled, to the analytics provider PostHog or Microsoft Clarity (EU/US, only if you switch analytics on). bePaid payments are processed in Belarus and are not a cross-border transfer. You are informed that for countries not on Belarus's adequacy list, including the US, the level of protection may differ from Belarusian law, and you accept that risk. The Service cannot work without this transfer, so it is part of the general consent rather than a separate box.</p>`],
         ["Subscription checkout", `<p class="lg-short">I accept the Terms of Use and the Public Offer and consent to the processing of my personal data.</p><p>Full text: by ticking the box at checkout I confirm I have read and accept the <a href="#terms">Terms of Use</a> and the <a href="#offer">Public Offer</a> in their current version and consent to processing of my email, plan and payment details to set up the subscription and send a receipt, under the <a href="#privacy">Privacy Policy</a>. The order is received and stored by a Google Apps Script server (US and EU) and full card details are handled by bePaid in Belarus; the cross-border risks are set out in item 4. The fact, date and version of acceptance are stored with the order. Payment cannot start without it.</p>`],
         ["Analytics", `<p class="lg-short">Allow analytics: anonymised usage data helps us find bugs.</p><p>Full text: consent to analytics tools (PostHog or Microsoft Clarity) collecting technical usage and error data. Given in "Cookie settings", off by default and withdrawable there at any time. See the <a href="#cookies">Cookie Policy</a>.</p>`]
@@ -1714,7 +1714,7 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
 
 
 /* ===== mod_pay.js ===== */
-/* Dishday: тарифы, оплата и запись.
+/* Вячэра: тарифы, оплата и запись.
    demo - статус оплаты задаётся тестовыми кнопками (DD_PAY.demoSet), запись хранится в этом браузере.
    live - POST на endpoint (Google Apps Script). Тело уходит как text/plain: Apps Script не отвечает на CORS preflight.
    Контракт оплаты (payments/Pay.gs):
@@ -1934,7 +1934,7 @@ const R = (k, en) => REQUISITES[k] ? escR(REQUISITES[k]) : "";
 
 
 /* ===== mod_perf.js ===== */
-/* Dishday: производительность. Слабое устройство, телефон, экономия трафика или reduced-motion -> html.perf-lite:
+/* Вячэра: производительность. Слабое устройство, телефон, экономия трафика или reduced-motion -> html.perf-lite:
    стекло без backdrop-filter (плотный фон), появления без размытия, аврора статичным CSS-градиентом (mod_aurora.js).
    Разделы лендинга ниже первого экрана не верстаются и не рисуются, пока до них не докрутили (content-visibility). */
 (function(){
@@ -1959,7 +1959,7 @@ html.perf-lite [data-rv]{filter:none!important}`;
 
 
 /* ===== mod_prices_live.js ===== */
-/* Dishday: живые цены сетей поверх вшитых при сборке.
+/* Вячэра: живые цены сетей поверх вшитых при сборке.
    GitHub Actions дважды в день обновляет prices/<cc>.json (сборка сайта, intl/scrapers).
    Модуль вшивается до объявления REGION/COUNTRIES/applyRegion, поэтому они читаются только внутри функции,
    не на верхнем уровне (тот же приём, что в mod_legal.js/mod_reviews.js).
@@ -2684,7 +2684,7 @@ html.perf-lite [data-rv]{filter:none!important}`;
 
 
 /* ===== mod_reviews.js ===== */
-/* Dishday: отзывы с фото, комментарии, жалобы, лёгкий профиль.
+/* Вячэра: отзывы с фото, комментарии, жалобы, лёгкий профиль.
    Контракт:
      DD_REVIEWS.config = {mode:"demo"|"live", url, anonKey}
      DD_REVIEWS.openForm(recipeId)        форма «Я приготовил», при необходимости вход
@@ -2719,13 +2719,13 @@ const TX = {
   worth:["Стоит готовить?","Worth cooking?"], yes:["Да","Yes"], no:["Нет","No"],
   worthYes:["Стоит готовить","Worth cooking"], worthNo:["Не стоит","Not worth it"],
   body:["Отзыв","Review"], bodyPh:["Что получилось, что бы поменяли","What worked, what you'd change"],
-  social:["Разрешаю Dishday использовать это фото в соцсетях с указанием автора","I allow Dishday to use these photos on social media with credit to me"],
+  social:["Разрешаю Вячэра использовать это фото в соцсетях с указанием автора","I allow Viachera to use these photos on social media with credit to me"],
   socialNote:["Без галочки фото видно только в приложении","Without this, photos stay inside the app"],
   publish:["Опубликовать","Publish"], save:["Сохранить","Save"], cancel:["Отмена","Cancel"], close:["Закрыть","Close"], confirm:["Подтвердить","Confirm"],
   justMark:["Отметить без отзыва","Just mark as cooked"],
   needRating:["Поставьте оценку и ответьте, стоит ли готовить","Pick a rating and say whether it's worth cooking"],
-  saved:["Отзыв опубликован","Review published"], marked:["Отмечено: приготовлено","Marked as cooked"], bonus:["Спасибо за фото! +7 дней Dishday Plus","Thanks for the photo! +7 days of Dishday Plus"],
-  signTitle:["Вход в Dishday","Sign in to Dishday"], signWhy:["Войдите, чтобы оставлять отзывы и комментарии","Sign in to post reviews and comments"],
+  saved:["Отзыв опубликован","Review published"], marked:["Отмечено: приготовлено","Marked as cooked"], bonus:["Спасибо за фото! +7 дней Вячэра Plus","Thanks for the photo! +7 days of Viachera Plus"],
+  signTitle:["Вход в Вячэра","Sign in to Viachera"], signWhy:["Войдите, чтобы оставлять отзывы и комментарии","Sign in to post reviews and comments"],
   xb:["Согласен(на) на обработку профиля, отзывов и фото. Сейчас отзывы работают в демо-режиме, всё остаётся в этом браузере","I agree to the processing of my profile, reviews and photos. Reviews run in demo mode for now, so everything stays in this browser"],
   google:["Войти через Google","Continue with Google"], email:["Email","Email"], magic:["Прислать ссылку для входа","Email me a sign-in link"],
   magicSent:["Ссылка отправлена, проверьте почту","Link sent, check your inbox"], badEmail:["Проверьте email","Check the email address"],
@@ -2744,18 +2744,18 @@ const TX = {
   cookedN:["Приготовлено блюд","Dishes cooked"], favCu:["Любимые кухни","Favourite cuisines"], myReviews:["Мои отзывы","My reviews"], noMine:["Вы ещё не оставляли отзывов","You haven't posted any reviews yet"],
   editProfile:["Редактировать профиль","Edit profile"], nickTaken:["Этот никнейм занят","This nickname is taken"], badIg:["Проверьте ник Instagram","Check the Instagram handle"],
   delAcc:["Удалить аккаунт","Delete account"], delAccQ:["Удалить аккаунт, все отзывы, фото и комментарии? Восстановить будет нельзя","Delete your account with all reviews, photos and comments? This can't be undone"], accDeleted:["Аккаунт удалён","Account deleted"],
-  plusTill:["Dishday Plus до {d}","Dishday Plus until {d}"],
+  plusTill:["Вячэра Plus до {d}","Viachera Plus until {d}"],
   err:["Не получилось. Попробуйте ещё раз","Something went wrong. Please try again"], auth:["Нужно войти","Please sign in"],
   tooMany:["Слишком часто. Попробуйте позже","Too many attempts. Try again later"], badFile:["Это не фото или файл больше 15 МБ","Not a photo or larger than 15 MB"],
   notSigned:["Войдите, чтобы видеть профиль и свои отзывы","Sign in to see your profile and reviews"],
   demoTitle:["Демо-режим","Demo mode"], demoNote:["Вход через Google заработает после подключения проекта. Сейчас можно пройти весь сценарий: данные хранятся только в этом браузере","Google sign-in will work once the project is connected. For now you can try the whole flow: data stays in this browser"],
   or:["или","or"], emailLink:["Войти по email-ссылке","Sign in with an email link"],
-  community:["Сообщество","Community"], feedLead:["Свежие отзывы и фото поваров Dishday. Смотреть можно без входа","Fresh reviews and photos from Dishday cooks. No sign-in needed to look"],
+  community:["Сообщество","Community"], feedLead:["Свежие отзывы и фото поваров Вячэра. Смотреть можно без входа","Fresh reviews and photos from Viachera cooks. No sign-in needed to look"],
   filters:["Фильтры ленты","Feed filters"], fPhoto:["С фото","With photos"], fCountry:["Моя страна","My country"], fWeek:["Лучшие за неделю","Best this week"],
   emptyFeed:["Здесь появятся ужины других поваров. Приготовьте блюдо из своей недели и поделитесь результатом первым","Other cooks' dinners will show up here. Cook a dish from your week and be the first to share it"],
   emptyFilter:["Под эти фильтры отзывов пока нет","No reviews match these filters yet"], toWeek:["Выбрать, что приготовить","Pick something to cook"],
   share:["Поделиться","Share"], story:["Карточка для сторис","Story card"], linkCopied:["Ссылка скопирована, карточка для сторис сохранена","Link copied, story card saved"], storySaved:["Карточка для сторис сохранена","Story card saved"],
-  shareText:["{d} на Dishday: {s} из 5 от @{n}","{d} on Dishday: {s} of 5 by @{n}"], shareCooked:["Приготовил(а) {d} с Dishday","I cooked {d} with Dishday"],
+  shareText:["{d} на Вячэра: {s} из 5 от @{n}","{d} on Viachera: {s} of 5 by @{n}"], shareCooked:["Приготовил(а) {d} с Вячэра","I cooked {d} with Viachera"],
   cookedT:["Приготовлено!","Cooked it!"], cookedP:["Как получилось? Отзыв с фото поможет другим решить, что готовить на ужин","How did it go? A review with a photo helps others decide what to cook"],
   reviewPhoto:["Оставить отзыв с фото","Leave a review with a photo"], later:["Позже","Later"],
   openRecipe:["Открыть рецепт: {d}","Open recipe: {d}"], myPhotos:["Мои фото","My photos"], privacy:["Приватность","Privacy"],
@@ -3187,7 +3187,7 @@ async function share(rid, r, p){
     try {
       const blob = p && safeUrl(p.url) ? await fetch(p.url).then(x => x.blob()).catch(() => null) : null;
       const file = blob && new File([blob], `dishday-${rid}.${blob.type === "image/webp" ? "webp" : "jpg"}`, {type:blob.type || "image/jpeg"});
-      await navigator.share(file && navigator.canShare && navigator.canShare({files:[file]}) ? {title:"Dishday", text, url, files:[file]} : {title:"Dishday", text, url});
+      await navigator.share(file && navigator.canShare && navigator.canShare({files:[file]}) ? {title:"Viachera", text, url, files:[file]} : {title:"Viachera", text, url});
       return;
     } catch(e){ if(e && e.name === "AbortError") return; }
   }
@@ -3208,7 +3208,7 @@ function wrapText(g, text, max, lines){
   if(out.length > lines){ out.length = lines; out[lines - 1] += "..."; }
   return out;
 }
-/* 1080x1920: фото блюда, название, оценка, ник, знак Dishday. Фото из Supabase грузится с CORS, иначе canvas не отдаст картинку */
+/* 1080x1920: фото блюда, название, оценка, ник, знак Вячэра. Фото из Supabase грузится с CORS, иначе canvas не отдаст картинку */
 async function storyBlob(rid, r, p){
   const W = 1080, H = 1920, X = 90, Y = 200, PW = 900, PH = 1040;
   const c = h("canvas", {width:W, height:H}), g = c.getContext("2d");
@@ -3235,7 +3235,7 @@ async function storyBlob(rid, r, p){
   g.lineWidth = 5.5; g.beginPath(); g.arc(32, 45, 22, Math.PI, 2 * Math.PI); g.stroke();
   g.lineWidth = 5; g.beginPath(); g.moveTo(6, 51); g.lineTo(58, 51); g.stroke();
   g.fillStyle = "#6EE7F9"; g.beginPath(); g.arc(32, 16.5, 4.8, 0, 2 * Math.PI); g.fill(); g.restore();
-  g.fillStyle = "#F3F5FC"; g.font = '600 54px Unbounded, Onest, sans-serif'; g.fillText("Dishday", X + 110, by - 12);
+  g.fillStyle = "#F3F5FC"; g.font = '600 54px Unbounded, Onest, sans-serif'; g.fillText("Viachera", X + 110, by - 12);
   g.fillStyle = "#AEB8D6"; g.font = '500 38px Onest, sans-serif'; g.fillText("Dinner, decided.", X + 110, by + 42);
   return new Promise((ok, no) => c.toBlob(b => b ? ok(b) : no(err("err")), "image/png"));
 }
@@ -11191,7 +11191,7 @@ const STR = {
   moreAria:["Ещё разделы","More sections"], menuAria:["Меню","Menu"],
   heroKick:["Бесплатно, без карты. Полный доступ откроется 20 октября","Free, no card. Full access opens on 20 October"],
   heroCtaFree:["Собрать неделю бесплатно","Build my week, free"],
-  getAccess:["Занять место","Claim a spot"], openApp:["Открыть приложение","Open the app"], openSite:["Открыть сайт Dishday","Open the Dishday site"],
+  getAccess:["Занять место","Claim a spot"], openApp:["Открыть приложение","Open the app"], openSite:["Открыть сайт Вячэра","Open the Viachera site"],
   heroH:['Ужин <span class="grad-text">решён.</span>','Dinner, <span class="grad-text">decided.</span>'],
   heroSub:[()=>`Неделя ужинов под ваш бюджет: цены ${chainsGen()} сверены, список покупок готов.`, ()=>`A week of dinners on your budget, ${chainsEn("priced across {w} stores","priced at {c}")}, with one shopping list.`],
   demoQuery:[()=>`грузинская кухня, на четверых, до ${rub0(REGION.C.budget.demo)}`, ()=>`Georgian food for four, under ${rub0(REGION.C.budget.demo)}`],
@@ -11202,14 +11202,14 @@ const STR = {
   howH:["От девяти вопросов до ужина","From nine questions to dinner"],
   how1t:["Расскажите, как вы едите","Tell us how you eat"],
   how1p:["Кухни, сколько вас за столом, бюджет, что не едите и какая техника есть на кухне.","Cuisines, how many people eat, your budget, what you skip and what's in your kitchen."],
-  how2t:["Dishday собирает неделю","Dishday builds your week"],
+  how2t:["Вячэра собирает неделю","Viachera builds your week"],
   how2p:[()=>`Сверяет цены ${chainsGen()}, учитывает ограничения и превращает остатки во второе блюдо.`, ()=>`It ${chainsEn("compares {w} stores","checks {c} prices")}, respects your restrictions and turns leftovers into a second meal.`],
   how3t:["Покупаете и готовите","You shop and cook"],
   how3p:["Один список по отделам магазина, рецепты по шагам с таймером и дневник КБЖУ.","One list sorted by store aisle, step-by-step recipes with timers and a nutrition diary."],
   featH:["Вот что внутри","What's inside"],
   fPriceT:[()=>CHAINS.length>1 ? `${capF(NUMW.ru.nom[CHAINS.length])} ${plural(CHAINS.length,"сеть","сети","сетей")}, одна корзина` : `Цены ${chainGen(CHAINS[0])}, одна корзина`,
            ()=>chainsEn("{W} stores, one basket","{c} prices, one basket")],
-  fPriceP:["Одна и та же неделя ужинов стоит в магазинах по-разному. Dishday считает каждую корзину и показывает, где дешевле.","The same week of dinners costs a different amount in every store. Dishday prices each basket and shows where it's cheapest."],
+  fPriceP:["Одна и та же неделя ужинов стоит в магазинах по-разному. Вячэра считает каждую корзину и показывает, где дешевле.","The same week of dinners costs a different amount in every store. Viachera prices each basket and shows where it's cheapest."],
   fPriceNote:[()=>priceNotes(), ()=>priceNotes()],
   fBasket:[v=>`Корзина: ${pn(v.n,"dinner")} на ${pn(v.p,"person")}. ${v.one?"Сеть":"Дешевле всего"}: ${v.c}`, v=>`Basket: ${pn(v.n,"dinner")} for ${pn(v.p,"person")}. ${v.one?"Store":"Cheapest"}: ${v.c}`],
   fWeekT:["Остатки становятся обедом","Leftovers become lunch"],
@@ -11217,12 +11217,12 @@ const STR = {
   fromLeftTag:["из остатков","from leftovers"],
   fTimerT:["Шаги с таймером","Steps with timers"], timerStart:["Запустить таймер","Start timer"], timerPause:["Пауза","Pause"],
   fKbjuT:["КБЖУ каждого блюда","Nutrition for every dish"], kbjuPer:["ккал на порцию","kcal per serving"],
-  storyH:["Как мы создавали Dishday","How we built Dishday"],
+  storyH:["Как мы создавали Вячэра","How we built Viachera"],
   storyP:["Бренд делали так же, как продукт: несколько вариантов, проверка на людях, один выбор.","We built the brand the way we built the product: several options, tested on real people, one choice."],
   stLogoT:["Знак","The mark"],
-  stLogo1:["Купол клоша: дуга радиусом 22 на сетке 64","Cloche dome: an arc of radius 22 on a 64 grid"],
-  stLogo2:["Поднос: одна линия во всю ширину","Tray: one line across the full width"],
-  stLogo3:["Ручка-солнце: вечер, когда решается ужин","Sun handle: the evening when dinner gets decided"],
+  stLogo1:["Месяц: круг радиусом 30 на сетке 100","Cloche dome: an arc of radius 22 on a 64 grid"],
+  stLogo2:["Вырез: тот же приём со смещением, радиус 23","Tray: one line across the full width"],
+  stLogo3:["Борт тарелки: дуга радиусом 36 под месяцем","Sun handle: the evening when dinner gets decided"],
   stSlogT:["Слоган","Tagline"], stSlogP:["Четыре финалиста. Оставили тот, что обещает результат, а не процесс.","Four finalists. We kept the one that promises an outcome, not a process."],
   slog1:["Неделя ужинов за три минуты","A week of dinners in three minutes"], slog1w:["про скорость, а не про итог","about speed, not the result"],
   slog2:["Что готовить? Уже знаем","What to cook? We know"], slog2w:["вопрос в слогане отнимает секунду","a question costs the reader a second"],
@@ -11238,9 +11238,9 @@ const STR = {
   priceH:["Тарифы","Pricing"],
   priceIntro:[v=>`Бесплатно: 50 блюд из 10 кухонь на 2 месяца. Plus открывает все ${pn(v.n,"dish")} из ${pn(v.c,"cuisineGen")}, Pro Plus добавляет «Питание». Чем длиннее срок, тем дешевле месяц.`, v=>`Free: 50 dishes from 10 cuisines for 2 months. Plus unlocks all ${v.n} dishes from ${v.c} cuisines, Pro Plus adds Nutrition. The longer the term, the cheaper each month.`],
   freeOverNote:["Бесплатный период закончился. Заполните параметры и выберите тариф: меню и настройки сохранятся.","Your free period has ended. Fill in your preferences and pick a plan: your menu and settings stay."],
-  planNone:["Без тарифа","No plan"], planPlus:["Dishday Plus","Dishday Plus"], planPro:["Dishday Pro Plus","Dishday Pro Plus"], planTrial:["Pro Plus бесплатно","Pro Plus free"], planFree:["Бесплатный режим","Free mode"],
+  planNone:["Без тарифа","No plan"], planPlus:["Viachera Plus","Viachera Plus"], planPro:["Viachera Pro Plus","Viachera Pro Plus"], planTrial:["Pro Plus бесплатно","Pro Plus free"], planFree:["Бесплатный режим","Free mode"],
   plusD:["Все кухни и блюда, всё кроме «Питания»","All cuisines and dishes, everything except Nutrition"],
-  proD:["Всё, что умеет Dishday, включая «Питание»","Everything Dishday does, including Nutrition"],
+  proD:["Всё, что умеет Вячэра, включая «Питание»","Everything Viachera does, including Nutrition"],
   allIn:["Всё включено","All included"], perMonth:["в месяц","a month"],
   termAria:["Срок оплаты","Billing term"], termShort:["{n} мес","{n} mo"],
   planSum:[v=>`${v.x} за ${v.n} мес · ${v.m} в месяц${v.s ? ` · экономия ${v.s} (${v.p}%)` : ""}`, v=>`${v.x} for ${v.n} mo · ${v.m} a month${v.s ? ` · save ${v.s} (${v.p}%)` : ""}`],
@@ -11265,23 +11265,23 @@ const STR = {
   faq2q:["Как отменить подписку?","How do I cancel?"],
   faq2a:["Отменять нечего: автопродления нет. Вы платите за выбранный срок от 1 до 12 месяцев, в конце срока доступ заканчивается, продлить можно в разделе «Тарифы».","There's nothing to cancel: there is no auto-renewal. You pay for a term of 1 to 12 months, access ends with the term, and you can extend it under Pricing."],
   faq3q:["Как проходит оплата?","How does payment work?"],
-  faq3a:[()=>REGION.pay ? "Картой через bePaid, платёжный сервис с сертификатом PCI DSS. Данные карты Dishday не видит." : "Оплата пока работает только в Беларуси. Бесплатный режим открывается везде после ввода почты, а о подписке напишем на эту же почту.",
-         ()=>REGION.pay ? "By card via bePaid, a PCI DSS certified payment service. Dishday never sees your card details." : "Payment only works in Belarus for now. Free mode opens everywhere once you enter your email, and we'll write to that email when the subscription opens."],
+  faq3a:[()=>REGION.pay ? "Картой через bePaid, платёжный сервис с сертификатом PCI DSS. Данные карты Вячэра не видит." : "Оплата пока работает только в Беларуси. Бесплатный режим открывается везде после ввода почты, а о подписке напишем на эту же почту.",
+         ()=>REGION.pay ? "By card via bePaid, a PCI DSS certified payment service. Viachera never sees your card details." : "Payment only works in Belarus for now. Free mode opens everywhere once you enter your email, and we'll write to that email when the subscription opens."],
   faq4q:["Что если под мои ограничения мало блюд?","What if few dishes fit my restrictions?"],
-  faq4a:["Dishday скажет об этом прямо и подскажет, какое ограничение ослабить или какую кухню добавить.","Dishday tells you straight away and suggests which restriction to relax or which cuisine to add."],
+  faq4a:["Вячэра скажет об этом прямо и подскажет, какое ограничение ослабить или какую кухню добавить.","Viachera tells you straight away and suggests which restriction to relax or which cuisine to add."],
   faq5q:["Работает на телефоне?","Does it work on my phone?"],
   faq5a:["Да. Откройте сайт в браузере и добавьте его на экран «Домой»: он запускается как приложение.","Yes. Open the site in your browser and add it to your home screen: it launches like an app."],
   faq6q:["У меня промокод","I have a promo code"],
   faq6a:[()=>!REGION.pay ? "Промокоды заработают, когда подписка откроется в вашей стране." : `Введите его на экране оплаты: первый месяц выбранного срока бесплатно. На сроке 1 месяц оплата ${byn(0)}, на 12 месяцах Plus скидка ${byn(DD_PAY.withPromo(DD_PAY.priceFor("plus",12,"BY"),100).off)}.`, ()=>!REGION.pay ? "Promo codes will work once the subscription opens in your country." : `Enter it on the payment screen: the first month of your term is free. ${byn(0)} for a 1-month term, ${byn(DD_PAY.withPromo(DD_PAY.priceFor("plus",12,"BY"),100).off)} off 12 months of Plus.`],
   faq7q:["Что входит во вкладку «Питание»?","What's in the Nutrition tab?"],
-  faq7a:["Входит в Pro Plus и в бесплатный период. Дневник калорий и КБЖУ, вода и вес. Цель калорий, норма воды, интервал и часы напоминаний, тихие часы настраиваются. Пока Dishday открыт в браузере, напоминание приходит на экран, а с вашего разрешения и системным уведомлением. Когда вкладка закрыта, напоминания заработают после установки приложения на телефон (PWA).","It comes with Pro Plus and the free month. A calorie and macro diary, water and weight. Calorie goal, water target, reminder interval, hours and quiet hours are all adjustable. While Dishday is open in your browser, reminders show on screen, and as system notifications if you allow them. With the tab closed, reminders will work once you install the app on your phone (PWA)."],
+  faq7a:["Входит в Pro Plus и в бесплатный период. Дневник калорий и КБЖУ, вода и вес. Цель калорий, норма воды, интервал и часы напоминаний, тихие часы настраиваются. Пока Вячэра открыт в браузере, напоминание приходит на экран, а с вашего разрешения и системным уведомлением. Когда вкладка закрыта, напоминания заработают после установки приложения на телефон (PWA).","It comes with Pro Plus and the free month. A calorie and macro diary, water and weight. Calorie goal, water target, reminder interval, hours and quiet hours are all adjustable. While Viachera is open in your browser, reminders show on screen, and as system notifications if you allow them. With the tab closed, reminders will work once you install the app on your phone (PWA)."],
   faq8q:["Что даёт запись и кому месяц бесплатно?","What do I get by signing up, and who gets a free month?"],
   faq8a:["После ввода почты открывается бесплатный режим на 2 месяца: 50 блюд из 10 кухонь с шагами и списком покупок. Первые 150 записавшихся получают ещё и 2 месяца Pro Plus: включить можно сразу или в течение 30 дней.","Enter your email and free mode opens for 2 months: 50 dishes from 10 cuisines with steps and a shopping list. The first 150 people also get 2 months of Pro Plus: turn it on right away or within 30 days."],
   docsAria:["Документы","Legal documents"], docsH:["Документы","Legal"],
   docsP:["Как мы обращаемся с данными, условия сервиса и подписки. Каждый документ открывается отдельной страницей с оглавлением.","How we handle data, plus the service and subscription terms. Each document opens as its own page with a table of contents."],
   docOpen:["Открыть","Open"],
   docPrivT:["Политика обработки данных","Privacy policy"], docPrivS:["Политика данных","Privacy"],
-  docPrivP:["Какие данные собирает Dishday, где они хранятся, кому передаются и как их удалить.","What data Dishday collects, where it's stored, who receives it and how to delete it."],
+  docPrivP:["Какие данные собирает Вячэра, где они хранятся, кому передаются и как их удалить.","What data Viachera collects, where it's stored, who receives it and how to delete it."],
   docTermsT:["Пользовательское соглашение","Terms of use"], docTermsS:["Соглашение","Terms"],
   docTermsP:["Правила пользования сервисом, рекомендации по питанию, ответственность сторон.","Rules for using the service, nutrition advice limits and responsibilities."],
   docOfferT:["Публичная оферта","Public offer"], docOfferS:["Оферта","Offer"],
@@ -11289,9 +11289,10 @@ const STR = {
   jnKick:["Закрытый запуск · 20 октября","Private launch · October 20"], toLaunch:["До запуска","Until launch"],
   choosePlan:["Выбрать тариф","Choose a plan"],
   marqSeats:[v=>`${v.n} мест с Pro Plus на 2 месяца`, v=>`${v.n} spots with 2 months of Pro Plus`], marqDays:["7 ужинов","7 dinners"], marqList:["1 список покупок","1 shopping list"],
+  brandName:["Вячэра","Viachera"],
   docCookT:["Политика cookie","Cookie policy"], docCookS:["Cookie","Cookies"], docConsS:["Согласия","Consents"],
   docCookP:["Что хранится в браузере. Сейчас только настройки в локальном хранилище, трекеров нет.","What's stored in your browser. Right now only settings in local storage, no trackers."],
-  homeAria:["Dishday, на главную","Dishday, home"],
+  homeAria:["Вячэра, на главную","Viachera, home"],
   /* юридические страницы */
   lgToSite:["На сайт","To the site"], lgToPay:["Вернуться к оплате","Back to checkout"], lgKicker:["Юридические документы","Legal documents"],
   lgEdition:["Редакция от {d}","Version of {d}"], lgDraft:["На проверке у юриста","Under legal review"],
@@ -11299,7 +11300,7 @@ const STR = {
   lgEnNote:["","English reference translation. The Russian version governs."], lgDocsNav:["Документы","Documents"],
   /* cookie */
   cookieSettings:["Настройки cookie","Cookie settings"], cbTitle:["Cookie и хранилище браузера","Cookies and browser storage"],
-  cbText:['Dishday хранит настройки и план в вашем браузере, без трекеров. Аналитику включим только с вашего согласия. <a href="#cookies">Политика cookie</a>','Dishday keeps your settings and plan in your browser, with no trackers. Analytics only turns on with your consent. <a href="#cookies">Cookie policy</a>'],
+  cbText:['Вячэра хранит настройки и план в вашем браузере, без трекеров. Аналитику включим только с вашего согласия. <a href="#cookies">Политика cookie</a>','Вячэра keeps your settings and plan in your browser, with no trackers. Analytics only turns on with your consent. <a href="#cookies">Cookie policy</a>'],
   cbConfig:["Настроить","Customize"], cbNecessary:["Только необходимые","Necessary only"], cbAll:["Принять все","Accept all"],
   cdTitle:["Настройки cookie","Cookie settings"], cdLead:["Выберите, что разрешить. Выбор можно поменять в любой момент через «Настройки cookie» в подвале сайта.","Choose what to allow. You can change this anytime via Cookie settings in the site footer."],
   cdNecT:["Необходимые","Strictly necessary"], cdNecP:["Язык, план недели, доступ после оплаты. Без них сервис не работает. Всегда включены.","Language, weekly plan and paid access. The service can't work without them. Always on."],
@@ -11318,7 +11319,7 @@ const STR = {
   rmKcal:["Цель калорий в день","Daily calorie goal"], rmWater:["Норма воды, стаканов по 250 мл","Water target, 250 ml glasses"], rmAuto:["авто: {n}","auto: {n}"],
   rmNotif:["Разрешить системные уведомления","Allow system notifications"], rmNotifOn:["Системные уведомления разрешены","System notifications allowed"],
   rmNotifOff:["Уведомления запрещены в настройках браузера","Notifications are blocked in browser settings"],
-  rmHonest:["Пока Dishday открыт в браузере, напоминание появится на экране, а с разрешения и системным уведомлением. Когда вкладка закрыта, напоминания заработают после установки приложения (PWA).","While Dishday is open in your browser, reminders show on screen, and as system notifications if allowed. With the tab closed, reminders will work once the app is installed (PWA)."],
+  rmHonest:["Пока Вячэра открыт в браузере, напоминание появится на экране, а с разрешения и системным уведомлением. Когда вкладка закрыта, напоминания заработают после установки приложения (PWA).","While Viachera is open in your browser, reminders show on screen, and as system notifications if allowed. With the tab closed, reminders will work once the app is installed (PWA)."],
   drinkNow:["Время выпить воды","Time to drink some water"], plus250:["+250 мл","+250 ml"], waterAdded:["+250 мл: {a} из {b} стаканов","+250 ml: {a} of {b} glasses"],
 
   /* оплата */
@@ -11329,7 +11330,7 @@ const STR = {
   promoOff:["скидка {x}","{x} off"],
   payAgree:['Я принимаю <a href="#terms">Пользовательское соглашение</a> и <a href="#offer">Публичную оферту</a> и даю <a href="#privacy">согласие на обработку персональных данных</a>','I accept the <a href="#terms">Terms of Use</a> and the <a href="#offer">Public Offer</a> and consent to the <a href="#privacy">processing of my personal data</a>'],
   payGo:["Оплатить {x}","Pay {x}"], payGoFree:["Активировать бесплатно","Activate for free"], payStarting:["Создаём заказ...","Creating your order..."],
-  payNote:["Оплата картой через bePaid. Данные карты Dishday не видит и не хранит.","Card payment via bePaid. Dishday never sees or stores your card details."],
+  payNote:["Оплата картой через bePaid. Данные карты Вячэра не видит и не хранит.","Card payment via bePaid. Viachera never sees or stores your card details."],
   errEmail:["Проверьте адрес почты: нужны @ и домен, например name@mail.by","Check your email: it needs an @ and a domain, like name@mail.com"],
   errAgree:["Отметьте согласие с соглашением и офертой, без него оплата не начнётся","Tick the box to accept the Terms and the Offer, payment can't start without it"],
   payWaitH:["Обрабатываем оплату","Processing your payment"],
@@ -11382,7 +11383,7 @@ const STR = {
   jnDemo:["демо: счётчик считает записи в этом браузере","demo: the counter only counts sign-ups in this browser"],
   jnSoldOut:["Места с Pro Plus закончились, бесплатный режим открыт для всех","The Pro Plus spots are gone, free mode is open to everyone"],
   jnEmailL:["Почта","Email"], jnGo:["Получить доступ","Get access"], jnSending:["Отправляем...","Sending..."],
-  jnAgree:['Согласен(на) на обработку email для доступа к Dishday и писем о нём. <a href="#consents-s1">Текст согласия</a>','I agree to the processing of my email for Dishday access and emails about it. <a href="#consents-s1">Consent text</a>'],
+  jnAgree:['Согласен(на) на обработку email для доступа к Вячэра и писем о нём. <a href="#consents-s1">Текст согласия</a>','I agree to the processing of my email for Вячэра access and emails about it. <a href="#consents-s1">Consent text</a>'],
   jnNeedAgree:["Отметьте согласие, без него записать нельзя","Tick the consent box, we can't add you without it"],
   jnFail:["Не получилось отправить. Проверьте интернет и попробуйте снова","Couldn't send it. Check your connection and try again"],
   jnStatsFail:["Счётчик сейчас недоступен, записаться можно","The counter is unavailable right now, you can still sign up"],
@@ -11481,10 +11482,10 @@ const STR = {
   daysAcc:[["понедельник","вторник","среду","четверг","пятницу","субботу","воскресенье"],["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]],
 
   /* paywall */
-  pw_recipe:["Это блюдо открывается в Dishday Plus","This dish comes with Dishday Plus"],
-  pw_catalog:[v=>`Все ${pn(v.n,"dish")} ${v.c} ${pl(v.c,"cuisineGen")} в Dishday Plus`, v=>`All ${v.n} dishes from ${v.c} cuisines with Dishday Plus`],
-  pw_split:["Разбивка корзины по сетям в Dishday Plus","Split your basket across chains with Dishday Plus"],
-  pw_settings:["Dishday Plus","Dishday Plus"], close:["Закрыть","Close"],
+  pw_recipe:["Это блюдо открывается в Вячэра Plus","This dish comes with Viachera Plus"],
+  pw_catalog:[v=>`Все ${pn(v.n,"dish")} ${v.c} ${pl(v.c,"cuisineGen")} в Вячэра Plus`, v=>`All ${v.n} dishes from ${v.c} cuisines with Viachera Plus`],
+  pw_split:["Разбивка корзины по сетям в Вячэра Plus","Split your basket across chains with Viachera Plus"],
+  pw_settings:["Viachera Plus","Viachera Plus"], close:["Закрыть","Close"],
   pwL1:[v=>`Все ${pn(v.n,"dish")} и ${pn(v.c,"cuisine")} без ограничений`, v=>`All ${v.n} dishes and ${v.c} cuisines, no limits`],
   pwL2:[v=>`Корзина делится между сетями, где что дешевле${v.save?`: на этой неделе минус ${v.save}`:""}`, v=>`Your basket split across chains by best price${v.save?`: ${v.save} less this week`:""}`],
   pwL3:["Акции сетей на продукты вашей недели","Store deals on this week's groceries"],
@@ -11578,7 +11579,7 @@ const STR = {
   waitBar:[v=>`<b>Сервис открывается 20 октября.</b> Пока это предпросмотр: пользуйтесь, а в день запуска напишем на ${v.email}.`,
     v=>`<b>We open on 20 October.</b> This is a preview for now: look around, and on launch day we will email ${v.email}.`],
   waitBarNo:["<b>Сервис открывается 20 октября.</b> Пока это предпросмотр.", "<b>We open on 20 October.</b> This is a preview for now."],
-  sgTitle:["Аккаунт Dishday","Your Dishday account"],
+  sgTitle:["Аккаунт Вячэра","Your Viachera account"],
   sgLead:["Один аккаунт на сайте и в приложении: план, список покупок и доступ привязаны к нему.",
     "One account on the site and in the app: your week, shopping list and access belong to it."],
   sgIn:["Войти","Sign in"], sgOut:["Выйти","Sign out"], sgHi:[v=>`Вы вошли как ${v.name}`, v=>`Signed in as ${v.name}`],
@@ -12038,7 +12039,7 @@ function dishArt(r){
      Одна разметка для карточки и hero: размеры задаёт контейнер, подпись прячется в маленьких превью (container query) */
   const keys = Object.keys(r.ing).filter(k=>ING[k] && ING[k].c && !["salt_spice","oil","flour","sugar","pepper_mix","bay"].includes(k));
   const c1 = keys[0] ? ING[keys[0]].c : "#8B7CF6", c2 = keys[1] ? ING[keys[1]].c : "#6EE7F9";
-  return `<span class="art" role="img" aria-label="${escH(rn(r))}" style="--c1:${c1};--c2:${c2}"><svg class="art-ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 45 A22 22 0 0 1 54 45"/><line x1="6" y1="51" x2="58" y2="51"/><circle cx="32" cy="16.5" r="3.6"/></svg><small>${escH(cuName(r.cu))}</small></span>`;
+  return `<span class="art" role="img" aria-label="${escH(rn(r))}" style="--c1:${c1};--c2:${c2}"><svg class="art-ic" viewBox="0 0 100 100" aria-hidden="true"><path d="M80 50.32A30 30 0 1 1 45.1 20.4A23 23 0 0 0 80 50.32Z"/><path d="M14 62a36 36 0 0 0 72 0" fill="none"/></svg><small>${escH(cuName(r.cu))}</small></span>`;
 }
 function ringTo(el, pct, len){ if(el) el.style.strokeDashoffset = String(len*(1-Math.max(0,Math.min(1,pct)))); }
 const at = e => e && e.clientX ? {x:e.clientX, y:e.clientY} : {};
@@ -12175,7 +12176,7 @@ function paintStores(){
   $$("[data-storeinfo]").forEach(el=>{ el.textContent = storeInfo(); });
 }
 const fmtDate = ts => new Date(ts).toLocaleDateString(loc(),{day:"numeric", month:"long", year:"numeric"}).replace(/\s?г\.$/, "");
-/* ветки для «нет тарифа» не было, и гость видел у себя «Dishday Plus» */
+/* ветки для «нет тарифа» не было, и гость видел у себя «Вячэра Plus» */
 const planName = plan => t(plan==="pro" ? "planPro" : plan==="trial" ? "planTrial" : plan==="free" ? "planFree" : plan==="plus" ? "planPlus" : "planNone");
 const planTitle = planName;
 const photoOf = r => typeof PHOTOS!=="undefined" && PHOTOS[r.id];
@@ -13794,7 +13795,7 @@ function toast(msg){ $("#toastTxt").textContent = msg; $("#toast").classList.add
 /* ================= ЯЗЫК: переключение без перезагрузки ================= */
 function applyStatic(){
   document.documentElement.lang = S.lang;
-  document.title = S.lang==="en" ? "Dishday. Dinner, decided." : "Dishday. Ужин решён.";
+  document.title = S.lang==="en" ? "Viachera. Dinner, decided." : "Вячэра. Ужин решён.";
   /* тот же текст не переписываем: новый текстовый узел героя Lighthouse считает новым LCP (лендинг уже нарисован до JS) */
   $$("[data-i18n]").forEach(el=>{ const v = t(el.dataset.i18n); if(el.textContent !== v) el.textContent = v; });
   $$("[data-i18n-html]").forEach(el=>{ const v = t(el.dataset.i18nHtml); if(el.innerHTML !== v) el.innerHTML = v; });
@@ -13963,7 +13964,7 @@ function offerInstall(){
   const ev = window.__ddInstall;
   if(ev){ window.__ddInstall = null; ev.prompt(); return; }
   if(/iphone|ipad|ipod/i.test(navigator.userAgent))
-    toastSafe(en ? "Add Dishday to your Home Screen: tap Share, then Add to Home Screen" : "Добавьте Dishday на экран: «Поделиться», затем «На экран Домой»");
+    toastSafe(en ? "Add Viachera to your Home Screen: tap Share, then Add to Home Screen" : "Добавьте Вячэра на экран: «Поделиться», затем «На экран Домой»");
 }
 
 /* ================= НАПОМИНАНИЯ О ВОДЕ ================= */
@@ -13980,7 +13981,7 @@ function remindTick(){
   R.last = Date.now(); save(); fireWater();
 }
 function fireWater(){
-  if(document.hidden && "Notification" in window && Notification.permission==="granted"){ try{ new Notification("Dishday", {body:t("drinkNow"), tag:"dd-water"}); }catch(e){} }
+  if(document.hidden && "Notification" in window && Notification.permission==="granted"){ try{ new Notification("Viachera", {body:t("drinkNow"), tag:"dd-water"}); }catch(e){} }
   const w = $("#wToast"); w.classList.add("on"); clearTimeout(wToastT); wToastT = setTimeout(()=>w.classList.remove("on"), 20000);
 }
 $("#wToast").addEventListener("click", e=>{
