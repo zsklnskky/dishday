@@ -189,7 +189,7 @@
     "lidl_mt"
    ],
    "proxy": [],
-   "coverage": 0.044
+   "coverage": 0.035
   },
   "GR": {
    "updated": "2026-10-22",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.487
+   "coverage": 0.478
   },
   "AM": {
    "updated": "2026-10-22",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.407
   },
   "IE": {
    "updated": "2026-10-22",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.31
+   "coverage": 0.327
   },
   "ME": {
    "updated": "2026-10-22",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.363
   },
   "CZ": {
    "updated": "2026-10-22",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.345
+   "coverage": 0.354
   },
   "BE": {
    "updated": "2026-10-22",
