@@ -8,7 +8,7 @@
     "kaufland_de"
    ],
    "proxy": [],
-   "coverage": 0.265
+   "coverage": 0.257
   },
   "ES": {
    "updated": "2026-10-23",
@@ -35,7 +35,7 @@
     "aldi_gb"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.416
   },
   "RO": {
    "updated": "2026-10-23",
@@ -84,7 +84,7 @@
     "maxima_lt"
    ],
    "proxy": [],
-   "coverage": 0.434
+   "coverage": 0.442
   },
   "LV": {
    "updated": "2026-10-23",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.381
   },
   "MD": {
    "updated": "2026-10-23",
@@ -151,7 +151,7 @@
     "tus"
    ],
    "proxy": [],
-   "coverage": 0.195
+   "coverage": 0.221
   },
   "IT": {
    "updated": "2026-10-23",
@@ -207,7 +207,7 @@
     "lidl_rs"
    ],
    "proxy": [],
-   "coverage": 0.071
+   "coverage": 0.088
   },
   "CY": {
    "updated": "2026-10-23",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.504
+   "coverage": 0.496
   },
   "AM": {
    "updated": "2026-10-23",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.363
+   "coverage": 0.372
   },
   "CZ": {
    "updated": "2026-10-23",
@@ -370,7 +370,7 @@
     "fantastico"
    ],
    "proxy": [],
-   "coverage": 0.31
+   "coverage": 0.301
   },
   "LU": {
    "updated": "2026-10-23",
