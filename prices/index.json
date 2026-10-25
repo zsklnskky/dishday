@@ -35,7 +35,7 @@
     "aldi_gb"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.434
   },
   "RO": {
    "updated": "2026-10-25",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.398
+   "coverage": 0.363
   },
   "MD": {
    "updated": "2026-10-25",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.478
+   "coverage": 0.487
   },
   "AM": {
    "updated": "2026-10-25",

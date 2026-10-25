@@ -231,34 +231,34 @@
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "BYN": {
-   "rate": 2.9543,
-   "date": "2026-10-25",
-   "src": "НБРБ api.nbrb.by"
+   "rate": 2.94232,
+   "date": "25 Oct 2026",
+   "src": "exchangerate-api.com"
   },
   "RUB": {
-   "rate": 81.0285,
-   "date": "2026-10-25",
-   "src": "НБРБ api.nbrb.by, кросс-курс"
+   "rate": 81.140284,
+   "date": "25 Oct 2026",
+   "src": "exchangerate-api.com"
   },
   "KZT": {
-   "rate": 447.7569,
-   "date": "2026-10-25",
-   "src": "НБРБ api.nbrb.by, кросс-курс"
+   "rate": 449.766656,
+   "date": "25 Oct 2026",
+   "src": "exchangerate-api.com"
   },
   "UAH": {
-   "rate": 45.0303,
-   "date": "2026-10-25",
-   "src": "НБРБ api.nbrb.by, кросс-курс"
+   "rate": 45.19869,
+   "date": "25 Oct 2026",
+   "src": "exchangerate-api.com"
   },
   "AMD": {
-   "rate": 361.0069,
-   "date": "2026-10-25",
-   "src": "НБРБ api.nbrb.by, кросс-курс"
+   "rate": 361.2776,
+   "date": "25 Oct 2026",
+   "src": "exchangerate-api.com"
   },
   "MDL": {
-   "rate": 17.9604,
-   "date": "2026-10-25",
-   "src": "НБРБ api.nbrb.by, кросс-курс"
+   "rate": 18.003495,
+   "date": "25 Oct 2026",
+   "src": "exchangerate-api.com"
   },
   "GEL": {
    "rate": 2.596699,
