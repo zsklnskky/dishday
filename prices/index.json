@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.283
   },
   "SE": {
    "updated": "2026-11-03",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.487
+   "coverage": 0.478
   },
   "AM": {
    "updated": "2026-11-03",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.407
+   "coverage": 0.389
   },
   "IE": {
    "updated": "2026-11-03",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.345
   },
   "ME": {
    "updated": "2026-11-03",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.345
+   "coverage": 0.354
   },
   "CZ": {
    "updated": "2026-11-03",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.345
+   "coverage": 0.327
   },
   "BE": {
    "updated": "2026-11-03",
