@@ -75,7 +75,7 @@
     "aldi_hu"
    ],
    "proxy": [],
-   "coverage": 0.097
+   "coverage": 0.106
   },
   "LT": {
    "updated": "2026-11-05",
@@ -151,7 +151,7 @@
     "tus"
    ],
    "proxy": [],
-   "coverage": 0.159
+   "coverage": 0.15
   },
   "IT": {
    "updated": "2026-11-05",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.416
+   "coverage": 0.407
   },
   "IE": {
    "updated": "2026-11-05",
@@ -266,7 +266,7 @@
     "supervalu"
    ],
    "proxy": [],
-   "coverage": 0.31
+   "coverage": 0.301
   },
   "DK": {
    "updated": "2026-11-05",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.381
+   "coverage": 0.372
   },
   "ME": {
    "updated": "2026-11-05",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.336
+   "coverage": 0.354
   },
   "BE": {
    "updated": "2026-11-05",
