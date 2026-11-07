@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.283
+   "coverage": 0.292
   },
   "SE": {
    "updated": "2026-11-07",
@@ -121,7 +121,7 @@
     "magnit"
    ],
    "proxy": [],
-   "coverage": 0.336
+   "coverage": 0.319
   },
   "MD": {
    "updated": "2026-11-07",
@@ -134,7 +134,7 @@
    "coverage": 0.248
   },
   "CH": {
-   "updated": "2026-11-06",
+   "updated": "2026-11-07",
    "currency": "CHF",
    "live": [
     "aldi_ch"
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.478
+   "coverage": 0.487
   },
   "AM": {
    "updated": "2026-11-07",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.434
   },
   "IE": {
    "updated": "2026-11-07",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.363
   },
   "CZ": {
    "updated": "2026-11-07",
@@ -315,7 +315,7 @@
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.363
+   "coverage": 0.354
   },
   "BE": {
    "updated": "2026-11-07",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.522
   },
   "BG": {
    "updated": "2026-11-07",
