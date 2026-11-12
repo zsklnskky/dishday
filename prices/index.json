@@ -1,17 +1,17 @@
 {
  "countries": {
   "DE": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "aldi_de",
     "kaufland_de"
    ],
    "proxy": [],
-   "coverage": 0.257
+   "coverage": 0.265
   },
   "ES": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "consum"
@@ -20,7 +20,7 @@
    "coverage": 0.416
   },
   "PL": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "PLN",
    "live": [
     "frisco"
@@ -29,7 +29,7 @@
    "coverage": 0.487
   },
   "GB": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "GBP",
    "live": [
     "aldi_gb"
@@ -38,7 +38,7 @@
    "coverage": 0.434
   },
   "RO": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "RON",
    "live": [
     "lidl_ro",
@@ -49,7 +49,7 @@
    "coverage": 0.301
   },
   "SE": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "SEK",
    "live": [
     "willys",
@@ -59,7 +59,7 @@
    "coverage": 0.496
   },
   "AT": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "spar_at"
@@ -68,17 +68,17 @@
    "coverage": 0.381
   },
   "HU": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "HUF",
    "live": [
     "lidl_hu",
     "aldi_hu"
    ],
    "proxy": [],
-   "coverage": 0.106
+   "coverage": 0.115
   },
   "LT": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "maxima_lt"
@@ -87,7 +87,7 @@
    "coverage": 0.407
   },
   "LV": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "maxima_lv"
@@ -96,7 +96,7 @@
    "coverage": 0.416
   },
   "EE": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "maxima_ee"
@@ -105,7 +105,7 @@
    "coverage": 0.434
   },
   "BY": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "BYN",
    "live": [
     "euroopt",
@@ -115,7 +115,7 @@
    "coverage": 0.478
   },
   "RU": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "RUB",
    "live": [
     "magnit"
@@ -124,7 +124,7 @@
    "coverage": 0.319
   },
   "MD": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "MDL",
    "live": [
     "linella",
@@ -134,16 +134,16 @@
    "coverage": 0.248
   },
   "CH": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "CHF",
    "live": [
     "aldi_ch"
    ],
    "proxy": [],
-   "coverage": 0.221
+   "coverage": 0.23
   },
   "SI": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "hofer_si",
@@ -154,7 +154,7 @@
    "coverage": 0.142
   },
   "IT": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "conad",
@@ -164,35 +164,35 @@
    "coverage": 0.115
   },
   "PT": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "lidl_pt",
     "auchan_pt"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.363
   },
   "SK": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "kaufland_sk"
    ],
    "proxy": [],
-   "coverage": 0.319
+   "coverage": 0.257
   },
   "MT": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "lidl_mt"
    ],
    "proxy": [],
-   "coverage": 0.071
+   "coverage": 0.044
   },
   "GR": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "lidl_gr"
@@ -201,16 +201,16 @@
    "coverage": 0.097
   },
   "RS": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "RSD",
    "live": [
     "lidl_rs"
    ],
    "proxy": [],
-   "coverage": 0.133
+   "coverage": 0.106
   },
   "CY": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "lidl_cy"
@@ -219,7 +219,7 @@
    "coverage": 0.106
   },
   "FR": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -232,7 +232,7 @@
    "coverage": 0
   },
   "NL": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "dirk",
@@ -242,25 +242,25 @@
    "coverage": 0.487
   },
   "UA": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "UAH",
    "live": [
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.478
+   "coverage": 0.469
   },
   "AM": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "AMD",
    "live": [
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.407
+   "coverage": 0.425
   },
   "IE": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "supervalu"
@@ -269,7 +269,7 @@
    "coverage": 0.301
   },
   "DK": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "DKK",
    "live": [
     "rema1000_dk"
@@ -278,25 +278,25 @@
    "coverage": 0.425
   },
   "NO": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "NOK",
    "live": [
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.389
+   "coverage": 0.407
   },
   "ME": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.345
+   "coverage": 0.336
   },
   "CZ": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "CZK",
    "live": [],
    "proxy": [
@@ -308,17 +308,17 @@
    "coverage": 0
   },
   "KZ": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "KZT",
    "live": [
     "magnum",
     "galmart"
    ],
    "proxy": [],
-   "coverage": 0.345
+   "coverage": 0.336
   },
   "BE": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -331,7 +331,7 @@
    "coverage": 0
   },
   "GE": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "GEL",
    "live": [],
    "proxy": [
@@ -342,7 +342,7 @@
    "coverage": 0
   },
   "FI": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -353,17 +353,17 @@
    "coverage": 0
   },
   "HR": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "konzum",
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.522
+   "coverage": 0.513
   },
   "BG": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [
     "kaufland_bg",
@@ -373,7 +373,7 @@
    "coverage": 0.265
   },
   "LU": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -385,7 +385,7 @@
    "coverage": 0
   },
   "IS": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "ISK",
    "live": [],
    "proxy": [
@@ -396,7 +396,7 @@
    "coverage": 0
   },
   "MK": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "MKD",
    "live": [],
    "proxy": [
@@ -407,7 +407,7 @@
    "coverage": 0
   },
   "AL": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "ALL",
    "live": [],
    "proxy": [
@@ -417,7 +417,7 @@
    "coverage": 0
   },
   "BA": {
-   "updated": "2026-11-11",
+   "updated": "2026-11-12",
    "currency": "BAM",
    "live": [],
    "proxy": [
@@ -427,5 +427,5 @@
    "coverage": 0
   }
  },
- "updated": "2026-11-11"
+ "updated": "2026-11-12"
 }
