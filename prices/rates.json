@@ -171,93 +171,93 @@
  "src": "https://www.exchangerate-api.com",
  "usd": {
   "EUR": {
-   "rate": 0.907935,
-   "date": "2026-11-16",
+   "rate": 0.910001,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "BAM": {
-   "rate": 1.775767,
-   "date": "2026-11-16",
+   "rate": 1.779807,
+   "date": "2026-11-17",
    "src": "фиксированный 1.95583 BAM/EUR + ECB data-api.ecb.europa.eu EXR"
   },
   "CHF": {
-   "rate": 0.839295,
-   "date": "2026-11-16",
+   "rate": 0.840204,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "CZK": {
-   "rate": 22.179045,
-   "date": "2026-11-16",
+   "rate": 22.192192,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "DKK": {
-   "rate": 6.786998,
-   "date": "2026-11-16",
+   "rate": 6.802166,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "GBP": {
-   "rate": 0.757672,
-   "date": "2026-11-16",
+   "rate": 0.758076,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "HUF": {
-   "rate": 330.806247,
-   "date": "2026-11-16",
+   "rate": 332.086632,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "ISK": {
-   "rate": 124.205557,
-   "date": "2026-11-16",
+   "rate": 124.670125,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "NOK": {
-   "rate": 9.600508,
-   "date": "2026-11-16",
+   "rate": 9.623715,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "PLN": {
-   "rate": 3.997639,
-   "date": "2026-11-16",
+   "rate": 4.007462,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "RON": {
-   "rate": 4.856819,
-   "date": "2026-11-16",
+   "rate": 4.866867,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "SEK": {
-   "rate": 10.073543,
-   "date": "2026-11-16",
+   "rate": 10.11011,
+   "date": "2026-11-17",
    "src": "ECB data-api.ecb.europa.eu EXR"
   },
   "BYN": {
-   "rate": 2.9977,
-   "date": "2026-11-17",
+   "rate": 2.9987,
+   "date": "2026-11-18",
    "src": "НБРБ api.nbrb.by"
   },
   "RUB": {
-   "rate": 82.2076,
-   "date": "2026-11-17",
+   "rate": 82.2486,
+   "date": "2026-11-18",
    "src": "НБРБ api.nbrb.by, кросс-курс"
   },
   "KZT": {
-   "rate": 444.5845,
-   "date": "2026-11-17",
+   "rate": 444.4428,
+   "date": "2026-11-18",
    "src": "НБРБ api.nbrb.by, кросс-курс"
   },
   "UAH": {
-   "rate": 45.5889,
-   "date": "2026-11-17",
+   "rate": 45.5252,
+   "date": "2026-11-18",
    "src": "НБРБ api.nbrb.by, кросс-курс"
   },
   "AMD": {
-   "rate": 360.9556,
-   "date": "2026-11-17",
+   "rate": 358.5032,
+   "date": "2026-11-18",
    "src": "НБРБ api.nbrb.by, кросс-курс"
   },
   "MDL": {
-   "rate": 18.3301,
-   "date": "2026-11-17",
+   "rate": 18.3104,
+   "date": "2026-11-18",
    "src": "НБРБ api.nbrb.by, кросс-курс"
   },
   "GEL": {
