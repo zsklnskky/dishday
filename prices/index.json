@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.292
+   "coverage": 0.301
   },
   "SE": {
    "updated": "2026-11-19",
@@ -112,7 +112,7 @@
     "green"
    ],
    "proxy": [],
-   "coverage": 0.469
+   "coverage": 0.478
   },
   "RU": {
    "updated": "2026-11-19",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.487
+   "coverage": 0.496
   },
   "AM": {
    "updated": "2026-11-19",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.407
+   "coverage": 0.389
   },
   "IE": {
    "updated": "2026-11-19",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.363
+   "coverage": 0.372
   },
   "ME": {
    "updated": "2026-11-19",
