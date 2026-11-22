@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.31
+   "coverage": 0.301
   },
   "SE": {
    "updated": "2026-11-22",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.398
+   "coverage": 0.389
   },
   "IE": {
    "updated": "2026-11-22",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.363
   },
   "ME": {
    "updated": "2026-11-22",
@@ -360,7 +360,7 @@
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.513
+   "coverage": 0.504
   },
   "BG": {
    "updated": "2026-11-22",
