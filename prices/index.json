@@ -11,7 +11,7 @@
    "coverage": 0.257
   },
   "ES": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [
     "consum"
@@ -20,7 +20,7 @@
    "coverage": 0.416
   },
   "PL": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "PLN",
    "live": [
     "frisco"
@@ -38,7 +38,7 @@
    "coverage": 0.434
   },
   "RO": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "RON",
    "live": [
     "lidl_ro",
@@ -49,7 +49,7 @@
    "coverage": 0.292
   },
   "SE": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "SEK",
    "live": [
     "willys",
@@ -68,14 +68,14 @@
    "coverage": 0.381
   },
   "HU": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "HUF",
    "live": [
     "lidl_hu",
     "aldi_hu"
    ],
    "proxy": [],
-   "coverage": 0.133
+   "coverage": 0.106
   },
   "LT": {
    "updated": "2026-11-24",
@@ -105,7 +105,7 @@
    "coverage": 0.434
   },
   "BY": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "BYN",
    "live": [
     "euroopt",
@@ -164,7 +164,7 @@
    "coverage": 0.115
   },
   "PT": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [
     "lidl_pt",
@@ -201,7 +201,7 @@
    "coverage": 0.133
   },
   "RS": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "RSD",
    "live": [
     "lidl_rs"
@@ -219,7 +219,7 @@
    "coverage": 0.124
   },
   "FR": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -232,26 +232,26 @@
    "coverage": 0
   },
   "NL": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [
     "dirk",
     "spar_nl"
    ],
    "proxy": [],
-   "coverage": 0.496
+   "coverage": 0.487
   },
   "UA": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "UAH",
    "live": [
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.496
+   "coverage": 0.487
   },
   "AM": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "AMD",
    "live": [
     "sas"
@@ -278,7 +278,7 @@
    "coverage": 0.425
   },
   "NO": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "NOK",
    "live": [
     "oda"
@@ -287,7 +287,7 @@
    "coverage": 0.389
   },
   "ME": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [
     "voli"
@@ -318,7 +318,7 @@
    "coverage": 0.327
   },
   "BE": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -331,7 +331,7 @@
    "coverage": 0
   },
   "GE": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "GEL",
    "live": [],
    "proxy": [
@@ -342,7 +342,7 @@
    "coverage": 0
   },
   "FI": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -353,14 +353,14 @@
    "coverage": 0
   },
   "HR": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [
     "konzum",
     "plodine"
    ],
    "proxy": [],
-   "coverage": 0.496
+   "coverage": 0.513
   },
   "BG": {
    "updated": "2026-11-24",
@@ -373,7 +373,7 @@
    "coverage": 0.265
   },
   "LU": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "EUR",
    "live": [],
    "proxy": [
@@ -385,7 +385,7 @@
    "coverage": 0
   },
   "IS": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "ISK",
    "live": [],
    "proxy": [
@@ -407,7 +407,7 @@
    "coverage": 0
   },
   "AL": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "ALL",
    "live": [],
    "proxy": [
@@ -417,7 +417,7 @@
    "coverage": 0
   },
   "BA": {
-   "updated": "2026-11-24",
+   "updated": "2026-11-25",
    "currency": "BAM",
    "live": [],
    "proxy": [
@@ -427,5 +427,5 @@
    "coverage": 0
   }
  },
- "updated": "2026-11-24"
+ "updated": "2026-11-25"
 }
