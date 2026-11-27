@@ -46,7 +46,7 @@
     "auchan_ro"
    ],
    "proxy": [],
-   "coverage": 0.283
+   "coverage": 0.292
   },
   "SE": {
    "updated": "2026-11-27",
@@ -257,7 +257,7 @@
     "sas"
    ],
    "proxy": [],
-   "coverage": 0.398
+   "coverage": 0.389
   },
   "IE": {
    "updated": "2026-11-27",
@@ -275,7 +275,7 @@
     "rema1000_dk"
    ],
    "proxy": [],
-   "coverage": 0.425
+   "coverage": 0.434
   },
   "NO": {
    "updated": "2026-11-27",
@@ -284,7 +284,7 @@
     "oda"
    ],
    "proxy": [],
-   "coverage": 0.372
+   "coverage": 0.381
   },
   "ME": {
    "updated": "2026-11-27",
