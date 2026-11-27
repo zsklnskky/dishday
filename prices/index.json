@@ -171,7 +171,7 @@
     "auchan_pt"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.363
   },
   "SK": {
    "updated": "2026-11-27",
@@ -248,7 +248,7 @@
     "silpo"
    ],
    "proxy": [],
-   "coverage": 0.487
+   "coverage": 0.496
   },
   "AM": {
    "updated": "2026-11-27",
@@ -293,7 +293,7 @@
     "voli"
    ],
    "proxy": [],
-   "coverage": 0.354
+   "coverage": 0.345
   },
   "CZ": {
    "updated": "2026-11-27",
